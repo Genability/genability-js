@@ -8,10 +8,20 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "compile": "tsc -p .",
     "compile:watch": "npx tsc -w"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-json": "^2.1.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.4",
     "typescript": "^3.8.3"
   }
 }

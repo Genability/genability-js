@@ -12,6 +12,7 @@
     "precompile": "del-cli dist -f",
     "compile": "tsc -p .",
     "compile:watch": "npx tsc -w",
+    "build": "yarn lint && yarn compile",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },

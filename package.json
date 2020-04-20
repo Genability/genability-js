@@ -6,5 +6,12 @@
   "repository": "https://github.com/Genability/genability-js",
   "author": "Genability",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "compile": "tsc -p .",
+    "compile:watch": "npx tsc -w"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
 }

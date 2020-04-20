@@ -1,0 +1,10 @@
+{
+  "name": "genability-js",
+  "version": "1.0.0",
+  "description": "Node.js and Browser Javascript SDK for Genability APIs.",
+  "main": "index.js",
+  "repository": "https://github.com/Genability/genability-js",
+  "author": "Genability",
+  "license": "MIT",
+  "private": true
+}

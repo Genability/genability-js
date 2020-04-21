@@ -1,8 +1,8 @@
-import { hello } from "./index";
+import { echoHello } from "./index";
 
-describe("hello", () => {
+describe("echoHello", () => {
   it("should default correctly", () => {
-    expect(hello()).toEqual("Hello World!");
-    expect(hello("Universe")).toEqual("Hello Universe!");
+    expect(echoHello()).toEqual("Hello World!");
+    expect(echoHello("Universe")).toEqual("Hello Universe!");
   })
 });

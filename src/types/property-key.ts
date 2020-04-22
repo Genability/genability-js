@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 
+export enum PrivacyFlag {
+  PUBLIC = <any>"PUBLIC",
+  UNLISTED = <any>"UNLISTED",
+  PRIVATE = <any>"PRIVATE",
+}
+
 export enum DataType {
   STRING = <any>"STRING",
   CHOICE = <any>"CHOICE",
@@ -25,8 +31,14 @@ export interface GenPropertyKey {
   lookbackPeriod?: string;
   entityId?: number;
   entityType?: string;
-  privacy?: string;
-  choices?: string;
+  privacy?: PrivacyFlag;
+  choices?: GenPropertyChoice[];
+}
+
+export interface GenPropertyChoice {
+  displayValue: number;
+  dataValue: string;
+  likelihood?: number;
 }
 
 /**

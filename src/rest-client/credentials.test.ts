@@ -83,7 +83,7 @@ describe('Test credentialsFromFile function', () => {
     afterEach(mock.restore);
     it('should throw an error', () => {
       expect(() => credentialsFromFile('this-profile-does-not-exist'))
-        .toThrow(Error('Credentials file not found'));
+        .toThrow(Error('Credentials file is empty'));
     });
   });
   describe('with a missing file', () => {

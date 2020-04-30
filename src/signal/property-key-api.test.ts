@@ -1,8 +1,8 @@
 import { PropertyKeyApi } from './property-key-api';
 import { GenPropertyKey, DataType } from '../types/property-key';
-import { fromCredentialsFile } from '../rest-client/credentials';
+import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = fromCredentialsFile();
+const credentials = credentialsFromFile();
 const restClient = new PropertyKeyApi(credentials);
 
 const demandPk: GenPropertyKey = {

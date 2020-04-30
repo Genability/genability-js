@@ -1,27 +1,31 @@
+import axios, { AxiosInstance } from 'axios';
 
-export interface ApiCredentials {
+export interface RestApiCredentials {
   appId: string;
   appKey: string;
 }
 
-export interface ApiResponse {
+export interface RestApiResponse<T> {
   status: string;
   type: string;
   count: number;
   pageCount?: number;
   pageStart?: number;
   requestId?: string;
-  results: unknown;
+  results: T;
 }
 
-export class RestClient {
-  auth: string;
-  constructor(credentials: ApiCredentials) {
-    this.auth = Buffer.from(`${credentials.appId}:${credentials.appKey}`).toString('base64');
+export abstract class RestApiClient {
+  protected readonly axiosInstance: AxiosInstance;
+
+  public constructor(baseURL: string, credentials: RestApiCredentials) {
+    const auth = Buffer.from(`${credentials.appId}:${credentials.appKey}`).toString('base64');
+    this.axiosInstance = axios.create({
+      baseURL,
+      headers: {
+        Authorization: `Basic ${auth}`,
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    });
   }
-
-  sendGet(url: string): string {
-    return `sent-get to ${url}`;
-  };
-
 }

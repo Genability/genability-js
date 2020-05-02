@@ -5,16 +5,6 @@ export interface RestApiCredentials {
   appKey: string;
 }
 
-export interface RestApiResponse<T> {
-  status: string;
-  type: string;
-  count: number;
-  pageCount?: number;
-  pageStart?: number;
-  requestId?: string;
-  results: T;
-}
-
 export abstract class RestApiClient {
   protected readonly axiosInstance: AxiosInstance;
 

@@ -1,13 +1,15 @@
 {
   "name": "@genability/api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/Genability/genability-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Genability/genability-js.git"
+  },
   "author": "Genability",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "precompile": "del-cli dist -f",
@@ -34,5 +36,9 @@
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/Genability/genability-js/issues"
+  },
+  "homepage": "https://github.com/Genability/genability-js#readme"
 }

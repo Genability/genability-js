@@ -1,6 +1,6 @@
 {
   "name": "@genability/api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -39,7 +39,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-      "axios": "^0.19.2"
+    "axios": "^0.19.2"
   },
   "bugs": {
     "url": "https://github.com/Genability/genability-js/issues"

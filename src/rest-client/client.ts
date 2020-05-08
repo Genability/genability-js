@@ -1,8 +1,18 @@
 import axios, { AxiosInstance } from 'axios';
+import { isQueryStringified } from './contract'
 
 export interface RestApiCredentials {
   appId: string;
   appKey: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function restParamsSerialize(params: any): string {
+  if(params === undefined)
+    return "";
+  else if(isQueryStringified(params))
+    return params.queryStringify();
+  return "";
 }
 
 export abstract class RestApiClient {
@@ -16,6 +26,8 @@ export abstract class RestApiClient {
         Authorization: `Basic ${auth}`,
         'Content-Type': 'application/json;charset=UTF-8',
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      paramsSerializer: (params: any) => restParamsSerialize(params),
     });
   }
 }

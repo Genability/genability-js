@@ -1,36 +1,35 @@
 import { 
-  Paged,
   isPaged,
-  QueryStringified,
   isQueryStringified
 } from './contract';
 import {
-  RestApiClient,
-  RestApiCredentials,
-  PagedResponse,
   BasePagedRequest,
   AddParamCallback
 } from '../rest-client';
 
 
 class GetNRequest extends BasePagedRequest {
-  public excludeGlobal?: boolean;
-  public keySpace?: string;
-  public family?: string;
-  public entityId?: number;
-  public entityType?: string;
+  public someBoolean?: boolean;
+  public someString?: string;
 
   addParams(addParam: AddParamCallback): void {
-    addParam('excludeGlobal', this.excludeGlobal);
-    addParam('keySpace', this.keySpace);
-    addParam('family', this.family);
-    addParam('entityId', this.entityId);
-    addParam('entityType', this.entityType);
+    addParam('someBoolean', this.someBoolean);
+    addParam('someString', this.someString);
   }
 }
 
 describe("Rest API Contracts", () => {
   describe("Paginated Requests", () => {
+    it("isQueryStringified", async () => {
+      const request: GetNRequest = new GetNRequest();
+      expect(isQueryStringified(request)).toBeTruthy();
+    })
+    it("isPaged when a field set", async () => {
+      const request: GetNRequest = new GetNRequest({
+        pageCount: 10
+      });
+      expect(isPaged(request)).toBeTruthy();
+    })
     it("handles no pagination parameters", async () => {
       const request: GetNRequest = new GetNRequest();
       const qs: string = request.queryStringify();

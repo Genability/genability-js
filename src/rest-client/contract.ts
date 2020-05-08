@@ -5,9 +5,15 @@ export interface Paged {
   pageCount?: number;
 }
 
+/**
+ * To identify if the object is paged. Because Paged is made up of
+ * optional parameters, this only returns true when one or both 
+ * are populated (not just when properties are on the object).
+ * @param object 
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isPaged(object: any): object is Paged {
-  return 'pageStart' in object && 'pageCount' in object;
+  return 'pageStart' in object || 'pageCount' in object;
 }
 
 export interface QueryStringified {

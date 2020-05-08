@@ -24,6 +24,17 @@ export interface Searchable {
   isRegex?: boolean;
 }
 
+/**
+ * To identify if the object is Searchable. Because Searchable is made up of
+ * optional parameters, this only returns true when the search property 
+ * is populated (not just when properties are on the object).
+ * @param object 
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isSearchable(object: any): object is Searchable {
+  return 'search' in object;
+}
+
 export interface QueryStringified {
   queryStringify(): string;
 }
@@ -43,7 +54,7 @@ export interface Response<T> extends Paged {
 
 export type AddParamCallback = (
   paramName: string, 
-  paramValue?: string | number | boolean,
+  paramValue?: string | string[] | number | boolean,
 ) => void;
 
 export abstract class BasePagedRequest implements Paged, Searchable, QueryStringified {
@@ -65,7 +76,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
 
     const callback: AddParamCallback = (
       paramName: string, 
-      paramValue?: string | number | boolean,
+      paramValue?: string | string[] | number | boolean,
     ): void => {
       if(paramValue === undefined) return;
       parts.push(paramName + '=' + encode(paramValue));
@@ -87,7 +98,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
 
   addSearchParams(addParam: AddParamCallback): void {
     addParam('search', this.search);
-    // addParam('searchOn', this.searchOn); // TODO support this in method
+    addParam('searchOn', this.searchOn);
     addParam('startsWith', this.startsWith);
     addParam('endsWith', this.endsWith);
     addParam('isRegex', this.isRegex);

@@ -1,6 +1,7 @@
 import { 
   isPaged,
-  isQueryStringified
+  isQueryStringified,
+  isSearchable
 } from './contract';
 import {
   BasePagedRequest,
@@ -67,6 +68,45 @@ describe("Rest API Contracts", () => {
       });
       const qs: string = request.queryStringify();
       expect(qs).toEqual('pageStart=33&pageCount=22');
+    })
+  })
+
+
+  describe("Searchable Requests", () => {
+    it("isSearchable when search set", async () => {
+      const request: GetNRequest = new GetNRequest({
+        search: 'findme'
+      });
+      expect(isSearchable(request)).toBeTruthy();
+    })
+    it("handles search parameter", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.search = "findme";
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('search=findme');
+    })
+    it("handles searchOn pagination parameters", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.search = "findme";
+      request.searchOn = ["fieldOne","fieldTwo","fieldThree"];
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('search=findme&searchOn=fieldOne,fieldTwo,fieldThree');
+    })
+    it("handles pageStart pagination via constructor", async () => {
+      const request: GetNRequest = new GetNRequest({
+        search: "forthis",
+        startsWith: true
+      });
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('search=forthis&startsWith=true');
+    })
+    it("handles pageStart pagination via constructor", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.search = "allem";
+      request.endsWith = true;
+      request.isRegex = false;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('search=allem&endsWith=true&isRegex=false');
     })
   })
 });

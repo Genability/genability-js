@@ -5,6 +5,8 @@ export {
 
 export {
   Paged,
+  Searchable,
+  isSearchable,
   QueryStringified,
   isQueryStringified,
   Response,

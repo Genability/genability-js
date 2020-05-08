@@ -16,6 +16,14 @@ export function isPaged(object: any): object is Paged {
   return 'pageStart' in object || 'pageCount' in object;
 }
 
+export interface Searchable {
+  search?: string;
+  searchOn?: string[];
+  startsWith?: boolean;
+  endsWith?: boolean;
+  isRegex?: boolean;
+}
+
 export interface QueryStringified {
   queryStringify(): string;
 }
@@ -38,9 +46,14 @@ export type AddParamCallback = (
   paramValue?: string | number | boolean,
 ) => void;
 
-export abstract class BasePagedRequest implements Paged, QueryStringified {
+export abstract class BasePagedRequest implements Paged, Searchable, QueryStringified {
   public pageStart?: number;
   public pageCount?: number;
+  public search?: string;
+  public searchOn?: string[];
+  public startsWith?: boolean;
+  public endsWith?: boolean;
+  public isRegex?: boolean;
 
   public constructor(init?: Partial<BasePagedRequest>) {
     Object.assign(this, init);
@@ -60,6 +73,7 @@ export abstract class BasePagedRequest implements Paged, QueryStringified {
 
     this.addParams(callback);
     this.addPaginationParams(callback);
+    this.addSearchParams(callback);
 
     return parts.join('&');
   }
@@ -69,6 +83,14 @@ export abstract class BasePagedRequest implements Paged, QueryStringified {
   addPaginationParams(addParam: AddParamCallback): void {
     addParam('pageStart', this.pageStart);
     addParam('pageCount', this.pageCount);
+  }
+
+  addSearchParams(addParam: AddParamCallback): void {
+    addParam('search', this.search);
+    // addParam('searchOn', this.searchOn); // TODO support this in method
+    addParam('startsWith', this.startsWith);
+    addParam('endsWith', this.endsWith);
+    addParam('isRegex', this.isRegex);
   }
 }
 

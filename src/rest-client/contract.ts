@@ -5,6 +5,11 @@ export interface Paged {
   pageCount?: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isPaged(object: any): object is Paged {
+  return 'pageStart' in object && 'pageCount' in object;
+}
+
 export interface QueryStringified {
   queryStringify(): string;
 }
@@ -28,8 +33,8 @@ export type AddParamCallback = (
 ) => void;
 
 export abstract class BasePagedRequest implements Paged, QueryStringified {
-  public pageStart = 0;
-  public pageCount = 25;
+  public pageStart?: number;
+  public pageCount?: number;
 
   public constructor(init?: Partial<BasePagedRequest>) {
     Object.assign(this, init);
@@ -48,11 +53,17 @@ export abstract class BasePagedRequest implements Paged, QueryStringified {
     };
 
     this.addParams(callback);
+    this.addPaginationParams(callback);
 
     return parts.join('&');
   }
 
   public abstract addParams(addParam: AddParamCallback): void;
+
+  addPaginationParams(addParam: AddParamCallback): void {
+    addParam('pageStart', this.pageStart);
+    addParam('pageCount', this.pageCount);
+  }
 }
 
 export class PagedResponse<T> implements Response<T> {

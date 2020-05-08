@@ -1,4 +1,7 @@
-import { PropertyKeyApi, GetPropertyKeysRequest } from './property-key-api';
+import { 
+  PropertyKeyApi, 
+  GetPropertyKeysRequest 
+} from './property-key-api';
 import { PagedResponse } from '../rest-client'
 import {
   ResourceTypes
@@ -63,6 +66,23 @@ describe("GetPropertyKeys request", () => {
       request.dataType = DataType.DEMAND;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
+    })
+    it("handles both pagination via constructor", async () => {
+      const request: GetPropertyKeysRequest = new GetPropertyKeysRequest({
+        pageCount: 22,
+        pageStart: 33
+      });
+      request.keySpace = 'electricity';
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('keySpace=electricity&pageStart=33&pageCount=22');
+    })
+    it("handles both pagination via constructor", async () => {
+      const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
+      request.keySpace = 'electricity';
+      request.pageCount = 0;
+      request.pageStart = 100;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('keySpace=electricity&pageStart=100&pageCount=0');
     })
   })
 });

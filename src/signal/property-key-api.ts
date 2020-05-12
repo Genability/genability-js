@@ -8,7 +8,7 @@ import {
 import {
   GenPropertyKey,
   DataType
-} from '../types/property-key';
+} from '../types';
 
 export class GetPropertyKeysRequest extends BasePagedRequest {
   public excludeGlobal?: boolean;

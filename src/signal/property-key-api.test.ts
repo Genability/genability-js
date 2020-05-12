@@ -4,13 +4,11 @@ import {
 } from './property-key-api';
 import { PagedResponse } from '../rest-client'
 import {
-  ResourceTypes
-} from '../types';
-import {
+  ResourceTypes,
   GenPropertyKey,
   DataType,
   isGenPropertyKey
-} from '../types/property-key';
+} from '../types';
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

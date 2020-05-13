@@ -21,7 +21,11 @@ jobs:
       with:
         diff-search: true
         token: ${{ secrets.GITHUB_TOKEN }}
-    - run: yarn build && npm publish && npm dist-tag add @genability/api@${{ steps.check.outputs.version }} develop
+    - name: Publish if version updated
       if: steps.check.outputs.changed == 'true'
+      run: yarn install
+      run: yarn build
+      run: npm publish
+      run: npm dist-tag add @genability/api@${{ steps.check.outputs.version }} develop
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

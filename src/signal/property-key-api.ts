@@ -3,7 +3,8 @@ import {
   RestApiCredentials,
   PagedResponse,
   BasePagedRequest,
-  AddParamCallback
+  AddParamCallback,
+  Constant
 } from '../rest-client';
 import {
   GenPropertyKey,
@@ -30,17 +31,16 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
 
 export class PropertyKeyApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super('https://api.genability.com', credentials);
+    super(Constant.baseURL, credentials);
   }
 
   public async getPropertyKeys(request: GetPropertyKeysRequest): Promise<PagedResponse<GenPropertyKey>> {
     const response = await this.axiosInstance.get(`/rest/public/properties`, { params: request } );
     return new PagedResponse(response.data);
-  } 
+  }
 
   public async getPropertyKey(keyName: string): Promise<GenPropertyKey> {
     const response = await this.axiosInstance.get(`/rest/public/properties/${keyName}`);
     return response.data.results[0];
-  } 
+  }
 }
-

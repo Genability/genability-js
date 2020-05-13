@@ -8,3 +8,10 @@ export {
   GenPropertyKey,
   isGenPropertyKey
 } from './property-key';
+
+export { 
+  ServiceType,
+  OfferingType,
+  Ownership,
+  LoadServingEntity
+} from './load-serving-entity';

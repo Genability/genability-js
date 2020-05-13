@@ -26,9 +26,38 @@ export enum Ownership {
   UNREGULATED = <any>"UNREGULATED",
 };
 
-export interface GenLse {
+export interface LoadServingEntity {
   lseId: number;
   name: string;
   code: string;
   websiteHome: string;
+  offeringType: string;
+  ownership: string;
+  serviceTypes: string;
+  totalRevenues: number;
+  totalSales: number;
+  totalCustomers: number;
+  residentialServiceTypes: string;
+  residentialRevenues: number;
+  residentialSales: number;
+  residentialCustomers: number;
+  commercialServiceTypes: string;
+  commercialRevenues: number;
+  commercialSales: number;
+  commercialCustomers: number;
+  industrialServiceTypes: string;
+  industrialRevenues: number;
+  industrialSales: number;
+  industrialCustomers: number;
+  transportationServiceTypes: string;
+  transportationRevenues: number;
+  transportationSales: number;
+  transportationCustomers: number;
+  billingPeriodRepresentation?: BillingPeriodRepresentation[];
+}
+
+export interface BillingPeriodRepresentation {
+  fromDateOffset: number;
+  toDateOffset: number;
+  style: string;
 }

@@ -1,3 +1,7 @@
+export {
+  ResourceTypes
+} from './resource-types'
+
 export { 
   DataType,
   PrivacyFlag,

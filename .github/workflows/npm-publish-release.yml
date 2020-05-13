@@ -13,10 +13,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
-        node-version: 10.0.0
-    - name: get-npm-version
+        node-version: 10.x
+    - name: Get package.json version
       id: package-version
       uses: martinbeentjes/npm-get-version-action@master
-    - run: npm dist-tag add @genability/api@${{steps.package-version.outputs.current-version}} latest
-      env:
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    - run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+        npm dist-tag add @genability/api@${{steps.package-version.outputs.current-version}} latest

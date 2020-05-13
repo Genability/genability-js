@@ -24,9 +24,8 @@ jobs:
     - name: Publish if version updated
       if: steps.check.outputs.changed == 'true'
       run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
         yarn install
         yarn build
         npm publish
         npm dist-tag add @genability/api@${{ steps.check.outputs.version }} develop
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

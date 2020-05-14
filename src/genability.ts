@@ -37,7 +37,7 @@ export class Genability {
     return this._properties;
   }
 
-  public get getPropertyKeyRequest(): GetPropertyKeysRequest {
+  public getPropertyKeyRequest(): GetPropertyKeysRequest {
     return new GetPropertyKeysRequest();
   }
 
@@ -47,7 +47,7 @@ export class Genability {
     return this._lses;
   }
 
-  public get getLseRequest(): GetLoadServingEntityRequest {
+  public getLseRequest(): GetLoadServingEntityRequest {
     return new GetLoadServingEntityRequest();
   }
 }

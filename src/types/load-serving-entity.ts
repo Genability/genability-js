@@ -61,3 +61,10 @@ export interface BillingPeriodRepresentation {
   toDateOffset: number;
   style: string;
 }
+
+/**
+ * User Defined Type Guard for LoadServingEntity
+ */
+export function isLoadServingEntity(arg: any): arg is LoadServingEntity {
+  return arg.lseId !== undefined;
+}

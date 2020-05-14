@@ -8,7 +8,6 @@ import {
 } from '../rest-client';
 import {
   ServiceType,
-  OfferingType,
   Ownership,
   LoadServingEntity
 } from '../types';
@@ -19,7 +18,6 @@ export class GetLoadServingEntityRequest extends BasePagedRequest {
   public fields?: string;
   public serviceTypes?: ServiceType;
   public ownerships?: Ownership;
-  public offeringType?: OfferingType;
 
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);
@@ -27,7 +25,6 @@ export class GetLoadServingEntityRequest extends BasePagedRequest {
     addParam('fields', this.fields);
     addParam('serviceTypes', this.serviceTypes);
     addParam('ownerships', this.ownerships);
-    addParam('offeringType', this.offeringType);
   }
 }
 

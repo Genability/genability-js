@@ -13,5 +13,6 @@ export {
   ServiceType,
   OfferingType,
   Ownership,
-  LoadServingEntity
+  LoadServingEntity,
+  isLoadServingEntity
 } from './load-serving-entity';

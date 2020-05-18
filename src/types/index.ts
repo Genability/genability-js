@@ -16,3 +16,15 @@ export {
   LoadServingEntity,
   isLoadServingEntity
 } from './load-serving-entity';
+
+export { 
+  TariffType,
+  CustomerClass,
+  ChargeType,
+  ChargeClass,
+  ChargePeriod,
+  TransactionType,
+  PropertyType,
+  Tariff,
+  isTariff
+} from './tariff';

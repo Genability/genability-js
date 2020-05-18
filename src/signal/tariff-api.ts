@@ -1,0 +1,48 @@
+import {
+  RestApiClient,
+  RestApiCredentials,
+  PagedResponse,
+  BasePagedRequest,
+  AddParamCallback,
+  Constant
+} from '../rest-client';
+import {
+  TariffType,
+  CustomerClass,
+  ChargeType,
+  Tariff,
+} from '../types';
+
+export class TariffRequest extends BasePagedRequest {
+  public lseId?: number;
+  public masterTariffId?: number;
+  public effectiveOn?: string;
+  public customerClasses?: CustomerClass;
+  public tariffTypes?: TariffType;
+  public chargeTypes?: ChargeType;
+
+  addParams(addParam: AddParamCallback): void {
+    addParam('lseId', this.lseId);
+    addParam('masterTariffId', this.masterTariffId);
+    addParam('effectiveOn', this.effectiveOn);
+    addParam('customerClasses', this.customerClasses);
+    addParam('tariffTypes', this.tariffTypes);
+  }
+}
+
+export class TariffApi extends RestApiClient {
+  public constructor(credentials: RestApiCredentials) {
+    super(Constant.baseURL, credentials);
+  }
+
+  public async getTariffs(request: TariffRequest): Promise<PagedResponse<Tariff>> {
+    const response = await this.axiosInstance.get(`/rest/public/tariffs`, { params: request } );
+    return new PagedResponse(response.data);
+  }
+
+  public async getTariff(tariffId: number): Promise<Tariff> {
+    const response = await this.axiosInstance.get(`/rest/public/tariffs/${tariffId}`);
+    return response.data.results[0];
+  }
+}
+

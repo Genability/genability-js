@@ -97,7 +97,7 @@ export interface Tariff {
   hasRateApplicability: boolean;
   hasNetMetering: boolean;
   properties?: GenPropertyKey[];
-  rates: Rate[];
+  rates?: Rate[];
 }
 
 
@@ -120,7 +120,7 @@ export interface Rate {
   variableLimitKey: string;
   variableRateKey: string;
   variableFactorKey: string;
-  rateBands: RateBand[];
+  rateBands?: RateBand[];
 }
 
 export interface RateBand {

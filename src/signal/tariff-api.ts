@@ -13,7 +13,7 @@ import {
   Tariff,
 } from '../types';
 
-export class TariffRequest extends BasePagedRequest {
+export class GetTariffRequest extends BasePagedRequest {
   public lseId?: number;
   public masterTariffId?: number;
   public effectiveOn?: string;
@@ -35,7 +35,7 @@ export class TariffApi extends RestApiClient {
     super(Constant.baseURL, credentials);
   }
 
-  public async getTariffs(request: TariffRequest): Promise<PagedResponse<Tariff>> {
+  public async getTariffs(request: GetTariffRequest): Promise<PagedResponse<Tariff>> {
     const response = await this.axiosInstance.get(`/rest/public/tariffs`, { params: request } );
     return new PagedResponse(response.data);
   }

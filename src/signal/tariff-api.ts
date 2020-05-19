@@ -7,9 +7,6 @@ import {
   Constant
 } from '../rest-client';
 import {
-  TariffType,
-  CustomerClass,
-  ChargeType,
   Tariff,
 } from '../types';
 
@@ -17,9 +14,9 @@ export class GetTariffsRequest extends BasePagedRequest {
   public lseId?: number;
   public masterTariffId?: number;
   public effectiveOn?: string;
-  public customerClasses?: CustomerClass;
-  public tariffTypes?: TariffType;
-  public chargeTypes?: ChargeType;
+  public customerClasses?: string;
+  public tariffTypes?: string;
+  public chargeTypes?: string;
 
   addParams(addParam: AddParamCallback): void {
     addParam('lseId', this.lseId);
@@ -40,8 +37,8 @@ export class TariffApi extends RestApiClient {
     return new PagedResponse(response.data);
   }
 
-  public async getTariff(tariffId: number): Promise<Tariff> {
-    const response = await this.axiosInstance.get(`/rest/public/tariffs/${tariffId}`);
+  public async getTariff(masterTariffId: number): Promise<Tariff> {
+    const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}`);
     return response.data.results[0];
   }
 }

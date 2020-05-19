@@ -6,7 +6,7 @@ import {
   LoadServingEntityApi,
   GetLoadServingEntityRequest,
   TariffApi,
-  GetTariffRequest
+  GetTariffsRequest
 } from './signal';
 
 export class GenabilityConfig {
@@ -58,7 +58,7 @@ export class Genability {
     return this._tariffs;
   }
 
-  public getTariffRequest(): GetTariffRequest {
-    return new GetTariffRequest();
+  public getTariffsRequest(): GetTariffsRequest {
+    return new GetTariffsRequest();
   }
 }

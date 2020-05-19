@@ -9,6 +9,6 @@ export {
 } from './load-serving-entity-api';
 
 export {
-  GetTariffRequest,
+  GetTariffsRequest,
   TariffApi
 } from './tariff-api';

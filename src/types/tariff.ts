@@ -144,5 +144,10 @@ export interface RateBand {
  * User Defined Type Guard for Tariff
  */
 export function isTariff(arg: any): arg is Tariff {
-  return arg.tariffId !== undefined;
+  return arg.tariffId !== undefined &&
+    arg.tariffId !== undefined &&
+    arg.masterTariffId !== undefined &&
+    arg.tariffCode !== undefined &&
+    arg.tariffName !== undefined &&
+    arg.lseId !== undefined;
 }

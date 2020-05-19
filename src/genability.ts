@@ -1,10 +1,10 @@
-import { credentialsFromFile } from './rest-client/credentials';
+import * as credentials from './rest-client/credentials';
 import { RestApiCredentials } from './rest-client';
-import { 
+import {
   PropertyKeyApi,
   GetPropertyKeysRequest
 } from './signal';
-import { 
+import {
   LoadServingEntityApi,
   GetLoadServingEntityRequest
 } from './signal';
@@ -23,7 +23,11 @@ export class Genability {
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
-    this.credentials = credentialsFromFile(config?.profileName);
+    if (credentials.credentialsInEnv()) {
+      this.credentials = credentials.credentialsFromEnv();
+      return;
+    }
+    this.credentials = credentials.credentialsFromFile(config?.profileName);
   }
 
   public static configure(config?: Partial<GenabilityConfig>): Genability

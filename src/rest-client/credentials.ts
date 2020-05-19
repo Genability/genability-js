@@ -38,3 +38,19 @@ export function credentialsFromFile(profileName = 'default'): RestApiCredentials
   }
   throw new Error(`Profile ${profileName} not found in credentials file`);
 }
+
+export function credentialsInEnv(): boolean {
+  if (typeof process.env.GENABILITY_APP_ID === 'undefined') return false;
+  if (typeof process.env.GENABILITY_APP_KEY === 'undefined') return false;
+  return true;
+}
+
+export function credentialsFromEnv(): RestApiCredentials {
+  if (credentialsInEnv()) {
+    return {
+      appId: process.env.GENABILITY_APP_ID || '',
+      appKey: process.env.GENABILITY_APP_KEY || ''
+    };
+  }
+  throw new Error('No credentials found in environment variables');
+}

@@ -1,0 +1,102 @@
+import { 
+  LoadServingEntityApi,
+  GetLoadServingEntityRequest
+} from './load-serving-entity-api';
+import { PagedResponse } from '../rest-client'
+import {
+  ResourceTypes,
+  LoadServingEntity,
+  ServiceType,
+  isLoadServingEntity,
+  Ownership
+} from '../types';
+import { credentialsFromFile } from '../rest-client/credentials';
+
+const credentials = credentialsFromFile('unitTest');
+const restClient = new LoadServingEntityApi(credentials);
+
+describe("GetLoadServingEntities request", () => {
+  describe("call to queryStringify", () => {
+    it("handles no parameters", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('');
+    })
+    it("handles postCode parameter", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.postCode = '1';
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('postCode=1');
+    })
+    it("handles several parameters", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.country = 'USA';
+      request.fields = 'ext';
+      request.serviceTypes = ServiceType.ELECTRICITY;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY');
+    })
+    it("handles undefined parameters", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.country = undefined;
+      request.fields = undefined;
+      request.serviceTypes = undefined;
+      request.ownerships = undefined;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('');
+    })
+    it("returns all parameters", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.postCode = '0001';
+      request.country = 'USA';
+      request.fields = 'ext';
+      request.serviceTypes = ServiceType.ELECTRICITY;
+      request.ownerships = Ownership.INVESTOR;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('postCode=0001&country=USA&fields=ext&serviceTypes=ELECTRICITY&ownerships=INVESTOR');
+    })
+    it("handles both pagination", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.postCode = '0001';
+      request.pageCount = 22;
+      request.pageStart = 33;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('postCode=0001&pageStart=33&pageCount=22');
+    })
+    it("handles both pagination via constructor", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest({
+        pageCount: 22,
+        pageStart: 33
+      });
+      request.postCode = '0001';
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('postCode=0001&pageStart=33&pageCount=22');
+    })
+  })
+});
+
+describe("LoadServingEntity api", () => {
+  describe("get one endpoint", () => {
+    it("returns the load serving entity", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
+      const { lseId } = response.results[0];
+      const lse: LoadServingEntity = await restClient.getLoadServingEntity(lseId);
+      expect(lse).toEqual(response.results[0]);
+    })
+  })
+  describe("get n endpoint", () => {
+    it("returns a list of load serving entities", async () => {
+      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      request.serviceTypes = ServiceType.ELECTRICITY;
+      const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
+      expect(response.status).toEqual("success");
+      expect(response.type).toEqual(ResourceTypes.LOAD_SERVING_ENTITY);
+      expect(response.count).toBeGreaterThan(200);
+      expect(response.results).toHaveLength(25);
+      for(const lse of response.results) {
+        expect(isLoadServingEntity(lse)).toBeTruthy();
+      }
+    })
+  })
+});

@@ -97,7 +97,6 @@ describe("PropertyKey api", () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.keySpace = 'electricity';
       const response: PagedResponse<GenPropertyKey> = await restClient.getPropertyKeys(request);
-      //console.log(response);
       expect(response.status).toEqual("success");
       expect(response.type).toEqual(ResourceTypes.PROPERTY_KEY);
       expect(response.count).toBeGreaterThan(200);

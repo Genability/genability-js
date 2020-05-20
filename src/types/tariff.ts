@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-import {
-  GenPropertyKey,
-} from '../types';
+import { GenPropertyKey } from '../types';
+import { ServiceType } from './load-serving-entity';
+import { Territory } from './territory';
+import { Season } from './season';
+import { TimeOfUse } from './time-of-use';
 
 export enum TariffType {
   DEFAULT = <any>"DEFAULT",
@@ -63,6 +65,18 @@ export enum PropertyType {
   SERVICE_TERMS = <any>"SERVICE_TERMS",
 }
 
+export enum Period {
+  ON_PEAK = <any>"ON_PEAK",
+  PARTIAL_PEAK = <any>"PARTIAL_PEAK",
+  OFF_PEAK = <any>"OFF_PEAK",
+  CRITICAL_PEAK = <any>"CRITICAL_PEAK",
+}
+
+export enum RateUnit {
+  COST_PER_UNIT = <any>"COST_PER_UNIT",
+  PERCENTAGE = <any>"PERCENTAGE",
+}
+
 export interface Tariff {
   tariffId: number;
   masterTariffId: number;
@@ -70,11 +84,11 @@ export interface Tariff {
   tariffName: string;
   lseId: number;
   lseName: string;
-  serviceType: string;
+  serviceType: ServiceType;
   priorTariffId: number;
   distributionLseId: number;
-  tariffType: string;
-  customerClass: string;
+  tariffType: TariffType;
+  customerClass: CustomerClass;
   customerCount: number;
   customerLikelihood: number;
   customerCountSource: string;
@@ -85,8 +99,8 @@ export interface Tariff {
   timeZone: string;
   billingPeriod: string;
   currency: string;
-  chargeTypes: string;
-  chargePeriod: string;
+  chargeTypes: ChargeType[];
+  chargePeriod: ChargePeriod;
   minMonthlyConsumption: number;
   maxMonthlyConsumption: number;
   minMonthlyDemand: number;
@@ -96,12 +110,12 @@ export interface Tariff {
   hasContractedRates: boolean;
   hasRateApplicability: boolean;
   hasNetMetering: boolean;
-  properties?: GenPropertyKey[];
-  rates?: Rate[];
+  properties?: TariffProperty[];
+  rates?: TariffRate[];
 }
 
 
-export interface Rate {
+export interface TariffRate {
   tariffRateId: number;
   tariffId: number;
   riderTariffId: number;
@@ -120,10 +134,13 @@ export interface Rate {
   variableLimitKey: string;
   variableRateKey: string;
   variableFactorKey: string;
-  rateBands?: RateBand[];
+  territory: Territory;
+  season: Season;
+  timeOfUse: TimeOfUse;
+  rateBands?: TariffRateBand[];
 }
 
-export interface RateBand {
+export interface TariffRateBand {
   tariffRateBandId: number;
   tariffRateId: number;
   rateSequenceNumber: number;
@@ -136,8 +153,18 @@ export interface RateBand {
   applicabilityValue: string;
   calculationFactor: number;
   rateAmount: number;
-  rateUnit: string;
+  rateUnit: RateUnit;
   isCredit: boolean;
+}
+
+export interface TariffProperty extends GenPropertyKey {
+  period: Period;
+  propertyTypes: PropertyType[];
+  operator: string;
+  propertyValue: string;
+  minValue: string;
+  maxValue: string;
+  isDefault: boolean;
 }
 
 /**

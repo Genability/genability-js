@@ -6,9 +6,12 @@ import {
   ChargePeriod,
   TransactionType,
   Tariff,
-  Rate,
+  TariffRate,
   isTariff,
-  RateBand
+  TariffRateBand,
+  RateUnit,
+  TariffProperty,
+  Period
 } from './tariff';
 
 describe("tariff types", () => {
@@ -29,19 +32,29 @@ describe("tariff types", () => {
       expect(tariff.tariffName).toEqual('StringName');
     })
     it("works for ChargeClass", () => {
-      const rate: Rate = JSON.parse('{"rateName": "StringName", "chargeClass": "AFTER_TAX"}');
+      const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargeClass": "AFTER_TAX"}');
       expect(rate.chargeClass).toEqual(ChargeClass.AFTER_TAX);
       expect(rate.rateName).toEqual('StringName');
     })
     it("works for ChargePeriod", () => {
-      const rate: Rate = JSON.parse('{"rateName": "StringName", "chargePeriod": "ANNUALLY"}');
+      const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargePeriod": "ANNUALLY"}');
       expect(rate.chargePeriod).toEqual(ChargePeriod.ANNUALLY);
       expect(rate.rateName).toEqual('StringName');
     })
     it("works for TransactionType", () => {
-      const rate: Rate = JSON.parse('{"rateName": "StringName", "transactionType": "BUY"}');
+      const rate: TariffRate = JSON.parse('{"rateName": "StringName", "transactionType": "BUY"}');
       expect(rate.transactionType).toEqual(TransactionType.BUY);
       expect(rate.rateName).toEqual('StringName');
+    })
+    it("works for Period", () => {
+      const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "period": "CRITICAL_PEAK"}');
+      expect(tariffProperty.period).toEqual(Period.CRITICAL_PEAK);
+      expect(tariffProperty.keyName).toEqual('stringKeyName');
+    })
+    it("works for RateUnit", () => {
+      const tariffRateBand: TariffRateBand = JSON.parse('{"tariffRateId": "id", "rateUnit": "COST_PER_UNIT"}');
+      expect(tariffRateBand.rateUnit).toEqual(RateUnit.COST_PER_UNIT);
+      expect(tariffRateBand.tariffRateId).toEqual('id');
     })
   });
   describe("isTariff function", () => {
@@ -68,7 +81,7 @@ describe("tariff types", () => {
       expect(isTariff(tariff)).toEqual(true);
     })
   });
-  describe("works for Rate", () => {
+  describe("works for TariffRate", () => {
     it("should be true with empty Rates", () => {
       const tariff: Tariff = JSON.parse(
         '{\
@@ -98,24 +111,24 @@ describe("tariff types", () => {
           "rates": ${ratesJson}
         }`
       );
-      const rates: Rate = JSON.parse(ratesJson);
+      const rates: TariffRate = JSON.parse(ratesJson);
       expect(isTariff(tariff)).toEqual(true);
       expect(tariff.rates).toEqual(rates);
     })
   });
-  describe("works for RateBand", () => {
-    it("should be true with empty RateBands", () => {
+  describe("works for TariffRateBand", () => {
+    it("works with empty RateBands", () => {
       const ratesJson = '{\
         "tariffRateId": 1,\
         "tariffId": 1,\
         "rateBands": []\
        }';
-      const rate: Rate = JSON.parse(ratesJson);
+      const rate: TariffRate = JSON.parse(ratesJson);
       expect(rate.tariffRateId).toEqual(1);
       expect(rate.tariffRateId).toEqual(1);
       expect(rate.rateBands).toEqual([]);
     })
-    it("should be true with RateBands", () => {
+    it("works with RateBands", () => {
       const rateBandJson = '{\
         "tariffRateBandId": 1,\
         "tariffRateId": 2\
@@ -125,8 +138,8 @@ describe("tariff types", () => {
         "tariffId": 4,\
         "rateBands": [${rateBandJson}]
        }`;
-      const rate: Rate = JSON.parse(rateJson);
-      const rateBand: RateBand = JSON.parse(rateBandJson);
+      const rate: TariffRate = JSON.parse(rateJson);
+      const rateBand: TariffRateBand = JSON.parse(rateBandJson);
       expect(rateBand.tariffRateId).toEqual(2);
       expect(rateBand.tariffRateBandId).toEqual(1);
       expect(rate.tariffRateId).toEqual(3);

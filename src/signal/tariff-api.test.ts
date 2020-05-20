@@ -33,7 +33,7 @@ describe("GetTariffs request", () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
       request.masterTariffId = 2;
       request.effectiveOn = '2020-05-19';
-      request.tariffTypes = `${TariffType.ALTERNATIVE},${TariffType.DEFAULT}`;
+      request.tariffTypes = [`${TariffType.ALTERNATIVE},${TariffType.DEFAULT}`];
       const qs: string = request.queryStringify();
       expect(qs).toEqual("masterTariffId=2&effectiveOn=2020-05-19&tariffTypes=ALTERNATIVE,DEFAULT");
     })
@@ -42,9 +42,9 @@ describe("GetTariffs request", () => {
       request.lseId = 1;
       request.masterTariffId = 2;
       request.effectiveOn = '2020-05-19';
-      request.customerClasses = `${CustomerClass.GENERAL},${CustomerClass.PROPOSED}`;
-      request.tariffTypes = `${TariffType.ALTERNATIVE},${TariffType.DEFAULT}`;
-      request.chargeTypes = `${ChargeType.CONSUMPTION_BASED},${ChargeType.DEMAND_BASED}`;
+      request.customerClasses = [`${CustomerClass.GENERAL},${CustomerClass.PROPOSED}`];
+      request.tariffTypes = [`${TariffType.ALTERNATIVE},${TariffType.DEFAULT}`];
+      request.chargeTypes = [`${ChargeType.CONSUMPTION_BASED},${ChargeType.DEMAND_BASED}`];
       const qs: string = request.queryStringify();
       expect(qs).toEqual("lseId=1&masterTariffId=2&effectiveOn=2020-05-19&customerClasses=GENERAL,PROPOSED&tariffTypes=ALTERNATIVE,DEFAULT");
     })

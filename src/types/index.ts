@@ -25,6 +25,13 @@ export {
   ChargePeriod,
   TransactionType,
   PropertyType,
+  Period,
+  RateUnit,
+  TariffProperty,
   Tariff,
   isTariff
 } from './tariff';
+
+export { Territory } from './territory';
+export { Season } from './season';
+export { TimeOfUse } from './time-of-use';

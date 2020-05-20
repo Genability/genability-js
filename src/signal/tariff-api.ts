@@ -14,9 +14,9 @@ export class GetTariffsRequest extends BasePagedRequest {
   public lseId?: number;
   public masterTariffId?: number;
   public effectiveOn?: string;
-  public customerClasses?: string;
-  public tariffTypes?: string;
-  public chargeTypes?: string;
+  public customerClasses?: string[];
+  public tariffTypes?: string[];
+  public chargeTypes?: string[];
 
   addParams(addParam: AddParamCallback): void {
     addParam('lseId', this.lseId);

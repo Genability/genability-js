@@ -46,7 +46,7 @@ describe("GetTariffs request", () => {
       request.tariffTypes = [`${TariffType.ALTERNATIVE},${TariffType.DEFAULT}`];
       request.chargeTypes = [`${ChargeType.CONSUMPTION_BASED},${ChargeType.DEMAND_BASED}`];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("lseId=1&masterTariffId=2&effectiveOn=2020-05-19&customerClasses=GENERAL,PROPOSED&tariffTypes=ALTERNATIVE,DEFAULT");
+      expect(qs).toEqual("lseId=1&masterTariffId=2&effectiveOn=2020-05-19&customerClasses=GENERAL,PROPOSED&tariffTypes=ALTERNATIVE,DEFAULT&chargeTypes=CONSUMPTION_BASED,DEMAND_BASED");
     })
     it("handles undefined parameters", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();

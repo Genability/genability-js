@@ -24,6 +24,7 @@ export class GetTariffsRequest extends BasePagedRequest {
     addParam('effectiveOn', this.effectiveOn);
     addParam('customerClasses', this.customerClasses);
     addParam('tariffTypes', this.tariffTypes);
+    addParam('chargeTypes', this.chargeTypes);
   }
 }
 

@@ -62,7 +62,7 @@ jobs:
         diff-search: true
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish if version updated
-      if: (steps.check.outputs.changed == 'true') && (steps.check.outputs.version !== steps.remote_check.outputs.version)
+      if: (steps.check.outputs.changed == 'true') && (steps.check.outputs.version != steps.remote_check.outputs.version)
       run: |
         yarn install
         yarn build

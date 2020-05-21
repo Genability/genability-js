@@ -12,3 +12,8 @@ export {
   GetTariffsRequest,
   TariffApi
 } from './tariff-api';
+
+export {
+  GetCalculatedCostRequest,
+  CalculatedCostApi
+} from './on-demand-cost-calculation-api'

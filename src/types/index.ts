@@ -32,6 +32,16 @@ export {
   isTariff
 } from './tariff';
 
+export {
+  Map,
+  QuantityKey,
+  PropertyKeyName,
+  GroupBy,
+  CalculatedCost,
+  CalculatedCostItem,
+  PropertyData
+} from './on-demand-cost-calculation'
+
 export { Territory } from './territory';
 export { Season } from './season';
 export { TimeOfUse } from './time-of-use';

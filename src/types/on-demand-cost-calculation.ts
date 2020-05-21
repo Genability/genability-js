@@ -28,7 +28,24 @@ export enum PropertyKeyName {
   CONSUMPTION = <any>"consumption",
   DEMAND = <any>"demand",
   CITY_LIMITS = <any>"cityLimits",
-  HAS_ELECTRIC_VEHICLE = <any>"hasElectricVehicle",
+  HAS_ELECTRIC_VEHICLE = <any>"hasElectricVehicle"
+}
+
+export enum GroupBy {
+  ALL = <any>"ALL",
+  YEAR = <any>"YEAR",
+  MONTH = <any>"MONTH",
+  DAY = <any>"DAY",
+  HOUR = <any>"HOUR",
+  QTRHOUR = <any>"QTRHOUR"
+}
+
+export enum DetailLevel {
+  TOTAL = <any>"TOTAL",
+  CHARGE_TYPE = <any>"CHARGE_TYPE",
+  CHARGE_TYPE_AND_TOU = <any>"CHARGE_TYPE_AND_TOU",
+  RATE = <any>"RATE",
+  ALL = <any>"ALL"
 }
 
 export interface CalculatedCost {

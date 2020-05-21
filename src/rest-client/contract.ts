@@ -3,6 +3,7 @@ import {
   CustomerClass,
   TariffType,
   ChargeType,
+  PropertyData
 } from '../types'
 
 export interface Paged {
@@ -59,7 +60,7 @@ export interface Response<T> extends Paged {
 
 export type AddParamCallback = (
   paramName: string, 
-  paramValue?: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[],
+  paramValue?: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[] | PropertyData[],
 ) => void;
 
 export abstract class BasePagedRequest implements Paged, Searchable, QueryStringified {
@@ -81,7 +82,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
 
     const callback: AddParamCallback = (
       paramName: string, 
-      paramValue?: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[],
+      paramValue?: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[] | PropertyData[],
     ): void => {
       if(paramValue === undefined) return;
       parts.push(paramName + '=' + encode(paramValue));

@@ -75,6 +75,8 @@ export enum Period {
 export enum RateUnit {
   COST_PER_UNIT = <any>"COST_PER_UNIT",
   PERCENTAGE = <any>"PERCENTAGE",
+  BLOCK = <any>"BLOCK",
+  BLOCK_SELL_BACK = <any>"BLOCK_SELL_BACK",
 }
 
 export interface Tariff {

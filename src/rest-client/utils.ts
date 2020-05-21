@@ -1,5 +1,12 @@
+import {
+  CustomerClass,
+  TariffType,
+  ChargeType,
+} from '../types'
 
-export function encode(val: string | string[] | number | boolean): string {
+export function encode(
+  val: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[]
+): string {
   let encoded;
   if(Array.isArray(val)) {
     encoded = encodeURIComponent(val.join(","));

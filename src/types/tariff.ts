@@ -92,12 +92,12 @@ export interface Tariff {
   customerCount: number;
   customerLikelihood: number;
   customerCountSource: string;
-  territoryId: string;
+  territoryId: number;
   effectiveDate: string;
   endDate: string;
   closedDate: string;
   timeZone: string;
-  billingPeriod: string;
+  billingPeriod: ChargePeriod;
   currency: string;
   chargeTypes: ChargeType[];
   chargePeriod: ChargePeriod;

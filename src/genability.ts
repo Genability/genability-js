@@ -2,11 +2,11 @@ import * as credentials from './rest-client/credentials';
 import { RestApiCredentials } from './rest-client';
 import {
   PropertyKeyApi,
-  GetPropertyKeysRequest
-} from './signal';
-import {
+  GetPropertyKeysRequest,
   LoadServingEntityApi,
-  GetLoadServingEntityRequest
+  GetLoadServingEntityRequest,
+  TariffApi,
+  GetTariffsRequest
 } from './signal';
 
 export class GenabilityConfig {
@@ -20,6 +20,7 @@ export class Genability {
   // REST APIs
   private _properties: PropertyKeyApi | undefined;
   private _lses: LoadServingEntityApi | undefined;
+  private _tariffs: TariffApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -53,5 +54,15 @@ export class Genability {
 
   public getLseRequest(): GetLoadServingEntityRequest {
     return new GetLoadServingEntityRequest();
+  }
+
+  public get tariffs(): TariffApi {
+    if(this._tariffs === undefined)
+      this._tariffs = new TariffApi(this.credentials)
+    return this._tariffs;
+  }
+
+  public getTariffsRequest(): GetTariffsRequest {
+    return new GetTariffsRequest();
   }
 }

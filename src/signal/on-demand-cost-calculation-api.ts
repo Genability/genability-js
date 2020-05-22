@@ -2,7 +2,6 @@ import {
   RestApiClient,
   RestApiCredentials,
   PagedResponse,
-  BasePagedRequest,
   AddParamCallback,
   Constant
 } from '../rest-client';
@@ -15,7 +14,7 @@ import {
   CalculatedCost,
 } from '../types/on-demand-cost-calculation';
 
-export class GetCalculatedCostRequest extends BasePagedRequest {
+export class GetCalculatedCostRequest {
   public masterTariffId?: number;
   public fromDateTime?: string;
   public toDateTime?: string;
@@ -43,7 +42,7 @@ export class CalculatedCostApi extends RestApiClient {
   }
 
   public async getCalculatedCosts(request: GetCalculatedCostRequest): Promise<PagedResponse<CalculatedCost>> {
-    const response = await this.axiosInstance.get(`/rest/v1/ondemand/calculate`, { params: request } );
+    const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
     return new PagedResponse(response.data);
   }
 }

@@ -109,3 +109,13 @@ export interface PropertyData {
   unit: string;
   accuracy: number;
 }
+
+/**
+ * User Defined Type Guard for CalculatedCost
+ */
+export function isCalculatedCost(arg: any): arg is CalculatedCost {
+  return arg.masterTariffId !== undefined &&
+    arg.fromDateTime !== undefined &&
+    arg.toDateTime !== undefined &&
+    arg.assumptions !== undefined
+}

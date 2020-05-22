@@ -39,7 +39,8 @@ export {
   GroupBy,
   CalculatedCost,
   CalculatedCostItem,
-  PropertyData
+  PropertyData,
+  isCalculatedCost
 } from './on-demand-cost-calculation'
 
 export { Territory } from './territory';

@@ -12,9 +12,13 @@ export {
   Response,
   BasePagedRequest,
   AddParamCallback,
-  PagedResponse
+  PagedResponse,
 } from './contract';
 
 export {
   encode
 } from './utils';
+
+export {
+  Constant
+} from './constants'

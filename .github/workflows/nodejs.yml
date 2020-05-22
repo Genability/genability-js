@@ -61,8 +61,14 @@ jobs:
       with:
         diff-search: true
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Compare versions
+      id: compare
+      uses:  mgerring/semver-compare-and-publish@v1
+      with:
+        version_a: ${{ steps.check.outputs.version }}
+        version_b: ${{ steps.remote_check.outputs.version }}
     - name: Publish if version updated
-      if: (steps.check.outputs.changed == 'true') && (steps.check.outputs.version != steps.remote_check.outputs.version)
+      if: (steps.check.outputs.changed == 'true') && (steps.compare == 'version_a')
       run: |
         yarn install
         yarn build

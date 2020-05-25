@@ -26,10 +26,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix['node-version'] }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ matrix['node-version'] }}
     - run: mkdir -p ~/.genability
     - run: echo [\{\"unitTest\":\{\"appId\":\"${{ secrets.GENA_APP_ID }}\",\"appKey\":\"${{ secrets.GENA_APP_KEY }}\"\}\}] > ~/.genability/credentials.json
     - run: yarn install
@@ -45,30 +45,31 @@ jobs:
     if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
     - name: Set up Node.js
       uses: actions/setup-node@master
       with:
-        node-version: 10.x
+        node-version: 12.x
     - name: Set up npm auth
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
     - name: Get latest remote version
       id: remote_check
       run: echo "::set-output name=version::`npm view @genability/api version`"
-    - name: Check for version in commit
+    - name: Detect New Version
       id: check
-      uses: EndBug/version-check@v1
+      uses: salsify/action-detect-and-tag-new-version@v1.0.3
       with:
-        diff-search: true
-        token: ${{ secrets.GITHUB_TOKEN }}
+        create-tag: false
     - name: Compare versions
       id: compare
-      uses:  mgerring/semver-compare-and-publish@v1
+      uses: mgerring/semver-compare-and-publish@v1
       with:
-        version_a: ${{ steps.check.outputs.version }}
+        version_a: ${{ steps.check.outputs[current-version] }}
         version_b: ${{ steps.remote_check.outputs.version }}
     - name: Publish if version updated
-      if: (steps.check.outputs.changed == 'true') && (steps.compare == 'version_a')
+      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version']) && (steps.compare == 'version_a')
       run: |
         yarn install
         yarn build

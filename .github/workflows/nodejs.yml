@@ -64,7 +64,7 @@ jobs:
         create-tag: false
     - name: Compare versions
       id: compare
-      uses: mgerring/semver-compare-and-publish@v1.1
+      uses: mgerring/semver-compare-and-publish@v1.1.1
       with:
         version_a: ${{ steps.check.outputs['current-version'] }}
         version_b: ${{ steps.remote_check.outputs.version }}

@@ -26,12 +26,80 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix['node-version'] }}
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ matrix['node-version'] }}
+    - run: mkdir -p ~/.genability
+    - run: echo [\{\"unitTest\":\{\"appId\":\"${{ secrets.GENA_APP_ID }}\",\"appKey\":\"${{ secrets.GENA_APP_KEY }}\"\}\}] > ~/.genability/credentials.json
     - run: yarn install
     - run: yarn build
     - run: yarn test
       env:
         CI: true
+
+  npm-publish-develop:
+    name: npm-publish-develop
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - name: Set up npm auth
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+    - name: Get latest remote version
+      id: remote_check
+      run: echo "::set-output name=version::`npm view @genability/api version`"
+    - name: Detect New Version
+      id: check
+      uses: salsify/action-detect-and-tag-new-version@v1.0.3
+      with:
+        create-tag: false
+    - name: Compare versions
+      id: compare
+      uses: mgerring/semver-compare-and-publish@v1.1.3
+      with:
+        version_a: ${{ steps.check.outputs['current-version'] }}
+        version_b: ${{ steps.remote_check.outputs.version }}
+    - name: Publish if version updated
+      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version']) && (steps.compare.outputs.higher_version == 'version_a')
+      run: |
+        yarn install
+        yarn build
+        npm publish
+        npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} develop
+
+  npm-publish-latest:
+    name: npm-publish-latest
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+    - name: Set up npm auth
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+    - name: Get latest remote version
+      id: remote_check
+      run: echo "::set-output name=version::`npm view @genability/api version`"
+    - name: Detect New Version
+      id: check
+      uses: salsify/action-detect-and-tag-new-version@v1.0.3
+      with:
+        create-tag: false
+    - name: Tag latest
+      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version']) && (steps.remote_check.outputs.version == steps.check.outputs['current-version']) # If the version changed and the most recent version is published
+      run: npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} latest

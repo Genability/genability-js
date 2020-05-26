@@ -32,9 +32,9 @@ describe("GetLoadServingEntities request", () => {
       const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
       request.country = 'USA';
       request.fields = 'ext';
-      request.serviceTypes = ServiceType.ELECTRICITY;
+      request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY');
+      expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY,GAS');
     })
     it("handles undefined parameters", async () => {
       const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
@@ -50,10 +50,10 @@ describe("GetLoadServingEntities request", () => {
       request.postCode = '0001';
       request.country = 'USA';
       request.fields = 'ext';
-      request.serviceTypes = ServiceType.ELECTRICITY;
-      request.ownerships = Ownership.INVESTOR;
+      request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
+      request.ownerships = [Ownership.INVESTOR, Ownership.COOP];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('postCode=0001&country=USA&fields=ext&serviceTypes=ELECTRICITY&ownerships=INVESTOR');
+      expect(qs).toEqual('postCode=0001&country=USA&fields=ext&serviceTypes=ELECTRICITY,GAS&ownerships=INVESTOR,COOP');
     })
     it("handles both pagination", async () => {
       const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
@@ -88,7 +88,7 @@ describe("LoadServingEntity api", () => {
   describe("get n endpoint", () => {
     it("returns a list of load serving entities", async () => {
       const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
-      request.serviceTypes = ServiceType.ELECTRICITY;
+      request.serviceTypes = [ServiceType.ELECTRICITY];
       const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
       expect(response.status).toEqual("success");
       expect(response.type).toEqual(ResourceTypes.LOAD_SERVING_ENTITY);

@@ -56,7 +56,7 @@ jobs:
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
     - name: Get latest remote version
       id: remote_check
-      run: echo "::set-output name=version::`npm view @genability/api version`"
+      run: echo "::set-output name=version::`npm view @genability/api@develop version`"
     - name: Detect New Version
       id: check
       uses: salsify/action-detect-and-tag-new-version@v1.0.3
@@ -91,14 +91,11 @@ jobs:
         node-version: 12.x
     - name: Set up npm auth
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
-    - name: Get latest remote version
-      id: remote_check
-      run: echo "::set-output name=version::`npm view @genability/api version`"
     - name: Detect New Version
       id: check
       uses: salsify/action-detect-and-tag-new-version@v1.0.3
       with:
         create-tag: false
     - name: Tag latest
-      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version']) && (steps.remote_check.outputs.version == steps.check.outputs['current-version']) # If the version changed and the most recent version is published
+      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version'])
       run: npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} latest

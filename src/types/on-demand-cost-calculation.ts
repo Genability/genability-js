@@ -8,7 +8,6 @@ import {
   Period,
   TransactionType
 } from "./tariff"
-import { DataType } from "./property-key"
 import { GenPropertyKey } from '../types';
 
 export enum Map {
@@ -16,13 +15,6 @@ export enum Map {
   ADJUSTED_TOTAL_COST = <any>"adjustedTotalCost",
   KWH = <any>"kWh",
   KW = <any>"kW"
-}
-
-export enum QuantityKey {
-  FIXED = <any>"fixed",
-  CONSUMPTION = <any>"consumption",
-  MINIMUM = <any>"minimum",
-  DEMAND = <any>"demand"
 }
 
 export enum GroupBy {
@@ -65,7 +57,7 @@ export interface CalculatedCostItem {
   rateName: string;
   fromDateTime: string;
   toDateTime: string;
-  quantityKey: QuantityKey;
+  quantityKey: string;
   quantityKeyDescription: string;
   rateType: RateUnit;
   rateAmount: number;

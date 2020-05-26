@@ -8,7 +8,6 @@ import {
 } from '../rest-client';
 import {
   GenPropertyKey,
-  PropertyKeyName,
   DataType
 } from '../types';
 
@@ -40,7 +39,7 @@ export class PropertyKeyApi extends RestApiClient {
     return new PagedResponse(response.data);
   }
 
-  public async getPropertyKey(keyName: PropertyKeyName): Promise<GenPropertyKey> {
+  public async getPropertyKey(keyName: string): Promise<GenPropertyKey> {
     const response = await this.axiosInstance.get(`/rest/public/properties/${keyName}`);
     return response.data.results[0];
   }

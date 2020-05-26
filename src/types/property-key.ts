@@ -19,11 +19,11 @@ export enum DataType {
   DEMAND = <any>"DEMAND"
 };
 
-export enum PropertyKeyName {
-  CONSUMPTION = <any>"consumption",
-  DEMAND = <any>"demand",
-  CITY_LIMITS = <any>"cityLimits",
-  HAS_ELECTRIC_VEHICLE = <any>"hasElectricVehicle"
+export const CommonPropertyKeyNames = {
+  CONSUMPTION: "consumption",
+  DEMAND: "demand",
+  CITY_LIMITS: "cityLimits",
+  HAS_ELECTRIC_VEHICLE: "hasElectricVehicle"
 }
 
 export interface GenPropertyKey {

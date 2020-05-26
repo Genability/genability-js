@@ -6,7 +6,7 @@ export {
   DataType,
   PrivacyFlag,
   GenPropertyKey,
-  PropertyKeyName,
+  CommonPropertyKeyNames,
   isGenPropertyKey
 } from './property-key';
 
@@ -35,7 +35,6 @@ export {
 
 export {
   Map,
-  QuantityKey,
   GroupBy,
   CalculatedCost,
   CalculatedCostItem,

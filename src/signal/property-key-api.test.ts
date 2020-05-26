@@ -7,7 +7,7 @@ import {
   ResourceTypes,
   GenPropertyKey,
   DataType,
-  PropertyKeyName,
+  CommonPropertyKeyNames,
   isGenPropertyKey
 } from '../types';
 import { credentialsFromFile } from '../rest-client/credentials';
@@ -20,7 +20,7 @@ const demandPk: GenPropertyKey = {
   description: "Quantity in kW of load that is used for a given period", 
   displayName: "Demand (kW)", 
   family: "load",
-  keyName: PropertyKeyName.DEMAND,
+  keyName: CommonPropertyKeyNames.DEMAND,
   keyspace: "electricity"
 }
 
@@ -89,7 +89,7 @@ describe("GetPropertyKeys request", () => {
 describe("PropertyKey api", () => {
   describe("get one endpoint", () => {
     it("returns the demand property key", async () => {
-      const pk: GenPropertyKey = await restClient.getPropertyKey(PropertyKeyName.DEMAND);
+      const pk: GenPropertyKey = await restClient.getPropertyKey(CommonPropertyKeyNames.DEMAND);
       expect(pk).toEqual(demandPk);
     })
   })

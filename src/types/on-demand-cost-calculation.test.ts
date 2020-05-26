@@ -1,13 +1,12 @@
 import { 
   Map,
-  QuantityKey,
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
   isCalculatedCost
 } from "./on-demand-cost-calculation";
 import { 
-  PropertyKeyName,
+  CommonPropertyKeyNames,
 } from "./property-key";
 
 describe("on-demand-cost-calculation types", () => {
@@ -19,12 +18,12 @@ describe("on-demand-cost-calculation types", () => {
     })
     it("works for QuantityKey", () => {
       const calculatedCostItem: CalculatedCostItem = JSON.parse('{"tariffId": 1, "quantityKey": "consumption"}');
-      expect(calculatedCostItem.quantityKey).toEqual(QuantityKey.CONSUMPTION);
+      expect(calculatedCostItem.quantityKey).toEqual(CommonPropertyKeyNames.CONSUMPTION);
       expect(calculatedCostItem.tariffId).toEqual(1);
     })
     it("works for PropertyKeyName", () => {
       const propertyData: PropertyData = JSON.parse('{"keyName": "cityLimits", "displayName": "DisplayName"}');
-      expect(propertyData.keyName).toEqual(PropertyKeyName.CITY_LIMITS);
+      expect(propertyData.keyName).toEqual(CommonPropertyKeyNames.CITY_LIMITS);
       expect(propertyData.displayName).toEqual('DisplayName');
     })
   });

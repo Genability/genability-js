@@ -27,7 +27,7 @@ export enum PropertyKeyName {
 }
 
 export interface GenPropertyKey {
-  keyName: PropertyKeyName;
+  keyName: string;
   displayName: string;
   family: string;
   keyspace: string;

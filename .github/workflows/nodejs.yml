@@ -69,7 +69,7 @@ jobs:
         version_a: ${{ steps.check.outputs['current-version'] }}
         version_b: ${{ steps.remote_check.outputs.version }}
     - name: Publish if version updated
-      if: steps.check.outputs['current-version'] != steps.check.outputs['previous-version'] && steps.compare.higher_version == 'version_a'
+      if: (steps.compare.higher_version == 'version_a')
       run: |
         yarn install
         yarn build

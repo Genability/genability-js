@@ -64,14 +64,14 @@ jobs:
         create-tag: false
     - name: Compare versions
       id: compare
-      uses: mgerring/semver-compare-and-publish@v1.1.1
+      uses: mgerring/semver-compare-and-publish@v1.1.3
       with:
         version_a: ${{ steps.check.outputs['current-version'] }}
         version_b: ${{ steps.remote_check.outputs.version }}
     - name: Publish if version updated
-      if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version']) && (steps.compare.higher_version == 'version_a')
+      if: steps.compare.higher_version == "version_a"
       run: |
         yarn install
         yarn build
         npm publish
-        npm dist-tag add @genability/api@${{ steps.check.outputs.version }} develop
+        npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} develop

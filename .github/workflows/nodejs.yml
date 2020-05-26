@@ -73,8 +73,7 @@ jobs:
       run: |
         yarn install
         yarn build
-        npm publish
-        npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} develop
+        npm publish --tag develop
 
   npm-publish-latest:
     name: npm-publish-latest

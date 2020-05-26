@@ -2,7 +2,6 @@ import {
   RestApiClient,
   RestApiCredentials,
   PagedResponse,
-  AddParamCallback,
   Constant
 } from '../rest-client';
 
@@ -23,17 +22,6 @@ export class GetCalculatedCostRequest {
   public billingPeriod?: boolean;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
-
-  addParams(addParam: AddParamCallback): void {
-    addParam('masterTariffId', this.masterTariffId);
-    addParam('fromDateTime', this.fromDateTime);
-    addParam('toDateTime', this.toDateTime);
-    addParam('propertyInputs', this.propertyInputs);
-    addParam('expected', this.expected);
-    addParam('billingPeriod', this.billingPeriod);
-    addParam('detailLevel', this.detailLevel);
-    addParam('groupBy', this.groupBy);
-  }
 }
 
 export class CalculatedCostApi extends RestApiClient {

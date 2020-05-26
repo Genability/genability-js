@@ -4,9 +4,11 @@ import {
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
-  PropertyKeyName,
   isCalculatedCost
 } from "./on-demand-cost-calculation";
+import { 
+  PropertyKeyName,
+} from "./property-key";
 
 describe("on-demand-cost-calculation types", () => {
   describe("test that JSON to enum", () => {

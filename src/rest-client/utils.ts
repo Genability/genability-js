@@ -2,11 +2,10 @@ import {
   CustomerClass,
   TariffType,
   ChargeType,
-  PropertyData,
 } from '../types'
 
 export function encode(
-  val: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[] | PropertyData[]
+  val: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[]
 ): string {
   let encoded;
   if(Array.isArray(val)) {

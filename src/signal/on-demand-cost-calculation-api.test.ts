@@ -28,7 +28,7 @@ describe("CalculatedCost api", () => {
     request.propertyInputs = [];
     const response: PagedResponse<CalculatedCost> = await restClient.getCalculatedCosts(request);
     expect(response.status).toEqual("success");
-    expect(response.type).toEqual(ResourceTypes.CalculatedCost);
+    expect(response.type).toEqual(ResourceTypes.CALCULATED_COST);
     for(const cc of response.results) {
       expect(isCalculatedCost(cc)).toBeTruthy();
     }

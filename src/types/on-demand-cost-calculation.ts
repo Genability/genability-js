@@ -9,6 +9,7 @@ import {
   TransactionType
 } from "./tariff"
 import { DataType } from "./property-key"
+import { GenPropertyKey } from '../types';
 
 export enum Map {
   TOTAL_COST = <any>"totalCost",
@@ -22,13 +23,6 @@ export enum QuantityKey {
   CONSUMPTION = <any>"consumption",
   MINIMUM = <any>"minimum",
   DEMAND = <any>"demand"
-}
-
-export enum PropertyKeyName {
-  CONSUMPTION = <any>"consumption",
-  DEMAND = <any>"demand",
-  CITY_LIMITS = <any>"cityLimits",
-  HAS_ELECTRIC_VEHICLE = <any>"hasElectricVehicle"
 }
 
 export enum GroupBy {
@@ -93,14 +87,10 @@ export interface CalculatedCostItem {
   transactionType: TransactionType;
 }
 
-export interface PropertyData {
-  keyName: PropertyKeyName;
-  displayName: string;
-  description: string;
+export interface PropertyData extends GenPropertyKey {
   fromDateTime: string;
   toDateTime: string;
   period: Period;
-  dataType: DataType;
   dataValue: string;
   dataSeries: number[];
   duration: number;

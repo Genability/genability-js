@@ -19,8 +19,15 @@ export enum DataType {
   DEMAND = <any>"DEMAND"
 };
 
+export enum PropertyKeyName {
+  CONSUMPTION = <any>"consumption",
+  DEMAND = <any>"demand",
+  CITY_LIMITS = <any>"cityLimits",
+  HAS_ELECTRIC_VEHICLE = <any>"hasElectricVehicle"
+}
+
 export interface GenPropertyKey {
-  keyName: string;
+  keyName: PropertyKeyName;
   displayName: string;
   family: string;
   keyspace: string;

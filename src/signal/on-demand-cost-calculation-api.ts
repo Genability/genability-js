@@ -29,8 +29,8 @@ export class CalculatedCostApi extends RestApiClient {
     super(Constant.baseURL, credentials);
   }
 
-  public async getCalculatedCosts(request: GetCalculatedCostRequest): Promise<PagedResponse<CalculatedCost>> {
+  public async runCalculation(request: GetCalculatedCostRequest): Promise<CalculatedCost> {
     const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
-    return new PagedResponse(response.data);
+    return response.data.results[0];
   }
 }

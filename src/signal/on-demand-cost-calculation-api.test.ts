@@ -5,7 +5,6 @@ import {
 import { TariffApi, GetTariffsRequest } from './tariff-api'
 import { PagedResponse } from '../rest-client'
 import {
-  ResourceTypes,
   isCalculatedCost,
   CalculatedCost,
   Tariff
@@ -26,11 +25,7 @@ describe("CalculatedCost api", () => {
     request.toDateTime = '2020-05-11T00:00:00-07:00';
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
-    const response: PagedResponse<CalculatedCost> = await restClient.getCalculatedCosts(request);
-    expect(response.status).toEqual("success");
-    expect(response.type).toEqual(ResourceTypes.CALCULATED_COST);
-    for(const cc of response.results) {
-      expect(isCalculatedCost(cc)).toBeTruthy();
-    }
+    const response: CalculatedCost = await restClient.runCalculation(request);
+    expect(isCalculatedCost(response)).toBeTruthy();
   })
 });

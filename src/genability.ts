@@ -23,7 +23,7 @@ export class Genability {
   private _properties: PropertyKeyApi | undefined;
   private _lses: LoadServingEntityApi | undefined;
   private _tariffs: TariffApi | undefined;
-  private _ondemands: CalculatedCostApi | undefined;
+  private _calculation: CalculatedCostApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -69,10 +69,10 @@ export class Genability {
     return new GetTariffsRequest();
   }
 
-  public get ondemands(): CalculatedCostApi {
-    if(this._ondemands === undefined)
-      this._ondemands = new CalculatedCostApi(this.credentials)
-    return this._ondemands;
+  public get calculation(): CalculatedCostApi {
+    if(this._calculation === undefined)
+      this._calculation = new CalculatedCostApi(this.credentials)
+    return this._calculation;
   }
 
   public getCalculatedCostsRequest(): GetCalculatedCostRequest {

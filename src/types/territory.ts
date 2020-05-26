@@ -52,3 +52,13 @@ export interface Territory {
   deregCandi: boolean;
   centerPoint: Centerpoint;
 }
+
+/**
+ * User Defined Type Guard for Territory
+ */
+export function isTerritory(arg: any): arg is Territory {
+  return arg.territoryId !== undefined &&
+    arg.territoryName !== undefined &&
+    arg.lseId !== undefined &&
+    arg.lseName !== undefined;
+}

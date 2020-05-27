@@ -6,6 +6,7 @@ export {
   DataType,
   PrivacyFlag,
   GenPropertyKey,
+  CommonPropertyKeyNames,
   isGenPropertyKey
 } from './property-key';
 
@@ -31,6 +32,15 @@ export {
   Tariff,
   isTariff
 } from './tariff';
+
+export {
+  Map,
+  GroupBy,
+  CalculatedCost,
+  CalculatedCostItem,
+  PropertyData,
+  isCalculatedCost
+} from './on-demand-cost-calculation'
 
 export { Territory } from './territory';
 export { Season } from './season';

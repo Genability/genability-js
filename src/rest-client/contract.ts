@@ -2,7 +2,7 @@ import { encode } from './utils';
 import {
   CustomerClass,
   TariffType,
-  ChargeType,
+  ChargeType
 } from '../types'
 
 export interface Paged {

@@ -1,5 +1,6 @@
 import { echoHello } from "./index";
 import { Genability, types, restApis } from "./index";
+import { CommonPropertyKeyNames } from './types';
 
 describe("client", () => {
   it("should init cleanly", async () => {
@@ -7,7 +8,7 @@ describe("client", () => {
     const genability: Genability = Genability.configure({
       profileName: 'unitTest'
     });
-    const demandPk = await genability.properties.getPropertyKey('demand');
+    const demandPk = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
     expect(types.isGenPropertyKey(demandPk)).toBeTruthy;
     const request = new restApis.GetPropertyKeysRequest();
     request.dataType = types.DataType.DEMAND;

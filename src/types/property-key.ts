@@ -19,6 +19,13 @@ export enum DataType {
   DEMAND = <any>"DEMAND"
 };
 
+export const CommonPropertyKeyNames = {
+  CONSUMPTION: "consumption",
+  DEMAND: "demand",
+  CITY_LIMITS: "cityLimits",
+  HAS_ELECTRIC_VEHICLE: "hasElectricVehicle"
+}
+
 export interface GenPropertyKey {
   keyName: string;
   displayName: string;

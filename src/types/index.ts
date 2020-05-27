@@ -45,7 +45,7 @@ export {
 export {
   UsageType,
   ItemType,
-  Centerpoint,
+  CenterPoint,
   TerritoryItem,
   TerritoryLse,
   Territory,

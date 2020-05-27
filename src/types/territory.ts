@@ -14,11 +14,6 @@ export enum ItemType {
   ZIPCODE = <any>"ZIPCODE"
 }
 
-export enum Centerpoint {
-  LATITUDE = <any>"latitude",
-  LONGITUDE = <any>"longitude"
-}
-
 export interface TerritoryItem {
   territoryItemId: number;
   territoryType: string;
@@ -38,6 +33,11 @@ export interface TerritoryLse {
   generalCoverage: number;
 }
 
+export interface CenterPoint {
+  latitude: number;
+  longitude: number;
+}
+
 export interface Territory {
   territoryId: number;
   territoryName: string;
@@ -50,7 +50,7 @@ export interface Territory {
   territoryLses: TerritoryLse[];
   deregRes: boolean;
   deregCandi: boolean;
-  centerPoint: Centerpoint;
+  centerPoint: CenterPoint;
 }
 
 /**

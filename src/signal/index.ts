@@ -17,3 +17,8 @@ export {
   GetCalculatedCostRequest,
   CalculatedCostApi
 } from './on-demand-cost-calculation-api'
+
+export {
+  GetTerritoriesRequest,
+  TerritoryApi
+} from './territory-api'

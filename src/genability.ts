@@ -8,7 +8,9 @@ import {
   TariffApi,
   GetTariffsRequest,
   CalculatedCostApi,
-  GetCalculatedCostRequest
+  GetCalculatedCostRequest,
+  GetTerritoriesRequest,
+  TerritoryApi
 } from './signal';
 
 export class GenabilityConfig {
@@ -24,6 +26,7 @@ export class Genability {
   private _lses: LoadServingEntityApi | undefined;
   private _tariffs: TariffApi | undefined;
   private _calculation: CalculatedCostApi | undefined;
+  private _territories: TerritoryApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -77,5 +80,15 @@ export class Genability {
 
   public getCalculatedCostsRequest(): GetCalculatedCostRequest {
     return new GetCalculatedCostRequest();
+  }
+
+  public getTerritoriesRequest(): GetTerritoriesRequest {
+    return new GetTerritoriesRequest();
+  }
+
+  public get territories(): TerritoryApi {
+    if(this._territories === undefined)
+      this._territories = new TerritoryApi(this.credentials)
+    return this._territories;
   }
 }

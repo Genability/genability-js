@@ -24,6 +24,6 @@ export {
 } from './territory-api'
 
 export {
-  GetSeasonsRequest,
-  SeasonApi
+  GetSeasonGroupsRequest,
+  SeasonGroupApi
 } from './season-api'

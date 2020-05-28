@@ -6,7 +6,7 @@ import {
   TariffApi,
   CalculatedCostApi,
   TerritoryApi,
-  SeasonApi
+  SeasonGroupApi
 } from './signal';
 
 export class GenabilityConfig {
@@ -23,7 +23,7 @@ export class Genability {
   private _tariffs: TariffApi | undefined;
   private _calculation: CalculatedCostApi | undefined;
   private _territories: TerritoryApi | undefined;
-  private _seasons: SeasonApi | undefined;
+  private _seasons: SeasonGroupApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -69,9 +69,9 @@ export class Genability {
     return this._territories;
   }
 
-  public get seasons(): SeasonApi {
+  public get seasons(): SeasonGroupApi {
     if(this._seasons === undefined)
-      this._seasons = new SeasonApi(this.credentials)
+      this._seasons = new SeasonGroupApi(this.credentials)
     return this._seasons;
   }
 }

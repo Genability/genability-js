@@ -2,14 +2,9 @@ import * as credentials from './rest-client/credentials';
 import { RestApiCredentials } from './rest-client';
 import {
   PropertyKeyApi,
-  GetPropertyKeysRequest,
   LoadServingEntityApi,
-  GetLoadServingEntityRequest,
   TariffApi,
-  GetTariffsRequest,
   CalculatedCostApi,
-  GetCalculatedCostRequest,
-  GetTerritoriesRequest,
   TerritoryApi
 } from './signal';
 
@@ -48,18 +43,10 @@ export class Genability {
     return this._properties;
   }
 
-  public getPropertyKeyRequest(): GetPropertyKeysRequest {
-    return new GetPropertyKeysRequest();
-  }
-
   public get lses(): LoadServingEntityApi {
     if(this._lses === undefined)
       this._lses = new LoadServingEntityApi(this.credentials)
     return this._lses;
-  }
-
-  public getLseRequest(): GetLoadServingEntityRequest {
-    return new GetLoadServingEntityRequest();
   }
 
   public get tariffs(): TariffApi {
@@ -68,22 +55,10 @@ export class Genability {
     return this._tariffs;
   }
 
-  public getTariffsRequest(): GetTariffsRequest {
-    return new GetTariffsRequest();
-  }
-
   public get calculation(): CalculatedCostApi {
     if(this._calculation === undefined)
       this._calculation = new CalculatedCostApi(this.credentials)
     return this._calculation;
-  }
-
-  public getCalculatedCostsRequest(): GetCalculatedCostRequest {
-    return new GetCalculatedCostRequest();
-  }
-
-  public getTerritoriesRequest(): GetTerritoriesRequest {
-    return new GetTerritoriesRequest();
   }
 
   public get territories(): TerritoryApi {

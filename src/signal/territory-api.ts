@@ -15,7 +15,6 @@ import {
 export class GetTerritoriesRequest extends BasePagedRequest {
   public lseId?: number;
   public masterTariffId?: number;
-  public zipCode?: string;
   public postCode?: string;
   public country?: string;
   public address?: string;
@@ -28,7 +27,6 @@ export class GetTerritoriesRequest extends BasePagedRequest {
   addParams(addParam: AddParamCallback): void {
     addParam('lseId', this.lseId);
     addParam('masterTariffId', this.masterTariffId);
-    addParam('zipCode', this.zipCode);
     addParam('postCode', this.postCode);
     addParam('country', this.country);
     addParam('address', this.address);
@@ -55,4 +53,3 @@ export class TerritoryApi extends RestApiClient {
     return response.data.results[0];
   }
 }
-

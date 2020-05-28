@@ -22,3 +22,8 @@ export {
   GetTerritoriesRequest,
   TerritoryApi
 } from './territory-api'
+
+export {
+  GetSeasonsRequest,
+  SeasonApi
+} from './season-api'

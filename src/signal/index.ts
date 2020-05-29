@@ -22,3 +22,5 @@ export {
   GetTerritoriesRequest,
   TerritoryApi
 } from './territory-api'
+
+export { TimeOfUseApi } from './time-of-use-api'

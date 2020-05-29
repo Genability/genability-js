@@ -53,4 +53,8 @@ export {
 } from './territory';
 
 export { Season } from './season';
-export { TimeOfUse } from './time-of-use';
+export {
+  TimeOfUse,
+  TimeOfUsePeriod,
+  Interval
+} from './time-of-use';

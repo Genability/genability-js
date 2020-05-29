@@ -2,13 +2,15 @@ import {
   RestApiClient,
   RestApiCredentials,
   AddParamCallback,
-  Constant
+  Constant,
+  BasePagedRequest,
+  PagedResponse
 } from '../rest-client';
 import {
   SeasonGroup,
 } from '../types';
 
-export class GetSeasonGroupsRequest {
+export class GetSeasonGroupsRequest extends BasePagedRequest {
   public lseId?: number;
 
   addParams(addParam: AddParamCallback): void {
@@ -21,8 +23,8 @@ export class SeasonGroupApi extends RestApiClient {
     super(Constant.baseURL, credentials);
   }
 
-  public async getSeasonGroups(request: GetSeasonGroupsRequest): Promise<SeasonGroup> {
+  public async getSeasonGroups(request: GetSeasonGroupsRequest): Promise<PagedResponse<SeasonGroup>> {
     const response = await this.axiosInstance.get(`/rest/public/seasons`, { params: request } );
-    return new response.data;
+    return new PagedResponse(response.data);
   }
 }

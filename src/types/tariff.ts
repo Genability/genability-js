@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { GenPropertyKey } from '../types';
 import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
@@ -7,76 +5,76 @@ import { Season } from './season';
 import { TimeOfUse } from './time-of-use';
 
 export enum TariffType {
-  DEFAULT = <any>"DEFAULT",
-  ALTERNATIVE = <any>"ALTERNATIVE",
-  RIDER = <any>"RIDER",
-  OPTIONAL_EXTRA = <any>"OPTIONAL_EXTRA",
+  DEFAULT = "DEFAULT",
+  ALTERNATIVE = "ALTERNATIVE",
+  RIDER = "RIDER",
+  OPTIONAL_EXTRA = "OPTIONAL_EXTRA",
 }
 
 export enum CustomerClass {
-  GENERAL = <any>"GENERAL",
-  RESIDENTIAL = <any>"RESIDENTIAL",
-  SPECIAL_USE = <any>"SPECIAL_USE",
-  PROPOSED = <any>"PROPOSED",
+  GENERAL = "GENERAL",
+  RESIDENTIAL = "RESIDENTIAL",
+  SPECIAL_USE = "SPECIAL_USE",
+  PROPOSED = "PROPOSED",
 }
 
 export enum ChargeType {
-  FIXED_PRICE = <any>"FIXED_PRICE",
-  CONSUMPTION_BASED = <any>"CONSUMPTION_BASED",
-  DEMAND_BASED = <any>"DEMAND_BASED",
-  QUANTITY = <any>"QUANTITY",
-  MINIMUM = <any>"MINIMUM",
-  TAX = <any>"TAX",
-  NET_EXCESS_GENERATION = <any>"NET_EXCESS_GENERATION",
+  FIXED_PRICE = "FIXED_PRICE",
+  CONSUMPTION_BASED = "CONSUMPTION_BASED",
+  DEMAND_BASED = "DEMAND_BASED",
+  QUANTITY = "QUANTITY",
+  MINIMUM = "MINIMUM",
+  TAX = "TAX",
+  NET_EXCESS_GENERATION = "NET_EXCESS_GENERATION",
 }
 
 export enum ChargeClass {
-  SUPPLY = <any>"SUPPLY",
-  TRANSMISSION = <any>"TRANSMISSION",
-  DISTRIBUTION = <any>"DISTRIBUTION",
-  TAX = <any>"TAX",
-  CONTRACTED = <any>"CONTRACTED",
-  USER_ADJUSTED = <any>"USER_ADJUSTED",
-  AFTER_TAX = <any>"AFTER_TAX",
-  OTHER = <any>"OTHER",
-  NON_BYPASSABLE = <any>"NON_BYPASSABLE",
+  SUPPLY = "SUPPLY",
+  TRANSMISSION = "TRANSMISSION",
+  DISTRIBUTION = "DISTRIBUTION",
+  TAX = "TAX",
+  CONTRACTED = "CONTRACTED",
+  USER_ADJUSTED = "USER_ADJUSTED",
+  AFTER_TAX = "AFTER_TAX",
+  OTHER = "OTHER",
+  NON_BYPASSABLE = "NON_BYPASSABLE",
 }
 
 export enum ChargePeriod {
-  DAILY = <any>"DAILY",
-  MONTHLY = <any>"MONTHLY",
-  QUARTERLY = <any>"QUARTERLY",
-  ANNUALLY = <any>"ANNUALLY",
+  DAILY = "DAILY",
+  MONTHLY = "MONTHLY",
+  QUARTERLY = "QUARTERLY",
+  ANNUALLY = "ANNUALLY",
 }
 
 export enum TransactionType {
-  BUY = <any>"BUY",
-  SELL = <any>"SELL",
-  NET = <any>"NET",
-  BUY_IMPORT = <any>"BUY_IMPORT",
-  SELL_EXPORT = <any>"SELL_EXPORT",
+  BUY = "BUY",
+  SELL = "SELL",
+  NET = "NET",
+  BUY_IMPORT = "BUY_IMPORT",
+  SELL_EXPORT = "SELL_EXPORT",
 }
 
 export enum PropertyType {
-  APPLICABILITY = <any>"APPLICABILITY",
-  RATE_CRITERIA = <any>"RATE_CRITERIA",
-  BENEFIT = <any>"BENEFIT",
-  DATA_REPUTATION = <any>"DATA_REPUTATION",
-  SERVICE_TERMS = <any>"SERVICE_TERMS",
+  APPLICABILITY = "APPLICABILITY",
+  RATE_CRITERIA = "RATE_CRITERIA",
+  BENEFIT = "BENEFIT",
+  DATA_REPUTATION = "DATA_REPUTATION",
+  SERVICE_TERMS = "SERVICE_TERMS",
 }
 
 export enum Period {
-  ON_PEAK = <any>"ON_PEAK",
-  PARTIAL_PEAK = <any>"PARTIAL_PEAK",
-  OFF_PEAK = <any>"OFF_PEAK",
-  CRITICAL_PEAK = <any>"CRITICAL_PEAK",
+  ON_PEAK = "ON_PEAK",
+  PARTIAL_PEAK = "PARTIAL_PEAK",
+  OFF_PEAK = "OFF_PEAK",
+  CRITICAL_PEAK = "CRITICAL_PEAK",
 }
 
 export enum RateUnit {
-  COST_PER_UNIT = <any>"COST_PER_UNIT",
-  PERCENTAGE = <any>"PERCENTAGE",
-  BLOCK = <any>"BLOCK",
-  BLOCK_SELL_BACK = <any>"BLOCK_SELL_BACK",
+  COST_PER_UNIT = "COST_PER_UNIT",
+  PERCENTAGE = "PERCENTAGE",
+  BLOCK = "BLOCK",
+  BLOCK_SELL_BACK = "BLOCK_SELL_BACK",
 }
 
 export interface Tariff {
@@ -172,7 +170,7 @@ export interface TariffProperty extends GenPropertyKey {
 /**
  * User Defined Type Guard for Tariff
  */
-export function isTariff(arg: any): arg is Tariff {
+export function isTariff(arg: Tariff): arg is Tariff {
   return arg.tariffId !== undefined &&
     arg.masterTariffId !== undefined &&
     arg.tariffCode !== undefined &&

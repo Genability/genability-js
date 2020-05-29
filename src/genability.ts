@@ -2,13 +2,10 @@ import * as credentials from './rest-client/credentials';
 import { RestApiCredentials } from './rest-client';
 import {
   PropertyKeyApi,
-  GetPropertyKeysRequest,
   LoadServingEntityApi,
-  GetLoadServingEntityRequest,
   TariffApi,
-  GetTariffsRequest,
   CalculatedCostApi,
-  GetCalculatedCostRequest
+  TerritoryApi
 } from './signal';
 
 export class GenabilityConfig {
@@ -24,6 +21,7 @@ export class Genability {
   private _lses: LoadServingEntityApi | undefined;
   private _tariffs: TariffApi | undefined;
   private _calculation: CalculatedCostApi | undefined;
+  private _territories: TerritoryApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -45,18 +43,10 @@ export class Genability {
     return this._properties;
   }
 
-  public getPropertyKeyRequest(): GetPropertyKeysRequest {
-    return new GetPropertyKeysRequest();
-  }
-
   public get lses(): LoadServingEntityApi {
     if(this._lses === undefined)
       this._lses = new LoadServingEntityApi(this.credentials)
     return this._lses;
-  }
-
-  public getLseRequest(): GetLoadServingEntityRequest {
-    return new GetLoadServingEntityRequest();
   }
 
   public get tariffs(): TariffApi {
@@ -65,17 +55,15 @@ export class Genability {
     return this._tariffs;
   }
 
-  public getTariffsRequest(): GetTariffsRequest {
-    return new GetTariffsRequest();
-  }
-
   public get calculation(): CalculatedCostApi {
     if(this._calculation === undefined)
       this._calculation = new CalculatedCostApi(this.credentials)
     return this._calculation;
   }
 
-  public getCalculatedCostsRequest(): GetCalculatedCostRequest {
-    return new GetCalculatedCostRequest();
+  public get territories(): TerritoryApi {
+    if(this._territories === undefined)
+      this._territories = new TerritoryApi(this.credentials)
+    return this._territories;
   }
 }

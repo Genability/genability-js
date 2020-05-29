@@ -16,8 +16,8 @@ export class GetLoadServingEntityRequest extends BasePagedRequest {
   public postCode?: string;
   public country?: string;
   public fields?: string;
-  public serviceTypes?: ServiceType;
-  public ownerships?: Ownership;
+  public serviceTypes?: ServiceType[];
+  public ownerships?: Ownership[];
 
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);

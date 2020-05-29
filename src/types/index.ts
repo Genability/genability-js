@@ -42,6 +42,15 @@ export {
   isCalculatedCost
 } from './on-demand-cost-calculation'
 
-export { Territory } from './territory';
+export {
+  UsageType,
+  ItemType,
+  CenterPoint,
+  TerritoryItem,
+  TerritoryLse,
+  Territory,
+  isTerritory
+} from './territory';
+
 export { Season } from './season';
 export { TimeOfUse } from './time-of-use';

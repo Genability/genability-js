@@ -1,7 +1,6 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  PagedResponse,
   Constant
 } from '../rest-client';
 

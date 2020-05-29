@@ -31,9 +31,9 @@ export interface LoadServingEntity {
   name: string;
   code: string;
   websiteHome: string;
-  offeringType: string;
-  ownership: string;
-  serviceTypes: string;
+  offeringType: OfferingType;
+  ownership: Ownership;
+  serviceTypes: ServiceType[];
   totalRevenues: number;
   totalSales: number;
   totalCustomers: number;

@@ -6,7 +6,8 @@ import {
 
 import {
   TimeOfUse,
-  TimeOfUsePeriod
+  TimeOfUsePeriod,
+  Interval
 } from '../types';
 
 export class TimeOfUseApi extends RestApiClient {
@@ -21,6 +22,11 @@ export class TimeOfUseApi extends RestApiClient {
 
   public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<TimeOfUsePeriod> {
     const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}/${touGroupId}`);
+    return response.data.results[0];
+  }
+
+  public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<Interval> {
+    const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}/${touGroupId}/intervals`);
     return response.data.results[0];
   }
 }

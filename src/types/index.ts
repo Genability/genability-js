@@ -56,5 +56,9 @@ export { Season } from './season';
 export {
   TimeOfUse,
   TimeOfUsePeriod,
-  Interval
+  Interval,
+  isInterval,
+  isPeriod,
+  isTimeOfUse,
+  isTimeOfUsePeriod
 } from './time-of-use';

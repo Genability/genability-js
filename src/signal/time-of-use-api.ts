@@ -1,7 +1,8 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  Constant
+  Constant,
+  PagedResponse
 } from '../rest-client';
 
 import {
@@ -15,9 +16,9 @@ export class TimeOfUseApi extends RestApiClient {
     super(Constant.baseURL, credentials);
   }
 
-  public async getTimeOfUse(touId: number): Promise<TimeOfUse> {
+  public async getTimeOfUse(touId: number): Promise<PagedResponse<TimeOfUse>> {
     const response = await this.axiosInstance.get(`/rest/public/timeofuses/${touId}`);
-    return response.data.results[0];
+    return new PagedResponse(response.data);
   }
 
   public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<TimeOfUsePeriod> {
@@ -25,8 +26,8 @@ export class TimeOfUseApi extends RestApiClient {
     return response.data.results[0];
   }
 
-  public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<Interval> {
+  public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<PagedResponse<Interval>> {
     const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}/${touGroupId}/intervals`);
-    return response.data.results[0];
+    return new PagedResponse(response.data);
   }
 }

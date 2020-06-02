@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 export enum UsageType {
-  SERVICE = <any>"SERVICE",
-  TARIFF = <any>"TARIFF",
-  CLIMATE_ZONE = <any>"CLIMATE_ZONE",
-  UTILITY_CLIMATE_ZONE = <any>"UTILITY_CLIMATE_ZONE",
+  SERVICE = "SERVICE",
+  TARIFF = "TARIFF",
+  CLIMATE_ZONE = "CLIMATE_ZONE",
+  UTILITY_CLIMATE_ZONE = "UTILITY_CLIMATE_ZONE",
 }
 
 export enum ItemType {
-  STATE = <any>"STATE",
-  COUNTY = <any>"COUNTY",
-  CITY = <any>"CITY",
-  ZIPCODE = <any>"ZIPCODE"
+  STATE = "STATE",
+  COUNTY = "COUNTY",
+  CITY = "CITY",
+  ZIPCODE = "ZIPCODE"
 }
 
 export interface TerritoryItem {
@@ -56,7 +54,7 @@ export interface Territory {
 /**
  * User Defined Type Guard for Territory
  */
-export function isTerritory(arg: any): arg is Territory {
+export function isTerritory(arg: Territory): arg is Territory {
   return arg.territoryId !== undefined &&
     arg.territoryName !== undefined &&
     arg.lseId !== undefined &&

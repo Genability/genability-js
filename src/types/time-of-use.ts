@@ -23,7 +23,6 @@ export interface TimeOfUse {
   touGroupId: number;
   lseId: number;
   calendarId: number;
-  // TODO add Season - pull update from develop after merge.
   season: string;
   isDynamic: boolean;
   touPeriods: Period[];

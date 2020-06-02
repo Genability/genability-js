@@ -17,7 +17,6 @@ const restClient = new TimeOfUseApi(credentials);
 
 describe("TimeOfUse api", () => {
   it("should returns a time of use", async () => {
-    // Change hardcoded touId
     const response: PagedResponse<TimeOfUse> = await restClient.getTimeOfUse(1908);
     expect(response.status).toEqual("success");
     expect(response.type).toEqual(ResourceTypes.TIME_OF_USE);

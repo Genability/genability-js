@@ -1,21 +1,21 @@
 import { 
   Season,
-  SeasonName,
+  PredominanceRule,
   SeasonGroup,
   isSeasonGroup
 } from './season';
 
 describe("Season types", () => {
-  it("works for SeasonName", () => {
+  it("works for PredominanceRule", () => {
     const seasonJson = '{\
       "seasonId": 1,\
       "seasonGroupId": 3,\
-      "seasonName": "Summer"\
+      "fromEdgePredominance": "PREDOMINANT"\
       }';
     const season: Season = JSON.parse(seasonJson);
     expect(season.seasonId).toEqual(1);
     expect(season.seasonGroupId).toEqual(3);
-    expect(season.seasonName).toEqual(SeasonName.SUMMER);
+    expect(season.fromEdgePredominance).toEqual(PredominanceRule.PREDOMINANT);
   })
   it("works for Season", () => {
     const seasonJson = '{\

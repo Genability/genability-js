@@ -5,7 +5,8 @@ import {
   LoadServingEntityApi,
   TariffApi,
   CalculatedCostApi,
-  TerritoryApi
+  TerritoryApi,
+  TimeOfUseApi
 } from './signal';
 
 export class GenabilityConfig {
@@ -22,6 +23,7 @@ export class Genability {
   private _tariffs: TariffApi | undefined;
   private _calculation: CalculatedCostApi | undefined;
   private _territories: TerritoryApi | undefined;
+  private _timeofuses: TimeOfUseApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -65,5 +67,11 @@ export class Genability {
     if(this._territories === undefined)
       this._territories = new TerritoryApi(this.credentials)
     return this._territories;
+  }
+
+  public get timeofuses(): TimeOfUseApi {
+    if(this._timeofuses === undefined)
+      this._timeofuses = new TimeOfUseApi(this.credentials)
+    return this._timeofuses;
   }
 }

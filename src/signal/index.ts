@@ -29,3 +29,8 @@ export {
 } from './season-api'
 
 export { TimeOfUseApi } from './time-of-use-api'
+
+export {
+  GetBaselinesBestRequest,
+  TypicalBaselineApi
+} from './typical-baseline-api'

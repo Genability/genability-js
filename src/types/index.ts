@@ -52,7 +52,8 @@ export {
   isTerritory
 } from './territory';
 
-export { Season } from './season';
+export { PredominanceRule, SeasonGroup, isSeasonGroup, isSeason } from './season';
+
 export {
   TimeOfUse,
   TimeOfUsePeriod,

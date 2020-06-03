@@ -6,7 +6,8 @@ import {
   TariffApi,
   CalculatedCostApi,
   TerritoryApi,
-  SeasonGroupApi
+  SeasonGroupApi,
+  TimeOfUseApi
 } from './signal';
 
 export class GenabilityConfig {
@@ -24,6 +25,7 @@ export class Genability {
   private _calculation: CalculatedCostApi | undefined;
   private _territories: TerritoryApi | undefined;
   private _seasons: SeasonGroupApi | undefined;
+  private _timeofuses: TimeOfUseApi | undefined;
 
   private constructor(config?: Partial<GenabilityConfig>)
   {
@@ -73,5 +75,10 @@ export class Genability {
     if(this._seasons === undefined)
       this._seasons = new SeasonGroupApi(this.credentials)
     return this._seasons;
+  }
+  public get timeofuses(): TimeOfUseApi {
+    if(this._timeofuses === undefined)
+      this._timeofuses = new TimeOfUseApi(this.credentials)
+    return this._timeofuses;
   }
 }

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
-
 import {
   ChargeType,
   RateUnit,
@@ -11,27 +8,27 @@ import {
 import { GenPropertyKey } from '../types';
 
 export enum Map {
-  TOTAL_COST = <any>"totalCost",
-  ADJUSTED_TOTAL_COST = <any>"adjustedTotalCost",
-  KWH = <any>"kWh",
-  KW = <any>"kW"
+  TOTAL_COST = "totalCost",
+  ADJUSTED_TOTAL_COST = "adjustedTotalCost",
+  KWH = "kWh",
+  KW = "kW"
 }
 
 export enum GroupBy {
-  ALL = <any>"ALL",
-  YEAR = <any>"YEAR",
-  MONTH = <any>"MONTH",
-  DAY = <any>"DAY",
-  HOUR = <any>"HOUR",
-  QTRHOUR = <any>"QTRHOUR"
+  ALL = "ALL",
+  YEAR = "YEAR",
+  MONTH = "MONTH",
+  DAY = "DAY",
+  HOUR = "HOUR",
+  QTRHOUR = "QTRHOUR"
 }
 
 export enum DetailLevel {
-  TOTAL = <any>"TOTAL",
-  CHARGE_TYPE = <any>"CHARGE_TYPE",
-  CHARGE_TYPE_AND_TOU = <any>"CHARGE_TYPE_AND_TOU",
-  RATE = <any>"RATE",
-  ALL = <any>"ALL"
+  TOTAL = "TOTAL",
+  CHARGE_TYPE = "CHARGE_TYPE",
+  CHARGE_TYPE_AND_TOU = "CHARGE_TYPE_AND_TOU",
+  RATE = "RATE",
+  ALL = "ALL"
 }
 
 export interface CalculatedCost {
@@ -95,7 +92,7 @@ export interface PropertyData extends GenPropertyKey {
 /**
  * User Defined Type Guard for CalculatedCost
  */
-export function isCalculatedCost(arg: any): arg is CalculatedCost {
+export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
   return arg.masterTariffId !== undefined &&
     arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined &&

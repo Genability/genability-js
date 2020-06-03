@@ -27,3 +27,5 @@ export {
   GetSeasonGroupsRequest,
   SeasonGroupApi
 } from './season-api'
+
+export { TimeOfUseApi } from './time-of-use-api'

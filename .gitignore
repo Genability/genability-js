@@ -114,4 +114,7 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
+# act
+.actrc
+
 .DS_Store

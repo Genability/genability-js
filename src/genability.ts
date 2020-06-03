@@ -76,6 +76,7 @@ export class Genability {
       this._seasons = new SeasonGroupApi(this.credentials)
     return this._seasons;
   }
+
   public get timeofuses(): TimeOfUseApi {
     if(this._timeofuses === undefined)
       this._timeofuses = new TimeOfUseApi(this.credentials)

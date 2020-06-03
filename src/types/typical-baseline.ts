@@ -36,10 +36,13 @@ export interface IntervalInfo {
   fromDateTime: string;
   toDateTime: string;
   duration: number;
-  "kWh.quantityAmount": number;
-  "kWh.rateAmount": number;
-  "kW.quantityAmount": number;
-  "kW.rateAmount": number;
+  kWh: QuantityRateAmount;
+  kW: QuantityRateAmount;
+}
+
+export interface QuantityRateAmount {
+  quantityAmount: number;
+  rateAmount: number;
 }
 
 export interface Factor {
@@ -65,7 +68,7 @@ export interface BuildingType {
 export function isBaseline(arg: Baseline): arg is Baseline {
   return arg.baselineId !== undefined &&
     arg.name !== undefined &&
-    arg.buildingType !== undefined &&
-    arg.climateZone !== undefined &&
-    arg.factors !== undefined;
+    Object.keys(arg.buildingType).length !== 0 &&
+    Object.keys(arg.climateZone).length !== 0 &&
+    Object.keys(arg.factors).length !== 0;
 }

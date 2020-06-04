@@ -20,7 +20,7 @@ export class GetBaselinesBestRequest extends BasePagedRequest {
   public buildingType?: string;
   public serviceType?: ServiceType;
   public buildingArea?: number;
-  public buildingVintage?: ServiceType;
+  public buildingVintage?: string;
   public excludeMeasures?: boolean;
   public measuresUnit?: MeasureUnit;
   public groupBy?: string;
@@ -58,7 +58,7 @@ export class TypicalBaselineApi extends RestApiClient {
   }
 
   public async getBaselinesBest(request: GetBaselinesBestRequest): Promise<PagedResponse<Baseline>> {
-    const response = await this.axiosInstance.get(`/rest/v1/typicals/baselines/best`, { params: request } );
+    const response = await this.axiosInstance.get('/rest/v1/typicals/baselines/best', { params: request } );
     return new PagedResponse(response.data);
   }
 }

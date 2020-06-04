@@ -7,4 +7,5 @@ export class ResourceTypes {
   public static readonly SEASON_GROUP = "SeasonGroup";
   public static readonly TIME_OF_USE = "TimeOfUse";
   public static readonly TIME_OF_USE_INTERVALS = "TimeOfUseIntervals";
+  public static readonly BASELINE = "Baseline";
 }

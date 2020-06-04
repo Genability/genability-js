@@ -65,6 +65,11 @@ export {
 } from './time-of-use';
 
 export {
+  Lookup,
+  isLookup
+} from './lookup'
+
+export {
   CalendarType,
   Calendar,
   DateDefinitionType,

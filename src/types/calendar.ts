@@ -43,3 +43,13 @@ export interface CalendarDate {
   calendarEventId: number;
   lseId: number;
 }
+
+/**
+ * User Defined Type Guard for Calendar
+ */
+export function isCalendar(arg: Calendar): arg is Calendar {
+  return arg.calendarId !== undefined &&
+    arg.calendarName !== undefined &&
+    arg.calendarType !== undefined &&
+    arg.lseId !== undefined
+}

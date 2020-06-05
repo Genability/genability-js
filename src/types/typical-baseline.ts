@@ -36,13 +36,17 @@ export interface IntervalInfo {
   fromDateTime: string;
   toDateTime: string;
   duration: number;
-  kWh: QuantityRateAmount;
-  kW: QuantityRateAmount;
+  kWh: Measure;
+  kW: Measure;
 }
 
-export interface QuantityRateAmount {
-  quantityAmount: number;
-  rateAmount: number;
+export interface Measure {
+  quantityAmount?: number;
+  quantityAccuracy?: number;
+  rateAmount?: number;
+  rateAccuracy?: number;
+  costAmount?: number;
+  costAccuracy?: number;
 }
 
 export interface Factor {

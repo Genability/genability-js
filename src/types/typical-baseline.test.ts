@@ -3,7 +3,7 @@ import {
   Baseline,
   BaselineMeasure,
   IntervalInfo,
-  QuantityRateAmount,
+  Measure,
   Factor,
   BuildingType,
   isBaseline
@@ -31,10 +31,11 @@ describe("TypicalBaseline types", () => {
     expect(intervalInfo).toHaveProperty('toDateTime', '2014-02-01T00:00:00.000Z');
     expect(intervalInfo).toHaveProperty('duration', 2678400000);
   })
-  it("works for QuantityRateAmount", () => {
-    const quantityRateAmount: QuantityRateAmount = JSON.parse('{"quantityAmount": 1, "rateAmount": 2}');
-    expect(quantityRateAmount).toHaveProperty('quantityAmount', 1);
-    expect(quantityRateAmount).toHaveProperty('rateAmount', 2);
+  it("works for Measure", () => {
+    const measure: Measure = JSON.parse('{"quantityAmount": 1, "rateAmount": 2, "costAccuracy": 99}');
+    expect(measure).toHaveProperty('quantityAmount', 1);
+    expect(measure).toHaveProperty('rateAmount', 2);
+    expect(measure).toHaveProperty('costAccuracy', 99);
   })
   it("works for Factor", () => {
     const factor: Factor = JSON.parse('{\

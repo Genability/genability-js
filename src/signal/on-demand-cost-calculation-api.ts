@@ -1,7 +1,7 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  Constant
+  GenabilityConfig,
 } from '../rest-client';
 
 import {
@@ -25,7 +25,8 @@ export class GetCalculatedCostRequest {
 
 export class CalculatedCostApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async runCalculation(request: GetCalculatedCostRequest): Promise<CalculatedCost> {

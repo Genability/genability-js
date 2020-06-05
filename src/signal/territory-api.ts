@@ -4,7 +4,7 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   UsageType,
@@ -40,7 +40,8 @@ export class GetTerritoriesRequest extends BasePagedRequest {
 
 export class TerritoryApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getTerritories(request: GetTerritoriesRequest): Promise<PagedResponse<Territory>> {

@@ -1,5 +1,11 @@
 import * as credentials from './rest-client/credentials';
-import { RestApiCredentials } from './rest-client';
+
+import {
+  RestApiCredentials,
+  GenabilityConfig,
+  GenabilityConfigOptions
+} from './rest-client';
+
 import {
   PropertyKeyApi,
   LoadServingEntityApi,
@@ -9,10 +15,6 @@ import {
   SeasonGroupApi,
   TimeOfUseApi
 } from './signal';
-
-export class GenabilityConfig {
-  profileName?: string;
-}
 
 export class Genability {
   private static _instance: Genability;
@@ -27,16 +29,17 @@ export class Genability {
   private _seasons: SeasonGroupApi | undefined;
   private _timeofuses: TimeOfUseApi | undefined;
 
-  private constructor(config?: Partial<GenabilityConfig>)
+  private constructor(config?: Partial<GenabilityConfigOptions>)
   {
     if (credentials.credentialsInEnv()) {
       this.credentials = credentials.credentialsFromEnv();
       return;
     }
     this.credentials = credentials.credentialsFromFile(config?.profileName);
+    GenabilityConfig.config(config);
   }
 
-  public static configure(config?: Partial<GenabilityConfig>): Genability
+  public static configure(config?: Partial<GenabilityConfigOptions>): Genability
   {
     return this._instance || (this._instance = new this(config));
   }

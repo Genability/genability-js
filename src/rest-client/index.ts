@@ -20,5 +20,6 @@ export {
 } from './utils';
 
 export {
-  Constant
-} from './constants'
+  GenabilityConfigOptions,
+  GenabilityConfig,
+} from './config'

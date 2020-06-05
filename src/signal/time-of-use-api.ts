@@ -1,7 +1,7 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  Constant,
+  GenabilityConfig,
   PagedResponse
 } from '../rest-client';
 
@@ -13,7 +13,8 @@ import {
 
 export class TimeOfUseApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getTimeOfUse(touId: number): Promise<PagedResponse<TimeOfUse>> {

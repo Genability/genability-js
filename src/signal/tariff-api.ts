@@ -4,7 +4,7 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   Tariff, CustomerClass, TariffType, ChargeType,
@@ -30,7 +30,8 @@ export class GetTariffsRequest extends BasePagedRequest {
 
 export class TariffApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getTariffs(request: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
@@ -43,4 +44,3 @@ export class TariffApi extends RestApiClient {
     return response.data.results[0];
   }
 }
-

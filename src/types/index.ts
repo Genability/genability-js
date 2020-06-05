@@ -66,7 +66,9 @@ export {
 
 export {
   Lookup,
-  isLookup
+  isLookup,
+  LookupPropertyKey,
+  isLookupPropertyKey
 } from './lookup'
 
 export {

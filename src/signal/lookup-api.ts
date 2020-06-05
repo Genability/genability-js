@@ -7,7 +7,7 @@ import {
   PagedResponse
 } from '../rest-client';
 import {
-  Lookup,
+  Lookup, LookupPropertyKey,
 } from '../types';
 
 export class GetLookupsRequest extends BasePagedRequest {
@@ -29,18 +29,18 @@ export class LookupApi extends RestApiClient {
     super(Constant.baseURL, credentials);
   }
 
-  public async getLookups(request: GetLookupsRequest): Promise<PagedResponse<Lookup>> {
+  public async getLookups(request?: GetLookupsRequest): Promise<PagedResponse<Lookup>> {
     const response = await this.axiosInstance.get('/rest/public/properties/lookups', { params: request } );
     return new PagedResponse(response.data);
   }
 
-  public async getPropertyLookups(propertyKey: string, request: GetLookupsRequest): Promise<PagedResponse<Lookup>> {
+  public async getPropertyLookups(propertyKey: string, request?: GetLookupsRequest): Promise<PagedResponse<Lookup>> {
     const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/lookups`, { params: request } );
     return new PagedResponse(response.data);
   }
 
-  public async getPropertyLookupStats(propertyKey: string): Promise<PagedResponse<Lookup>> {
+  public async getPropertyLookupStats(propertyKey: string): Promise<LookupPropertyKey> {
     const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/stats`);
-    return new PagedResponse(response.data);
+    return response.data.results[0];
   }
 }

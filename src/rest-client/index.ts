@@ -7,6 +7,8 @@ export {
   Paged,
   Searchable,
   isSearchable,
+  SortOrder,
+  isSortable,
   QueryStringified,
   isQueryStringified,
   Response,

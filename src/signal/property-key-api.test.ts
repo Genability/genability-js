@@ -64,7 +64,7 @@ describe("GetPropertyKeys request", () => {
       request.entityType = 'LSE';
       request.propertyDataType = PropertyDataType.DEMAND;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
+      expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&propertyDataType=DEMAND');
     })
     it("handles both pagination via constructor", async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest({

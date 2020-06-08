@@ -3,7 +3,7 @@ export {
 } from './resource-types'
 
 export { 
-  DataType,
+  PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
   CommonPropertyKeyNames,
@@ -25,7 +25,7 @@ export {
   ChargeClass,
   ChargePeriod,
   TransactionType,
-  PropertyType,
+  TariffPropertyType,
   Period,
   RateUnit,
   TariffProperty,

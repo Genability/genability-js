@@ -11,7 +11,7 @@ describe("client", () => {
     const demandPk = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
     expect(types.isGenPropertyKey(demandPk)).toBeTruthy;
     const request = new restApis.GetPropertyKeysRequest();
-    request.dataType = types.DataType.DEMAND;
+    request.propertyDataType = types.PropertyDataType.DEMAND;
     const demandPks = await genability.properties.getPropertyKeys(request);
     expect(demandPks.results).toHaveLength(25);
   })

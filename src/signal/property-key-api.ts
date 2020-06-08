@@ -17,7 +17,7 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
   public family?: string;
   public entityId?: number;
   public entityType?: string;
-  public propertyDataType?: PropertyDataType;
+  public dataType?: PropertyDataType;
 
   addParams(addParam: AddParamCallback): void {
     addParam('excludeGlobal', this.excludeGlobal);
@@ -25,7 +25,7 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
     addParam('family', this.family);
     addParam('entityId', this.entityId);
     addParam('entityType', this.entityType);
-    addParam('propertyDataType', this.propertyDataType);
+    addParam('dataType', this.dataType);
   }
 }
 

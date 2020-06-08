@@ -4,13 +4,13 @@ import {
 } from './tariff-api';
 import { PagedResponse } from '../rest-client'
 import {
-  ResourceTypes,
   TariffType,
   CustomerClass,
   ChargeType,
   Tariff,
   isTariff
-} from '../types';
+} from '../types/tariff';
+import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

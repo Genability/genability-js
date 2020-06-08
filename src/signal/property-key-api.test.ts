@@ -3,20 +3,22 @@ import {
   GetPropertyKeysRequest 
 } from './property-key-api';
 import { PagedResponse } from '../rest-client'
+
 import {
-  ResourceTypes,
   GenPropertyKey,
   PropertyDataType,
   CommonPropertyKeyNames,
   isGenPropertyKey
-} from '../types';
+} from '../types/property-key';
+
+import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new PropertyKeyApi(credentials);
 
 const demandPk: GenPropertyKey = {
-  propertyDataType: PropertyDataType.DEMAND, 
+  dataType: PropertyDataType.DEMAND, 
   description: "Quantity in kW of load that is used for a given period", 
   displayName: "Demand (kW)", 
   family: "load",
@@ -51,7 +53,7 @@ describe("GetPropertyKeys request", () => {
       request.family = undefined;
       request.entityId = undefined;
       request.entityType = undefined;
-      request.propertyDataType = undefined;
+      request.dataType = undefined;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
@@ -62,9 +64,9 @@ describe("GetPropertyKeys request", () => {
       request.family = 'family';
       request.entityId = 734;
       request.entityType = 'LSE';
-      request.propertyDataType = PropertyDataType.DEMAND;
+      request.dataType = PropertyDataType.DEMAND;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&propertyDataType=DEMAND');
+      expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
     })
     it("handles both pagination via constructor", async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest({

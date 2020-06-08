@@ -29,7 +29,7 @@ export interface GenPropertyKey {
   family: string;
   keyspace: string;
   description: string;
-  propertyDataType: PropertyDataType;
+  dataType: PropertyDataType;
   quantityUnit?: string;
   formulaDetail?: string;
   lookbackPeriod?: string;

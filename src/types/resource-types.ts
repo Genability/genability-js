@@ -3,6 +3,7 @@ export class ResourceTypes {
   public static readonly LOAD_SERVING_ENTITY  = "LoadServingEntity";
   public static readonly TARIFF  = "Tariff";
   public static readonly CALENDAR  = "Calendar";
+  public static readonly CALENDAR_DATES  = "CalendarDates";
   public static readonly CALCULATED_COST = "CalculatedCost";
   public static readonly TERRITORY = "Territory";
   public static readonly SEASON_GROUP = "SeasonGroup";

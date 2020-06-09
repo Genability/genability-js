@@ -34,6 +34,9 @@ export interface Searchable {
   startsWith?: boolean;
   endsWith?: boolean;
   isRegex?: boolean;
+}
+
+export interface Sortable {
   sortOn?: string[];
   sortOrder?: SortOrder[];
 }
@@ -49,7 +52,7 @@ export function isSearchable(object: any): object is Searchable {
   return 'search' in object;
 }
 
-export function isSortable(object: Searchable): object is Searchable {
+export function isSortable(object: Sortable): object is Sortable {
   return 'sortOn' in object && 'sortOrder' in object;
 }
 
@@ -83,7 +86,7 @@ export type AddParamCallback = (
   Ownership[],
 ) => void;
 
-export abstract class BasePagedRequest implements Paged, Searchable, QueryStringified {
+export abstract class BasePagedRequest implements Paged, Searchable, Sortable, QueryStringified {
   public pageStart?: number;
   public pageCount?: number;
   public search?: string;

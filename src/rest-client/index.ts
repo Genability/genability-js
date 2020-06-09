@@ -8,6 +8,7 @@ export {
   Searchable,
   isSearchable,
   SortOrder,
+  Sortable,
   isSortable,
   QueryStringified,
   isQueryStringified,

@@ -1,10 +1,10 @@
 import { 
-  Lookup, isLookup
+  LookupValue, isLookupValue
 } from "./lookup";
 
 describe("lookup", () => {
-  it("works for Lookup", () => {
-    const lookup: Lookup = JSON.parse('{\
+  it("works for LookupValue", () => {
+    const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\
       "subPropertyKey": "subPropertyKeyString",\
@@ -18,17 +18,17 @@ describe("lookup", () => {
     expect(lookup.forecastAccuracy).toEqual(22);
   })
 });
-describe("isLookup function", () => {
+describe("isLookupValue function", () => {
   it("should be false for invalid JSON", () => {
-    const lookup: Lookup = JSON.parse('{\
+    const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\
       "forecastAccuracy": 22\
     }');
-    expect(isLookup(lookup)).toEqual(false);
+    expect(isLookupValue(lookup)).toEqual(false);
   })
   it("should be true for valid JSON", () => {
-    const lookup: Lookup = JSON.parse('{\
+    const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\
       "subPropertyKey": "subPropertyKeyString",\
@@ -42,6 +42,6 @@ describe("isLookup function", () => {
       "forecastValue": 41,\
       "forecastAccuracy": 4\
     }');
-    expect(isLookup(lookup)).toEqual(true);
+    expect(isLookupValue(lookup)).toEqual(true);
   })
 });

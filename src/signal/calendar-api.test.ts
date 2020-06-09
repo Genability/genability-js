@@ -83,12 +83,12 @@ describe("GetCalendarDates request", () => {
       request.calendarId = 1;
       request.lseId = 1;
       request.locale = "test"
-      request.fromDateTime = "2010-01-01T00:00:00+00:00"
-      request.toDateTime = "2010-01-01T00:00:00+00:00"
+      request.fromDateTime = "2011-06-12T19:00:00.0-0700"
+      request.toDateTime = "2011-06-12T19:00:00.0-0700"
       request.calendarEventTypes = CalendarType.BILLING
       request.dateDefinitionTypes = DateDefinitionType.EASTER_DATE
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("calendarId=1&lseId=1&locale=test&fromDateTime=2010-01-01T00:00:00+00:00&toDateTime=2010-01-01T00:00:00+00:00&calendarEventTypes=BILLING&dateDefinitionTypes=EASTER_DATE");
+      expect(qs).toEqual("calendarId=1&lseId=1&locale=test&fromDateTime=2011-06-12T19:00:00.0-0700&toDateTime=2011-06-12T19:00:00.0-0700&calendarEventTypes=BILLING&dateDefinitionTypes=EASTER_DATE");
     })
     it("handles undefined parameters", async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
@@ -145,7 +145,7 @@ describe("Calendar api", () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       const response: PagedResponse<CalendarDate> = await restClient.getCalendarDates(request);
       expect(response.status).toEqual("success");
-      expect(response.type).toEqual(ResourceTypes.CALENDAR_DATES);
+      expect(response.type).toEqual(ResourceTypes.CALENDAR_DATE);
       expect(response.count).toBeGreaterThan(200);
       expect(response.results).toHaveLength(25);
       for(const calendarDate of response.results) {

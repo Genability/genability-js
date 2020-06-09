@@ -4,10 +4,10 @@ import {
 } from './lookup-api';
 import { PagedResponse } from '../rest-client'
 import {
-  Lookup,
-  isLookup,
-  LookupPropertyKey,
-  isLookupPropertyKey
+  LookupValue,
+  isLookupValue,
+  LookupStats,
+  isLookupStats
 } from '../types/lookup';
 import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
@@ -74,27 +74,27 @@ describe("Lookups request", () => {
 
 describe("Lookup api", () => {
   it("should returns all lookups", async () => {
-    const response: PagedResponse<Lookup> = await restClient.getLookups();
+    const response: PagedResponse<LookupValue> = await restClient.getLookupValues();
     expect(response.status).toEqual("success");
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
     expect(response.count).toBeGreaterThan(200);
     expect(response.results).toHaveLength(25);
     for(const lookup of response.results) {
-      expect(isLookup(lookup)).toBeTruthy();
+      expect(isLookupValue(lookup)).toBeTruthy();
     }
   })
   it("should returns a specific choice for a PropertyKey", async () => {
-    const response: PagedResponse<Lookup> = await restClient.getPropertyLookups('hourlyPricingDayAheadERCOT');
+    const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');
     expect(response.status).toEqual("success");
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
     expect(response.count).toBeGreaterThan(200);
     expect(response.results).toHaveLength(25);
     for(const lookup of response.results) {
-      expect(isLookup(lookup)).toBeTruthy();
+      expect(isLookupValue(lookup)).toBeTruthy();
     }
   })
   it('should returns lookup stats for a property key', async () =>{
-    const lookupPropertyKey: LookupPropertyKey = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
-    expect(isLookupPropertyKey(lookupPropertyKey)).toBeTruthy();
+    const lookupPropertyKey: LookupStats = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
+    expect(isLookupStats(lookupPropertyKey)).toBeTruthy();
   })
 });

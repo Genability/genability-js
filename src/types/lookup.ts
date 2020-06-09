@@ -1,4 +1,4 @@
-export interface Lookup {
+export interface LookupValue {
   lookupId: number;
   propertyKey: string;
   subPropertyKey: string;
@@ -13,7 +13,7 @@ export interface Lookup {
   forecastAccuracy: number;
 }
 
-export interface LookupPropertyKey {
+export interface LookupStats {
   keyName: string;
   minFromDateTime: number;
   maxToDateTime: number;
@@ -26,16 +26,16 @@ export interface LookupPropertyKey {
 }
 
 /**
- * User Defined Type Guard for Lookup, LookupPropertyKey
+ * User Defined Type Guard for LookupValue, LookupStats
  */
-export function isLookup(arg: Lookup): arg is Lookup {
+export function isLookupValue(arg: LookupValue): arg is LookupValue {
   return arg.lookupId !== undefined &&
     arg.propertyKey !== undefined &&
     arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined;
 }
 
-export function isLookupPropertyKey(arg: LookupPropertyKey): arg is LookupPropertyKey {
+export function isLookupStats(arg: LookupStats): arg is LookupStats {
   return arg.keyName !== undefined &&
     arg.minFromDateTime !== undefined &&
     arg.maxToDateTime !== undefined &&

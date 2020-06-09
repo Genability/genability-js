@@ -65,10 +65,10 @@ export {
 } from './time-of-use';
 
 export {
-  Lookup,
-  isLookup,
-  LookupPropertyKey,
-  isLookupPropertyKey
+  LookupValue,
+  isLookupValue,
+  LookupStats,
+  isLookupStats
 } from './lookup'
 
 export {

@@ -29,3 +29,8 @@ export {
 } from './season-api'
 
 export { TimeOfUseApi } from './time-of-use-api'
+
+export {
+  GetCalendarsRequest,
+  CalendarApi
+} from './calendar-api'

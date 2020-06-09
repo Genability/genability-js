@@ -63,3 +63,9 @@ export {
   isTimeOfUse,
   isTimeOfUsePeriod
 } from './time-of-use';
+
+export {
+  CalendarType,
+  Calendar,
+  isCalendar
+} from './calendar';

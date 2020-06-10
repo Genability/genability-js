@@ -4,7 +4,7 @@ export enum PrivacyFlag {
   PRIVATE = "PRIVATE",
 }
 
-export enum DataType {
+export enum PropertyDataType {
   STRING = "STRING",
   CHOICE = "CHOICE",
   BOOLEAN = "BOOLEAN",
@@ -29,7 +29,7 @@ export interface GenPropertyKey {
   family: string;
   keyspace: string;
   description: string;
-  dataType: DataType;
+  dataType: PropertyDataType;
   quantityUnit?: string;
   formulaDetail?: string;
   lookbackPeriod?: string;

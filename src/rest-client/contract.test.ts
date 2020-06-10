@@ -1,7 +1,9 @@
 import { 
   isPaged,
   isQueryStringified,
-  isSearchable
+  isSearchable,
+  isSortable,
+  SortOrder
 } from './contract';
 import {
   BasePagedRequest,
@@ -107,6 +109,43 @@ describe("Rest API Contracts", () => {
       request.isRegex = false;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('search=allem&endsWith=true&isRegex=false');
+    })
+  })
+
+  describe("Sortable Requests", () => {
+    it("isSortable false when only sortOn set", async () => {
+      const request: GetNRequest = new GetNRequest({
+        sortOn: ['name'],
+      });
+      expect(isSortable(request)).toBeFalsy();
+    })
+    it("isSortable false when only sortOrder set", async () => {
+      const request: GetNRequest = new GetNRequest({
+        sortOrder: [SortOrder.DESC],
+      });
+      expect(isSortable(request)).toBeFalsy();
+    })
+    it("isSortable true when sortOn and sortOrder set", async () => {
+      const request: GetNRequest = new GetNRequest({
+        sortOn: ['name'],
+        sortOrder: [SortOrder.ASC]
+      });
+      expect(isSortable(request)).toBeTruthy();
+    })
+    it("handles sort parameter", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.sortOn = ['name', 'date'];
+      request.sortOrder = [SortOrder.ASC, SortOrder.DESC];
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('sortOn=name,date&sortOrder=ASC,DESC');
+    })
+    it("handles sort via constructor", async () => {
+      const request: GetNRequest = new GetNRequest({
+        sortOn: ['name', 'date'],
+        sortOrder: [SortOrder.ASC, SortOrder.DESC]
+      });
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('sortOn=name,date&sortOrder=ASC,DESC');
     })
   })
 });

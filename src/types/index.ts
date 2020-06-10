@@ -3,7 +3,7 @@ export {
 } from './resource-types'
 
 export { 
-  DataType,
+  PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
   CommonPropertyKeyNames,
@@ -25,7 +25,7 @@ export {
   ChargeClass,
   ChargePeriod,
   TransactionType,
-  PropertyType,
+  TariffPropertyType,
   Period,
   RateUnit,
   TariffProperty,
@@ -63,3 +63,12 @@ export {
   isTimeOfUse,
   isTimeOfUsePeriod
 } from './time-of-use';
+
+export {
+  CalendarType,
+  Calendar,
+  DateDefinitionType,
+  CalendarDate,
+  isCalendar,
+  isCalendarDate
+} from './calendar';

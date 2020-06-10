@@ -8,7 +8,7 @@ import {
 } from '../rest-client';
 import {
   GenPropertyKey,
-  DataType
+  PropertyDataType
 } from '../types';
 
 export class GetPropertyKeysRequest extends BasePagedRequest {
@@ -17,7 +17,7 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
   public family?: string;
   public entityId?: number;
   public entityType?: string;
-  public dataType?: DataType;
+  public dataType?: PropertyDataType;
 
   addParams(addParam: AddParamCallback): void {
     addParam('excludeGlobal', this.excludeGlobal);

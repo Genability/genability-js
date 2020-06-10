@@ -3,20 +3,22 @@ import {
   GetPropertyKeysRequest 
 } from './property-key-api';
 import { PagedResponse } from '../rest-client'
+
 import {
-  ResourceTypes,
   GenPropertyKey,
-  DataType,
+  PropertyDataType,
   CommonPropertyKeyNames,
   isGenPropertyKey
-} from '../types';
+} from '../types/property-key';
+
+import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new PropertyKeyApi(credentials);
 
 const demandPk: GenPropertyKey = {
-  dataType: DataType.DEMAND, 
+  dataType: PropertyDataType.DEMAND, 
   description: "Quantity in kW of load that is used for a given period", 
   displayName: "Demand (kW)", 
   family: "load",
@@ -62,7 +64,7 @@ describe("GetPropertyKeys request", () => {
       request.family = 'family';
       request.entityId = 734;
       request.entityType = 'LSE';
-      request.dataType = DataType.DEMAND;
+      request.dataType = PropertyDataType.DEMAND;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
     })

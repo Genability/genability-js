@@ -10,6 +10,7 @@ import {
   PropertyKeyApi,
   LoadServingEntityApi,
   TariffApi,
+  CalendarApi,
   CalculatedCostApi,
   TerritoryApi,
   SeasonGroupApi,
@@ -24,6 +25,7 @@ export class Genability {
   private _properties: PropertyKeyApi | undefined;
   private _lses: LoadServingEntityApi | undefined;
   private _tariffs: TariffApi | undefined;
+  private _calendars: CalendarApi | undefined;
   private _calculation: CalculatedCostApi | undefined;
   private _territories: TerritoryApi | undefined;
   private _seasons: SeasonGroupApi | undefined;
@@ -60,6 +62,12 @@ export class Genability {
     if(this._tariffs === undefined)
       this._tariffs = new TariffApi(this.credentials)
     return this._tariffs;
+  }
+
+  public get calendars(): CalendarApi {
+    if(this._calendars === undefined)
+      this._calendars = new CalendarApi(this.credentials)
+    return this._calendars;
   }
 
   public get calculation(): CalculatedCostApi {

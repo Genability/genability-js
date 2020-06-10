@@ -1,5 +1,5 @@
 import { 
-  DataType,
+  PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
   isGenPropertyKey
@@ -9,7 +9,7 @@ describe("property-key types", () => {
   describe("test that JSON to enum", () => {
     it("works for dataType BOOLEAN", () => {
       const pk: GenPropertyKey = JSON.parse('{"keyName": "BooleanKeyName","dataType": "BOOLEAN"}');
-      expect(pk.dataType).toEqual(DataType.BOOLEAN);
+      expect(pk.dataType).toEqual(PropertyDataType.BOOLEAN);
     })
     it("works for privacy PRIVATE", () => {
       const pk: GenPropertyKey = JSON.parse('{"keyName": "BooleanKeyName","privacy": "PRIVATE"}');

@@ -53,3 +53,13 @@ export function isCalendar(arg: Calendar): arg is Calendar {
     arg.calendarType !== undefined &&
     arg.lseId !== undefined
 }
+
+export function isCalendarDate(arg: CalendarDate): arg is CalendarDate {
+  return arg.eventDateId !== undefined &&
+    arg.subKey !== undefined &&
+    arg.eventName !== undefined &&
+    arg.startDateTime !== undefined &&
+    arg.endDateTime !== undefined &&
+    arg.calendarEventId !== undefined &&
+    arg.lseId !== undefined
+}

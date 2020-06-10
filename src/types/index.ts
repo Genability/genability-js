@@ -67,5 +67,8 @@ export {
 export {
   CalendarType,
   Calendar,
-  isCalendar
+  DateDefinitionType,
+  CalendarDate,
+  isCalendar,
+  isCalendarDate
 } from './calendar';

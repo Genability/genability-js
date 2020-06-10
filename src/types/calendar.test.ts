@@ -2,11 +2,13 @@ import {
   CalendarType,
   CalendarEvent,
   Calendar,
+  CalendarDate,
   DateDefinitionType,
-  isCalendar
+  isCalendar,
+  isCalendarDate
 } from './calendar';
 
-describe("tariff types", () => {
+describe("calendar types", () => {
   describe("test that JSON to enum", () => {
     it("works for CalendarType", () => {
       const calendar: Calendar = JSON.parse('{"calendarId": 1, "calendarType": "HOLIDAY"}');
@@ -39,6 +41,31 @@ describe("tariff types", () => {
         }'
       );
       expect(isCalendar(calendar)).toEqual(true);
+    })
+  });
+  describe("isCalendarDate function", () => {
+    it("should be false for invalid JSON", () => {
+      const calendarDate: CalendarDate = JSON.parse(
+        '{\
+          "eventDateId": 1,\
+          "calendarEventId": 2\
+        }'
+      );
+      expect(isCalendarDate(calendarDate)).toEqual(false);
+    })
+    it("should be true for valid JSON", () => {
+      const calendarDate: CalendarDate = JSON.parse(
+        '{\
+          "eventDateId": 2,\
+          "subKey": null,\
+          "eventName": "New Year\'s Day",\
+          "startDateTime": "2010-01-01T00:00:00+00:00",\
+          "endDateTime": null,\
+          "calendarEventId": 2,\
+          "lseId": 2654\
+        }'
+      );
+      expect(isCalendarDate(calendarDate)).toEqual(true);
     })
   });
   describe("works for CalendarEvent", () => {

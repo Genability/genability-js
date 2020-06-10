@@ -3,7 +3,7 @@ export {
 } from './resource-types'
 
 export { 
-  DataType,
+  PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
   CommonPropertyKeyNames,
@@ -25,7 +25,7 @@ export {
   ChargeClass,
   ChargePeriod,
   TransactionType,
-  PropertyType,
+  TariffPropertyType,
   Period,
   RateUnit,
   TariffProperty,
@@ -78,3 +78,13 @@ export {
   BuildingType,
   isBaseline
 } from './typical-baseline'
+
+export {
+  CalendarType,
+  Calendar,
+  DateDefinitionType,
+  CalendarDate,
+  isCalendar,
+  isCalendarDate
+} from './calendar';
+

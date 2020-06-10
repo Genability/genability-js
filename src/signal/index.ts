@@ -34,3 +34,9 @@ export {
   GetBaselinesBestRequest,
   TypicalBaselineApi
 } from './typical-baseline-api'
+
+export {
+  GetCalendarsRequest,
+  CalendarApi
+} from './calendar-api'
+

@@ -7,6 +7,11 @@ import {
   Ownership,
 } from '../types'
 
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
 export interface Paged {
   pageStart?: number;
   pageCount?: number;
@@ -31,6 +36,11 @@ export interface Searchable {
   isRegex?: boolean;
 }
 
+export interface Sortable {
+  sortOn?: string[];
+  sortOrder?: SortOrder[];
+}
+
 /**
  * To identify if the object is Searchable. Because Searchable is made up of
  * optional parameters, this only returns true when the search property 
@@ -40,6 +50,10 @@ export interface Searchable {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isSearchable(object: any): object is Searchable {
   return 'search' in object;
+}
+
+export function isSortable(object: Sortable): object is Sortable {
+  return 'sortOn' in object && 'sortOrder' in object;
 }
 
 export interface QueryStringified {
@@ -72,7 +86,7 @@ export type AddParamCallback = (
   Ownership[],
 ) => void;
 
-export abstract class BasePagedRequest implements Paged, Searchable, QueryStringified {
+export abstract class BasePagedRequest implements Paged, Searchable, Sortable, QueryStringified {
   public pageStart?: number;
   public pageCount?: number;
   public search?: string;
@@ -80,6 +94,8 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
   public startsWith?: boolean;
   public endsWith?: boolean;
   public isRegex?: boolean;
+  public sortOn?: string[];
+  public sortOrder?: SortOrder[];
 
   public constructor(init?: Partial<BasePagedRequest>) {
     Object.assign(this, init);
@@ -108,6 +124,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
     this.addParams(callback);
     this.addPaginationParams(callback);
     this.addSearchParams(callback);
+    this.addSortParams(callback);
 
     return parts.join('&');
   }
@@ -125,6 +142,11 @@ export abstract class BasePagedRequest implements Paged, Searchable, QueryString
     addParam('startsWith', this.startsWith);
     addParam('endsWith', this.endsWith);
     addParam('isRegex', this.isRegex);
+  }
+
+  addSortParams(addParam: AddParamCallback): void {
+    addParam('sortOn', this.sortOn);
+    addParam('sortOrder', this.sortOrder);
   }
 }
 

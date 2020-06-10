@@ -55,7 +55,7 @@ export enum TransactionType {
   SELL_EXPORT = "SELL_EXPORT",
 }
 
-export enum PropertyType {
+export enum TariffPropertyType {
   APPLICABILITY = "APPLICABILITY",
   RATE_CRITERIA = "RATE_CRITERIA",
   BENEFIT = "BENEFIT",
@@ -159,7 +159,7 @@ export interface TariffRateBand {
 
 export interface TariffProperty extends GenPropertyKey {
   period: Period;
-  propertyTypes: PropertyType[];
+  propertyTypes: TariffPropertyType[];
   operator: string;
   propertyValue: string;
   minValue: string;

@@ -12,6 +12,7 @@ export function echoHello(word: string = world): string {
 }
 
 export { Genability };
+export const Client = Genability;
 export { types };
 export { restApis };
 export { credentials };

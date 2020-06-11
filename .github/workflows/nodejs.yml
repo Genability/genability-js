@@ -61,7 +61,7 @@ jobs:
       id: check
       uses: salsify/action-detect-and-tag-new-version@v1.0.3
       with:
-        create-tag: false
+        create-tag: true
     - name: Compare versions
       id: compare
       uses: mgerring/semver-compare-and-publish@v1.1.3
@@ -74,6 +74,11 @@ jobs:
         yarn install
         yarn build
         npm publish --tag develop
+    - name: Tag develop on github
+      uses: tvdias/github-tagger@v0.0.2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        tag: "develop"
 
   npm-publish-latest:
     name: npm-publish-latest
@@ -96,6 +101,11 @@ jobs:
       uses: salsify/action-detect-and-tag-new-version@v1.0.3
       with:
         create-tag: false
-    - name: Tag latest
+    - name: Tag latest on npm
       if: (steps.check.outputs['current-version'] != steps.check.outputs['previous-version'])
       run: npm dist-tag add @genability/api@${{ steps.check.outputs['current-version'] }} latest
+    - name: Tag latest on github
+      uses: tvdias/github-tagger@v0.0.2
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        tag: "latest"

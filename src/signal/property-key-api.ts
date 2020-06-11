@@ -4,7 +4,7 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   GenPropertyKey,
@@ -31,7 +31,8 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
 
 export class PropertyKeyApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getPropertyKeys(request: GetPropertyKeysRequest): Promise<PagedResponse<GenPropertyKey>> {

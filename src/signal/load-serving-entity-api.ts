@@ -4,7 +4,7 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   ServiceType,
@@ -30,7 +30,8 @@ export class GetLoadServingEntityRequest extends BasePagedRequest {
 
 export class LoadServingEntityApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getLoadServingEntities(request: GetLoadServingEntityRequest): Promise<PagedResponse<LoadServingEntity>> {
@@ -43,4 +44,3 @@ export class LoadServingEntityApi extends RestApiClient {
     return response.data.results[0];
   }
 }
-

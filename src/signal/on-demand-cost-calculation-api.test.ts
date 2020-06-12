@@ -7,8 +7,10 @@ import { PagedResponse } from '../rest-client'
 import {
   isCalculatedCost,
   CalculatedCost,
+} from '../types/on-demand-cost-calculation';
+import {
   Tariff
-} from '../types';
+} from '../types/tariff';
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

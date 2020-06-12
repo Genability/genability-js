@@ -3,11 +3,11 @@ import {
   GetSeasonGroupsRequest
 } from './season-api';
 import {
-  ResourceTypes,
   SeasonGroup,
   isSeasonGroup,
   isSeason
-} from '../types';
+} from '../types/season';
+import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
 import { PagedResponse } from '../rest-client';
 

@@ -3,7 +3,9 @@ import {
   GetBaselinesBestRequest
 } from './typical-baseline-api';
 import { PagedResponse } from '../rest-client'
-import { Baseline, isBaseline, MeasureUnit, ServiceType, ResourceTypes } from '../types';
+import { Baseline, isBaseline, MeasureUnit } from '../types/typical-baseline';
+import { ServiceType } from '../types/load-serving-entity';
+import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

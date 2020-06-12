@@ -1,11 +1,4 @@
 import { encode } from './utils';
-import {
-  CustomerClass,
-  TariffType,
-  ChargeType,
-  ServiceType,
-  Ownership,
-} from '../types'
 
 export enum SortOrder {
   ASC = 'ASC',
@@ -78,12 +71,7 @@ export type AddParamCallback = (
   paramValue?: string |
   string[] |
   number |
-  boolean |
-  CustomerClass[] |
-  TariffType[] |
-  ChargeType[] |
-  ServiceType[] |
-  Ownership[],
+  boolean,
 ) => void;
 
 export abstract class BasePagedRequest implements Paged, Searchable, Sortable, QueryStringified {
@@ -110,12 +98,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, Q
       paramValue?: string |
       string[] |
       number |
-      boolean |
-      CustomerClass[] |
-      TariffType[] |
-      ChargeType[] |
-      ServiceType[] |
-      Ownership[],
+      boolean,
     ): void => {
       if(paramValue === undefined) return;
       parts.push(paramName + '=' + encode(paramValue));

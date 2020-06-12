@@ -10,4 +10,5 @@ export class ResourceTypes {
   public static readonly TIME_OF_USE = "TimeOfUse";
   public static readonly TIME_OF_USE_INTERVALS = "TimeOfUseIntervals";
   public static readonly PROPERTY_LOOKUP = "PropertyLookup";
+  public static readonly BASELINE = "Baseline";
 }

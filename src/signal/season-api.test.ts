@@ -38,7 +38,6 @@ describe("Season api", () => {
     for(const seasonGroup of response.results) {
       expect(isSeasonGroup(seasonGroup)).toBeTruthy();
       for(const season of seasonGroup.seasons) {
-        console.log(season)
         expect(isSeason(season)).toBeTruthy();
       }
     }

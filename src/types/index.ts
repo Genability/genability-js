@@ -52,7 +52,12 @@ export {
   isTerritory
 } from './territory';
 
-export { PredominanceRule, SeasonGroup, isSeasonGroup, isSeason } from './season';
+export {
+  PredominanceRule,
+  SeasonGroup,
+  isSeasonGroup,
+  isSeason
+} from './season';
 
 export {
   TimeOfUse,
@@ -72,6 +77,16 @@ export {
 } from './lookup'
 
 export {
+  MeasureUnit,
+  Baseline,
+  BaselineMeasure,
+  IntervalInfo,
+  Factor,
+  BuildingType,
+  isBaseline
+} from './typical-baseline'
+
+export {
   CalendarType,
   Calendar,
   DateDefinitionType,
@@ -79,3 +94,4 @@ export {
   isCalendar,
   isCalendarDate
 } from './calendar';
+

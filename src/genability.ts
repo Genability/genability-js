@@ -83,13 +83,13 @@ export class Genability {
 
   public get lookups(): LookupApi {
     if(this._lookups === undefined)
-      this._lookups = new LookupApi(this.credentials)
+      this._lookups = new LookupApi(this._config?.credentials)
     return this._lookups;
   }
 
   public get typicals(): TypicalBaselineApi {
     if(this._typicals === undefined)
-      this._typicals = new TypicalBaselineApi(this.credentials)
+      this._typicals = new TypicalBaselineApi(this._config?.credentials)
     return this._typicals;
   }
 }

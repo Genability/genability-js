@@ -4,7 +4,7 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   Baseline, CustomerClass, ServiceType, MeasureUnit,
@@ -54,7 +54,8 @@ export class GetBaselinesBestRequest extends BasePagedRequest {
 
 export class TypicalBaselineApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getBaselinesBest(request: GetBaselinesBestRequest): Promise<PagedResponse<Baseline>> {

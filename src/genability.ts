@@ -10,7 +10,8 @@ import {
   CalculatedCostApi,
   TerritoryApi,
   SeasonGroupApi,
-  TimeOfUseApi
+  TimeOfUseApi,
+  TypicalBaselineApi
 } from './signal';
 
 export class Genability {
@@ -24,6 +25,7 @@ export class Genability {
   private _territories: TerritoryApi | undefined;
   private _seasons: SeasonGroupApi | undefined;
   private _timeofuses: TimeOfUseApi | undefined;
+  private _typicals: TypicalBaselineApi | undefined;
 
   private constructor(options?: Partial<GenabilityConfigOptions>)
   {
@@ -75,5 +77,11 @@ export class Genability {
     if(this._timeofuses === undefined)
       this._timeofuses = new TimeOfUseApi(this._config?.credentials)
     return this._timeofuses;
+  }
+
+  public get typicals(): TypicalBaselineApi {
+    if(this._typicals === undefined)
+      this._typicals = new TypicalBaselineApi(this.credentials)
+    return this._typicals;
   }
 }

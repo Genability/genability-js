@@ -70,6 +70,13 @@ export {
 } from './time-of-use';
 
 export {
+  LookupValue,
+  isLookupValue,
+  LookupStats,
+  isLookupStats
+} from './lookup'
+
+export {
   MeasureUnit,
   Baseline,
   BaselineMeasure,

@@ -11,6 +11,7 @@ import {
   TerritoryApi,
   SeasonGroupApi,
   TimeOfUseApi,
+  LookupApi,
   TypicalBaselineApi
 } from './signal';
 
@@ -25,6 +26,7 @@ export class Genability {
   private _territories: TerritoryApi | undefined;
   private _seasons: SeasonGroupApi | undefined;
   private _timeofuses: TimeOfUseApi | undefined;
+  private _lookups: LookupApi | undefined;
   private _typicals: TypicalBaselineApi | undefined;
 
   private constructor(options?: Partial<GenabilityConfigOptions>)
@@ -79,9 +81,15 @@ export class Genability {
     return this._timeofuses;
   }
 
+  public get lookups(): LookupApi {
+    if(this._lookups === undefined)
+      this._lookups = new LookupApi(this._config?.credentials)
+    return this._lookups;
+  }
+
   public get typicals(): TypicalBaselineApi {
     if(this._typicals === undefined)
-      this._typicals = new TypicalBaselineApi(this.credentials)
+      this._typicals = new TypicalBaselineApi(this._config?.credentials)
     return this._typicals;
   }
 }

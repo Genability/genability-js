@@ -31,6 +31,11 @@ export {
 export { TimeOfUseApi } from './time-of-use-api'
 
 export {
+  GetLookupsRequest,
+  LookupApi
+} from './lookup-api'
+
+export {
   GetBaselinesBestRequest,
   TypicalBaselineApi
 } from './typical-baseline-api'

@@ -74,6 +74,28 @@ export class GetTariffsRequest extends BasePagedRequest {
   }
 }
 
+export class GetTariffRequest extends BasePagedRequest {
+  public populateProperties?: boolean;
+  public populateRates?: boolean;
+  public populateDocuments?: boolean;
+  public effectiveOn?: string;
+  public territoryId?: number;
+  public bundleRates?: boolean;
+  public applicableRatesOnly?: boolean;
+  public lookupVariableRates?: boolean;
+
+  addParams(addParam: AddParamCallback): void {
+    addParam('populateProperties', this.populateProperties);
+    addParam('populateRates', this.populateRates);
+    addParam('populateDocuments', this.populateDocuments);
+    addParam('effectiveOn', this.effectiveOn);
+    addParam('territoryId', this.territoryId);
+    addParam('bundleRates', this.bundleRates);
+    addParam('applicableRatesOnly', this.applicableRatesOnly);
+    addParam('lookupVariableRates', this.lookupVariableRates)
+  }
+}
+
 export class TariffApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
     const Config = GenabilityConfig.config();
@@ -85,13 +107,13 @@ export class TariffApi extends RestApiClient {
     return new PagedResponse(response.data);
   }
 
-  public async getTariff(masterTariffId: number, request?: GetTariffsRequest): Promise<Tariff> {
+  public async getTariff(masterTariffId: number, request?: GetTariffRequest): Promise<Tariff> {
     const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}`, { params: request } );
     return response.data.results[0];
   }
 
-  public async getTariffHistory(masterTariffId: number, request?: GetTariffsRequest): Promise<Tariff> {
-    const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}/history`, { params: request } );
+  public async getTariffHistory(masterTariffId: number): Promise<Tariff> {
+    const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}/history`);
     return response.data.results[0];
   }
 }

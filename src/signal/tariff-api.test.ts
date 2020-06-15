@@ -1,6 +1,7 @@
 import { 
   TariffApi,
-  GetTariffsRequest
+  GetTariffsRequest,
+  GetTariffRequest
 } from './tariff-api';
 import { PagedResponse } from '../rest-client'
 import {
@@ -98,6 +99,16 @@ describe("Tariff api", () => {
       const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
       const { masterTariffId } = response.results[0];
       const tariff: Tariff = await restClient.getTariff(masterTariffId);
+      expect(tariff.masterTariffId).toEqual(masterTariffId);
+    })
+    it("returns the tariff with parameter", async () => {
+      const request: GetTariffsRequest = new GetTariffsRequest();
+      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      const { masterTariffId } = response.results[0];
+      const tariffRequest: GetTariffRequest = new GetTariffRequest();
+      tariffRequest.populateProperties = true;
+      tariffRequest.populateRates = true;
+      const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
     })
     it("returns the tariff history", async () => {

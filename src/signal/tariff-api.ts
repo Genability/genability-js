@@ -102,7 +102,7 @@ export class TariffApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async getTariffs(request: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
+  public async getTariffs(request?: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
     const response = await this.axiosInstance.get(`/rest/public/tariffs`, { params: request } );
     return new PagedResponse(response.data);
   }

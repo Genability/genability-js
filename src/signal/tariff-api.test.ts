@@ -110,6 +110,8 @@ describe("Tariff api", () => {
       tariffRequest.populateRates = true;
       const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
+      expect(tariff.rates).toEqual(expect.any(Array));
+      expect(tariff.properties).toEqual(expect.any(Array));
     })
     it("returns the tariff history", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();

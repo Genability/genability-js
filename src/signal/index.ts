@@ -10,6 +10,7 @@ export {
 
 export {
   GetTariffsRequest,
+  GetTariffRequest,
   TariffApi
 } from './tariff-api';
 

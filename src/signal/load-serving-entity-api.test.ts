@@ -4,12 +4,12 @@ import {
 } from './load-serving-entity-api';
 import { PagedResponse } from '../rest-client'
 import {
-  ResourceTypes,
   LoadServingEntity,
   ServiceType,
   isLoadServingEntity,
   Ownership
-} from '../types';
+} from '../types/load-serving-entity';
+import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

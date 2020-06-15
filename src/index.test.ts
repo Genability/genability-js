@@ -1,6 +1,6 @@
 import { echoHello } from "./index";
 import { Genability, types, restApis } from "./index";
-import { CommonPropertyKeyNames } from './types';
+import { CommonPropertyKeyNames } from './types/property-key';
 
 describe("client", () => {
   it("should init cleanly", async () => {

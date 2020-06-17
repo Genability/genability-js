@@ -3,12 +3,12 @@ import {
   GetTerritoriesRequest
 } from './territory-api';
 import { PagedResponse } from '../rest-client'
+import { ResourceTypes } from '../types/resource-types'
 import {
-  ResourceTypes,
   Territory,
   isTerritory,
   ItemType
-} from '../types';
+} from '../types/territory';
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');

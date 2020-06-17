@@ -10,6 +10,7 @@ export {
 
 export {
   GetTariffsRequest,
+  GetTariffRequest,
   TariffApi
 } from './tariff-api';
 
@@ -31,6 +32,17 @@ export {
 export { TimeOfUseApi } from './time-of-use-api'
 
 export {
+  GetLookupsRequest,
+  LookupApi
+} from './lookup-api'
+
+export {
+  GetBaselinesBestRequest,
+  TypicalBaselineApi
+} from './typical-baseline-api'
+
+export {
   GetCalendarsRequest,
   CalendarApi
 } from './calendar-api'
+

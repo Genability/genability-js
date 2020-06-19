@@ -94,12 +94,28 @@ export interface PropertyData extends GenPropertyKey {
   accuracy: number;
 }
 
+export interface Address {
+  addressString: string;
+  addressName?: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  lon: number;
+  lat: number;
+}
+
 /**
  * User Defined Type Guard for CalculatedCost
  */
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
   return arg.masterTariffId !== undefined &&
+    arg.tariffName !== undefined &&
+    arg.totalCost !== undefined &&
     arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined &&
-    arg.assumptions !== undefined
+    arg.accuracy !== undefined &&
+    arg.calculatedCostId !== undefined
 }

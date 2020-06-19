@@ -10,17 +10,26 @@ import {
   DetailLevel,
   PropertyData,
   CalculatedCost,
+  Address
 } from '../types/on-demand-cost-calculation';
 
+import { TariffRate, ChargeClass } from '../types/tariff';
+
 export class GetCalculatedCostRequest {
-  public masterTariffId?: number;
-  public fromDateTime?: string;
-  public toDateTime?: string;
+  public masterTariffId!: number;
+  public fromDateTime!: string;
+  public toDateTime!: string;
   public propertyInputs?: PropertyData[];
   public expected?: Map;
   public billingPeriod?: boolean;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
+  public minimums?: boolean;
+  public excludeChargeClass?: ChargeClass[];
+  public applyUtilityTax?: boolean;
+  public address?: Address;
+  public tariffEffectiveOn?: string;
+  public rateInputs?: TariffRate[];
 }
 
 export class CalculatedCostApi extends RestApiClient {

@@ -35,7 +35,9 @@ describe("CalculatedCost api", () => {
   })
 
   it("should return calculated cost for property inputs", async () => {
-    const masterTariffId = 522;
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
     request.fromDateTime = '2019-07-13T00:00:00-07:00';
     request.toDateTime = '2020-05-11T00:00:00-07:00';

@@ -27,7 +27,7 @@ describe("on-demand-cost-calculation types", () => {
     })
     it("work for assumptions", () => {
       const json = '{\
-        "masterTariffId": "masterTariffId",\
+        "masterTariffId": 522,\
         "fromDateTime": "fromDateTime",\
         "toDateTime": "toDateTime",\
         "assumptions": [\
@@ -54,7 +54,7 @@ describe("on-demand-cost-calculation types", () => {
     })
     it("should be true for valid JSON", () => {
       const json = '{\
-        "masterTariffId": "masterTariffId",\
+        "masterTariffId": 522,\
         "tariffName": "tariffName",\
         "totalCost": "totalCost",\
         "fromDateTime": "fromDateTime",\

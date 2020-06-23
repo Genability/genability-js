@@ -7,13 +7,6 @@ import {
 } from "./tariff"
 import { GenPropertyKey } from '../types';
 
-export enum Map {
-  TOTAL_COST = "totalCost",
-  ADJUSTED_TOTAL_COST = "adjustedTotalCost",
-  KWH = "kWh",
-  KW = "kW"
-}
-
 export enum GroupBy {
   ALL = "ALL",
   YEAR = "YEAR",
@@ -31,6 +24,18 @@ export enum DetailLevel {
   ALL = "ALL"
 }
 
+export interface Map {
+  subTotalCost: number;
+  preTaxMinimumCost: number;
+  preTaxMaximumCost: number;
+  taxCost: number;
+  totalCost: number;
+  adjustedTotalCost: number;
+  nonBypassableCost: number; 
+  kWh: number;
+  kW: number;
+}
+
 export interface CalculatedCost {
   masterTariffId: number;
   tariffName: string;
@@ -40,8 +45,8 @@ export interface CalculatedCost {
   accuracy: number;
   currency: string;
   summary: Map;
-  items?: CalculatedCostItem[];
-  assumptions?: PropertyData[]; 
+  items: CalculatedCostItem[];
+  assumptions: PropertyData[]; 
   calculatedCostId: string;
 }
 
@@ -67,18 +72,18 @@ export interface CalculatedCostItem {
   chargeClass: ChargeClass;
   period: Period;
   demandInterval: string;
-  duration: number;
-  touId: number;
-  touName: string;
-  seasonId: number;
-  seasonName: string;
+  duration?: number;
+  touId?: number;
+  touName?: string;
+  seasonId?: number;
+  seasonName?: string;
   formula: string;
   transactionType: TransactionType;
 }
 
 export interface PropertyData extends GenPropertyKey {
-  fromDateTime: string;
-  toDateTime: string;
+  fromDateTime?: string;
+  toDateTime?: string;
   period: Period;
   dataValue: string;
   dataSeries: number[];
@@ -89,12 +94,28 @@ export interface PropertyData extends GenPropertyKey {
   accuracy: number;
 }
 
+export interface Address {
+  addressString: string;
+  addressName?: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  lon: number;
+  lat: number;
+}
+
 /**
  * User Defined Type Guard for CalculatedCost
  */
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
   return arg.masterTariffId !== undefined &&
+    arg.tariffName !== undefined &&
+    arg.totalCost !== undefined &&
     arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined &&
-    arg.assumptions !== undefined
+    arg.accuracy !== undefined &&
+    arg.calculatedCostId !== undefined
 }

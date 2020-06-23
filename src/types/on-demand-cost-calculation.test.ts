@@ -1,5 +1,4 @@
 import { 
-  Map,
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
@@ -11,9 +10,9 @@ import {
 
 describe("on-demand-cost-calculation types", () => {
   describe("test that JSON to enum", () => {
-    it("works for Map", () => {
-      const calculatedCost: CalculatedCost = JSON.parse('{"masterTariffId": 1, "summary": "adjustedTotalCost"}');
-      expect(calculatedCost.summary).toEqual(Map.ADJUSTED_TOTAL_COST);
+    it("works for summary", () => {
+      const calculatedCost: CalculatedCost = JSON.parse('{"masterTariffId": 1, "summary": {"subTotalCost": 709.74,"preTaxMinimumCost": 15.00}}');
+      expect(calculatedCost.summary instanceof Object).toBe(true);
       expect(calculatedCost.masterTariffId).toEqual(1);
     })
     it("works for QuantityKey", () => {
@@ -26,26 +25,9 @@ describe("on-demand-cost-calculation types", () => {
       expect(propertyData.keyName).toEqual(CommonPropertyKeyNames.CITY_LIMITS);
       expect(propertyData.displayName).toEqual('DisplayName');
     })
-  });
-  describe("isCalculatedCost function", () => {
-    it("should be false for invalid JSON", () => {
-      const calculatedCost: CalculatedCost = JSON.parse('{"notAKeyName": "BooleanKeyName","dataType": "BOOLEAN"}');
-      expect(isCalculatedCost(calculatedCost)).toEqual(false);
-    })
-    it("should be true for valid JSON", () => {
+    it("work for assumptions", () => {
       const json = '{\
-        "masterTariffId": "masterTariffId",\
-        "fromDateTime": "fromDateTime",\
-        "toDateTime": "toDateTime",\
-        "assumptions": []\
-      }';
-      const calculatedCost: CalculatedCost = JSON.parse(json);
-      expect(isCalculatedCost(calculatedCost)).toEqual(true);
-      expect(calculatedCost.assumptions).toHaveLength(0);
-    })
-    it("should be true with multiple assumptions", () => {
-      const json = '{\
-        "masterTariffId": "masterTariffId",\
+        "masterTariffId": 522,\
         "fromDateTime": "fromDateTime",\
         "toDateTime": "toDateTime",\
         "assumptions": [\
@@ -62,8 +44,26 @@ describe("on-demand-cost-calculation types", () => {
         ]\
       }';
       const calculatedCost: CalculatedCost = JSON.parse(json);
-      expect(isCalculatedCost(calculatedCost)).toEqual(true);
       expect(calculatedCost.assumptions).toHaveLength(2);
+    })
+  });
+  describe("isCalculatedCost function", () => {
+    it("should be false for invalid JSON", () => {
+      const calculatedCost: CalculatedCost = JSON.parse('{"notAKeyName": "BooleanKeyName","dataType": "BOOLEAN"}');
+      expect(isCalculatedCost(calculatedCost)).toEqual(false);
+    })
+    it("should be true for valid JSON", () => {
+      const json = '{\
+        "masterTariffId": 522,\
+        "tariffName": "tariffName",\
+        "totalCost": "totalCost",\
+        "fromDateTime": "fromDateTime",\
+        "toDateTime": "toDateTime",\
+        "accuracy": "accuracy",\
+        "calculatedCostId": "calculatedCostId"\
+      }';
+      const calculatedCost: CalculatedCost = JSON.parse(json);
+      expect(isCalculatedCost(calculatedCost)).toEqual(true);
     })
   });
 });

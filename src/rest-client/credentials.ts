@@ -24,18 +24,8 @@ export function credentialsFromFile(profileName = 'default'): RestApiCredentials
   }
   if (content == null || content.length === 0) throw new Error('Credentials file is empty');
   const jsonContent = JSON.parse(content);
-  if (Array.isArray(jsonContent)) {
-    const findProfile = jsonContent.filter(
-      (p) => {
-        if (Object.keys(p)[0] === profileName) {
-          return p;
-        }
-        return null;
-      },
-    );
-    const profile = findProfile[0];
-    if (profile) return profile[profileName];
-  }
+  const profile = jsonContent[profileName];
+  if (profile) return profile;
   throw new Error(`Profile ${profileName} not found in credentials file`);
 }
 

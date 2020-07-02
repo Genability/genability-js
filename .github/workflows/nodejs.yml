@@ -31,7 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix['node-version'] }}
     - run: mkdir -p ~/.genability
-    - run: echo [\{\"unitTest\":\{\"appId\":\"${{ secrets.GENA_APP_ID }}\",\"appKey\":\"${{ secrets.GENA_APP_KEY }}\"\}\}] > ~/.genability/credentials.json
+    - run: echo {\"unitTest\":\{\"appId\":\"${{ secrets.GENA_APP_ID }}\",\"appKey\":\"${{ secrets.GENA_APP_KEY }}\"\}\} > ~/.genability/credentials.json
     - run: yarn install
     - run: yarn build
     - run: yarn test

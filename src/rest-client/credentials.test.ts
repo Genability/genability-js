@@ -9,19 +9,16 @@ import { credentialsFromFile,
 } from './credentials';
 
 const credsDir = `${homedir()}/${GENABILITY_DOT_DIRECTORY}`;
-const contents = [
-  {
-    default: {
-      appId: 'default-appId',
-      appKey: 'default-appKey'
-    },
-  },{
-    unitTest: {
-      appId: 'unit-test-appId',
-      appKey: 'unit-test-appKey'
-    }
+const contents = {
+  default: {
+    appId: 'default-appId',
+    appKey: 'default-appKey'
+  },
+  unitTest: {
+    appId: 'unit-test-appId',
+    appKey: 'unit-test-appKey'
   }
-];
+};
 
 const mockValidDir = {
   [credsDir]: {

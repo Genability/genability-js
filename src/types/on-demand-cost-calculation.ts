@@ -37,6 +37,7 @@ export interface Map {
 }
 
 export interface CalculatedCost {
+  requestId: string;
   masterTariffId: number;
   tariffName: string;
   totalCost: number;
@@ -111,7 +112,8 @@ export interface Address {
  * User Defined Type Guard for CalculatedCost
  */
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
-  return arg.masterTariffId !== undefined &&
+  return arg.requestId !== undefined &&
+    arg.masterTariffId !== undefined &&
     arg.tariffName !== undefined &&
     arg.totalCost !== undefined &&
     arg.fromDateTime !== undefined &&

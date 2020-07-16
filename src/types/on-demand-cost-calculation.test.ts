@@ -54,6 +54,7 @@ describe("on-demand-cost-calculation types", () => {
     })
     it("should be true for valid JSON", () => {
       const json = '{\
+        "requestId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
         "masterTariffId": 522,\
         "tariffName": "tariffName",\
         "totalCost": "totalCost",\

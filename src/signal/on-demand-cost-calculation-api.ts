@@ -40,6 +40,8 @@ export class CalculatedCostApi extends RestApiClient {
 
   public async runCalculation(request: GetCalculatedCostRequest): Promise<CalculatedCost> {
     const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
-    return response.data.results[0];
+    const responseData = response.data.results[0];
+    responseData.requestId = response.data.requestId;
+    return responseData;
   }
 }

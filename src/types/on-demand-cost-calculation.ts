@@ -8,6 +8,7 @@ import {
 import { GenPropertyKey } from '../types';
 
 export enum GroupBy {
+  NONE = "NONE",
   ALL = "ALL",
   YEAR = "YEAR",
   MONTH = "MONTH",
@@ -17,11 +18,11 @@ export enum GroupBy {
 }
 
 export enum DetailLevel {
+  ALL = "ALL",
   TOTAL = "TOTAL",
   CHARGE_TYPE = "CHARGE_TYPE",
   CHARGE_TYPE_AND_TOU = "CHARGE_TYPE_AND_TOU",
-  RATE = "RATE",
-  ALL = "ALL"
+  RATE = "RATE"
 }
 
 export interface Map {

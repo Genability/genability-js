@@ -36,6 +36,7 @@ export {
 export {
   Map,
   GroupBy,
+  DetailLevel,
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,

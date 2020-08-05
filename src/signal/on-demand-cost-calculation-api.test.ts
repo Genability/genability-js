@@ -45,6 +45,59 @@ describe("CalculatedCost api", () => {
     const propertyData: PropertyData = JSON.parse('{"keyName": "baselineType", "dataValue": "typicalElectricity"}');
     request.propertyInputs = [propertyData];
     const response: CalculatedCost = await restClient.runCalculation(request);
+    expect(request.propertyInputs).toEqual([propertyData]);
+    expect(isCalculatedCost(response)).toBeTruthy();
+  })
+
+  it("initializes the property inputs correctly if they haven't been initialized before the call", async () => {
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
+    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
+    request.fromDateTime = '2019-07-13T00:00:00-07:00';
+    request.toDateTime = '2020-05-11T00:00:00-07:00';
+    request.masterTariffId = masterTariffId;
+    expect(request.propertyInputs).toBe(undefined);
+    const response: CalculatedCost = await restClient.runCalculation(request);
+    const propertyInputs = [
+      {
+        keyName : "baselineType",
+        dataValue : "typicalElectricity",
+        operator : "+",
+        dataFactor : 1
+      },{
+        keyName : "buildingId",
+        dataValue : "RESIDENTIAL"
+      }
+    ];
+    expect(request.propertyInputs).toEqual(propertyInputs);
+    expect(isCalculatedCost(response)).toBeTruthy();
+  })
+
+  it("if useTypicalElectricity called multiple times, does not add the inputs multiple times.", async () => {
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
+    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
+    request.fromDateTime = '2019-07-13T00:00:00-07:00';
+    request.toDateTime = '2020-05-11T00:00:00-07:00';
+    request.masterTariffId = masterTariffId;
+    request.useTypicalElectricity("SMALL_COMMERCIAL", 2);
+    request.useTypicalElectricity("LARGE_COMMERCIAL", 3);
+    const propertyInputs = [
+      {
+        keyName : "baselineType",
+        dataValue : "typicalElectricity",
+        operator : "+",
+        dataFactor : 2
+      },{
+        keyName : "buildingId",
+        dataValue : "SMALL_COMMERCIAL"
+      }
+    ];
+    expect(request.propertyInputs).toEqual(propertyInputs);
+    const response: CalculatedCost = await restClient.runCalculation(request);
+    expect(request.propertyInputs).toEqual(propertyInputs);
     expect(isCalculatedCost(response)).toBeTruthy();
   })
 });

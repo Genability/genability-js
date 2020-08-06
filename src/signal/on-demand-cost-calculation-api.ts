@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import {
   RestApiClient,
   RestApiCredentials,
@@ -32,22 +33,49 @@ export class GetCalculatedCostRequest {
   public rateInputs?: TariffRate[]; 
 
   public useTypicalElectricity(buildingId: string, dataFactor = 1): void {
-    const propertyInputs = [
-      {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
-        dataFactor : dataFactor
-      },{
-        keyName : "buildingId",
-        dataValue : buildingId
-      }
-    ];
+    // @ts-ignore
+    const baselineTypeObj: PropertyData= {
+      keyName : "baselineType",
+      dataValue : "typicalElectricity",
+      operator : "+",
+      dataFactor : dataFactor
+    };
+    // @ts-ignore
+    const buildingIdObj: PropertyData = {
+      keyName : "buildingId",
+      dataValue : buildingId
+    };
+
     if (!this.propertyInputs) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      this.propertyInputs = propertyInputs;
+      this.propertyInputs = [baselineTypeObj, buildingIdObj];
+    } else if (this.differentInputsOnList()) {
+      // propertyInputs other than baselineType and buildingId
+      this.propertyInputs.push(baselineTypeObj, buildingIdObj);
+    } else {
+      const newPropertyInputs: PropertyData[] | undefined = [];
+      this.propertyInputs.forEach(inputObj => {
+        if (inputObj.keyName === "baselineType") {
+          newPropertyInputs.push(baselineTypeObj);
+        } else if (inputObj.keyName === "buildingId" && inputObj.dataValue !== buildingId) {
+          newPropertyInputs.push(inputObj, buildingIdObj);
+        } else {
+          newPropertyInputs.push(inputObj);
+        }
+      });
+      this.propertyInputs = newPropertyInputs;
     }
+  }
+
+  // returns true when propertyInputs have inputs other than "baselineType" and "buildingId"
+  private differentInputsOnList(): boolean {
+    if (!this.propertyInputs) return false
+    let flag = true;
+    this.propertyInputs.forEach(inputObj => {
+      if (inputObj.keyName === "baselineType" || inputObj.keyName === "buildingId") {
+        flag = false;
+      } 
+    });
+    return flag;
   }
 }
 

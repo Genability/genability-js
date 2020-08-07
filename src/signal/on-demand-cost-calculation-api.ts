@@ -48,7 +48,7 @@ export class GetCalculatedCostRequest {
 
     if (!this.propertyInputs) {
       this.propertyInputs = [baselineTypeObj, buildingIdObj];
-    } else if (this.differentInputsOnList()) {
+    } else if (!this.hasPropertyKey("baselineType") && !this.hasPropertyKey("buildingId")) {
       // propertyInputs other than baselineType and buildingId
       this.propertyInputs.push(baselineTypeObj, buildingIdObj);
     } else {
@@ -66,16 +66,10 @@ export class GetCalculatedCostRequest {
     }
   }
 
-  // returns true when propertyInputs have inputs other than "baselineType" and "buildingId"
-  private differentInputsOnList(): boolean {
+  // returns true when "keyName" exists on propertyInputs
+  private hasPropertyKey(keyName: string): boolean {
     if (!this.propertyInputs) return false
-    let flag = true;
-    this.propertyInputs.forEach(inputObj => {
-      if (inputObj.keyName === "baselineType" || inputObj.keyName === "buildingId") {
-        flag = false;
-      } 
-    });
-    return flag;
+    return this.propertyInputs.some(inputObj => inputObj.keyName === keyName);
   }
 }
 
@@ -86,9 +80,6 @@ export class CalculatedCostApi extends RestApiClient {
   }
 
   public async runCalculation(request: GetCalculatedCostRequest): Promise<CalculatedCost> {
-    if (!request.propertyInputs) {
-      request.useTypicalElectricity('RESIDENTIAL');
-    }
     const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
     const responseData = response.data.results[0];
     responseData.requestId = response.data.requestId;

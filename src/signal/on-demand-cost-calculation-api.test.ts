@@ -45,31 +45,6 @@ describe("CalculatedCost api", () => {
     const response: CalculatedCost = await restClient.runCalculation(request);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 10000);
-
-  it("initializes the property inputs correctly if they haven't been initialized before the call", async () => {
-    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
-    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
-    const { masterTariffId } = tariffResponse.results[0];
-    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
-    request.fromDateTime = '2019-07-13T00:00:00-07:00';
-    request.toDateTime = '2020-05-11T00:00:00-07:00';
-    request.masterTariffId = masterTariffId;
-    expect(request.propertyInputs).toBe(undefined);
-    const response: CalculatedCost = await restClient.runCalculation(request);
-    const propertyInputs = [
-      {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
-        dataFactor : 1
-      },{
-        keyName : "buildingId",
-        dataValue : "RESIDENTIAL"
-      }
-    ];
-    expect(request.propertyInputs).toEqual(propertyInputs);
-    expect(isCalculatedCost(response)).toBeTruthy();
-  }, 10000)
 });
 
 describe("test useTypicalElectricity", () => {

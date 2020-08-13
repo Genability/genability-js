@@ -12,7 +12,7 @@ import {
   LoadServingEntity
 } from '../types';
 
-export class GetLoadServingEntityRequest extends BasePagedRequest {
+export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   public postCode?: string;
   public country?: string;
   public fields?: string;
@@ -34,7 +34,7 @@ export class LoadServingEntityApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async getLoadServingEntities(request: GetLoadServingEntityRequest): Promise<PagedResponse<LoadServingEntity>> {
+  public async getLoadServingEntities(request: GetLoadServingEntitiesRequest): Promise<PagedResponse<LoadServingEntity>> {
     const response = await this.axiosInstance.get(`/rest/public/lses`, { params: request } );
     return new PagedResponse(response.data);
   }

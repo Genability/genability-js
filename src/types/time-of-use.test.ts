@@ -1,12 +1,12 @@
 import { 
+  TimeOfUseGroup,
   TimeOfUse,
-  Interval,
+  TimeOfUseInterval,
   TimeOfUsePeriod,
-  Period,
+  isTimeOfUseGroup,
   isTimeOfUsePeriod,
   isTimeOfUse,
-  isInterval,
-  isPeriod
+  isTimeOfUseInterval,
 } from './time-of-use';
 
 describe("works for types", () => {
@@ -21,18 +21,18 @@ describe("works for types", () => {
     expect(timeOfUse.touName).toEqual(2);
     expect(timeOfUse.touGroupId).toEqual(3);
   })
-  it("works for Interval", () => {
+  it("works for TimeOfUseInterval", () => {
     const intervalJson = '{\
       "touId": 1,\
       "touGroupId": 3,\
       "fromDateTime": "2011-06-12T19:00:00.0-0700"\
       }';
-    const interval: Interval = JSON.parse(intervalJson);
+    const interval: TimeOfUseInterval = JSON.parse(intervalJson);
     expect(interval.touId).toEqual(1);
     expect(interval.touGroupId).toEqual(3);
     expect(interval.fromDateTime).toEqual("2011-06-12T19:00:00.0-0700");
   })
-  it("works for TimeOfUsePeriod", () => {
+  it("works for TimeOfUseGroup", () => {
     const timeOfUseJson = '{\
       "touId": 1,\
       "touName": 2,\
@@ -44,37 +44,37 @@ describe("works for types", () => {
       "timeOfUses":[${timeOfUseJson}]\
       }`;
     const timeOfUse: TimeOfUse = JSON.parse(timeOfUseJson);
-    const timeOfUseroup: TimeOfUsePeriod = JSON.parse(tougJson);
+    const timeOfUseroup: TimeOfUseGroup = JSON.parse(tougJson);
     expect(timeOfUseroup.lseId).toEqual(1);
     expect(timeOfUseroup.touGroupId).toEqual(3);
     expect(timeOfUseroup.timeOfUses).toEqual([timeOfUse]);
   })
-  it("works for Period", () => {
+  it("works for TimeOfUsePeriod", () => {
     const periodJson = '{\
       "touId": 1,\
       "touPeriodId": 2\
       }';
-    const period: Period = JSON.parse(periodJson);
+    const period: TimeOfUsePeriod = JSON.parse(periodJson);
     expect(period.touId).toEqual(1);
     expect(period.touPeriodId).toEqual(2);
   })
 });
 
-describe("works for isTimeOfUsePeriod", () => {
+describe("works for isTimeOfUseGroup", () => {
   it("should be false for invalid JSON", () => {
     const tougJson = `{\
       "lseId": 1\
       }`;
-    const timeOfUseroup: TimeOfUsePeriod = JSON.parse(tougJson);
-    expect(isTimeOfUsePeriod(timeOfUseroup)).toEqual(false);
+    const timeOfUseroup: TimeOfUseGroup = JSON.parse(tougJson);
+    expect(isTimeOfUseGroup(timeOfUseroup)).toEqual(false);
   })
   it("should be true for valid JSON", () => {
     const tougJson = `{\
       "lseId": 1,\
       "touGroupId": 3\
       }`;
-    const timeOfUseroup: TimeOfUsePeriod = JSON.parse(tougJson);
-    expect(isTimeOfUsePeriod(timeOfUseroup)).toEqual(true);
+    const timeOfUseroup: TimeOfUseGroup = JSON.parse(tougJson);
+    expect(isTimeOfUseGroup(timeOfUseroup)).toEqual(true);
   })
 });
 
@@ -100,15 +100,15 @@ describe("works for isTimeOfUse", () => {
   })
 });
 
-describe("works for isInterval", () => {
+describe("works for isTimeOfUseInterval", () => {
   it("should be false for invalid JSON", () => {
     const intervalJson = '{\
       "touId": 1,\
       "touGroupId": 3,\
       "fromDateTime": "2011-06-12T19:00:00.0-0700"\
       }';
-    const interval: Interval = JSON.parse(intervalJson);
-    expect(isInterval(interval)).toEqual(false);
+    const interval: TimeOfUseInterval = JSON.parse(intervalJson);
+    expect(isTimeOfUseInterval(interval)).toEqual(false);
   })
   it("should be true for valid JSON", () => {
     const intervalJson = '{\
@@ -117,25 +117,25 @@ describe("works for isInterval", () => {
       "touGroupId": 3,\
       "fromDateTime": "2011-06-12T19:00:00.0-0700"\
       }';
-    const interval: Interval = JSON.parse(intervalJson);
-    expect(isInterval(interval)).toEqual(true);
+    const interval: TimeOfUseInterval = JSON.parse(intervalJson);
+    expect(isTimeOfUseInterval(interval)).toEqual(true);
   })
 });
 
-describe("works for isPeriod", () => {
+describe("works for isTimeOfUsePeriod", () => {
   it("should be false for invalid JSON", () => {
     const periodJson = '{\
       "touId": 1\
       }';
-    const period: Period = JSON.parse(periodJson);
-    expect(isPeriod(period)).toEqual(false);
+    const period: TimeOfUsePeriod = JSON.parse(periodJson);
+    expect(isTimeOfUsePeriod(period)).toEqual(false);
   })
   it("should be true for valid JSON", () => {
     const periodJson = '{\
       "touId": 1,\
       "touPeriodId": 2\
       }';
-    const period: Period = JSON.parse(periodJson);
-    expect(isPeriod(period)).toEqual(true);
+    const period: TimeOfUsePeriod = JSON.parse(periodJson);
+    expect(isTimeOfUsePeriod(period)).toEqual(true);
   })
 });

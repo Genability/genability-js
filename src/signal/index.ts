@@ -4,7 +4,7 @@ export {
 } from './property-key-api';
 
 export {
-  GetLoadServingEntityRequest,
+  GetLoadServingEntitiesRequest,
   LoadServingEntityApi
 } from './load-serving-entity-api';
 

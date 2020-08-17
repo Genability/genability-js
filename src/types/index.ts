@@ -62,12 +62,12 @@ export {
 
 export {
   TimeOfUse,
-  TimeOfUsePeriod,
-  Interval,
-  isInterval,
-  isPeriod,
+  TimeOfUseGroup,
+  TimeOfUseInterval,
+  isTimeOfUseInterval,
+  isTimeOfUsePeriod,
   isTimeOfUse,
-  isTimeOfUsePeriod
+  isTimeOfUseGroup
 } from './time-of-use';
 
 export {

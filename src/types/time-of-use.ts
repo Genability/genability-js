@@ -1,4 +1,4 @@
-export interface Interval {
+export interface TimeOfUseInterval {
   touId: number;
   touName: string;
   touGroupId: number;
@@ -6,7 +6,7 @@ export interface Interval {
   toDateTime: string;
 }
 
-export interface Period {
+export interface TimeOfUsePeriod {
   touPeriodId: number;
   touId: number;
   fromDayOfWeek: number;
@@ -25,20 +25,20 @@ export interface TimeOfUse {
   calendarId: number;
   season: string;
   isDynamic: boolean;
-  touPeriods: Period[];
+  touPeriods: TimeOfUsePeriod[];
   privacy: string;
 }
 
-export interface TimeOfUsePeriod {
+export interface TimeOfUseGroup {
   lseId: number;
   touGroupId: number;
   timeOfUses: TimeOfUse[];
 }
 
 /**
- * User Defined Type Guard for TimeOfUsePeriod, TimeOfUse, Interval, Period
+ * User Defined Type Guard for isTimeOfUseGroup, TimeOfUse, TimeOfUseInterval, TimeOfUsePeriod
  */
-export function isTimeOfUsePeriod(arg: TimeOfUsePeriod): arg is TimeOfUsePeriod {
+export function isTimeOfUseGroup(arg: TimeOfUseGroup): arg is TimeOfUseGroup {
   return arg.lseId !== undefined &&
     arg.touGroupId !== undefined;
 }
@@ -50,13 +50,13 @@ export function isTimeOfUse(arg: TimeOfUse): arg is TimeOfUse {
     arg.lseId !== undefined;
 }
 
-export function isInterval(arg: Interval): arg is Interval {
+export function isTimeOfUseInterval(arg: TimeOfUseInterval): arg is TimeOfUseInterval {
   return arg.touId !== undefined &&
     arg.touName !== undefined &&
     arg.touGroupId !== undefined;
 }
 
-export function isPeriod(arg: Period): arg is Period {
+export function isTimeOfUsePeriod(arg: TimeOfUsePeriod): arg is TimeOfUsePeriod {
   return arg.touId !== undefined &&
     arg.touPeriodId !== undefined;
 }

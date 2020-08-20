@@ -5,6 +5,7 @@ export interface RestApiCredentials {
   appId?: string;
   appKey?: string;
   jwt?: string;
+  proxyReq?: {(config: any): any}; // For additional transformations to request required by proxies
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,7 +22,6 @@ export abstract class RestApiClient {
 
   public constructor(baseURL: string, credentials: RestApiCredentials) {
     let authHeader = '';
-
     if (credentials?.appId !== undefined &&  credentials?.appKey !== undefined) {
       const authString = Buffer.from(`${credentials.appId}:${credentials.appKey}`).toString('base64');
       authHeader = `Basic ${authString}`;
@@ -33,10 +33,14 @@ export abstract class RestApiClient {
       baseURL,
       headers: {
         Authorization: authHeader,
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json;charset=UTF-8'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       paramsSerializer: (params: any) => restParamsSerialize(params),
     });
+
+    if (credentials?.proxyReq) {
+      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
+    }
   }
 }

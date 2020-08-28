@@ -30,7 +30,8 @@ export {
   RateUnit,
   TariffProperty,
   Tariff,
-  isTariff
+  isTariff,
+  FieldsParameter
 } from './tariff';
 
 export {

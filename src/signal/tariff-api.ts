@@ -7,7 +7,7 @@ import {
   GenabilityConfig
 } from '../rest-client';
 import {
-  Tariff, CustomerClass, TariffType, ChargeType, ServiceType, PrivacyFlag,
+  Tariff, CustomerClass, TariffType, ChargeType, ServiceType, PrivacyFlag, FieldsParameter
 } from '../types';
 
 export class GetTariffsRequest extends BasePagedRequest {
@@ -83,6 +83,7 @@ export class GetTariffRequest extends BasePagedRequest {
   public bundleRates?: boolean;
   public applicableRatesOnly?: boolean;
   public lookupVariableRates?: boolean;
+  public fields?: FieldsParameter;
 
   addParams(addParam: AddParamCallback): void {
     addParam('populateProperties', this.populateProperties);
@@ -93,6 +94,7 @@ export class GetTariffRequest extends BasePagedRequest {
     addParam('bundleRates', this.bundleRates);
     addParam('applicableRatesOnly', this.applicableRatesOnly);
     addParam('lookupVariableRates', this.lookupVariableRates)
+    addParam('fields', this.fields);
   }
 }
 

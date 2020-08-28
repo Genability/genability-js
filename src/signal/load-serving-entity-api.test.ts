@@ -11,6 +11,7 @@ import {
 } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
+import { FieldsParameter } from '../types/tariff';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new LoadServingEntityApi(credentials);
@@ -31,7 +32,7 @@ describe("GetLoadServingEntities request", () => {
     it("handles several parameters", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = 'USA';
-      request.fields = 'ext';
+      request.fields = FieldsParameter.EXT;
       request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       const qs: string = request.queryStringify();
       expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY,GAS');
@@ -39,7 +40,6 @@ describe("GetLoadServingEntities request", () => {
     it("handles undefined parameters", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = undefined;
-      request.fields = undefined;
       request.serviceTypes = undefined;
       request.ownerships = undefined;
       const qs: string = request.queryStringify();
@@ -49,7 +49,7 @@ describe("GetLoadServingEntities request", () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.country = 'USA';
-      request.fields = 'ext';
+      request.fields = FieldsParameter.EXT;
       request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       request.ownerships = [Ownership.INVESTOR, Ownership.COOP];
       const qs: string = request.queryStringify();

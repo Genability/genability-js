@@ -85,7 +85,8 @@ export {
   IntervalInfo,
   Factor,
   BuildingType,
-  isBaseline
+  isBaseline,
+  suitableTypicalBuildingIdForTariff
 } from './typical-baseline'
 
 export {

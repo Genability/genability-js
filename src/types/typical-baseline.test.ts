@@ -6,9 +6,10 @@ import {
   Measure,
   Factor,
   BuildingType,
-  isBaseline
+  isBaseline,
+  suitableTypicalBuildingIdForTariff
 } from './typical-baseline';
-import { CustomerClass } from './tariff';
+import { CustomerClass, Tariff } from './tariff';
 
 describe("TypicalBaseline types", () => {
   it("works for MeasureUnit", () => {
@@ -89,5 +90,28 @@ describe("works for isBaseline", () => {
     const baseline: Baseline = JSON.parse(baselineJson);
     expect(baseline.baselineId).toEqual('baselineId');
     expect(isBaseline(baseline)).toBeTruthy();
+  });
+});
+
+describe("works for suitableTypicalBuildingIdForTariff", () => {
+  it("should return string 'RESIDENTIAL' if CustomerClass is RESIDENTIAL", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "RESIDENTIAL"}');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('RESIDENTIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is SPECIAL_USE", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "SPECIAL_USE"}');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'MEDIUM_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption, maxMonthlyConsumption, minMonthlyDemand and maxMonthlyDemand are not populated", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL"}');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption < 10000, maxMonthlyDemand < 200", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 9000, "maxMonthlyDemand": 100  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption > 25000, minMonthlyDemand > 500", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 30000, "minMonthlyDemand": 600  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
   });
 });

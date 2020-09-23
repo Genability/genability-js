@@ -1,7 +1,7 @@
 import { PropertyData } from "./on-demand-cost-calculation";
 import { Territory } from "./territory";
 import { ServiceType } from "./load-serving-entity";
-import { CustomerClass } from "./tariff";
+import { CustomerClass, Tariff } from "./tariff";
 
 export enum MeasureUnit {
   TOTAL = "total",
@@ -75,4 +75,22 @@ export function isBaseline(arg: Baseline): arg is Baseline {
     Object.keys(arg.buildingType).length !== 0 &&
     Object.keys(arg.climateZone).length !== 0 &&
     Object.keys(arg.factors).length !== 0;
+}
+
+export function suitableTypicalBuildingIdForTariff(arg: Tariff): string {
+  let correspondingString = '';
+  if (arg.customerClass === CustomerClass.RESIDENTIAL) {
+    correspondingString = 'RESIDENTIAL';
+  } else if (arg.customerClass === CustomerClass.SPECIAL_USE) {
+    correspondingString = 'LARGE_COMMERCIAL';
+  } else if (arg.customerClass === CustomerClass.GENERAL) {
+    if (!arg.minMonthlyConsumption && !arg.maxMonthlyConsumption && !arg.minMonthlyDemand && !arg.maxMonthlyDemand) {
+      correspondingString = 'MEDIUM_COMMERCIAL';
+    } else if (arg.maxMonthlyConsumption < 10000 || arg.maxMonthlyDemand < 200) {
+      correspondingString = 'SMALL_COMMERCIAL';
+    } else if (arg.minMonthlyConsumption > 250000 || arg.minMonthlyDemand > 500) {
+      correspondingString = 'LARGE_COMMERCIAL';
+    }
+  }
+  return correspondingString;
 }

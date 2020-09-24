@@ -106,12 +106,106 @@ describe("works for suitableTypicalBuildingIdForTariff", () => {
     const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL"}');
     expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
   });
-  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption < 10000, maxMonthlyDemand < 200", () => {
-    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 9000, "maxMonthlyDemand": 100  }');
+
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption <= 5000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 5000 }');
     expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
   });
-  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption > 25000, minMonthlyDemand > 500", () => {
-    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 30000, "minMonthlyDemand": 600  }');
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption >= 5000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 5000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand <= 100", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 99  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand >= 100", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 101  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption <= 10000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 10000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption >= 10000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 10000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand <= 200", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 200  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand >= 200", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 200  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+
+  it("should return string 'MEDIUM_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption <= 50000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 50000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
+  });
+  it("should return string 'MEDIUM_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption >= 50000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 50000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
+  });
+  it("should return string 'MEDIUM_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand <= 400", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 390  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
+  });
+  it("should return string 'MEDIUM_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand >= 400", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 401  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('MEDIUM_COMMERCIAL');
+  });
+
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption <= 250000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 250000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption >= 250000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 250000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand <= 500", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 450  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand >= 500", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 550  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption <= 500000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 450000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption >= 500000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 550000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand <= 900", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 700  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand >= 900", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 950  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyConsumption < 5000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyConsumption": 1000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'SMALL_COMMERCIAL' if CustomerClass is GENERAL and minMonthlyDemand < 100", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "minMonthlyDemand": 50  }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('SMALL_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyConsumption > 500000", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyConsumption": 600000 }');
+    expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
+  });
+  it("should return string 'LARGE_COMMERCIAL' if CustomerClass is GENERAL and maxMonthlyDemand > 900", () => {
+    const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL", "maxMonthlyDemand": 1000  }');
     expect(suitableTypicalBuildingIdForTariff(tariff)).toEqual('LARGE_COMMERCIAL');
   });
 });

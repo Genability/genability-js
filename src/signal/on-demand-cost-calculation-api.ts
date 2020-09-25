@@ -6,7 +6,7 @@ import {
 } from '../rest-client';
 
 import {
-  Map,
+  CalculatedCostSummary,
   GroupBy,
   DetailLevel,
   PropertyData,
@@ -21,7 +21,7 @@ export class GetCalculatedCostRequest {
   public fromDateTime!: string;
   public toDateTime!: string;
   public propertyInputs?: PropertyData[];
-  public expected?: Map;
+  public expected?: CalculatedCostSummary;
   public billingPeriod?: boolean;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;

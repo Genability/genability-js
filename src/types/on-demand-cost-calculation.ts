@@ -25,7 +25,7 @@ export enum DetailLevel {
   RATE = "RATE"
 }
 
-export interface Map {
+export interface CalculatedCostSummary {
   subTotalCost: number;
   preTaxMinimumCost: number;
   preTaxMaximumCost: number;
@@ -46,7 +46,7 @@ export interface CalculatedCost {
   toDateTime: string;
   accuracy: number;
   currency: string;
-  summary: Map;
+  summary: CalculatedCostSummary;
   items: CalculatedCostItem[];
   assumptions: PropertyData[]; 
   calculatedCostId: string;

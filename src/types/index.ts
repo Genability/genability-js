@@ -35,7 +35,7 @@ export {
 } from './tariff';
 
 export {
-  Map,
+  CalculatedCostSummary,
   GroupBy,
   DetailLevel,
   CalculatedCost,

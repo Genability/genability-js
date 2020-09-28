@@ -90,31 +90,31 @@ export interface Tariff {
   lseId: number;
   lseName: string;
   serviceType: ServiceType;
-  priorTariffId: number;
-  distributionLseId: number;
-  tariffType: TariffType;
-  customerClass: CustomerClass;
-  customerCount: number;
-  customerLikelihood: number;
-  customerCountSource: string;
-  territoryId: number;
-  effectiveDate: string;
-  endDate: string;
-  closedDate: string;
-  timeZone: string;
-  billingPeriod: ChargePeriod;
-  currency: string;
-  chargeTypes: ChargeType[];
-  chargePeriod: ChargePeriod;
-  minMonthlyConsumption: number;
-  maxMonthlyConsumption: number;
-  minMonthlyDemand: number;
-  maxMonthlyDemand: number;
-  hasTimeOfUseRates: boolean;
-  hasTieredRates: boolean;
-  hasContractedRates: boolean;
-  hasRateApplicability: boolean;
-  hasNetMetering: boolean;
+  priorTariffId?: number;
+  distributionLseId?: number;
+  tariffType?: TariffType;
+  customerClass?: CustomerClass;
+  customerCount?: number;
+  customerLikelihood?: number;
+  customerCountSource?: string;
+  territoryId?: number;
+  effectiveDate?: string;
+  endDate?: string;
+  closedDate?: string;
+  timeZone?: string;
+  billingPeriod?: ChargePeriod;
+  currency?: string;
+  chargeTypes?: ChargeType[];
+  chargePeriod?: ChargePeriod;
+  minMonthlyConsumption?: number;
+  maxMonthlyConsumption?: number;
+  minMonthlyDemand?: number;
+  maxMonthlyDemand?: number;
+  hasTimeOfUseRates?: boolean;
+  hasTieredRates?: boolean;
+  hasContractedRates?: boolean;
+  hasRateApplicability?: boolean;
+  hasNetMetering?: boolean;
   properties?: TariffProperty[];
   rates?: TariffRate[];
 }
@@ -180,5 +180,7 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.masterTariffId !== undefined &&
     arg.tariffCode !== undefined &&
     arg.tariffName !== undefined &&
-    arg.lseId !== undefined;
+    arg.lseId !== undefined &&
+    arg.lseName !== undefined &&
+    arg.serviceType !== undefined
 }

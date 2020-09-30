@@ -4,11 +4,6 @@ import { Territory } from './territory';
 import { Season } from './season';
 import { TimeOfUse } from './time-of-use';
 
-export enum FieldsParameter {
-  MIN = 'min',
-  EXT = 'ext'
-}
-
 export enum TariffType {
   DEFAULT = "DEFAULT",
   ALTERNATIVE = "ALTERNATIVE",

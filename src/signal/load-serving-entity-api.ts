@@ -9,14 +9,12 @@ import {
 import {
   ServiceType,
   Ownership,
-  LoadServingEntity,
-  FieldsParameter
+  LoadServingEntity
 } from '../types';
 
 export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   public postCode?: string;
   public country?: string;
-  public fields?: FieldsParameter;
   public serviceTypes?: ServiceType[];
   public ownerships?: Ownership[];
 

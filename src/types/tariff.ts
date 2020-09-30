@@ -89,7 +89,7 @@ export interface Tariff {
   tariffName: string;
   lseId: number;
   lseName: string;
-  serviceType: ServiceType;
+  serviceType?: ServiceType;
   priorTariffId?: number;
   distributionLseId?: number;
   tariffType?: TariffType;
@@ -181,6 +181,5 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.tariffCode !== undefined &&
     arg.tariffName !== undefined &&
     arg.lseId !== undefined &&
-    arg.lseName !== undefined &&
-    arg.serviceType !== undefined
+    arg.lseName !== undefined
 }

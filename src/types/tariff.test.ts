@@ -76,8 +76,7 @@ describe("tariff types", () => {
           "tariffCode": "numberTariffCode",\
           "tariffName": "numberTariffName",\
           "lseId": "numberLseId",\
-          "lseName": "numberLseName",\
-          "serviceType": "ELECTRICITY"\
+          "lseName": "numberLseName"\
         }'
       );
       expect(isTariff(tariff)).toEqual(true);
@@ -93,7 +92,6 @@ describe("tariff types", () => {
           "tariffName": "numberTariffName",\
           "lseId": "numberLseId",\
           "lseName": "numberLseName",\
-          "serviceType": "ELECTRICITY",\
           "rates": []\
         }'
       );
@@ -113,7 +111,6 @@ describe("tariff types", () => {
           "tariffName": "numberTariffName",\
           "lseId": "numberLseId",\
           "lseName": "numberLseName",\
-          "serviceType": "ELECTRICITY",\
           "rates": ${ratesJson}
         }`
       );

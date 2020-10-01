@@ -11,6 +11,7 @@ import {
 } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
+import { Fields } from '../rest-client/contract';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new LoadServingEntityApi(credentials);
@@ -31,15 +32,17 @@ describe("GetLoadServingEntities request", () => {
     it("handles several parameters", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = 'USA';
+      request.fields = Fields.EXTENDED;
       request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY,GAS');
+      expect(qs).toEqual('country=USA&serviceTypes=ELECTRICITY,GAS&fields=ext');
     })
     it("handles undefined parameters", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = undefined;
       request.serviceTypes = undefined;
       request.ownerships = undefined;
+      request.fields = undefined;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
@@ -47,10 +50,11 @@ describe("GetLoadServingEntities request", () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.country = 'USA';
+      request.fields = Fields.EXTENDED;
       request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       request.ownerships = [Ownership.INVESTOR, Ownership.COOP];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('postCode=0001&country=USA&fields=ext&serviceTypes=ELECTRICITY,GAS&ownerships=INVESTOR,COOP');
+      expect(qs).toEqual('postCode=0001&country=USA&serviceTypes=ELECTRICITY,GAS&ownerships=INVESTOR,COOP&fields=ext');
     })
     it("handles both pagination", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();

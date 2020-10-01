@@ -71,7 +71,6 @@ export class GetTariffsRequest extends BasePagedRequest {
     addParam('bundleRates', this.bundleRates);
     addParam('applicableRatesOnly', this.applicableRatesOnly);
     addParam('filterRiderRates', this.filterRiderRates);
-    addParam('fields', this.fields);
   }
 }
 
@@ -94,7 +93,6 @@ export class GetTariffRequest extends BasePagedRequest {
     addParam('bundleRates', this.bundleRates);
     addParam('applicableRatesOnly', this.applicableRatesOnly);
     addParam('lookupVariableRates', this.lookupVariableRates)
-    addParam('fields', this.fields);
   }
 }
 

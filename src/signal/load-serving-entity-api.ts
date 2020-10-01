@@ -21,7 +21,6 @@ export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);
     addParam('country', this.country);
-    addParam('fields', this.fields);
     addParam('serviceTypes', this.serviceTypes);
     addParam('ownerships', this.ownerships);
   }

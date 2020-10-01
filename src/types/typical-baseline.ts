@@ -87,33 +87,33 @@ export function suitableTypicalBuildingIdForTariff(arg: Tariff): string {
     if (!arg.minMonthlyConsumption && !arg.maxMonthlyConsumption && !arg.minMonthlyDemand && !arg.maxMonthlyDemand) {
       correspondingString = 'MEDIUM_COMMERCIAL';
     } else if (
-      arg.maxMonthlyConsumption <= 10000 ||
-      arg.maxMonthlyDemand <= 200
+      (arg.maxMonthlyConsumption && arg.maxMonthlyConsumption <= 10000) ||
+      (arg.maxMonthlyDemand && arg.maxMonthlyDemand <= 200)
     ) {
       correspondingString = 'SMALL_COMMERCIAL';
     } else if (
-      arg.maxMonthlyConsumption <= 50000 ||
-      arg.maxMonthlyDemand <= 400
+      (arg.maxMonthlyConsumption && arg.maxMonthlyConsumption <= 50000) ||
+      (arg.maxMonthlyDemand && arg.maxMonthlyDemand <= 400)
     ) {
       correspondingString = 'MEDIUM_COMMERCIAL';
     } else if (
-      arg.maxMonthlyConsumption > 50000 ||
-      arg.maxMonthlyDemand > 400
+      (arg.maxMonthlyConsumption && arg.maxMonthlyConsumption > 50000) ||
+      (arg.maxMonthlyDemand && arg.maxMonthlyDemand > 400)
     ) {
       correspondingString = 'LARGE_COMMERCIAL';
     } else if (
-      arg.minMonthlyConsumption >= 250000 ||
-      arg.minMonthlyDemand >= 500
+      (arg.minMonthlyConsumption && arg.minMonthlyConsumption >= 250000) ||
+      (arg.minMonthlyDemand && arg.minMonthlyDemand >= 500)
     ) {
       correspondingString = 'LARGE_COMMERCIAL';
     } else if (
-      arg.minMonthlyConsumption >= 50000 ||
-      arg.minMonthlyDemand >= 400
+      (arg.minMonthlyConsumption && arg.minMonthlyConsumption >= 50000) ||
+      (arg.minMonthlyDemand && arg.minMonthlyDemand >= 400)
     ) {
       correspondingString = 'MEDIUM_COMMERCIAL';
     } else if (
-      arg.minMonthlyConsumption < 50000 ||
-      arg.minMonthlyDemand < 400
+      (arg.minMonthlyConsumption && arg.minMonthlyConsumption < 50000) ||
+      (arg.minMonthlyDemand && arg.minMonthlyDemand < 400)
     ) {
       correspondingString = 'SMALL_COMMERCIAL';
     } 

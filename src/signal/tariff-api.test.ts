@@ -9,13 +9,13 @@ import {
   CustomerClass,
   ChargeType,
   Tariff,
-  isTariff,
-  FieldsParameter
+  isTariff
 } from '../types/tariff';
 import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 import { ServiceType } from '../types/load-serving-entity';
 import { PrivacyFlag } from '../types/property-key';
+import { Fields } from '../rest-client/contract';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new TariffApi(credentials);
@@ -109,7 +109,7 @@ describe("Tariff api", () => {
       const tariffRequest: GetTariffRequest = new GetTariffRequest();
       tariffRequest.populateProperties = true;
       tariffRequest.populateRates = true;
-      tariffRequest.fields = FieldsParameter.EXT;
+      tariffRequest.fields = Fields.EXTENDED;
       const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
       expect(tariff.rates).toEqual(expect.any(Array));

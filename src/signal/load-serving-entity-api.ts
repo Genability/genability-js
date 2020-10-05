@@ -9,21 +9,18 @@ import {
 import {
   ServiceType,
   Ownership,
-  LoadServingEntity,
-  FieldsParameter
+  LoadServingEntity
 } from '../types';
 
 export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   public postCode?: string;
   public country?: string;
-  public fields?: FieldsParameter;
   public serviceTypes?: ServiceType[];
   public ownerships?: Ownership[];
 
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);
     addParam('country', this.country);
-    addParam('fields', this.fields);
     addParam('serviceTypes', this.serviceTypes);
     addParam('ownerships', this.ownerships);
   }

@@ -1,5 +1,14 @@
 import { encode } from './utils';
 
+export enum Fields {
+  MINIMUM = 'min',
+  EXTENDED = 'ext'
+}
+
+export interface Fieldsable {
+  fields?: Fields;
+}
+
 export enum SortOrder {
   ASC = 'ASC',
   DESC = 'DESC'
@@ -74,7 +83,7 @@ export type AddParamCallback = (
   boolean,
 ) => void;
 
-export abstract class BasePagedRequest implements Paged, Searchable, Sortable, QueryStringified {
+export abstract class BasePagedRequest implements Paged, Searchable, Sortable, Fieldsable, QueryStringified {
   public pageStart?: number;
   public pageCount?: number;
   public search?: string;
@@ -84,6 +93,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, Q
   public isRegex?: boolean;
   public sortOn?: string[];
   public sortOrder?: SortOrder[];
+  public fields?: Fields;
 
   public constructor(init?: Partial<BasePagedRequest>) {
     Object.assign(this, init);
@@ -108,6 +118,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, Q
     this.addPaginationParams(callback);
     this.addSearchParams(callback);
     this.addSortParams(callback);
+    this.addFieldsParam(callback);
 
     return parts.join('&');
   }
@@ -130,6 +141,12 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, Q
   addSortParams(addParam: AddParamCallback): void {
     addParam('sortOn', this.sortOn);
     addParam('sortOrder', this.sortOrder);
+  }
+
+  addFieldsParam(addParam: AddParamCallback): void {
+    if(this.fields !== undefined && (this.fields === Fields.MINIMUM || this.fields === Fields.EXTENDED)) {
+      addParam('fields', this.fields);
+    }
   }
 }
 

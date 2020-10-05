@@ -1,4 +1,5 @@
 import { 
+  Fields,
   isPaged,
   isQueryStringified,
   isSearchable,
@@ -146,6 +147,28 @@ describe("Rest API Contracts", () => {
       });
       const qs: string = request.queryStringify();
       expect(qs).toEqual('sortOn=name,date&sortOrder=ASC,DESC');
+    })
+  })
+
+  describe("Fieldsable Requests", () => {
+    it("should not set fields parameter if undefined", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.fields = undefined;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('');
+    })
+    it("handles fields parameter", async () => {
+      const request: GetNRequest = new GetNRequest();
+      request.fields = Fields.MINIMUM;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('fields=min');
+    })
+    it("handles fields via constructor", async () => {
+      const request: GetNRequest = new GetNRequest({
+        fields: Fields.EXTENDED,
+      });
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('fields=ext');
     })
   })
 });

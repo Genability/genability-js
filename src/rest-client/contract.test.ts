@@ -4,7 +4,8 @@ import {
   isQueryStringified,
   isSearchable,
   isSortable,
-  SortOrder
+  SortOrder,
+  PagedResponse
 } from './contract';
 import {
   BasePagedRequest,
@@ -21,6 +22,24 @@ class GetNRequest extends BasePagedRequest {
     addParam('someString', this.someString);
   }
 }
+interface PagedResponseType {
+  status: string;
+  type: string; 
+  count: number; 
+  results: Array<number>;
+}
+const samplePageResponse: PagedResponseType = {
+  status: '',
+  type: '',
+  count: 3,
+  results: [1,2,3]
+}
+describe("Paginated Response", () => {
+  it("isPaginated", async () => {
+    const response: PagedResponse<number> = new PagedResponse(samplePageResponse);
+    expect(response).toBeTruthy();
+  })
+})
 
 describe("Rest API Contracts", () => {
   describe("Paginated Requests", () => {

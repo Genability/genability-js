@@ -25,6 +25,12 @@ export enum DetailLevel {
   RATE = "RATE"
 }
 
+export enum DataSeriesAttributes {
+  FIXED_NOT_DST = "FIXED_NOT_DST",
+  MISSING_DST_PRORATE = "MISSING_DST_PRORATE",
+  MISSING_DST_DUPLICATE = "MISSING_DST_PRORATE"
+}
+
 export interface CalculatedCostSummary {
   subTotalCost: number;
   preTaxMinimumCost: number;
@@ -84,6 +90,7 @@ export interface CalculatedCostItem {
 }
 
 export interface PropertyData extends GenPropertyKey {
+  keyName: string;
   fromDateTime?: string;
   toDateTime?: string;
   period: Period;
@@ -94,6 +101,7 @@ export interface PropertyData extends GenPropertyKey {
   operator: string;
   unit: string;
   accuracy: number;
+  dataSeriesAttributes?: DataSeriesAttributes[];
 }
 
 export interface Address {

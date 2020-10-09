@@ -16,7 +16,7 @@ export interface Calendar {
   calendarName: string;
   calendarType: CalendarType;
   lseId: string;
-  events: CalendarEvent[];
+  events?: CalendarEvent[];
 }
 
 export interface CalendarEvent {
@@ -24,14 +24,14 @@ export interface CalendarEvent {
   calendarEventName: string;
   lseId: number;
   calendarEventType: CalendarType;
-  dateDefinitionType: DateDefinitionType;
-  locale: string;
-  seededUntil: Date;
-  fixedMonth: number;
-  fixedDay: number;
-  dayOfWeek: number;
-  weekOfMonth: number;
-  adjustment: number;
+  dateDefinitionType?: DateDefinitionType;
+  locale?: string;
+  seededUntil?: Date;
+  fixedMonth?: number;
+  fixedDay?: number;
+  dayOfWeek?: number;
+  weekOfMonth?: number;
+  adjustment?: number;
 }
 
 export interface CalendarDate {
@@ -51,6 +51,13 @@ export function isCalendar(arg: Calendar): arg is Calendar {
   return arg.calendarId !== undefined &&
     arg.calendarName !== undefined &&
     arg.calendarType !== undefined &&
+    arg.lseId !== undefined
+}
+
+export function isCalendarEvent(arg: CalendarEvent): arg is CalendarEvent {
+  return arg.calendarEventId !== undefined &&
+    arg.calendarEventName !== undefined &&
+    arg.calendarEventType !== undefined &&
     arg.lseId !== undefined
 }
 

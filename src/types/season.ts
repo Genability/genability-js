@@ -4,20 +4,20 @@ export enum PredominanceRule {
 }
 
 export interface Season {
-  seasonId: number;
-  lseId: number;
-  seasonGroupId: number;
-  seasonName: string;
-  seasonFromMonth: number;
-  seasonFromDay: number;
+  seasonId?: number;
+  lseId?: number;
+  seasonGroupId?: number;
+  seasonName?: string;
+  seasonFromMonth?: number;
+  seasonFromDay?: number;
   fromEdgePredominance?: PredominanceRule;
-  seasonToMonth: number;
-  seasonToDay: number;
+  seasonToMonth?: number;
+  seasonToDay?: number;
   toEdgePredominance?: PredominanceRule;
 }
 
 export interface SeasonGroup {
-  seasonGroupId: number;
+  seasonGroupId?: number;
   seasons: Season[];
 }
 

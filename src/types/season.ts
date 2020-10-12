@@ -4,7 +4,7 @@ export enum PredominanceRule {
 }
 
 export interface Season {
-  seasonId?: number;
+  seasonId: number;
   lseId?: number;
   seasonGroupId?: number;
   seasonName?: string;
@@ -17,8 +17,8 @@ export interface Season {
 }
 
 export interface SeasonGroup {
-  seasonGroupId?: number;
-  seasons: Season[];
+  seasonGroupId: number;
+  seasons?: Season[];
 }
 
 /**
@@ -29,12 +29,5 @@ export function isSeasonGroup(arg: SeasonGroup): arg is SeasonGroup {
 }
 
 export function isSeason(arg: Season): arg is Season {
-  return arg.seasonId !== undefined &&
-    arg.lseId !== undefined &&
-    arg.seasonGroupId !== undefined &&
-    arg.seasonName !== undefined &&
-    arg.seasonFromMonth !== undefined &&
-    arg.seasonFromDay !== undefined &&
-    arg.seasonToMonth !== undefined &&
-    arg.seasonToDay !== undefined;
+  return arg.seasonId !== undefined
 }

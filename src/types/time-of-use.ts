@@ -1,38 +1,41 @@
+import { 
+  Season
+} from './season';
 export interface TimeOfUseInterval {
   touId: number;
-  touName: string;
-  touGroupId: number;
-  fromDateTime: string;
-  toDateTime: string;
+  touName?: string;
+  touGroupId?: number;
+  fromDateTime?: string;
+  toDateTime?: string;
 }
 
 export interface TimeOfUsePeriod {
   touPeriodId: number;
-  touId: number;
-  fromDayOfWeek: number;
-  fromHour: number;
-  fromMinute: number;
-  toDayOfWeek: number;
-  toHour: number;
-  toMinute: number;
+  touId?: number;
+  fromDayOfWeek?: number;
+  fromHour?: number;
+  fromMinute?: number;
+  toDayOfWeek?: number;
+  toHour?: number;
+  toMinute?: number;
 }
 
 export interface TimeOfUse {
   touId: number;
-  touName: string;
-  touGroupId: number;
-  lseId: number;
-  calendarId: number;
-  season: string;
-  isDynamic: boolean;
-  touPeriods: TimeOfUsePeriod[];
-  privacy: string;
+  touName?: string;
+  touGroupId?: number;
+  lseId?: number;
+  calendarId?: number;
+  season?: Season;
+  isDynamic?: boolean;
+  touPeriods?: TimeOfUsePeriod[];
+  privacy?: string;
 }
 
 export interface TimeOfUseGroup {
   lseId: number;
   touGroupId: number;
-  timeOfUses: TimeOfUse[];
+  timeOfUses?: TimeOfUse[];
 }
 
 /**
@@ -44,19 +47,13 @@ export function isTimeOfUseGroup(arg: TimeOfUseGroup): arg is TimeOfUseGroup {
 }
 
 export function isTimeOfUse(arg: TimeOfUse): arg is TimeOfUse {
-  return arg.touId !== undefined &&
-    arg.touName !== undefined &&
-    arg.touGroupId !== undefined &&
-    arg.lseId !== undefined;
+  return arg.touId !== undefined
 }
 
 export function isTimeOfUseInterval(arg: TimeOfUseInterval): arg is TimeOfUseInterval {
-  return arg.touId !== undefined &&
-    arg.touName !== undefined &&
-    arg.touGroupId !== undefined;
+  return arg.touId !== undefined
 }
 
 export function isTimeOfUsePeriod(arg: TimeOfUsePeriod): arg is TimeOfUsePeriod {
-  return arg.touId !== undefined &&
-    arg.touPeriodId !== undefined;
+  return arg.touPeriodId !== undefined;
 }

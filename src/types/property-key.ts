@@ -46,7 +46,6 @@ export interface GenPropertyKey {
 
 export interface GenPropertyChoice {
   displayValue: string;
-  value: string;
   dataValue: string;
   likelihood?: number;
 }

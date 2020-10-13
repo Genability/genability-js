@@ -78,8 +78,8 @@ export interface CalculatedCostItem {
   rateProration?: number;
   chargeType?: ChargeType;
   chargeClass?: ChargeClass;
-  period: Period;
-  demandInterval: string;
+  period?: Period;
+  demandInterval?: string;
   duration?: number;
   touId?: number;
   touName?: string;
@@ -93,8 +93,8 @@ export interface PropertyData extends GenPropertyKey {
   keyName: string;
   fromDateTime?: string;
   toDateTime?: string;
-  period: Period;
-  dataValue: string;
+  period?: Period;
+  dataValue?: string;
   dataSeries?: number[];
   exportDataSeries?: number[];
   duration?: number;

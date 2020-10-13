@@ -13,10 +13,10 @@ describe('Test createTaxRate method', () => {
   describe('with a valid file', () => {
     it('should return TariffRate object when all arguments are given', () => {
       const expectedTariffRate = {
-        // tariffRateId: 1,
-        // tariffId: 2,
-        // riderId: 3,
-        // tariffSequenceNumber: 4,
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
         rateGroupName:'Taxes',
         rateName: "testRateName",
         chargeType: ChargeType.TAX,
@@ -36,12 +36,12 @@ describe('Test createTaxRate method', () => {
 
     it('isFixedAmount should default to false and rateName to "Taxes"', () => {
       const expectedTariffRate = {
-        // tariffRateId: 1,
-        // tariffId: 2,
-        // riderId: 3,
-        // tariffSequenceNumber: 4,
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
         rateGroupName:'Taxes',
-        rateName: "testRateName",
+        rateName: 'Taxes',
         chargeType: ChargeType.TAX,
         chargeClass: ChargeClass.TAX,
         chargePeriod: ChargePeriod.MONTHLY,
@@ -56,12 +56,6 @@ describe('Test createTaxRate method', () => {
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
-    // it('should throw an error when not passing rateAmount', () => {
-    //   expect(() => TariffRateFactory.createTaxRate(
-    //     undefined, true, "testRateName"
-    //   ))
-    //     .toThrow(Error);
-    // });
   });
 });
   

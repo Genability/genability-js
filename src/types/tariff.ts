@@ -116,12 +116,12 @@ export interface Tariff {
 
 
 export interface TariffRate {
-  tariffRateId: number;
+  tariffRateId: number | null;
   masterTariffRateId?: number;
-  tariffId: number;
+  tariffId: number | null;
   riderTariffId?: number;
-  riderId: number;
-  tariffSequenceNumber: number;
+  riderId: number | null;
+  tariffSequenceNumber: number | null;
   rateGroupName: string;
   rateName: string;
   fromDateTime?: string;

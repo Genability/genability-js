@@ -16,10 +16,10 @@ export class TariffRateFactory {
       throw new Error('Please provide a rateAmount');
     }
     const tariffRate = {
-      // tariffRateId: 1,
-      // tariffId: 2,
-      // riderId: 3,
-      // tariffSequenceNumber: 4,
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
       rateGroupName:'Taxes',
       rateName,
       chargeType: ChargeType.TAX,

@@ -14,21 +14,21 @@ export enum ItemType {
 
 export interface TerritoryItem {
   territoryItemId: number;
-  territoryType: string;
-  value: string;
-  exclude: boolean;
-  partial: boolean;
+  territoryType?: string;
+  value?: string;
+  exclude?: boolean;
+  partial?: boolean;
 }
 
 export interface TerritoryLse {
   territoryId: number;
-  lseId: number;
-  lseName: string;
-  distribution: boolean;
-  supplierResidential: boolean;
-  supplierGeneral: boolean;
-  residentialCoverage: number;
-  generalCoverage: number;
+  lseId?: number;
+  lseName?: string;
+  distribution?: boolean;
+  supplierResidential?: boolean;
+  supplierGeneral?: boolean;
+  residentialCoverage?: number;
+  generalCoverage?: number;
 }
 
 export interface CenterPoint {
@@ -41,14 +41,14 @@ export interface Territory {
   territoryName: string;
   lseId: number;
   lseName: string;
-  parentTerritoryId: number;
-  usageType: UsageType;
-  itemTypes: ItemType[];
+  parentTerritoryId?: number;
+  usageType?: UsageType;
+  itemTypes?: ItemType[];
   items?: TerritoryItem[];
-  territoryLses: TerritoryLse[];
-  deregRes: boolean;
-  deregCandi: boolean;
-  centerPoint: CenterPoint;
+  territoryLses?: TerritoryLse[];
+  deregRes?: boolean;
+  deregCandi?: boolean;
+  centerPoint?: CenterPoint;
 }
 
 /**

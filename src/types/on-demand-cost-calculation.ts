@@ -51,15 +51,15 @@ export interface CalculatedCost {
   fromDateTime: string;
   toDateTime: string;
   accuracy: number;
-  currency: string;
-  summary: CalculatedCostSummary;
+  currency?: string;
+  summary?: CalculatedCostSummary;
   items: CalculatedCostItem[];
   assumptions: PropertyData[]; 
   calculatedCostId: string;
 }
 
 export interface CalculatedCostItem {
-  tariffId: number;
+  tariffId?: number;
   tariffRateId: number;
   tariffRateBandId: number;
   rateSequenceNumber: number;
@@ -68,40 +68,40 @@ export interface CalculatedCostItem {
   fromDateTime: string;
   toDateTime: string;
   quantityKey: string;
-  quantityKeyDescription: string;
+  quantityKeyDescription?: string;
   rateType: RateUnit;
   rateAmount: number;
-  tierLowerLimit: number;
-  tierUpperLimit: number;
+  tierLowerLimit?: number;
+  tierUpperLimit?: number;
   itemQuantity: number;
   cost: number;
-  rateProration: number;
-  chargeType: ChargeType;
-  chargeClass: ChargeClass;
-  period: Period;
-  demandInterval: string;
+  rateProration?: number;
+  chargeType?: ChargeType;
+  chargeClass?: ChargeClass;
+  period?: Period;
+  demandInterval?: string;
   duration?: number;
   touId?: number;
   touName?: string;
   seasonId?: number;
   seasonName?: string;
-  formula: string;
-  transactionType: TransactionType;
+  formula?: string;
+  transactionType?: TransactionType;
 }
 
 export interface PropertyData extends GenPropertyKey {
   keyName: string;
   fromDateTime?: string;
   toDateTime?: string;
-  period: Period;
-  dataValue: string;
-  dataSeries: number[];
-  duration: number;
-  dataFactor: number;
-  operator: string;
+  period?: Period;
+  dataValue?: string;
+  dataSeries?: number[];
+  exportDataSeries?: number[];
+  duration?: number;
+  dataFactor?: number;
+  operator?: '+' | '-';
   unit: string;
   accuracy: number;
-  dataSeriesAttributes?: DataSeriesAttributes[];
 }
 
 export interface Address {

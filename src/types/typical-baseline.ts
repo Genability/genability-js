@@ -13,40 +13,40 @@ export interface Baseline {
   baselineId: string;
   name: string;
   buildingType: BuildingType;
-  serviceType: ServiceType;
-  sourceId: string;
-  startDay: number;
+  serviceType?: ServiceType;
+  sourceId?: string;
+  startDay?: number;
   climateZone: Territory;
-  properties: PropertyData[];
+  properties?: PropertyData[];
   factors: Factor;
-  type: string;
-  measureDuration: number;
-  measureValue: string;
-  measureUnit: MeasureUnit;
-  measures: BaselineMeasure[];
-  intervals: IntervalInfo[];
+  type?: string;
+  measureDuration?: number;
+  measureValue?: string;
+  measureUnit?: MeasureUnit;
+  measures?: BaselineMeasure[];
+  intervals?: IntervalInfo[];
 }
 
 export interface BaselineMeasure {
-  i: number;
-  v: number;
+  i?: number;
+  v?: number;
 }
 
 export interface IntervalInfo {
-  fromDateTime: string;
-  toDateTime: string;
-  duration: number;
+  fromDateTime?: string;
+  toDateTime?: string;
+  duration?: number;
   kWh: Measure;
   kW: Measure;
 }
 
 export interface Measure {
   quantityAmount?: number;
-  quantityAccuracy?: number;
   rateAmount?: number;
-  rateAccuracy?: number;
-  costAmount?: number;
-  costAccuracy?: number;
+  // quantityAccuracy?: number;
+  // rateAccuracy?: number;
+  // costAmount?: number;
+  // costAccuracy?: number;
 }
 
 export interface Factor {

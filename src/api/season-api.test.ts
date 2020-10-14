@@ -37,8 +37,10 @@ describe("Season api", () => {
     expect(response.type).toEqual(ResourceTypes.SEASON_GROUP);
     for(const seasonGroup of response.results) {
       expect(isSeasonGroup(seasonGroup)).toBeTruthy();
-      for(const season of seasonGroup.seasons) {
-        expect(isSeason(season)).toBeTruthy();
+      if(seasonGroup.seasons) {
+        for(const season of seasonGroup.seasons) {
+          expect(isSeason(season)).toBeTruthy();
+        }
       }
     }
   })

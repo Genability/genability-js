@@ -25,6 +25,7 @@ export const CommonPropertyKeyNames = {
 
 export interface GenPropertyKey {
   keyName: string;
+  subKeyname?: string;
   displayName: string;
   family: string;
   keyspace: string;
@@ -32,7 +33,11 @@ export interface GenPropertyKey {
   dataType: PropertyDataType;
   quantityUnit?: string;
   formulaDetail?: string;
+  lookbackIntervalQuantity?: number;
+  lookbackQuantity?: number;
   lookbackPeriod?: string;
+  lookbackTimeOfUseId?: number;
+  lookbackSeasonId?: number;
   entityId?: number;
   entityType?: string;
   privacy?: PrivacyFlag;
@@ -40,7 +45,7 @@ export interface GenPropertyKey {
 }
 
 export interface GenPropertyChoice {
-  displayValue: number;
+  displayValue: string;
   dataValue: string;
   likelihood?: number;
 }

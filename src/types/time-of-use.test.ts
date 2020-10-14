@@ -81,7 +81,7 @@ describe("works for isTimeOfUseGroup", () => {
 describe("works for isTimeOfUse", () => {
   it("should be false for invalid JSON", () => {
     const timeOfUseJson = '{\
-      "touId": 1,\
+      "tou": 1,\
       "touName": 2,\
       "touGroupId": 3\
       }';
@@ -103,7 +103,7 @@ describe("works for isTimeOfUse", () => {
 describe("works for isTimeOfUseInterval", () => {
   it("should be false for invalid JSON", () => {
     const intervalJson = '{\
-      "touId": 1,\
+      "tou": 1,\
       "touGroupId": 3,\
       "fromDateTime": "2011-06-12T19:00:00.0-0700"\
       }';

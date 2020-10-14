@@ -5,7 +5,8 @@ import {
   CalendarDate,
   DateDefinitionType,
   isCalendar,
-  isCalendarDate
+  isCalendarDate,
+  isCalendarEvent
 } from './calendar';
 
 describe("calendar types", () => {
@@ -98,8 +99,9 @@ describe("calendar types", () => {
           "events": ${eventsJson}
         }`
       );
-      const events: CalendarEvent = JSON.parse(eventsJson);
+      const events: Array<CalendarEvent> = JSON.parse(eventsJson);
       expect(isCalendar(calendar)).toEqual(true);
+      expect(isCalendarEvent(events[0])).toEqual(true);
       expect(calendar.events).toEqual(events);
     })
   });

@@ -116,45 +116,46 @@ export interface Tariff {
 
 
 export interface TariffRate {
-  tariffRateId: number;
-  tariffId: number;
-  riderTariffId: number;
-  riderId: number;
-  tariffSequenceNumber: number;
+  tariffRateId: number | null;
+  masterTariffRateId?: number;
+  tariffId: number | null;
+  riderTariffId?: number;
+  riderId: number | null;
+  tariffSequenceNumber: number | null;
   rateGroupName: string;
   rateName: string;
-  fromDateTime: string;
-  toDateTime: string;
-  chargeType: ChargeType;
-  chargeClass: ChargeClass;
-  chargePeriod: ChargePeriod;
-  transactionType: TransactionType;
-  quantityKey: string;
-  applicabilityKey: string;
-  variableLimitKey: string;
-  variableRateKey: string;
-  variableFactorKey: string;
-  territory: Territory;
-  season: Season;
-  timeOfUse: TimeOfUse;
+  fromDateTime?: string;
+  toDateTime?: string;
+  chargeType?: ChargeType;
+  chargeClass?: ChargeClass;
+  chargePeriod?: ChargePeriod;
+  transactionType?: TransactionType;
+  quantityKey?: string;
+  applicabilityKey?: string;
+  variableLimitKey?: string;
+  variableRateKey?: string;
+  variableFactorKey?: string;
+  territory?: Territory;
+  season?: Season;
+  timeOfUse?: TimeOfUse;
   rateBands?: TariffRateBand[];
 }
 
 export interface TariffRateBand {
-  tariffRateBandId: number;
-  tariffRateId: number;
-  rateSequenceNumber: number;
-  hasConsumptionLimit: boolean;
-  consumptionUpperLimit: number;
-  hasDemandLimit: boolean;
-  demandUpperLimit: number;
-  hasPropertyLimit: boolean;
-  propertyUpperLimit: number;
-  applicabilityValue: string;
-  calculationFactor: number;
-  rateAmount: number;
-  rateUnit: RateUnit;
-  isCredit: boolean;
+  tariffRateBandId?: number;
+  tariffRateId?: number;
+  rateSequenceNumber?: number;
+  hasConsumptionLimit?: boolean;
+  consumptionUpperLimit?: number;
+  hasDemandLimit?: boolean;
+  demandUpperLimit?: number;
+  hasPropertyLimit?: boolean;
+  propertyUpperLimit?: number;
+  applicabilityValue?: string;
+  calculationFactor?: number;
+  rateAmount?: number;
+  rateUnit?: RateUnit;
+  isCredit?: boolean;
 }
 
 export interface TariffProperty extends GenPropertyKey {

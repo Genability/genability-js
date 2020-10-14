@@ -1,6 +1,6 @@
 import { Genability } from './genability'
 import * as types from './types';
-import * as restApis from './signal';
+import * as restApis from './api';
 import * as credentials from './rest-client/credentials';
 
 const world = 'World';

@@ -13,7 +13,7 @@ import {
   TimeOfUseApi,
   LookupApi,
   TypicalBaselineApi
-} from './signal';
+} from './api';
 
 export class Genability {
   private static _instance: Genability;

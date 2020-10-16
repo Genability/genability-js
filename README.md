@@ -4,8 +4,17 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 
 ![Node.js CI](https://github.com/Genability/genability-js/workflows/Node.js%20CI/badge.svg)
 
+## Table of Contents
+
+1. [Basic web front end use](#web-frontend-use)
+2. [Basic npm usage](#npm-use)
+3. [NodeJS backend proxy example](#backend-proxy)
+4. [Maven Plugin for NodeJS](#maven-plugin)
+5. [API usage](#api-use)
+
+
 ## Integrations
-### Basic web front end use:
+### <a name="web-frontend-use"></a>Basic web front end use:
 
 #### Include the library with a script tag:
 ~~~html
@@ -28,7 +37,33 @@ territoriesRequest.masterTariffId = '522';
 GenAPIClient.territories.getTerritories(territoriesRequest);
 ~~~
 
-### NodeJS backend proxy example
+### <a name="npm-use"></a>Basic npm usage
+Prerequisites: [Node.js](https://nodejs.org/) (`^10.12.0`, or `>=12.0.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+
+You can install genability sdk using npm:
+
+```
+$ npm install @genability/api --save
+```
+
+#### Import Genability API client
+~~~javascript
+import { Genability } from '@genability/api';
+~~~
+
+#### Instantiate a request object
+~~~javascript
+import { restApis } from '@genability/api';
+const territoriesRequest = new restApis.GetTerritoriesRequest();
+territoriesRequest.masterTariffId = '522';
+~~~
+
+#### Call the API method
+~~~javascript
+Genability.territories.getTerritories(territoriesRequest);
+~~~
+
+### <a name="backend-proxy"></a>NodeJS backend proxy example
 Include [http-proxy-middleware](https://www.npmjs.com/package/http-proxy-middleware) in package.json
 
 #### Instantiate proxy middleware
@@ -50,7 +85,7 @@ app.use('/genability-api', createProxyMiddleware({
 }));
 ~~~
 
-### Maven Plugin for NodeJS
+### <a name="maven-plugin"></a>Maven Plugin for NodeJS
 A useful way to use the Genability Javascript SDK in a project with a Java backend is to include
 the [frontend-maven-plugin](https://github.com/eirslett/frontend-maven-plugin). This plugin will install NodeJS and NPM
 and enable running `npm install` on every build of the Java project. 
@@ -103,3 +138,36 @@ Here is an example mapping using the Spring framework:
 <mvc:resources mapping="/static/**" location="/node_modules/" />
 ~~~
 The packages in your node_modules will then be available to you in your front end Javascript in the `/static` path.
+
+### <a name="api-use"></a>API usage
+
+| API Endpoint               | Request Params type                              | List of params and sample response                                                                        |
+|----------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **properties**             |                                                 |                                                                                                            |
+| getPropertyKeys            | new api.GetPropertyKeysRequest()                | https://developer.genability.com/api-reference/shared-api/property-key/#get-a-list-of-property-keys        |
+| getPropertyKey             | string                                          | https://developer.genability.com/api-reference/shared-api/property-key/#get-one-property-key               |
+| **lses**                   |                                                 |                                                                                                            |
+| getLoadServingEntities     | new api.GetLoadServingEntitiesRequest()         | https://developer.genability.com/api-reference/tariff-api/load-serving-entity/                             |
+| getLoadServingEntity       | number                                          | https://developer.genability.com/api-reference/tariff-api/load-serving-entity/                             |
+| **tariffs**                |                                                 |                                                                                                            |
+| getTariffs                 | new api.GetTariffsRequest()                     | https://developer.genability.com/api-reference/tariff-api/tariff/#get-a-list-of-tariffs                    |
+| getTariff                  | number, new api.GetTariffsRequest()(optional)   | https://developer.genability.com/api-reference/tariff-api/tariff/#get-one-tariff                           |
+| getTariffHistory           | number                                          | https://developer.genability.com/api-reference/tariff-api/tariff-history/                                  |
+| **calculation**            |                                                 |                                                                                                            |
+| runCalculation             | new api.GetCalculatedCostRequest()              | https://developer.genability.com/api-reference/calculation-api/cost-calculation/#run-a-calculation         |
+| **territories**            |                                                 |                                                                                                            |
+| getTerritories             | new api.GetTerritoriesRequest()                 | https://developer.genability.com/api-reference/tariff-api/territory/#get-a-list-of-territories             |
+| getTerritory               | number                                          | https://developer.genability.com/api-reference/tariff-api/territory/#get-one-territory                     |
+| **seasons**                |                                                 |                                                                                                            |
+| getSeasonGroups            | new api.GetSeasonGroupsRequest()                | https://developer.genability.com/api-reference/tariff-api/season/#get-a-list-of-season-groups-for-an-lse   |
+| **timeofuses**             |                                                 |                                                                                                            |
+| getTimeOfUse               | number                                          | https://developer.genability.com/api-reference/tariff-api/time-of-use/#get-a-single-time-of-use-definition |
+| getTimeOfUseGroup          | number,number                                   | https://developer.genability.com/api-reference/tariff-api/time-of-use/#get-a-time-of-use-group             |
+| getTimeOfUseGroupIntervals | number,number                                   | https://developer.genability.com/api-reference/tariff-api/time-of-use/#get-a-groups-intervals              |
+| getTimeOfUseGroups         | number                                          | https://developer.genability.com/api-reference/tariff-api/time-of-use/#get-a-tous-intervals                |
+| **lookups**                |                                                 |                                                                                                            |
+| getLookupValues            | new api.GetLookupsRequest() (optional)          | https://developer.genability.com/api-reference/tariff-api/lookup/#get-lookup-values                        |
+| getPropertyLookupValues    | string , new api.GetLookupsRequest() (optional) | https://developer.genability.com/api-reference/tariff-api/lookup/#get-property-lookup-values               |
+| getPropertyLookupStats     | string                                          | https://developer.genability.com/api-reference/tariff-api/lookup/#get-property-lookup-stats                |
+| **typicals**               |                                                 |                                                                                                            |
+| getBaselinesBest           | new api.GetBaselinesBestRequest()               | https://developer.genability.com/api-reference/shared-api/typical-baseline/#get-best-baseline              |

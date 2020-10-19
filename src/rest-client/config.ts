@@ -8,7 +8,7 @@ export class GenabilityConfigOptions {
 }
 
 export class GenabilityConfig {
-  private static _instance: GenabilityConfig;
+  private static _instance: GenabilityConfig | undefined;
   private _baseURL: string;
   private _credentials: RestApiCredentials = {
     appId:'',
@@ -49,5 +49,12 @@ export class GenabilityConfig {
 
   get credentials(): RestApiCredentials {
     return this._credentials;
+  }
+
+  // Reset the single instance for testing. TODO: Reconsider this design!
+
+  public static __deconfigure(): any
+  {
+    delete this._instance;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@genability/api",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

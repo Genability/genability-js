@@ -81,6 +81,11 @@ export interface Tariff {
   tariffId: number;
   masterTariffId: number;
   tariffCode: string;
+  tariffBookName?: string;
+  lseCode?: null | number;
+  privacy?: null | number;
+  hasTariffApplicability?: boolean;
+  isActive?: boolean; 
   tariffName: string;
   lseId: number;
   lseName: string;
@@ -159,12 +164,12 @@ export interface TariffRateBand {
 }
 
 export interface TariffProperty extends GenPropertyKey {
-  period: Period;
+  period?: Period;
   propertyTypes: TariffPropertyType[];
   operator: string;
-  propertyValue: string;
-  minValue: string;
-  maxValue: string;
+  propertyValue?: string;
+  minValue?: string;
+  maxValue?: string;
   isDefault: boolean;
 }
 

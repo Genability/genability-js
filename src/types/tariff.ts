@@ -3,6 +3,7 @@ import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
 import { Season } from './season';
 import { TimeOfUse } from './time-of-use';
+import { PrivacyFlag } from './property-key';
 
 export enum TariffType {
   DEFAULT = "DEFAULT",
@@ -82,13 +83,11 @@ export interface Tariff {
   masterTariffId: number;
   tariffCode: string;
   tariffBookName?: string;
-  lseCode?: null | number;
-  privacy?: null | number;
-  hasTariffApplicability?: boolean;
-  isActive?: boolean; 
+  privacy?: null | PrivacyFlag; 
   tariffName: string;
   lseId: number;
   lseName: string;
+  lseCode?: null | number;
   serviceType?: ServiceType;
   priorTariffId?: number;
   distributionLseId?: number;
@@ -101,6 +100,7 @@ export interface Tariff {
   effectiveDate?: string;
   endDate?: string | null;
   closedDate?: string | null;
+  isActive?: boolean;
   timeZone?: string;
   billingPeriod?: ChargePeriod;
   currency?: string;
@@ -113,6 +113,7 @@ export interface Tariff {
   hasTimeOfUseRates?: boolean;
   hasTieredRates?: boolean;
   hasContractedRates?: boolean;
+  hasTariffApplicability?: boolean;
   hasRateApplicability?: boolean;
   hasNetMetering?: boolean | null;
   properties?: TariffProperty[];

@@ -3,6 +3,7 @@ import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
 import { Season } from './season';
 import { TimeOfUse } from './time-of-use';
+import { PrivacyFlag } from './property-key';
 
 export enum TariffType {
   DEFAULT = "DEFAULT",
@@ -81,35 +82,40 @@ export interface Tariff {
   tariffId: number;
   masterTariffId: number;
   tariffCode: string;
+  tariffBookName?: string;
+  privacy?: null | PrivacyFlag; 
   tariffName: string;
   lseId: number;
   lseName: string;
+  lseCode?: null | number;
   serviceType?: ServiceType;
   priorTariffId?: number;
   distributionLseId?: number;
   tariffType?: TariffType;
   customerClass?: CustomerClass;
   customerCount?: number;
-  customerLikelihood?: number;
+  customerLikelihood?: number | null;
   customerCountSource?: string;
   territoryId?: number;
   effectiveDate?: string;
-  endDate?: string;
-  closedDate?: string;
+  endDate?: string | null;
+  closedDate?: string | null;
+  isActive?: boolean;
   timeZone?: string;
   billingPeriod?: ChargePeriod;
   currency?: string;
   chargeTypes?: ChargeType[];
   chargePeriod?: ChargePeriod;
-  minMonthlyConsumption?: number;
-  maxMonthlyConsumption?: number;
-  minMonthlyDemand?: number;
-  maxMonthlyDemand?: number;
+  minMonthlyConsumption?: number | null;
+  maxMonthlyConsumption?: number | null;
+  minMonthlyDemand?: number | null;
+  maxMonthlyDemand?: number | null;
   hasTimeOfUseRates?: boolean;
   hasTieredRates?: boolean;
   hasContractedRates?: boolean;
+  hasTariffApplicability?: boolean;
   hasRateApplicability?: boolean;
-  hasNetMetering?: boolean;
+  hasNetMetering?: boolean | null;
   properties?: TariffProperty[];
   rates?: TariffRate[];
 }
@@ -159,12 +165,12 @@ export interface TariffRateBand {
 }
 
 export interface TariffProperty extends GenPropertyKey {
-  period: Period;
+  period?: Period;
   propertyTypes: TariffPropertyType[];
   operator: string;
-  propertyValue: string;
-  minValue: string;
-  maxValue: string;
+  propertyValue?: string;
+  minValue?: string;
+  maxValue?: string;
   isDefault: boolean;
 }
 

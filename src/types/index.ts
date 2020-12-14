@@ -6,6 +6,7 @@ export {
   PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
+  GenPropertyChoice,
   CommonPropertyKeyNames,
   isGenPropertyKey
 } from './property-key';

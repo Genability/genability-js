@@ -30,6 +30,7 @@ export {
   Period,
   RateUnit,
   TariffProperty,
+  TariffRate,
   Tariff,
   isTariff
 } from './tariff';
@@ -98,3 +99,8 @@ export {
   isCalendarDate
 } from './calendar';
 
+export {
+  Document,
+  DocumentSection,
+  isDocument
+} from './document';

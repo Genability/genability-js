@@ -16,7 +16,7 @@ import {
 } from './api';
 
 export class Genability {
-  private static _instance: Genability;
+  private static _instance: Genability | undefined;
   // REST APIs
   private _config: GenabilityConfig;
   private _properties: PropertyKeyApi | undefined;
@@ -91,5 +91,12 @@ export class Genability {
     if(this._typicals === undefined)
       this._typicals = new TypicalBaselineApi(this._config?.credentials)
     return this._typicals;
+  }
+
+  // Reset the single instance for testing. TODO: Reconsider this design!
+
+  public static __deconfigure(): any
+  {
+    delete this._instance;
   }
 }

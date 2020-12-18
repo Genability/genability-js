@@ -106,3 +106,7 @@ export {
   DocumentSection,
   isDocument
 } from './document';
+
+export { 
+  CalculatedCostRequest
+} from './calculation-history';

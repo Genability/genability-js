@@ -47,3 +47,8 @@ export {
   DocumentApi
 } from './document-api'
 
+export {
+  CalculationHistoryApi
+} from './calculation-history-api'
+
+

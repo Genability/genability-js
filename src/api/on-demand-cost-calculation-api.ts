@@ -17,8 +17,13 @@ import {
 } from '../types/on-demand-cost-calculation';
 
 import { TariffRate, ChargeClass } from '../types/tariff';
-
-export class GetCalculatedCostRequest {
+import { CalculatedCostRequest } from '../types/calculation-history';
+export class GetCalculatedCostRequest implements CalculatedCostRequest{
+  public isBillingPeriod?: boolean;
+  public calcNetExcessGeneration?: boolean;
+  public autoBaseline?: string|null;
+  public useIntelligentBaselining?: boolean|null;
+  public testRatePredominance?: string|null;
   public masterTariffId!: number;
   public fromDateTime!: string;
   public toDateTime!: string;

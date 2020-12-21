@@ -22,14 +22,13 @@ export class GetCalculatedCostRequest implements CalculatedCostRequest{
   public isBillingPeriod?: boolean;
   public calcNetExcessGeneration?: boolean;
   public autoBaseline?: string|null;
-  public useIntelligentBaselining?: boolean|null;
+  public useIntelligentBaselining?: boolean;
   public testRatePredominance?: string|null;
   public masterTariffId!: number;
   public fromDateTime!: string;
   public toDateTime!: string;
   public propertyInputs?: PropertyData[];
   public expected?: CalculatedCostSummary;
-  public billingPeriod?: boolean;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
   public minimums?: boolean;

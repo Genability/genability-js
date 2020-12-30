@@ -15,17 +15,24 @@ import { CalculationHistoryApi } from './calculation-history-api';
 import { credentialsFromFile } from '../rest-client/credentials';
 import { GenabilityConfig } from "../rest-client";
 
-//For now we are using the dev server for calculation. To be removed in future when api
-//moves to production server
-GenabilityConfig.config({proxy:'https://api-dev.genability.com'})
+
 const credentials = credentialsFromFile('unitTest');
-const calculatedCostRestClient = new CalculatedCostApi(credentials);
-const tariffRestClient = new TariffApi(credentials);
-const restClient = new CalculationHistoryApi(credentials);
+let calculatedCostRestClient: CalculatedCostApi;
+let tariffRestClient: TariffApi;
+let restClient: CalculationHistoryApi;
 
 describe("Calculation history api", () => {
+  beforeAll(() => {
+    GenabilityConfig.__deconfigure();
+    // For now we are using the dev server for calculation. To be removed in future when api
+    // moves to production server
+    GenabilityConfig.config({proxy:'https://api-dev.genability.com'});
+    calculatedCostRestClient = new CalculatedCostApi(credentials);
+    tariffRestClient = new TariffApi(credentials);
+    restClient = new CalculationHistoryApi(credentials);
+  });
   afterAll(() => {
-    GenabilityConfig.__deconfigure()
+    GenabilityConfig.__deconfigure();
   });
   it("should return calculated history responses", async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();

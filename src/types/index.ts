@@ -31,6 +31,7 @@ export {
   RateUnit,
   TariffProperty,
   TariffRate,
+  TariffRateBand,
   Tariff,
   isTariff
 } from './tariff';

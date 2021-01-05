@@ -54,21 +54,78 @@ describe("GetDocuments request", () => {
   })
 });
 
+describe("GetDocument request", () => {
+  describe("call to queryStringify", () => {
+    it("handles no parameters", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('');
+    })
+    it("handles populateDocumentSections parameter", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      request.populateDocumentSections = true;
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('populateDocumentSections=true');
+    })
+    it("handles searchKey parameter for value documentId", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      request.searchKey = "documentId";
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('searchKey=documentId');
+    })
+    it("handles searchKey parameter for value documentSectionId", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      request.searchKey = "documentSectionId";
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('searchKey=documentSectionId');
+    })
+    it("handles searchKey parameter for value priorDocumentId", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      request.searchKey = "priorDocumentId";
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('searchKey=priorDocumentId');
+    })
+    it("handles mutiple parameters", async () => {
+      const request: GetDocumentRequest = new GetDocumentRequest();
+      request.populateDocumentSections = true;
+      request.searchKey = "documentId";
+      const qs: string = request.queryStringify();
+      expect(qs).toEqual('populateDocumentSections=true&searchKey=documentId');
+    })
+  })
+});
+
 describe("Document api", () => {
   describe("get one endpoint", () => {
     it("returns the document", async () => {
-      const documentId = 1;
-      const document: Document = await restClient.getDocument(documentId);
-      expect(document.documentId).toEqual(documentId);
+      const searchId = 1;
+      const document: Document = await restClient.getDocument(searchId);
+      expect(document.documentId).toEqual(searchId);
     })
     it("returns the document with sections populated", async () => {
-      const documentId = 1;
+      const searchId = 1;
       const documentRequest: GetDocumentRequest = new GetDocumentRequest();
       documentRequest.populateDocumentSections = true;
       documentRequest.fields = Fields.EXTENDED;
-      const document: Document = await restClient.getDocument(documentId, documentRequest);
-      expect(document.documentId).toEqual(documentId);
+      const document: Document = await restClient.getDocument(searchId, documentRequest);
+      expect(document.documentId).toEqual(searchId);
       expect(document).toHaveProperty('sections');
+    })
+    it("returns the document with searchKey is documentSectionId", async () => {
+      const searchId = 1;
+      const documentRequest: GetDocumentRequest = new GetDocumentRequest();
+      documentRequest.searchKey = "documentSectionId";
+      documentRequest.fields = Fields.EXTENDED;
+      const document: Document = await restClient.getDocument(searchId, documentRequest);
+      expect(document.documentId).toEqual(searchId);
+    })
+    it("returns the document with searchKey is priorDocumentId", async () => {
+      const searchId = 1;
+      const documentRequest: GetDocumentRequest = new GetDocumentRequest();
+      documentRequest.searchKey = "priorDocumentId";
+      documentRequest.fields = Fields.EXTENDED;
+      const document: Document = await restClient.getDocument(searchId, documentRequest);
+      expect(document.documentId).toEqual(searchId);
     })
   })
   describe("get n endpoint", () => {

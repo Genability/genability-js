@@ -46,7 +46,7 @@ describe("Calculation history api", () => {
       request.propertyInputs = [];
       const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
       const requestId = calculatedCost.requestId;
-      const response: CalculatedCost = await restClient.calculateHistoryResponses(requestId);
+      const response: CalculatedCost = await restClient.calculateHistoryResponse(requestId);
       expect(isCalculatedCost(response)).toBeTruthy();
     } catch(e) {
       console.log(e);
@@ -64,7 +64,7 @@ describe("Calculation history api", () => {
       request.propertyInputs = [];
       const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
       const requestId = calculatedCost.requestId;
-      const response: GetCalculatedCostRequest = await restClient.calculateHistoryRequests(requestId);
+      const response: GetCalculatedCostRequest = await restClient.calculateHistoryRequest(requestId);
       expect(response.masterTariffId).toEqual(masterTariffId);
     } catch(e) {
       console.log(e);

@@ -20,9 +20,11 @@ export class GetDocumentsRequest extends BasePagedRequest {
 
 export class GetDocumentRequest extends BasePagedRequest {
   public populateDocumentSections?: boolean;
+  public searchKey?: string;
 
   addParams(addParam: AddParamCallback): void {
     addParam('populateDocumentSections', this.populateDocumentSections);
+    addParam('searchKey', this.searchKey);
   }
 }
 
@@ -37,8 +39,8 @@ export class DocumentApi extends RestApiClient {
     return new PagedResponse(response.data);
   }
 
-  public async getDocument(documentId: number, request?: GetDocumentRequest): Promise<Document> {
-    const response = await this.axiosInstance.get(`/v1/documents/${documentId}`, { params: request } );
+  public async getDocument(searchId: number, request?: GetDocumentRequest): Promise<Document> {
+    const response = await this.axiosInstance.get(`/v1/documents/${searchId}`, { params: request } );
     return response.data.results[0];
   }
 }

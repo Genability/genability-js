@@ -42,7 +42,8 @@ export {
 } from './typical-baseline-api'
 
 export {
-  GetCalendarsRequest,
-  CalendarApi
-} from './calendar-api'
+  GetDocumentsRequest,
+  GetDocumentRequest,
+  DocumentApi
+} from './document-api'
 

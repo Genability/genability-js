@@ -12,7 +12,8 @@ import {
   SeasonGroupApi,
   TimeOfUseApi,
   LookupApi,
-  TypicalBaselineApi
+  TypicalBaselineApi,
+  DocumentApi,
 } from './api';
 
 export class Genability {
@@ -28,6 +29,7 @@ export class Genability {
   private _timeofuses: TimeOfUseApi | undefined;
   private _lookups: LookupApi | undefined;
   private _typicals: TypicalBaselineApi | undefined;
+  private _documents: DocumentApi | undefined;
 
   private constructor(options?: Partial<GenabilityConfigOptions>)
   {
@@ -91,6 +93,12 @@ export class Genability {
     if(this._typicals === undefined)
       this._typicals = new TypicalBaselineApi(this._config?.credentials)
     return this._typicals;
+  }
+
+  public get documents(): DocumentApi {
+    if(this._documents === undefined)
+      this._documents = new DocumentApi(this._config?.credentials)
+    return this._documents;
   }
 
   // Reset the single instance for testing. TODO: Reconsider this design!

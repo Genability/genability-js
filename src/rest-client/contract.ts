@@ -79,8 +79,6 @@ export type AddParamCallback = (
   paramName: string, 
   paramValue?: string |
   string[] |
-  object |
-  object[] |
   number |
   boolean,
 ) => void;

@@ -100,8 +100,8 @@ export interface PropertyData extends GenPropertyKey {
   duration?: number;
   dataFactor?: number;
   operator?: '+' | '-';
-  unit: string;
-  accuracy: number;
+  unit?: string;
+  accuracy?: number;
 }
 
 export interface Address {

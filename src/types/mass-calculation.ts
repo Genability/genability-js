@@ -16,16 +16,21 @@ export interface ScenariosMap {
 }
 
 export interface CalculationScenario {
-  masterTariffId: number;
-  scenarioName: string;
-  propertyInputs: PropertyData[];
-  rateInputs: TariffRate[];
+  masterTariffId?: number;
+  scenarioName?: string;
+  propertyInputs?: PropertyData[];
+  rateInputs?: TariffRate[];
   expected?: ExpectedMap;
 }
 
 export interface MassCalculation {
-  requestId: string;
   fromDateTime: string;
   toDateTime: string;
   scenarios: ScenariosMap;
+}
+
+export function isMassCalculation(arg: MassCalculation): arg is MassCalculation {
+  return arg.fromDateTime !== undefined &&
+    arg.toDateTime !== undefined &&
+    arg.scenarios !== undefined
 }

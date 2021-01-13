@@ -1,7 +1,6 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  AddParamCallback,
   GenabilityConfig,
 } from '../rest-client';
 
@@ -15,34 +14,19 @@ import {
   Address,
 } from '../types/on-demand-cost-calculation';
 
-export class GetMassCalculationRequest{
+export class GetMassCalculationRequest {
   public fromDateTime!: string;
   public toDateTime!: string;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
   public billingPeriod?: boolean;
-  public scenarios?: CalculationScenario[];
+  public scenarios!: CalculationScenario[];
   public sharedScenario?: CalculationScenario;
   public applyUtilityTax?: boolean;
   public address?: Address;
   public minimums?: boolean;
   public excludeChargeClass?: string;
   public tariffEffectiveOn?: string;
-
-  addParams(addParam: AddParamCallback): void {
-    addParam('fromDateTime', this.fromDateTime);
-    addParam('toDateTime', this.toDateTime);
-    addParam('detailLevel', this.detailLevel);
-    addParam('groupBy', this.groupBy);
-    addParam('billingPeriod', this.billingPeriod);
-    addParam('scenarios', this.scenarios);
-    addParam('sharedScenario', this.sharedScenario);
-    addParam('applyUtilityTax', this.applyUtilityTax);
-    addParam('address', this.address);
-    addParam('minimums', this.minimums);
-    addParam('excludeChargeClass', this.excludeChargeClass);
-    addParam('tariffEffectiveOn', this.tariffEffectiveOn);
-  }
 }
 
 export class MassCalculationApi extends RestApiClient {

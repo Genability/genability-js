@@ -166,7 +166,7 @@ export interface TariffRateBand {
 
 export interface TariffProperty extends GenPropertyKey {
   period?: Period;
-  propertyType: TariffPropertyType;
+  propertyTypes: TariffPropertyType;
   operator: string;
   propertyValue?: string;
   minValue?: string;

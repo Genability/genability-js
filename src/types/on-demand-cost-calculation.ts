@@ -6,6 +6,7 @@ import {
   TransactionType
 } from "./tariff"
 import { GenPropertyKey } from '../types';
+import { TariffRate } from './tariff';
 
 export enum GroupBy {
   NONE = "NONE",
@@ -29,6 +30,31 @@ export enum DataSeriesAttributes {
   FIXED_NOT_DST = "FIXED_NOT_DST",
   MISSING_DST_PRORATE = "MISSING_DST_PRORATE",
   MISSING_DST_DUPLICATE = "MISSING_DST_PRORATE"
+}
+
+export interface ExpectedMap {
+  totalCost: number;
+  adjustedTotalCost: number;
+  kWh: number;
+  kW?: number;
+}
+
+export interface ScenariosMap {
+  [key: string]: CalculatedCost;
+}
+
+export interface CalculationScenario {
+  masterTariffId?: number;
+  scenarioName?: string;
+  propertyInputs?: PropertyData[];
+  rateInputs?: TariffRate[];
+  expected?: ExpectedMap;
+}
+
+export interface MassCalculation {
+  fromDateTime: string;
+  toDateTime: string;
+  scenarios: ScenariosMap;
 }
 
 export interface CalculatedCostSummary {
@@ -129,4 +155,10 @@ export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
     arg.toDateTime !== undefined &&
     arg.accuracy !== undefined &&
     arg.calculatedCostId !== undefined
+}
+
+export function isMassCalculation(arg: MassCalculation): arg is MassCalculation {
+  return arg.fromDateTime !== undefined &&
+    arg.toDateTime !== undefined &&
+    arg.scenarios !== undefined
 }

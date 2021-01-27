@@ -1,12 +1,15 @@
 import {
   CalculatedCostApi,
-  GetCalculatedCostRequest
+  GetCalculatedCostRequest,
+  GetMassCalculationRequest,
 } from './on-demand-cost-calculation-api';
 import { TariffApi, GetTariffsRequest } from './tariff-api'
 import { PagedResponse } from '../rest-client'
 import {
   isCalculatedCost,
   CalculatedCost,
+  MassCalculation,
+  isMassCalculation,
 } from '../types/on-demand-cost-calculation';
 import {
   Tariff
@@ -59,6 +62,55 @@ describe("CalculatedCost api", () => {
     const response: CalculatedCost = await restClient.runCalculation(request);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 10000);
+
+  it("should return mass calculation", async () => {
+    const request: GetMassCalculationRequest = new GetMassCalculationRequest();
+    request.fromDateTime = '2016-07-13T00:00:00-07:00';
+    request.toDateTime = '2016-08-11T00:00:00-07:00';
+    request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
+    const response: MassCalculation = await restClient.runMassCalculation(request);
+    expect(isMassCalculation(response)).toBeTruthy();
+  }, 10000)
+
+  it("should return mass calculation for sharedScenario", async () => {
+    const request: GetMassCalculationRequest = new GetMassCalculationRequest();
+    request.fromDateTime = '2016-07-13T00:00:00-07:00';
+    request.toDateTime = '2016-08-11T00:00:00-07:00';
+    request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
+    request.sharedScenario = JSON.parse('{"scenarioName": "E-1", "masterTariffId": "522"}')
+    const response: MassCalculation = await restClient.runMassCalculation(request);
+    expect(isMassCalculation(response)).toBeTruthy();
+  }, 10000)
+
+  it("should return mass calculation for sharedScenario when propertyInputs is set", async () => {
+    const request: GetMassCalculationRequest = new GetMassCalculationRequest();
+    request.fromDateTime = '2016-07-13T00:00:00-07:00';
+    request.toDateTime = '2016-08-11T00:00:00-07:00';
+    request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
+    request.sharedScenario = JSON.parse('{"propertyInputs": [{"keyName": "consumption","dataValue": 1000}]}')
+    const response: MassCalculation = await restClient.runMassCalculation(request);
+    expect(isMassCalculation(response)).toBeTruthy();
+  }, 10000)
+
+  it("should return mass calculation for sharedScenario when propertyInputs is set", async () => {
+    const request: GetMassCalculationRequest = new GetMassCalculationRequest();
+    request.fromDateTime = '2016-07-13T00:00:00-07:00';
+    request.toDateTime = '2016-08-11T00:00:00-07:00';
+    request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
+    request.sharedScenario = JSON.parse('{"propertyInputs": [{"keyName": "consumption","dataValue": 1000}]}')
+    const response: MassCalculation = await restClient.runMassCalculation(request);
+    expect(isMassCalculation(response)).toBeTruthy();
+  }, 10000)
+
+  it("should return mass calculation for sharedScenario when expected is set", async () => {
+    const request: GetMassCalculationRequest = new GetMassCalculationRequest();
+    request.fromDateTime = '2016-07-13T00:00:00-07:00';
+    request.toDateTime = '2016-08-11T00:00:00-07:00';
+    request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
+    request.sharedScenario = JSON.parse('{"expected": {"totalCost": 170.20,"adjustedTotalCost": 170.18,"kWh": 1266.48}}')
+    const response: MassCalculation = await restClient.runMassCalculation(request);
+    expect(isMassCalculation(response)).toBeTruthy();
+  }, 10000)
 });
 
 describe("test useTypicalElectricity", () => {

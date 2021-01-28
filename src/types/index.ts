@@ -1,3 +1,4 @@
+import { ChargeClasses } from './tariff';
 export {
   ResourceTypes
 } from './resource-types'
@@ -24,6 +25,7 @@ export {
   CustomerClass,
   ChargeType,
   ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
   TariffPropertyType,

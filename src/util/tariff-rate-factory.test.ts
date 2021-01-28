@@ -2,7 +2,7 @@ import { TariffRateFactory } from "./tariff-rate-factory";
 import {
   TariffRate,
   ChargeType,
-  ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
   RateUnit
@@ -20,7 +20,7 @@ describe('Test createTaxRate method', () => {
         rateGroupName:'Taxes',
         rateName: "testRateName",
         chargeType: ChargeType.TAX,
-        chargeClass: ChargeClass.TAX,
+        chargeClass: new ChargeClasses("TAX"),
         chargePeriod: ChargePeriod.MONTHLY,
         transactionType: TransactionType.BUY,
         rateBands: [{
@@ -43,7 +43,7 @@ describe('Test createTaxRate method', () => {
         rateGroupName:'Taxes',
         rateName: 'Taxes',
         chargeType: ChargeType.TAX,
-        chargeClass: ChargeClass.TAX,
+        chargeClass: new ChargeClasses("TAX"),
         chargePeriod: ChargePeriod.MONTHLY,
         transactionType: TransactionType.BUY,
         rateBands: [{

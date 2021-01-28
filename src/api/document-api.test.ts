@@ -117,15 +117,15 @@ describe("Document api", () => {
       documentRequest.searchKey = "documentSectionId";
       documentRequest.fields = Fields.EXTENDED;
       const document: Document = await restClient.getDocument(searchId, documentRequest);
-      expect(document.documentId).toEqual(searchId);
+      expect(document.documentId).toEqual(409);
     })
     it("returns the document with searchKey is priorDocumentId", async () => {
-      const searchId = 1;
+      const searchId = 5105;
       const documentRequest: GetDocumentRequest = new GetDocumentRequest();
       documentRequest.searchKey = "priorDocumentId";
       documentRequest.fields = Fields.EXTENDED;
       const document: Document = await restClient.getDocument(searchId, documentRequest);
-      expect(document.documentId).toEqual(searchId);
+      expect(document.documentId).toEqual(7621);
     })
   })
   describe("get n endpoint", () => {

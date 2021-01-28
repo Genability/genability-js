@@ -167,11 +167,11 @@ export interface TariffRateBand {
 export interface TariffProperty extends GenPropertyKey {
   period?: Period;
   propertyTypes: TariffPropertyType;
-  operator: string;
+  operator?: '=' | '<' | '<=' | '>' | '>=' | 'between' | '' | null;
   propertyValue?: string;
   minValue?: string;
   maxValue?: string;
-  isDefault: boolean;
+  isDefault?: boolean;
 }
 
 /**

@@ -25,6 +25,7 @@ export enum ChargeType {
   DEMAND_BASED = "DEMAND_BASED",
   QUANTITY = "QUANTITY",
   MINIMUM = "MINIMUM",
+  MAXIMUM = "MAXIMUM",
   TAX = "TAX",
   NET_EXCESS_GENERATION = "NET_EXCESS_GENERATION",
 }
@@ -39,6 +40,19 @@ export enum ChargeClass {
   AFTER_TAX = "AFTER_TAX",
   OTHER = "OTHER",
   NON_BYPASSABLE = "NON_BYPASSABLE",
+}
+
+export class ChargeClasses  {
+  public chargeClasses: Array<ChargeClass>;
+  public constructor(chargeClassString: string) {
+    this.chargeClasses = chargeClassString.split(",") as Array<ChargeClass>;
+  }
+  public toJSON(): string {
+    return this.chargeClasses.toString();
+  }
+  public static getChargeClasses(chargeClasses: Array<string>): ChargeClasses {
+    return new ChargeClasses(chargeClasses.toString());
+  }
 }
 
 export enum ChargePeriod {
@@ -133,7 +147,7 @@ export interface TariffRate {
   fromDateTime?: string;
   toDateTime?: string;
   chargeType?: ChargeType;
-  chargeClass?: ChargeClass;
+  chargeClass?: ChargeClasses;
   chargePeriod?: ChargePeriod;
   transactionType?: TransactionType;
   quantityKey?: string;

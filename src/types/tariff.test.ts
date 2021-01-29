@@ -3,6 +3,7 @@ import {
   CustomerClass,
   ChargeType,
   ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
   Tariff,
@@ -15,6 +16,26 @@ import {
 } from './tariff';
 
 describe("tariff types", () => {
+  describe("test for chargeClasses", () => {
+    it("should initialize object empty string", () => {
+      const chargeClassString = "";
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([]);
+      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
+      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+    })
+    it("should initialize object non empty string", () => {
+      const chargeClassString = "SUPPLY";
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.SUPPLY]);;
+      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
+      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+    })
+    it("should initialize object multiple value", () => {
+      const chargeClassString = "TRANSMISSION,TAX";
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.TRANSMISSION, ChargeClass.TAX]);;
+      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
+      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+    })
+  })
   describe("test that JSON to enum", () => {
     it("works for TariffType", () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "tariffType": "ALTERNATIVE"}');

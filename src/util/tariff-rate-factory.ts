@@ -2,6 +2,7 @@ import {
   TariffRate,
   ChargeType,
   ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
   RateUnit
@@ -15,7 +16,7 @@ export class TariffRateFactory {
     if(!rateAmount) {
       throw new Error('Please provide a rateAmount');
     }
-    const tariffRate = {
+    const tariffRate: TariffRate = {
       tariffRateId: null,
       tariffId: null,
       riderId: null,
@@ -23,7 +24,7 @@ export class TariffRateFactory {
       rateGroupName:'Taxes',
       rateName,
       chargeType: ChargeType.TAX,
-      chargeClass: ChargeClass.TAX,
+      chargeClass: ChargeClasses.getChargeClasses([ChargeClass.TAX]),
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{

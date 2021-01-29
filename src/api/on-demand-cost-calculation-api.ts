@@ -11,7 +11,9 @@ import {
   DetailLevel,
   PropertyData,
   CalculatedCost,
-  Address
+  Address,
+  CalculationScenario,
+  MassCalculation
 } from '../types/on-demand-cost-calculation';
 
 import { TariffRate, ChargeClass } from '../types/tariff';
@@ -73,6 +75,21 @@ export class GetCalculatedCostRequest {
   }
 }
 
+export class GetMassCalculationRequest {
+  public fromDateTime!: string;
+  public toDateTime!: string;
+  public detailLevel?: DetailLevel;
+  public groupBy?: GroupBy;
+  public billingPeriod?: boolean;
+  public scenarios!: CalculationScenario[];
+  public sharedScenario?: CalculationScenario;
+  public applyUtilityTax?: boolean;
+  public address?: Address;
+  public minimums?: boolean;
+  public excludeChargeClass?: string;
+  public tariffEffectiveOn?: string;
+}
+
 export class CalculatedCostApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
     const Config = GenabilityConfig.config();
@@ -83,6 +100,16 @@ export class CalculatedCostApi extends RestApiClient {
     const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
     const responseData = response.data.results[0];
     responseData.requestId = response.data.requestId;
+    return responseData;
+  }
+
+  public async runMassCalculation(request: GetMassCalculationRequest): Promise<MassCalculation> {
+    const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate/mass`, request);
+    const responseData = response.data.results[0];
+    const scenarios = responseData.scenarios;
+    for (const scenarioName in scenarios) {
+      scenarios[scenarioName].requestId = response.data.requestId
+    }
     return responseData;
   }
 }

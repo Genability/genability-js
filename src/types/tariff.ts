@@ -50,8 +50,8 @@ export class ChargeClasses  {
   public toJSON(): string {
     return this.chargeClasses.toString();
   }
-  public static getChargeClasses(chargeClass: string): ChargeClasses {
-    return new ChargeClasses(chargeClass)
+  public static getChargeClasses(chargeClasses: Array<string>): ChargeClasses {
+    return new ChargeClasses(chargeClasses.toString());
   }
 }
 

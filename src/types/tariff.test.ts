@@ -1,9 +1,9 @@
-import { ChargeClasses } from './tariff';
 import { 
   TariffType,
   CustomerClass,
   ChargeType,
   ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
   Tariff,
@@ -19,19 +19,19 @@ describe("tariff types", () => {
   describe("test for chargeClasses", () => {
     it("should initialize object empty string", () => {
       const chargeClassString = "";
-      const ChargeClassesObj = new ChargeClasses(chargeClassString);
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([]);
       expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
       expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
     })
     it("should initialize object non empty string", () => {
       const chargeClassString = "SUPPLY";
-      const ChargeClassesObj = new ChargeClasses(chargeClassString);
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.SUPPLY]);;
       expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
       expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
     })
     it("should initialize object multiple value", () => {
       const chargeClassString = "TRANSMISSION,TAX";
-      const ChargeClassesObj = new ChargeClasses(chargeClassString);
+      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.TRANSMISSION, ChargeClass.TAX]);;
       expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
       expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
     })

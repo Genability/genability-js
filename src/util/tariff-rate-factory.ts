@@ -24,7 +24,7 @@ export class TariffRateFactory {
       rateGroupName:'Taxes',
       rateName,
       chargeType: ChargeType.TAX,
-      chargeClass: ChargeClasses.getChargeClasses(ChargeClass.TAX),
+      chargeClass: ChargeClasses.getChargeClasses([ChargeClass.TAX]),
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{

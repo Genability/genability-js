@@ -2,7 +2,12 @@ import {
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
-  isCalculatedCost
+  isCalculatedCost,
+  ExpectedMap,
+  ScenariosMap,
+  CalculationScenario,
+  MassCalculation,
+  isMassCalculation,
 } from "./on-demand-cost-calculation";
 import { 
   CommonPropertyKeyNames,
@@ -46,6 +51,42 @@ describe("on-demand-cost-calculation types", () => {
       const calculatedCost: CalculatedCost = JSON.parse(json);
       expect(calculatedCost.assumptions).toHaveLength(2);
     })
+    it("work for ExpectedMap", () => {
+      const json = '{\
+        "totalCost": 522,\
+        "adjustedTotalCost": 123,\
+        "kWh": 123\
+      }';
+      const expectedMap: ExpectedMap = JSON.parse(json);
+      expect(expectedMap.totalCost).toEqual(522);
+      expect(expectedMap.adjustedTotalCost).toEqual(123);
+      expect(expectedMap.kWh).toEqual(123);
+    })
+    it("work for ScenariosMap", () => {
+      const json = '{\
+        "key":{\
+          "requestId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
+          "masterTariffId": 522,\
+          "tariffName": "tariffName",\
+          "totalCost": "totalCost",\
+          "fromDateTime": "fromDateTime",\
+          "toDateTime": "toDateTime",\
+          "accuracy": "accuracy",\
+          "calculatedCostId": "calculatedCostId"\
+        }\
+      }';
+      const scenariosMap: ScenariosMap = JSON.parse(json);
+      expect(isCalculatedCost(scenariosMap.key)).toEqual(true);
+    })
+    it("work for CalculationScenario", () => {
+      const json = '{\
+        "masterTariffId": 522,\
+        "scenarioName": "xyz"\
+      }';
+      const calculationScenario: CalculationScenario = JSON.parse(json);
+      expect(calculationScenario.masterTariffId).toEqual(522);
+      expect(calculationScenario.scenarioName).toEqual("xyz");
+    })
   });
   describe("isCalculatedCost function", () => {
     it("should be false for invalid JSON", () => {
@@ -65,6 +106,21 @@ describe("on-demand-cost-calculation types", () => {
       }';
       const calculatedCost: CalculatedCost = JSON.parse(json);
       expect(isCalculatedCost(calculatedCost)).toEqual(true);
+    })
+  });
+  describe("isMassCalculation function", () => {
+    it("should be false for invalid JSON", () => {
+      const massCalculation: MassCalculation = JSON.parse('{"notAKeyName": "BooleanKeyName","dataType": "BOOLEAN"}');
+      expect(isMassCalculation(massCalculation)).toEqual(false);
+    })
+    it("should be true for valid JSON", () => {
+      const json = '{\
+        "fromDateTime": "2016-07-13T00:00:00-07:00",\
+        "toDateTime": "2016-08-11T00:00:00-07:00",\
+        "scenarios": ""\
+      }';
+      const massCalculation: MassCalculation  = JSON.parse(json);
+      expect(isMassCalculation(massCalculation)).toEqual(true);
     })
   });
 });

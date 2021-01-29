@@ -50,6 +50,9 @@ export class ChargeClasses  {
   public toJSON(): string {
     return this.chargeClasses.toString();
   }
+  public static getChargeClasses(chargeClass: string): ChargeClasses {
+    return new ChargeClasses(chargeClass)
+  }
 }
 
 export enum ChargePeriod {

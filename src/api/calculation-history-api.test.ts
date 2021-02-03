@@ -7,13 +7,14 @@ import { PagedResponse } from '../rest-client'
 import {
   CalculatedCost,
   isCalculatedCost
-} from '../types/on-demand-cost-calculation';
+} from '../types';
 import {
   Tariff
-} from '../types/tariff';
+} from '../types';
 import { CalculationHistoryApi } from './calculation-history-api';
 import { credentialsFromFile } from '../rest-client/credentials';
 import { GenabilityConfig } from "../rest-client";
+import exp = require("constants");
 
 
 const credentials = credentialsFromFile('unitTest');
@@ -35,39 +36,52 @@ describe("Calculation history api", () => {
     GenabilityConfig.__deconfigure();
   });
   it("should return calculated history responses", async () => {
-    try {
-      const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
-      const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
-      const { masterTariffId } = tariffResponse.results[0];
-      const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
-      request.fromDateTime = '2019-07-13T00:00:00-07:00';
-      request.toDateTime = '2020-05-11T00:00:00-07:00';
-      request.masterTariffId = masterTariffId;
-      request.propertyInputs = [];
-      const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-      const requestId = calculatedCost.requestId;
-      const response: CalculatedCost = await restClient.calculateHistoryResponse(requestId);
-      expect(isCalculatedCost(response)).toBeTruthy();
-    } catch(e) {
-      console.log(e);
-    }
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
+    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
+    request.fromDateTime = '2019-07-13T00:00:00-07:00';
+    request.toDateTime = '2020-05-11T00:00:00-07:00';
+    request.masterTariffId = masterTariffId;
+    request.propertyInputs = [];
+    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
+    console.log('calculated cost' + calculatedCost.requestId);
+    const requestId = calculatedCost.requestId;
+    // timeout to wait for the calc response to populate
+    await new Promise(r => setTimeout(r, 5000));
+    const response: CalculatedCost = await restClient.calculateHistoryResponse(requestId);
+    expect(isCalculatedCost(response)).toBeTruthy();
   }, 40000);
   it("should return calculated history requests", async () => {
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
+    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
+    request.fromDateTime = '2019-07-13T00:00:00-07:00';
+    request.toDateTime = '2020-05-11T00:00:00-07:00';
+    request.masterTariffId = masterTariffId;
+    request.propertyInputs = [];
+    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
+    const requestId = calculatedCost.requestId;
+    // timeout to wait for the calc request to populate
+    await new Promise(r => setTimeout(r, 5000));
+    const response: GetCalculatedCostRequest = await restClient.calculateHistoryRequest(requestId);
+    expect(response.masterTariffId).toEqual(masterTariffId);
+  }, 40000);
+  it("calculateHistoryRequest should return an error due to bad request ID", async () => {
     try {
-      const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
-      const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
-      const { masterTariffId } = tariffResponse.results[0];
-      const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
-      request.fromDateTime = '2019-07-13T00:00:00-07:00';
-      request.toDateTime = '2020-05-11T00:00:00-07:00';
-      request.masterTariffId = masterTariffId;
-      request.propertyInputs = [];
-      const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-      const requestId = calculatedCost.requestId;
-      const response: GetCalculatedCostRequest = await restClient.calculateHistoryRequest(requestId);
-      expect(response.masterTariffId).toEqual(masterTariffId);
-    } catch(e) {
-      console.log(e);
+      await restClient.calculateHistoryRequest('badRequestId');
+      fail('Request succeeded incorrectly');
+    } catch (err) {
+      expect(err.message).toEqual('Request failed with status code 404');
+    }
+  }, 40000);
+  it("calculateHistoryResponse should return an error due to bad request ID", async () => {
+    try {
+      await restClient.calculateHistoryResponse('badRequestId');
+      fail('Request succeeded incorrectly');
+    } catch (err) {
+      expect(err.message).toEqual('Request failed with status code 404');
     }
   }, 40000);
 });

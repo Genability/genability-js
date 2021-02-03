@@ -7,9 +7,9 @@ import {
 
 import {
   CalculatedCost
-} from '../types/on-demand-cost-calculation';
+} from '../types';
 
-import { GetCalculatedCostRequest } from '../api/on-demand-cost-calculation-api';
+import { GetCalculatedCostRequest } from './on-demand-cost-calculation-api';
 
 export class CalculationHistoryApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {

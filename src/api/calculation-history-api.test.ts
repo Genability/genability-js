@@ -49,7 +49,7 @@ describe("Calculation history api", () => {
     const requestId = calculatedCost.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
-    const response: CalculatedCost = await restClient.calculateHistoryResponse(requestId);
+    const response: CalculatedCost = await restClient.getCalculateHistoryResponse(requestId);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 40000);
   it("should return calculated history requests", async () => {
@@ -65,12 +65,12 @@ describe("Calculation history api", () => {
     const requestId = calculatedCost.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
-    const response: GetCalculatedCostRequest = await restClient.calculateHistoryRequest(requestId);
+    const response: GetCalculatedCostRequest = await restClient.getCalculateHistoryRequest(requestId);
     expect(response.masterTariffId).toEqual(masterTariffId);
   }, 40000);
   it("calculateHistoryRequest should return an error due to bad request ID", async () => {
     try {
-      await restClient.calculateHistoryRequest('badRequestId');
+      await restClient.getCalculateHistoryRequest('badRequestId');
       fail('Request succeeded incorrectly');
     } catch (err) {
       expect(err.message).toEqual('Request failed with status code 404');
@@ -78,7 +78,7 @@ describe("Calculation history api", () => {
   }, 40000);
   it("calculateHistoryResponse should return an error due to bad request ID", async () => {
     try {
-      await restClient.calculateHistoryResponse('badRequestId');
+      await restClient.getCalculateHistoryResponse('badRequestId');
       fail('Request succeeded incorrectly');
     } catch (err) {
       expect(err.message).toEqual('Request failed with status code 404');

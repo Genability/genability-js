@@ -103,7 +103,7 @@ export class Genability {
 
   // Reset the single instance for testing. TODO: Reconsider this design!
 
-  public static __deconfigure(): any
+  public static __deconfigure(): void
   {
     delete this._instance;
   }

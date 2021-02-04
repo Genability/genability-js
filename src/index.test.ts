@@ -23,7 +23,7 @@ describe("client", () => {
   });
 
   it("should allow setting a proxy URL", async () => {
-    const genability: Genability = Genability.configure({
+    Genability.configure({
       profileName: 'unitTest',
       proxy: 'https://test.com'
     });

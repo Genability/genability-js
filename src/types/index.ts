@@ -1,4 +1,3 @@
-import { ChargeClasses } from './tariff';
 export {
   ResourceTypes
 } from './resource-types'

@@ -2,7 +2,7 @@ export {
   ResourceTypes
 } from './resource-types'
 
-export { 
+export {
   PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
@@ -11,7 +11,7 @@ export {
   isGenPropertyKey
 } from './property-key';
 
-export { 
+export {
   ServiceType,
   OfferingType,
   Ownership,
@@ -19,7 +19,7 @@ export {
   isLoadServingEntity
 } from './load-serving-entity';
 
-export { 
+export {
   TariffType,
   CustomerClass,
   ChargeType,

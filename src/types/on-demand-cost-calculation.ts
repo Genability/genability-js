@@ -57,6 +57,11 @@ export interface MassCalculation {
   scenarios: ScenariosMap;
 }
 
+export interface CalculatedCostRequest {
+  isBillingPeriod?: boolean;
+  useIntelligentBaselining?: boolean;
+}
+
 export interface CalculatedCostSummary {
   subTotalCost: number;
   preTaxMinimumCost: number;
@@ -64,7 +69,7 @@ export interface CalculatedCostSummary {
   taxCost: number;
   totalCost: number;
   adjustedTotalCost: number;
-  nonBypassableCost: number; 
+  nonBypassableCost: number;
   kWh: number;
   kW: number;
 }
@@ -80,7 +85,7 @@ export interface CalculatedCost {
   currency?: string;
   summary?: CalculatedCostSummary;
   items: CalculatedCostItem[];
-  assumptions: PropertyData[]; 
+  assumptions: PropertyData[];
   calculatedCostId: string;
 }
 

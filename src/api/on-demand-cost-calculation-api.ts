@@ -16,15 +16,17 @@ import {
   MassCalculation
 } from '../types/on-demand-cost-calculation';
 
-import { TariffRate, ChargeClass } from '../types/tariff';
-
-export class GetCalculatedCostRequest {
+import { TariffRate, ChargeClass } from '../types';
+import { CalculatedCostRequest } from '../types/on-demand-cost-calculation';
+export class GetCalculatedCostRequest implements CalculatedCostRequest {
+  public isBillingPeriod?: boolean;
+  public autoBaseline?: string|null;
+  public useIntelligentBaselining?: boolean;
   public masterTariffId!: number;
   public fromDateTime!: string;
   public toDateTime!: string;
   public propertyInputs?: PropertyData[];
   public expected?: CalculatedCostSummary;
-  public billingPeriod?: boolean;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
   public minimums?: boolean;
@@ -32,7 +34,7 @@ export class GetCalculatedCostRequest {
   public applyUtilityTax?: boolean;
   public address?: Address;
   public tariffEffectiveOn?: string;
-  public rateInputs?: TariffRate[]; 
+  public rateInputs?: TariffRate[];
 
   public useTypicalElectricity(buildingId: string, dataFactor = 1): void {
     // @ts-ignore

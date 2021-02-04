@@ -59,6 +59,7 @@ export {
 
 export {
   PredominanceRule,
+  Season,
   SeasonGroup,
   isSeasonGroup,
   isSeason

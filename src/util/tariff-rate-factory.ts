@@ -5,7 +5,8 @@ import {
   ChargeClasses,
   ChargePeriod,
   TransactionType,
-  RateUnit
+  RateUnit,
+  Tariff
 } from "../types/tariff";
 
 export class TariffRateFactory {
@@ -31,6 +32,24 @@ export class TariffRateFactory {
         rateAmount,
         rateUnit: isFixedAmount ? RateUnit.COST_PER_UNIT : RateUnit.PERCENTAGE
       }]
+    }
+    return tariffRate;
+  }
+
+  public static createRider(
+    riderTariff: Tariff
+  ): TariffRate {
+    // This is the minimum viable TariffRate we need to add it to
+    // the list in the RiderPanel display but we might be able to do better
+    const tariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: riderTariff.masterTariffId,
+      tariffSequenceNumber: null,
+      rateGroupName:'',
+      rateName: riderTariff.tariffName,
+      fromDateTime: riderTariff.effectiveDate || undefined,
+      toDateTime: riderTariff.endDate || undefined
     }
     return tariffRate;
   }

@@ -1,4 +1,5 @@
-import { 
+import {
+  CalculatedCostRequest,
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
@@ -9,7 +10,7 @@ import {
   MassCalculation,
   isMassCalculation,
 } from "./on-demand-cost-calculation";
-import { 
+import {
   CommonPropertyKeyNames,
 } from "./property-key";
 
@@ -122,5 +123,14 @@ describe("on-demand-cost-calculation types", () => {
       const massCalculation: MassCalculation  = JSON.parse(json);
       expect(isMassCalculation(massCalculation)).toEqual(true);
     })
+  });
+  it("works for CalculatedCostRequest", () => {
+    const calculatedCostRequestJson = '{\
+      "isBillingPeriod": false,\
+      "useIntelligentBaselining": true\
+      }';
+    const calculatedCostRequest: CalculatedCostRequest = JSON.parse(calculatedCostRequestJson);
+    expect(calculatedCostRequest.isBillingPeriod).toEqual(false);
+    expect(calculatedCostRequest.useIntelligentBaselining).toEqual(true);
   });
 });

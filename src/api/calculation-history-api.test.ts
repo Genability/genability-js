@@ -14,7 +14,6 @@ import {
 import { CalculationHistoryApi } from './calculation-history-api';
 import { credentialsFromFile } from '../rest-client/credentials';
 import { GenabilityConfig } from "../rest-client";
-import exp = require("constants");
 
 
 const credentials = credentialsFromFile('unitTest');

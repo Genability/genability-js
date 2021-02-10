@@ -53,4 +53,133 @@ export class TariffRateFactory {
     }
     return tariffRate;
   }
+
+  public static createConsumptionRate(
+    rateGroupName = 'Energy Charges',
+    rateName = 'Energy Charge'
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createDemandRate(
+    rateGroupName = 'Demand Charges',
+    rateName = 'Demand Charge',
+    quantityKey= 'demand',
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createQuantityRate(
+    rateGroupName = 'Other Charges',
+    rateName = 'Quantity Charge',
+    quantityKey?: string,
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createFixedRate(
+    rateGroupName = 'Fixed Charges',
+    rateName = 'Fixed Charge',
+    chargePeriod= ChargePeriod.MONTHLY
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod,
+      transactionType: TransactionType.BUY,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createMinimumRate(
+    rateGroupName = 'Fixed Charges',
+    rateName = 'Minimum Charge',
+    quantityKey?: string
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createMaximumRate(
+    rateGroupName = 'Other Charges',
+    rateName = 'Maximum Charge',
+    quantityKey?: string
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
 }

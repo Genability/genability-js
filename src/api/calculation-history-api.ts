@@ -5,11 +5,7 @@ import {
   GenabilityConfig,
 } from '../rest-client';
 
-import {
-  CalculatedCost
-} from '../types';
-
-import { GetCalculatedCostRequest } from './on-demand-cost-calculation-api';
+import {CalculatedCostRequest, CalculatedCost} from "../types/on-demand-cost-calculation";
 
 export class CalculationHistoryApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
@@ -21,11 +17,15 @@ export class CalculationHistoryApi extends RestApiClient {
     const response = await this.axiosInstance.get(`/beta/calculate/history/responses/${requestId}`);
     const responseData = response.data.results[0];
     responseData.requestId = response.data.requestId;
+    responseData.type = response.data.type;
     return responseData;
   }
 
-  public async getCalculateHistoryRequest(requestId: string): Promise<GetCalculatedCostRequest> {
+  public async getCalculateHistoryRequest(requestId: string): Promise<CalculatedCostRequest> {
     const response = await this.axiosInstance.get(`/beta/calculate/history/requests/${requestId}`);
-    return response.data.results[0];
+    const responseData = response.data.results[0];
+    responseData.requestId = response.data.requestId;
+    responseData.type = response.data.type;
+    return responseData;
   }
 }

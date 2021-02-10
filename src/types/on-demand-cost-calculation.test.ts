@@ -1,5 +1,4 @@
 import {
-  CalculatedCostRequest,
   CalculatedCost,
   CalculatedCostItem,
   PropertyData,
@@ -13,6 +12,7 @@ import {
 import {
   CommonPropertyKeyNames,
 } from "./property-key";
+import {GetCalculatedCostRequest} from "../api";
 
 describe("on-demand-cost-calculation types", () => {
   describe("test that JSON to enum", () => {
@@ -129,7 +129,7 @@ describe("on-demand-cost-calculation types", () => {
       "isBillingPeriod": false,\
       "useIntelligentBaselining": true\
       }';
-    const calculatedCostRequest: CalculatedCostRequest = JSON.parse(calculatedCostRequestJson);
+    const calculatedCostRequest: GetCalculatedCostRequest = JSON.parse(calculatedCostRequestJson);
     expect(calculatedCostRequest.isBillingPeriod).toEqual(false);
     expect(calculatedCostRequest.useIntelligentBaselining).toEqual(true);
   });

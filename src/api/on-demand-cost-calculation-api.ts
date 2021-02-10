@@ -77,9 +77,10 @@ export class GetCalculatedCostRequest implements CalculatedCostRequest {
   }
 }
 
-export class GetMassCalculationRequest {
+export class GetMassCalculationRequest implements CalculatedCostRequest {
   public fromDateTime!: string;
   public toDateTime!: string;
+  public masterTariffId!: number;
   public detailLevel?: DetailLevel;
   public groupBy?: GroupBy;
   public billingPeriod?: boolean;
@@ -88,8 +89,9 @@ export class GetMassCalculationRequest {
   public applyUtilityTax?: boolean;
   public address?: Address;
   public minimums?: boolean;
-  public excludeChargeClass?: string;
+  public excludeChargeClass?: ChargeClass[];
   public tariffEffectiveOn?: string;
+  public useIntelligentBaselining?: boolean;
 }
 
 export class CalculatedCostApi extends RestApiClient {
@@ -115,3 +117,4 @@ export class CalculatedCostApi extends RestApiClient {
     return responseData;
   }
 }
+

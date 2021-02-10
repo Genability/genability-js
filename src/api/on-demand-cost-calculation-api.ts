@@ -12,8 +12,7 @@ import {
   PropertyData,
   CalculatedCost,
   Address,
-  CalculationScenario,
-  MassCalculation
+  CalculationScenario
 } from '../types/on-demand-cost-calculation';
 
 import { TariffRate, ChargeClass } from '../types';
@@ -107,7 +106,7 @@ export class CalculatedCostApi extends RestApiClient {
     return responseData;
   }
 
-  public async runMassCalculation(request: GetMassCalculationRequest): Promise<MassCalculation> {
+  public async runMassCalculation(request: GetMassCalculationRequest): Promise<CalculatedCost> {
     const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate/mass`, request);
     const responseData = response.data.results[0];
     const scenarios = responseData.scenarios;

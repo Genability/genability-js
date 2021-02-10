@@ -9,7 +9,6 @@ import {GenabilityConfig, PagedResponse} from "../rest-client";
 import {
   CalculatedCost,
   CalculatedCostRequest, isCalculatedCost, isCalculatedCostRequest, isMassCalculation, isMassCalculationRequest,
-  MassCalculation
 } from "../types/on-demand-cost-calculation";
 import {Tariff} from "../types";
 
@@ -74,7 +73,7 @@ describe("Calculation history api", () => {
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]')
-    const calculatedCost: MassCalculation = await calculatedCostRestClient.runMassCalculation(request);
+    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
     console.log('calculated cost: ' + calculatedCost.scenarios['E-1'].requestId);
     const requestId = calculatedCost.scenarios['E-1'].requestId;
     // timeout to wait for the calc response to populate
@@ -88,7 +87,7 @@ describe("Calculation history api", () => {
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]');
-    const calculatedCost: MassCalculation = await calculatedCostRestClient.runMassCalculation(request);
+    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
     const requestId = calculatedCost.scenarios['E-1'].requestId;
     console.log('calculated cost: ' + calculatedCost.scenarios['E-1'].requestId);
     // timeout to wait for the calc request to populate

@@ -99,13 +99,6 @@ export interface CalculatedCost {
   items: CalculatedCostItem[];
   assumptions: PropertyData[];
   calculatedCostId: string;
-}
-
-export interface MassCalculation {
-  requestId: string;
-  type: string;
-  fromDateTime: string;
-  toDateTime: string;
   scenarios: ScenariosMap;
 }
 

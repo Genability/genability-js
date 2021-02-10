@@ -6,7 +6,6 @@ import {
   ExpectedMap,
   ScenariosMap,
   CalculationScenario,
-  MassCalculation,
   isMassCalculation,
 } from "./on-demand-cost-calculation";
 import {
@@ -111,7 +110,7 @@ describe("on-demand-cost-calculation types", () => {
   });
   describe("isMassCalculation function", () => {
     it("should be false for invalid JSON", () => {
-      const massCalculation: MassCalculation = JSON.parse('{"notAKeyName": "BooleanKeyName","dataType": "BOOLEAN"}');
+      const massCalculation: CalculatedCost = JSON.parse('{"notAKeyName": "BooleanKeyName","dataType": "BOOLEAN"}');
       expect(isMassCalculation(massCalculation)).toEqual(false);
     })
     it("should be true for valid JSON", () => {
@@ -120,7 +119,7 @@ describe("on-demand-cost-calculation types", () => {
         "toDateTime": "2016-08-11T00:00:00-07:00",\
         "scenarios": ""\
       }';
-      const massCalculation: MassCalculation  = JSON.parse(json);
+      const massCalculation: CalculatedCost  = JSON.parse(json);
       expect(isMassCalculation(massCalculation)).toEqual(true);
     })
   });

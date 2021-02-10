@@ -9,6 +9,7 @@ export {
   isSearchable,
   SortOrder,
   Sortable,
+  Fields,
   isSortable,
   QueryStringified,
   isQueryStringified,

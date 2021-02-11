@@ -51,15 +51,26 @@ export interface CalculationScenario {
   expected?: ExpectedMap;
 }
 
-export interface MassCalculation {
+export interface CalculatedCostRequest {
+  requestId?: string;
+  type?: string;
+  autoBaseline?: string|null;
+  useIntelligentBaselining?: boolean;
+  masterTariffId: number;
   fromDateTime: string;
   toDateTime: string;
-  scenarios: ScenariosMap;
-}
-
-export interface CalculatedCostRequest {
-  isBillingPeriod?: boolean;
-  useIntelligentBaselining?: boolean;
+  propertyInputs?: PropertyData[];
+  expected?: CalculatedCostSummary;
+  detailLevel?: DetailLevel;
+  groupBy?: GroupBy;
+  minimums?: boolean;
+  excludeChargeClass?: ChargeClass[];
+  applyUtilityTax?: boolean;
+  address?: Address;
+  tariffEffectiveOn?: string;
+  rateInputs?: TariffRate[];
+  scenarios?: CalculationScenario[];
+  sharedScenario?: CalculationScenario;
 }
 
 export interface CalculatedCostSummary {
@@ -76,6 +87,7 @@ export interface CalculatedCostSummary {
 
 export interface CalculatedCost {
   requestId: string;
+  type: string;
   masterTariffId: number;
   tariffName: string;
   totalCost: number;
@@ -87,6 +99,7 @@ export interface CalculatedCost {
   items: CalculatedCostItem[];
   assumptions: PropertyData[];
   calculatedCostId: string;
+  scenarios: ScenariosMap;
 }
 
 export interface CalculatedCostItem {
@@ -154,16 +167,26 @@ export interface Address {
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
   return arg.requestId !== undefined &&
     arg.masterTariffId !== undefined &&
-    arg.tariffName !== undefined &&
-    arg.totalCost !== undefined &&
     arg.fromDateTime !== undefined &&
-    arg.toDateTime !== undefined &&
-    arg.accuracy !== undefined &&
-    arg.calculatedCostId !== undefined
+    arg.toDateTime !== undefined
 }
 
-export function isMassCalculation(arg: MassCalculation): arg is MassCalculation {
+export function isMassCalculation(arg: CalculatedCost): arg is CalculatedCost {
   return arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined &&
     arg.scenarios !== undefined
+}
+
+export function isCalculatedCostRequest(arg: CalculatedCostRequest): arg is CalculatedCostRequest {
+  return arg.masterTariffId !== undefined &&
+      arg.fromDateTime !== undefined &&
+      arg.toDateTime !== undefined &&
+      arg.type === 'CalculationRequest'
+}
+
+export function isMassCalculationRequest(arg: CalculatedCostRequest): arg is CalculatedCostRequest {
+  return arg.fromDateTime !== undefined &&
+      arg.toDateTime !== undefined &&
+      arg.scenarios !== undefined &&
+      arg.type === 'CalculationRequest'
 }

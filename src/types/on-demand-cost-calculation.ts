@@ -166,16 +166,15 @@ export interface Address {
  */
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
   return arg.requestId !== undefined &&
+    arg.masterTariffId !== undefined &&
     arg.fromDateTime !== undefined &&
-    arg.toDateTime !== undefined &&
-    arg.type === 'CalculatedCost'
+    arg.toDateTime !== undefined
 }
 
 export function isMassCalculation(arg: CalculatedCost): arg is CalculatedCost {
   return arg.fromDateTime !== undefined &&
     arg.toDateTime !== undefined &&
-    arg.requestId !== undefined &&
-    arg.type === 'MassCalculation'
+    arg.scenarios !== undefined
 }
 
 export function isCalculatedCostRequest(arg: CalculatedCostRequest): arg is CalculatedCostRequest {

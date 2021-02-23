@@ -179,6 +179,7 @@ export interface TariffRateBand {
 }
 
 export interface TariffProperty extends GenPropertyKey {
+  quantityKey?: string;
   period?: Period;
   propertyTypes: TariffPropertyType;
   operator?: '=' | '<' | '<=' | '>' | '>=' | 'between' | '' | null;

@@ -92,12 +92,17 @@ export enum RateUnit {
   BLOCK_SELL_BACK = "BLOCK_SELL_BACK",
 }
 
+export enum ProrationRule {
+  SPLIT_DEMAND_VERSION_CHANGE = "SPLIT_DEMAND_VERSION_CHANGE",
+  SINGLE_DEMAND_SEASON_CHANGE = "SINGLE_DEMAND_SEASON_CHANGE",
+}
+
 export interface Tariff {
   tariffId: number;
   masterTariffId: number;
   tariffCode: string;
   tariffBookName?: string;
-  privacy?: null | PrivacyFlag; 
+  privacy?: null | PrivacyFlag;
   tariffName: string;
   lseId: number;
   lseName: string;
@@ -159,6 +164,7 @@ export interface TariffRate {
   season?: Season;
   timeOfUse?: TimeOfUse;
   rateBands?: TariffRateBand[];
+  prorationRules?: ProrationRule[];
 }
 
 export interface TariffRateBand {

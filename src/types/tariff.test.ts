@@ -1,4 +1,4 @@
-import { 
+import {
   TariffType,
   CustomerClass,
   ChargeType,
@@ -12,7 +12,8 @@ import {
   TariffRateBand,
   RateUnit,
   TariffProperty,
-  Period
+  Period,
+  ProrationRule
 } from './tariff';
 
 describe("tariff types", () => {
@@ -76,6 +77,13 @@ describe("tariff types", () => {
       const tariffRateBand: TariffRateBand = JSON.parse('{"tariffRateId": "id", "rateUnit": "COST_PER_UNIT"}');
       expect(tariffRateBand.rateUnit).toEqual(RateUnit.COST_PER_UNIT);
       expect(tariffRateBand.tariffRateId).toEqual('id');
+    })
+    it("works for ProrationRule", () => {
+      const tariffRate: TariffRate = JSON.parse('{"rateName": "StringName", "prorationRules": ' +
+          '["SPLIT_DEMAND_VERSION_CHANGE", "SINGLE_DEMAND_SEASON_CHANGE"]}');
+      expect(tariffRate.prorationRules).toContain(ProrationRule.SINGLE_DEMAND_SEASON_CHANGE);
+      expect(tariffRate.prorationRules).toContain(ProrationRule.SPLIT_DEMAND_VERSION_CHANGE);
+      expect(tariffRate.rateName).toEqual('StringName');
     })
   });
   describe("isTariff function", () => {

@@ -29,6 +29,7 @@ export {
   TransactionType,
   TariffPropertyType,
   Period,
+  ProrationRule,
   RateUnit,
   TariffProperty,
   TariffRate,

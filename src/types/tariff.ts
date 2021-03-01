@@ -56,6 +56,8 @@ export class ChargeClasses  {
 }
 
 export enum ChargePeriod {
+  ONE_TIME = "ONE_TIME",
+  HOURLY = "HOURLY",
   DAILY = "DAILY",
   MONTHLY = "MONTHLY",
   QUARTERLY = "QUARTERLY",

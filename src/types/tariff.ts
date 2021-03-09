@@ -78,6 +78,7 @@ export enum TariffPropertyType {
   BENEFIT = "BENEFIT",
   DATA_REPUTATION = "DATA_REPUTATION",
   SERVICE_TERMS = "SERVICE_TERMS",
+  INFO = "INFO"
 }
 
 export enum Period {

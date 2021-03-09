@@ -10,6 +10,8 @@ export enum TariffType {
   ALTERNATIVE = "ALTERNATIVE",
   RIDER = "RIDER",
   OPTIONAL_EXTRA = "OPTIONAL_EXTRA",
+  INCENTIVE = "INCENTIVE",
+  PROPOSED = "PROPOSED"
 }
 
 export enum CustomerClass {

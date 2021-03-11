@@ -35,7 +35,8 @@ export {
   TariffRate,
   TariffRateBand,
   Tariff,
-  isTariff
+  isTariff,
+  isTariffRateTiered
 } from './tariff';
 
 export {

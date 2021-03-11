@@ -211,3 +211,22 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.lseId !== undefined &&
     arg.lseName !== undefined
 }
+
+export function isTariffRateTiered(tariffRate: TariffRate): boolean {
+  const isTariffRateTieredHelper = (rateBands: TariffRateBand[]): boolean => {
+    const set = new Set()
+    for (const rateBand of rateBands) {
+      if (set.has(rateBand.applicabilityValue)) {
+        return true
+      } else {
+        set.add(rateBand.applicabilityValue)
+      }
+    }
+    return false
+  }
+  if (!tariffRate.rateBands || (tariffRate.rateBands.length < 2)) {
+    return false
+  } else {
+    return isTariffRateTieredHelper(tariffRate.rateBands)
+  }
+}

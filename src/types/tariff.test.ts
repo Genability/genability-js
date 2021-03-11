@@ -13,7 +13,8 @@ import {
   RateUnit,
   TariffProperty,
   Period,
-  ProrationRule
+  ProrationRule,
+  isTariffRateTiered
 } from './tariff';
 
 describe("tariff types", () => {
@@ -177,6 +178,171 @@ describe("tariff types", () => {
       expect(rate.tariffRateId).toEqual(3);
       expect(rate.tariffId).toEqual(4);
       expect(rate.rateBands).toEqual([rateBand]);
+    })
+  });
+  describe("isTariffRateTiered function", () => {
+    it("should be true for 2 rateBands with unique applicabilityValue", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "Fixed"\
+            },\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "Fixed"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+    })
+
+    it("should be true for 2 rateBands with no applicabilityValue", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455\
+            },\
+            {\
+              "tariffRateBandId": 11575456\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+    })
+
+    it("should be false for undefined rateBands ", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+    })
+
+    it("should be false for 1 rateBands", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "Fixed"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+    })
+
+    it("should be false for 2 rateBands with different applicabilityValue", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "Fixed"\
+            },\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "Variable"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+    })
+
+    it("should be true for 4 rateBands, 2 with applicabilityValue=true and 2 with applicabilityValue=false", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575457,\
+              "applicabilityValue": "false"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "applicabilityValue": "false"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+    })
+
+    it("should be true for 3 rateBands, 2 with applicabilityValue=true and 1 with applicabilityValue=false", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "applicabilityValue": "false"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+    })
+
+    it("should be true for 4 rateBands, 2 with same applicabilityValue and other two with different applicabilityValue", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575456,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575457,\
+              "applicabilityValue": "Fixed"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "applicabilityValue": "Variable"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateTiered(tariffRate)).toEqual(true);
     })
   });
 });

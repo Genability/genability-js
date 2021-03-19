@@ -5,7 +5,9 @@ import {
   isSearchable,
   isSortable,
   SortOrder,
-  PagedResponse
+  PagedResponse,
+  ResponseError,
+  isResponseError
 } from './contract';
 import {
   BasePagedRequest,
@@ -27,17 +29,102 @@ interface PagedResponseType {
   type: string; 
   count: number; 
   results: Array<number>;
+  pageStart?: number;
+  pageCount?: number;
 }
+
+interface ErrorPagedResponseType {
+  status: string;
+  type: string; 
+  count: number; 
+  results: Array<ResponseError>;
+}
+
 const samplePageResponse: PagedResponseType = {
-  status: '',
-  type: '',
+  status: 'success',
+  type: 'Integer',
   count: 3,
-  results: [1,2,3]
+  results: [1,2,3],
+  pageStart: 3,
+  pageCount: 5
 }
+
+const statusErrorPageResponse: ErrorPagedResponseType = {
+  status: 'error',
+  type: 'Integer',
+  count: 3,
+  results: [
+    {
+      code: "InvalidFileFormat",
+      message: "Invalid file format",
+      objectName: "TestObject",
+      propertyName: "someProperty",
+      propertyValue: "xls"
+    }
+  ]
+}
+
+const statusTypeErrorPageResponse: ErrorPagedResponseType = {
+  status: 'error',
+  type: 'Error',
+  count: 3,
+  results: [
+    {
+      code: "InvalidFileFormat",
+      message: "Invalid file format",
+      objectName: "TestObject",
+      propertyName: "someProperty",
+      propertyValue: "xls"
+    }
+  ]
+}
+
+const typeErrorPageResponse: ErrorPagedResponseType = {
+  status: 'success',
+  type: 'Error',
+  count: 3,
+  results: [
+    {
+      code: "InvalidFileFormat",
+      message: "Invalid file format",
+      objectName: "TestObject",
+      propertyName: "someProperty",
+      propertyValue: "xls"
+    }
+  ]
+}
+
 describe("Paginated Response", () => {
   it("isPaginated", async () => {
     const response: PagedResponse<number> = new PagedResponse(samplePageResponse);
     expect(response).toBeTruthy();
+    expect(response.errors).toEqual(undefined);
+    expect(response.pageStart).toEqual(3);
+    expect(response.pageCount).toEqual(5);
+  })
+
+  it("response errors property should be set when status is 'error'", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse(statusErrorPageResponse);
+    expect(response).toBeTruthy();
+    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
+    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+  })
+
+  it("response errors property should be set when status is 'error' and type is 'Error'", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse(statusTypeErrorPageResponse);
+    expect(response).toBeTruthy();
+    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
+    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+  })
+
+  it("response errors property should be set when type is 'Error'", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse(typeErrorPageResponse);
+    expect(response).toBeTruthy();
+    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
+    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
   })
 })
 
@@ -189,5 +276,27 @@ describe("Rest API Contracts", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('fields=ext');
     })
+  })
+});
+
+describe("isResponseError function", () => {
+  it("should be false for invalid JSON", () => {
+    const responseError: ResponseError = JSON.parse(
+      '{\
+        "code": "1",\
+        "message": "error"\
+      }'
+    );
+    expect(isResponseError(responseError)).toEqual(false);
+  })
+  it("should be true for valid JSON", () => {
+    const responseError: ResponseError = JSON.parse(
+      '{\
+        "code": "InvalidFileFormat",\
+        "message": "Invalid file format",\
+        "objectName": "TestObject"\
+      }'
+    );
+    expect(isResponseError(responseError)).toEqual(true);
   })
 });

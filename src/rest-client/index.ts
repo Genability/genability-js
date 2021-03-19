@@ -17,6 +17,8 @@ export {
   BasePagedRequest,
   AddParamCallback,
   PagedResponse,
+  ResponseError,
+  isResponseError
 } from './contract';
 
 export {

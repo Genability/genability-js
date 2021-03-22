@@ -67,12 +67,28 @@ export function isQueryStringified(object: any): object is QueryStringified {
   return 'queryStringify' in object;
 }
 
+export interface ResponseError {
+  code: string;
+  message: string;
+  objectName: string;
+  propertyName?: string;
+  propertyValue?: string;
+}
+
+
+export function isResponseError(arg: ResponseError): arg is ResponseError {
+  return arg.code !== undefined &&
+    arg.message !== undefined &&
+    arg.objectName !== undefined
+}
+
 export interface Response<T> extends Paged {
   status: string;
   type: string;
   count: number;
   results: Array<T>;
   requestId?: string;
+  errors?: Array<ResponseError>;
 }
 
 export type AddParamCallback = (
@@ -158,9 +174,18 @@ export class PagedResponse<T> implements Response<T> {
   public requestId?: string;
   public pageStart?: number;
   public pageCount?: number;
+  public errors?: Array<ResponseError>;
 
-  constructor({ status, type, count, results }: Response<T>) { 
-    Object.assign(this, { status, type, count, results });
+  constructor(arg: Response<T>) { 
+    if (arg.status === 'error' || arg.type === 'Error') {
+      arg.results.forEach((result) => {
+        if (isResponseError(result as unknown as ResponseError)) {
+          this.errors = []
+          this.errors.push(result as unknown as ResponseError)
+        }
+      })
+    }
+    Object.assign(this, arg);
   }
 
 }

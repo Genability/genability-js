@@ -304,3 +304,45 @@ describe('Test createMaximumRate method', () => {
     expect(tariffRate).toEqual(expectedTariffRate);
   });
 });
+
+describe('Test copyRate method', () => {
+  it('should create a copy and change the expected fields on copy', () => {
+    const tariffRate = {
+      tariffRateId: 1,
+      masterTariffRateId: 123,
+      fromDateTime: "2019-07-13T00:00:00-07:00",
+      toDateTime: "2020-05-11T00:00:00-07:00",
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'rateGroupName',
+      rateName: 'rateName',
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey: 'quantityKey',
+      rateBands: [{
+        tariffRateBandId: 100,
+        tariffRateId: 1
+      }, {
+        tariffRateBandId: 101,
+        tariffRateId: 1
+      }]
+    }
+    const tariffRateDeepCopy: TariffRate = TariffRateFactory.copyRate(tariffRate);
+    expect(tariffRate.rateName).toEqual("rateName");
+    expect(tariffRateDeepCopy.rateName).toEqual("Copy of rateName");
+    expect(tariffRate.tariffRateId).toEqual(1);
+    expect(tariffRateDeepCopy.tariffRateId).toEqual(null);
+    expect(tariffRate.fromDateTime).toEqual("2019-07-13T00:00:00-07:00");
+    expect(tariffRateDeepCopy.fromDateTime).toEqual(null);
+    expect(tariffRate.toDateTime).toEqual("2020-05-11T00:00:00-07:00");
+    expect(tariffRateDeepCopy.toDateTime).toEqual(null);
+    expect(tariffRate.rateBands && tariffRate.rateBands[0].tariffRateBandId).toEqual(100);
+    expect(tariffRateDeepCopy.rateBands && tariffRateDeepCopy.rateBands[0].tariffRateBandId).toEqual(null);
+    expect(tariffRate.rateBands && tariffRate.rateBands[1].tariffRateBandId).toEqual(101);
+    expect(tariffRateDeepCopy.rateBands && tariffRateDeepCopy.rateBands[1].tariffRateBandId).toEqual(null);
+    tariffRateDeepCopy.rateGroupName = "Copy of rateGroupName";
+    expect(tariffRate.rateGroupName).toEqual("rateGroupName");
+    expect(tariffRateDeepCopy.rateGroupName).toEqual("Copy of rateGroupName");
+  });
+});

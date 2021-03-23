@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import {
   TariffRate,
   ChargeType,
@@ -6,7 +7,8 @@ import {
   ChargePeriod,
   TransactionType,
   RateUnit,
-  Tariff
+  Tariff,
+  TariffRateBand
 } from "../types/tariff";
 
 export class TariffRateFactory {
@@ -181,5 +183,20 @@ export class TariffRateFactory {
       }]
     }
     return tariffRate;
+  }
+
+  public static copyRate(tariffRate: TariffRate): TariffRate {
+    const tariffRateDeepCopy = cloneDeep(tariffRate);
+    tariffRateDeepCopy.rateName = `Copy of ${tariffRateDeepCopy.rateName}`;
+    tariffRateDeepCopy.tariffRateId = null;
+    tariffRateDeepCopy.masterTariffRateId = null;
+    tariffRateDeepCopy.fromDateTime = null;
+    tariffRateDeepCopy.toDateTime = null;
+    tariffRateDeepCopy.rateBands?.forEach((rateBand: TariffRateBand) => {
+      rateBand.tariffRateBandId = null;
+      rateBand.tariffRateId = null;
+    })
+
+    return tariffRateDeepCopy;
   }
 }

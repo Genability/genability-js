@@ -147,15 +147,15 @@ export interface Tariff {
 
 export interface TariffRate {
   tariffRateId: number | null;
-  masterTariffRateId?: number;
+  masterTariffRateId?: number | null;
   tariffId: number | null;
   riderTariffId?: number;
   riderId: number | null;
   tariffSequenceNumber: number | null;
   rateGroupName: string;
   rateName: string;
-  fromDateTime?: string;
-  toDateTime?: string;
+  fromDateTime?: string | null;
+  toDateTime?: string | null;
   chargeType?: ChargeType;
   chargeClass?: ChargeClasses;
   chargePeriod?: ChargePeriod;
@@ -173,8 +173,8 @@ export interface TariffRate {
 }
 
 export interface TariffRateBand {
-  tariffRateBandId?: number;
-  tariffRateId?: number;
+  tariffRateBandId?: number | null;
+  tariffRateId?: number | null;
   rateSequenceNumber?: number;
   hasConsumptionLimit?: boolean;
   consumptionUpperLimit?: number;

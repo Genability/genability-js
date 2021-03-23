@@ -1,6 +1,6 @@
 {
   "name": "@genability/api",
-  "version": "0.1.57",
+  "version": "0.1.58",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "@types/lodash.clonedeep": "^4.5.6",
     "@types/mock-fs": "^4.10.0",
     "@types/node": "^13.13.1",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
@@ -42,7 +43,8 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "lodash.clonedeep": "^4.5.0"
   },
   "bugs": {
     "url": "https://github.com/Genability/genability-js/issues"

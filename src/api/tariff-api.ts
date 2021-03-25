@@ -40,6 +40,7 @@ export class GetTariffsRequest extends BasePagedRequest {
   public bundleRates?: boolean;
   public applicableRatesOnly?: boolean;
   public filterRiderRates?: boolean;
+  public territoryId?: number;
 
   addParams(addParam: AddParamCallback): void {
     addParam('lseId', this.lseId);
@@ -71,6 +72,7 @@ export class GetTariffsRequest extends BasePagedRequest {
     addParam('bundleRates', this.bundleRates);
     addParam('applicableRatesOnly', this.applicableRatesOnly);
     addParam('filterRiderRates', this.filterRiderRates);
+    addParam('territoryId', this.territoryId);
   }
 }
 

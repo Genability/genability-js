@@ -3,7 +3,6 @@ import {
   TariffRate,
   ChargeType,
   ChargeClass,
-  ChargeClasses,
   ChargePeriod,
   TransactionType,
   RateUnit,
@@ -27,7 +26,7 @@ export class TariffRateFactory {
       rateGroupName:'Taxes',
       rateName,
       chargeType: ChargeType.TAX,
-      chargeClass: ChargeClasses.getChargeClasses([ChargeClass.TAX]),
+      chargeClass: ChargeClass.TAX,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{

@@ -24,7 +24,6 @@ export {
   CustomerClass,
   ChargeType,
   ChargeClass,
-  ChargeClasses,
   ChargePeriod,
   TransactionType,
   TariffPropertyType,

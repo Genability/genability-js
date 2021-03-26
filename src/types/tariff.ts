@@ -44,19 +44,6 @@ export enum ChargeClass {
   NON_BYPASSABLE = "NON_BYPASSABLE",
 }
 
-export class ChargeClasses  {
-  public chargeClasses: Array<ChargeClass>;
-  public constructor(chargeClassString: string) {
-    this.chargeClasses = chargeClassString.split(",") as Array<ChargeClass>;
-  }
-  public toJSON(): string {
-    return this.chargeClasses.toString();
-  }
-  public static getChargeClasses(chargeClasses: Array<string>): ChargeClasses {
-    return new ChargeClasses(chargeClasses.toString());
-  }
-}
-
 export enum ChargePeriod {
   ONE_TIME = "ONE_TIME",
   HOURLY = "HOURLY",
@@ -157,7 +144,7 @@ export interface TariffRate {
   fromDateTime?: string | null;
   toDateTime?: string | null;
   chargeType?: ChargeType;
-  chargeClass?: ChargeClasses;
+  chargeClass?: string;
   chargePeriod?: ChargePeriod;
   transactionType?: TransactionType;
   quantityKey?: string;

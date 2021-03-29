@@ -45,16 +45,16 @@ export enum ChargeClass {
 }
 
 export class ChargeClasses  {
-  public chargeClasses: Array<ChargeClass>;
+  public values: Array<ChargeClass>;
   
   public constructor(chargeClasses: Array<ChargeClass>) {
-    this.chargeClasses = chargeClasses;
+    this.values = chargeClasses;
   }
   public toJSON(): string {
-    if(this.chargeClasses === undefined || this.chargeClasses.length == 0) {
+    if(this.values === undefined || this.values.length == 0) {
       return "";
     }
-    return this.chargeClasses.toString();
+    return this.values.toString();
   }
   public static fromString(jsonString: string): ChargeClasses {
     if(jsonString && jsonString.length > 0) {

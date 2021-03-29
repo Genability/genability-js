@@ -23,14 +23,14 @@ describe("tariff types", () => {
     it("should handle empty string", () => {
       const chargeClassString = "";
       const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.chargeClasses.length).toEqual(0);
+      expect(chargeClassesObj.values.length).toEqual(0);
       expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
     })
     it("should handle non empty string", () => {
       const chargeClassString = "SUPPLY";
       const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.chargeClasses.length).toEqual(1);
-      expect(chargeClassesObj.chargeClasses[0]).toEqual(ChargeClass.SUPPLY);
+      expect(chargeClassesObj.values.length).toEqual(1);
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.SUPPLY);
       expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
       expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClass(ChargeClass.SUPPLY));
       expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.SUPPLY]));
@@ -38,10 +38,10 @@ describe("tariff types", () => {
     it("should initialize multiple value string", () => {
       const chargeClassString = "TRANSMISSION,TAX";
       const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.chargeClasses.length).toEqual(2);
-      expect(chargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
-      expect(chargeClassesObj.chargeClasses[0]).toEqual(ChargeClass.TRANSMISSION);
-      expect(chargeClassesObj.chargeClasses[1]).toEqual(ChargeClass.TAX);
+      expect(chargeClassesObj.values.length).toEqual(2);
+      expect(chargeClassesObj.values).toEqual(chargeClassString.split(','));
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.TRANSMISSION);
+      expect(chargeClassesObj.values[1]).toEqual(ChargeClass.TAX);
       expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
       expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.TAX]));
     })

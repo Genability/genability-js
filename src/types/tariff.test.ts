@@ -62,11 +62,6 @@ describe("tariff types", () => {
       expect(tariff.chargeTypes).toEqual(ChargeType.CONSUMPTION_BASED);
       expect(tariff.tariffName).toEqual('StringName');
     })
-    it("works for ChargeClass", () => {
-      const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargeClass": "AFTER_TAX"}');
-      expect(rate.chargeClass).toEqual(ChargeClass.AFTER_TAX);
-      expect(rate.rateName).toEqual('StringName');
-    })
     it("works for ChargePeriod", () => {
       const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargePeriod": "ANNUALLY"}');
       expect(rate.chargePeriod).toEqual(ChargePeriod.ANNUALLY);
@@ -155,11 +150,11 @@ describe("tariff types", () => {
       );
       const tariff: Tariff = toTariffFromApi(json);
       expect(isTariff(tariff)).toEqual(true);
-      expect(tariff.rates).toBeTruthy;
+      expect(tariff.rates).toBeTruthy();
       expect(tariff.rates?.length).toEqual(1);
       if(tariff.rates) {
         const tariffRate: TariffRate = tariff.rates[0];
-        expect(tariffRate).toBeTruthy;
+        expect(tariffRate).toBeTruthy();
         expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
       }
     })

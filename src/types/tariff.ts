@@ -46,14 +46,29 @@ export enum ChargeClass {
 
 export class ChargeClasses  {
   public chargeClasses: Array<ChargeClass>;
-  public constructor(chargeClassString: string) {
-    this.chargeClasses = chargeClassString.split(",") as Array<ChargeClass>;
+  
+  public constructor(chargeClasses: Array<ChargeClass>) {
+    this.chargeClasses = chargeClasses;
   }
   public toJSON(): string {
+    if(this.chargeClasses === undefined || this.chargeClasses.length == 0) {
+      return "";
+    }
     return this.chargeClasses.toString();
   }
-  public static getChargeClasses(chargeClasses: Array<string>): ChargeClasses {
-    return new ChargeClasses(chargeClasses.toString());
+  public static fromString(jsonString: string): ChargeClasses {
+    if(jsonString && jsonString.length > 0) {
+      const chargeClasses: Array<ChargeClass> = jsonString.split(",") as Array<ChargeClass>;
+      return new ChargeClasses(chargeClasses);
+    } else {
+      return new ChargeClasses([]);
+    }
+  }
+  public static fromChargeClass(chargeClass: ChargeClass): ChargeClasses {
+    return new ChargeClasses([chargeClass]);
+  }
+  public static fromChargeClasses(chargeClasses: Array<ChargeClass>): ChargeClasses {
+    return new ChargeClasses(chargeClasses);
   }
 }
 
@@ -198,6 +213,25 @@ export interface TariffProperty extends GenPropertyKey {
   minValue?: string;
   maxValue?: string;
   isDefault?: boolean;
+}
+
+function hasOwnProperty<X extends {}, Y extends PropertyKey>
+(obj: X, prop: Y): obj is X & Record<Y, unknown> {
+  return obj.hasOwnProperty(prop)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function toTariffFromApi(json: any): Tariff {
+  if(hasOwnProperty(json,"rates")) {
+    for(const tariffRate of json.rates) {
+      if(hasOwnProperty(tariffRate, "chargeClass")) {
+        if(typeof tariffRate.chargeClass === 'string') {
+          tariffRate.chargeClass = ChargeClasses.fromString(tariffRate.chargeClass);
+        }
+      }
+    }
+  }
+  return json as Tariff;
 }
 
 /**

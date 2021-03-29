@@ -113,8 +113,18 @@ describe("Tariff api", () => {
       const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
       expect(tariff.rates).toEqual(expect.any(Array));
+      expect(tariff.rates?.length).toBeGreaterThan(0);
       expect(tariff.properties).toEqual(expect.any(Array));
       expect(tariff).toHaveProperty('closedDate');
+      if(tariff.rates) {
+        for(const tariffRate of tariff.rates) {
+          if(tariffRate.chargeClass) {
+            expect(tariffRate.chargeClass).toBeTruthy;
+          }
+        }
+      } else {
+        fail('no rates');
+      }
     })
     it("returns the tariff history", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();

@@ -21,7 +21,7 @@ describe('Test createTaxRate method', () => {
         rateGroupName:'Taxes',
         rateName: "testRateName",
         chargeType: ChargeType.TAX,
-        chargeClass: ChargeClasses.getChargeClasses([ChargeClass.TAX]),
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
         chargePeriod: ChargePeriod.MONTHLY,
         transactionType: TransactionType.BUY,
         rateBands: [{
@@ -44,7 +44,7 @@ describe('Test createTaxRate method', () => {
         rateGroupName:'Taxes',
         rateName: 'Taxes',
         chargeType: ChargeType.TAX,
-        chargeClass: ChargeClasses.getChargeClasses([ChargeClass.TAX]),
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
         chargePeriod: ChargePeriod.MONTHLY,
         transactionType: TransactionType.BUY,
         rateBands: [{

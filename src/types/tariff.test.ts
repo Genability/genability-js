@@ -14,28 +14,36 @@ import {
   TariffProperty,
   Period,
   ProrationRule,
-  isTariffRateTiered
+  isTariffRateTiered,
+  toTariffFromApi
 } from './tariff';
 
 describe("tariff types", () => {
-  describe("test for chargeClasses", () => {
-    it("should initialize object empty string", () => {
+  describe("test for ChargeClasses", () => {
+    it("should handle empty string", () => {
       const chargeClassString = "";
-      const ChargeClassesObj = ChargeClasses.getChargeClasses([]);
-      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
-      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
+      expect(chargeClassesObj.values.length).toEqual(0);
+      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
     })
-    it("should initialize object non empty string", () => {
+    it("should handle non empty string", () => {
       const chargeClassString = "SUPPLY";
-      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.SUPPLY]);;
-      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
-      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
+      expect(chargeClassesObj.values.length).toEqual(1);
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.SUPPLY);
+      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClass(ChargeClass.SUPPLY));
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.SUPPLY]));
     })
-    it("should initialize object multiple value", () => {
+    it("should initialize multiple value string", () => {
       const chargeClassString = "TRANSMISSION,TAX";
-      const ChargeClassesObj = ChargeClasses.getChargeClasses([ChargeClass.TRANSMISSION, ChargeClass.TAX]);;
-      expect(ChargeClassesObj.chargeClasses).toEqual(chargeClassString.split(','));
-      expect(ChargeClassesObj.toJSON()).toEqual(chargeClassString);
+      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
+      expect(chargeClassesObj.values.length).toEqual(2);
+      expect(chargeClassesObj.values).toEqual(chargeClassString.split(','));
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.TRANSMISSION);
+      expect(chargeClassesObj.values[1]).toEqual(ChargeClass.TAX);
+      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.TAX]));
     })
   })
   describe("test that JSON to enum", () => {
@@ -53,11 +61,6 @@ describe("tariff types", () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "chargeTypes": "CONSUMPTION_BASED"}');
       expect(tariff.chargeTypes).toEqual(ChargeType.CONSUMPTION_BASED);
       expect(tariff.tariffName).toEqual('StringName');
-    })
-    it("works for ChargeClass", () => {
-      const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargeClass": "AFTER_TAX"}');
-      expect(rate.chargeClass).toEqual(ChargeClass.AFTER_TAX);
-      expect(rate.rateName).toEqual('StringName');
     })
     it("works for ChargePeriod", () => {
       const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargePeriod": "ANNUALLY"}');
@@ -131,9 +134,10 @@ describe("tariff types", () => {
     it("should be true with rates", () => {
       const ratesJson = '[{\
         "tariffRateId": 1,\
-        "tariffId": 1\
+        "tariffId": 1,\
+        "chargeClass": "TRANSMISSION,DISTRIBUTION"\
        }]';
-      const tariff: Tariff = JSON.parse(
+      const json = JSON.parse(
         `{\
           "tariffId": "numberTariffId",\
           "masterTariffId": "numberMasterTariffId",\
@@ -144,9 +148,15 @@ describe("tariff types", () => {
           "rates": ${ratesJson}
         }`
       );
-      const rates: TariffRate = JSON.parse(ratesJson);
+      const tariff: Tariff = toTariffFromApi(json);
       expect(isTariff(tariff)).toEqual(true);
-      expect(tariff.rates).toEqual(rates);
+      expect(tariff.rates).toBeTruthy();
+      expect(tariff.rates?.length).toEqual(1);
+      if(tariff.rates) {
+        const tariffRate: TariffRate = tariff.rates[0];
+        expect(tariffRate).toBeTruthy();
+        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+      }
     })
   });
   describe("works for TariffRateBand", () => {

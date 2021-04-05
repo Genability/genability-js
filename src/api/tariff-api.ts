@@ -7,7 +7,7 @@ import {
   GenabilityConfig
 } from '../rest-client';
 import {
-  Tariff, CustomerClass, TariffType, ChargeType, ServiceType, PrivacyFlag
+  Tariff, CustomerClass, TariffType, ChargeType, ServiceType, PrivacyFlag, toTariffFromApi
 } from '../types';
 
 export class GetTariffsRequest extends BasePagedRequest {
@@ -105,13 +105,21 @@ export class TariffApi extends RestApiClient {
   }
 
   public async getTariffs(request?: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
-    const response = await this.axiosInstance.get(`/rest/public/tariffs`, { params: request } );
-    return new PagedResponse(response.data);
+    return  await this.axiosInstance.get(`/rest/public/tariffs`, { params: request } )
+      .then((response) => {
+        response.data.results = response.data.results.map((tariff: string) => {
+          // Convert each JSON tariff to Tariff object
+          return toTariffFromApi(tariff)
+        });
+        return new PagedResponse(response.data);
+      });
   }
 
   public async getTariff(masterTariffId: number, request?: GetTariffRequest): Promise<Tariff> {
-    const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}`, { params: request } );
-    return response.data.results[0];
+    return this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}`, { params: request } )
+      .then((response) =>{
+        return toTariffFromApi(response.data.results[0])
+      });
   }
 
   public async getTariffHistory(masterTariffId: number): Promise<Tariff> {

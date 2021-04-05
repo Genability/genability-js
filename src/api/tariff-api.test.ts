@@ -7,6 +7,7 @@ import { PagedResponse } from '../rest-client'
 import {
   TariffType,
   CustomerClass,
+  ChargeClasses,
   ChargeType,
   Tariff,
   isTariff
@@ -95,17 +96,15 @@ describe("GetTariffs request", () => {
 
 describe("Tariff api", () => {
   describe("get one endpoint", () => {
-    it("returns the tariff", async () => {
+    it("returns a tariff", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
       const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
       const { masterTariffId } = response.results[0];
       const tariff: Tariff = await restClient.getTariff(masterTariffId);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
     })
-    it("returns the tariff with parameter", async () => {
-      const request: GetTariffsRequest = new GetTariffsRequest();
-      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
-      const { masterTariffId } = response.results[0];
+    it("returns a tariff with rates and properties", async () => {
+      const masterTariffId = 522;
       const tariffRequest: GetTariffRequest = new GetTariffRequest();
       tariffRequest.populateProperties = true;
       tariffRequest.populateRates = true;
@@ -113,8 +112,18 @@ describe("Tariff api", () => {
       const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
       expect(tariff.masterTariffId).toEqual(masterTariffId);
       expect(tariff.rates).toEqual(expect.any(Array));
+      expect(tariff.rates?.length).toBeGreaterThan(0);
       expect(tariff.properties).toEqual(expect.any(Array));
       expect(tariff).toHaveProperty('closedDate');
+      if(tariff.rates) {
+        for(const tariffRate of tariff.rates) {
+          if(tariffRate.chargeClass) {
+            expect(tariffRate.chargeClass).toBeInstanceOf(ChargeClasses);
+          }
+        }
+      } else {
+        fail('no rates');
+      }
     })
     it("returns the tariff history", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
@@ -135,6 +144,29 @@ describe("Tariff api", () => {
       expect(response.results).toHaveLength(25);
       for(const tariff of response.results) {
         expect(isTariff(tariff)).toBeTruthy();
+      }
+    })
+    it("returns a list of tariffs with rates and properties", async () => {
+      const request: GetTariffsRequest = new GetTariffsRequest();
+      request.masterTariffId = 522;
+      request.populateProperties = true;
+      request.populateRates = true;
+      request.fields = Fields.EXTENDED;
+
+      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      expect(response.status).toEqual("success");
+      expect(response.type).toEqual(ResourceTypes.TARIFF);
+      expect(response.count).toBeGreaterThan(40); // as of 2021-03-29, mtid: 522 has a count of 42
+      expect(response.results).toHaveLength(25);
+      for(const tariff of response.results) {
+        expect(isTariff(tariff)).toBeTruthy();
+        if(tariff.rates) {
+          for(const tariffRate of tariff.rates) {
+            if(tariffRate.chargeClass) {
+              expect(tariffRate.chargeClass).toBeInstanceOf(ChargeClasses);
+            }
+          }
+        }
       }
     })
   })

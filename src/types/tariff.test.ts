@@ -15,6 +15,7 @@ import {
   Period,
   ProrationRule,
   isTariffRateTiered,
+  uniquePropertyKeys,
   toTariffFromApi
 } from './tariff';
 
@@ -353,6 +354,56 @@ describe("tariff types", () => {
         }'
       );
       expect(isTariffRateTiered(tariffRate)).toEqual(true);
+    })
+  });
+  describe("uniquePropertyKeys function", () => {
+    it("works without any keys", () => {
+      const tariff: Tariff = JSON.parse(
+        '{\
+          "tariffId": "numberTariffId",\
+          "masterTariffId": "numberMasterTariffId",\
+          "tariffCode": "numberTariffCode",\
+          "tariffName": "numberTariffName",\
+          "lseId": "numberLseId",\
+          "lseName": "numberLseName",\
+          "rates": []\
+        }'
+      );
+      const tariffSet = uniquePropertyKeys(tariff);
+      expect(tariffSet.size).toEqual(0);
+    });
+    it("works with rates", () => {
+      const rateJson = `{\
+        "tariffRateId": 3,\
+        "tariffId": 4,\
+        "quantityKey": "quantityKey",\
+        "applicabilityKey": "applicabilityKey",\
+        "variableFactorKey": "variableFactorKey"
+       }`;
+      const tariff: Tariff = JSON.parse(`{\
+        "tariffName": "StringName", \
+        "tariffType": "ALTERNATIVE",\ 
+        "rates": [${rateJson}]
+      }`
+      );
+      const tariffSet = uniquePropertyKeys(tariff);
+      expect(tariffSet).toContain("quantityKey");
+      expect(tariffSet).toContain("applicabilityKey");
+      expect(tariffSet).toContain("variableFactorKey");
+    })
+
+    it("works with properties", () => {
+      const tariffPropertyJson = '{"keyName": "stringKeyName", "period": "CRITICAL_PEAK"}';
+      const tariff: Tariff = JSON.parse(`{\
+        "tariffName": "StringName", \
+        "tariffType": "ALTERNATIVE",\ 
+        "rates": [],\
+        "properties": [${tariffPropertyJson}, ${tariffPropertyJson}]
+      }`
+      );
+      const tariffSet = uniquePropertyKeys(tariff);
+      expect(tariffSet).toContain("stringKeyName");
+      expect(tariffSet.size).toEqual(1);
     })
   });
 });

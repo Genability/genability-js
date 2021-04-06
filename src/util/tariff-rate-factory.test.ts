@@ -80,6 +80,27 @@ describe('Test createTaxRate method', () => {
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
+    it('should accept rateAmount as an optional parameter', () => {
+      const expectedTariffRate = {
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
+        rateGroupName:'Group Name Taxes',
+        rateName: 'Taxes',
+        chargeType: ChargeType.TAX,
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
+        chargePeriod: ChargePeriod.MONTHLY,
+        transactionType: TransactionType.BUY,
+        rateBands: [{
+          rateUnit: RateUnit.PERCENTAGE 
+        }]
+      }
+      const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
+        "Group Name Taxes"
+      );
+      expect(tariffRate).toEqual(expectedTariffRate);
+    });
   });
 });
 

@@ -14,12 +14,12 @@ import {
 export class TariffRateFactory {
   public static createTaxRate(
     rateGroupName = 'Taxes',
-    rateAmount: number,
+    rateAmount?: number,
     isFixedAmount = false,
     rateName = 'Taxes'): TariffRate {
-    if(!rateAmount) {
-      throw new Error('Please provide a rateAmount');
-    }
+    // if(!rateAmount) {
+    //   throw new Error('Please provide a rateAmount');
+    // }
     const tariffRate: TariffRate = {
       tariffRateId: null,
       tariffId: null,

@@ -122,6 +122,28 @@ export class TariffRateFactory {
     return tariffRate;
   }
 
+  public static createPercentageRate(
+    rateGroupName = 'Other Charges',
+    rateName = 'Percentage Rate',
+    quantityKey?: string,
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
+      }]
+    }
+    return tariffRate;
+  }
+
   public static createFixedRate(
     rateGroupName = 'Fixed Charges',
     rateName = 'Fixed Charge',

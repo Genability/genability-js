@@ -227,6 +227,47 @@ describe('Test createQuantityRate method', () => {
   });
 });
 
+describe('Test createPercentageRate method', () => {
+  it('should return TariffRate object when all arguments are given', () => {
+    const expectedTariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'rateGroupName',
+      rateName: 'rateName',
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey: 'quantityKey',
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
+      }]
+    }
+    const tariffRate: TariffRate = TariffRateFactory.createPercentageRate(
+      'rateGroupName', 'rateName', 'quantityKey'
+    );
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+
+  it('rateGroupName should default to "Other Charges", rateName to "Percentage Rate"', () => {
+    const expectedTariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'Other Charges',
+      rateName: 'Percentage Rate',
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
+      }]
+    }
+    const tariffRate: TariffRate = TariffRateFactory.createPercentageRate();
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+});
+
 describe('Test createFixedRate method', () => {
   it('should return TariffRate object when all arguments are given', () => {
     const expectedTariffRate = {

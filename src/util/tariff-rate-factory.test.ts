@@ -18,6 +18,29 @@ describe('Test createTaxRate method', () => {
         tariffId: null,
         riderId: null,
         tariffSequenceNumber: null,
+        rateGroupName:'Group Name Taxes',
+        rateName: "testRateName",
+        chargeType: ChargeType.TAX,
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
+        chargePeriod: ChargePeriod.MONTHLY,
+        transactionType: TransactionType.BUY,
+        rateBands: [{
+          rateAmount: 5000,
+          rateUnit: RateUnit.COST_PER_UNIT 
+        }]
+      }
+      const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
+        "Group Name Taxes", 5000, true, "testRateName"
+      );
+      expect(tariffRate).toEqual(expectedTariffRate);
+    });
+
+    it('rateGroupName should default to "Taxes"', () => {
+      const expectedTariffRate = {
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
         rateGroupName:'Taxes',
         rateName: "testRateName",
         chargeType: ChargeType.TAX,
@@ -30,7 +53,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        5000, true, "testRateName"
+        undefined, 5000, true, "testRateName"
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -41,7 +64,7 @@ describe('Test createTaxRate method', () => {
         tariffId: null,
         riderId: null,
         tariffSequenceNumber: null,
-        rateGroupName:'Taxes',
+        rateGroupName:'Group Name Taxes',
         rateName: 'Taxes',
         chargeType: ChargeType.TAX,
         chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
@@ -53,7 +76,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        5000
+        "Group Name Taxes", 5000
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });

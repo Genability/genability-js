@@ -13,6 +13,7 @@ import {
 
 export class TariffRateFactory {
   public static createTaxRate(
+    rateGroupName = 'Taxes',
     rateAmount: number,
     isFixedAmount = false,
     rateName = 'Taxes'): TariffRate {
@@ -24,7 +25,7 @@ export class TariffRateFactory {
       tariffId: null,
       riderId: null,
       tariffSequenceNumber: null,
-      rateGroupName:'Taxes',
+      rateGroupName,
       rateName,
       chargeType: ChargeType.TAX,
       chargeClass: ChargeClasses.fromChargeClass(ChargeClass.TAX),
@@ -39,6 +40,7 @@ export class TariffRateFactory {
   }
 
   public static createRider(
+    rateGroupName = '',
     riderTariff: Tariff
   ): TariffRate {
     // This is the minimum viable TariffRate we need to add it to
@@ -48,7 +50,7 @@ export class TariffRateFactory {
       tariffId: null,
       riderId: riderTariff.masterTariffId,
       tariffSequenceNumber: null,
-      rateGroupName:'',
+      rateGroupName,
       rateName: riderTariff.tariffName,
       fromDateTime: riderTariff.effectiveDate || undefined,
       toDateTime: riderTariff.endDate || undefined

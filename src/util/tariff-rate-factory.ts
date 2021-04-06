@@ -17,9 +17,6 @@ export class TariffRateFactory {
     rateAmount?: number,
     isFixedAmount = false,
     rateName = 'Taxes'): TariffRate {
-    // if(!rateAmount) {
-    //   throw new Error('Please provide a rateAmount');
-    // }
     const tariffRate: TariffRate = {
       tariffRateId: null,
       tariffId: null,

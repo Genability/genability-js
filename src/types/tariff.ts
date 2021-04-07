@@ -264,3 +264,16 @@ export function isTariffRateTiered(tariffRate: TariffRate): boolean {
     return isTariffRateTieredHelper(tariffRate.rateBands)
   }
 }
+
+export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
+  const calculationFactorPopulated = (
+    rateBands: TariffRateBand[]|undefined
+  ): boolean => {
+    return rateBands ? 
+      rateBands.some(
+        (rateBand: TariffRateBand) => !!rateBand.calculationFactor
+      ): false
+  }
+  return !!tariffRate.variableFactorKey ||
+    calculationFactorPopulated(tariffRate.rateBands)
+}

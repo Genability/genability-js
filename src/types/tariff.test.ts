@@ -16,7 +16,8 @@ import {
   ProrationRule,
   isTariffRateTiered,
   uniquePropertyKeys,
-  toTariffFromApi
+  toTariffFromApi,
+  isTariffRateWithFactor
 } from './tariff';
 
 describe("tariff types", () => {
@@ -406,4 +407,68 @@ describe("tariff types", () => {
       expect(tariffSet.size).toEqual(1);
     })
   });
+
+  describe("isTariffRateTiered function", () => {
+    it("no variableFactorKey populated and no calculationFactor on any rate band", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "applicabilityValue": "Variable"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateWithFactor(tariffRate)).toEqual(false);
+    })
+
+    it("variableFactorKey populated but no calculationFactor on any rate band", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "variableFactorKey": "test",\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "applicabilityValue": "Variable"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateWithFactor(tariffRate)).toEqual(true);
+    })
+
+    it("no variableFactorKey populated but one of its tariff rate bands with a calculationFactor", () => {
+      const tariffRate: TariffRate = JSON.parse(
+        '{\
+          "tariffRateId": 17838944,\
+          "tariffId": 3284480,\
+          "rateBands": [\
+            {\
+              "tariffRateBandId": 11575455,\
+              "applicabilityValue": "true"\
+            },\
+            {\
+              "tariffRateBandId": 11575458,\
+              "calculationFactor": 2,\
+              "applicabilityValue": "Variable"\
+            }\
+          ]\
+        }'
+      );
+      expect(isTariffRateWithFactor(tariffRate)).toEqual(true);
+    })
+  })
 });

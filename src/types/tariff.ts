@@ -277,3 +277,15 @@ export function uniquePropertyKeys(tariff: Tariff): Set<string> {
   });
   return mySet;
 }
+export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
+  const calculationFactorPopulated = (
+    rateBands: TariffRateBand[]|undefined
+  ): boolean => {
+    return rateBands ? 
+      rateBands.some(
+        (rateBand: TariffRateBand) => !!rateBand.calculationFactor
+      ): false
+  }
+  return !!tariffRate.variableFactorKey ||
+    calculationFactorPopulated(tariffRate.rateBands)
+}

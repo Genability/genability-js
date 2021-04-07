@@ -13,18 +13,16 @@ import {
 
 export class TariffRateFactory {
   public static createTaxRate(
-    rateAmount: number,
+    rateGroupName = 'Taxes',
+    rateAmount?: number,
     isFixedAmount = false,
     rateName = 'Taxes'): TariffRate {
-    if(!rateAmount) {
-      throw new Error('Please provide a rateAmount');
-    }
     const tariffRate: TariffRate = {
       tariffRateId: null,
       tariffId: null,
       riderId: null,
       tariffSequenceNumber: null,
-      rateGroupName:'Taxes',
+      rateGroupName,
       rateName,
       chargeType: ChargeType.TAX,
       chargeClass: ChargeClasses.fromChargeClass(ChargeClass.TAX),
@@ -39,6 +37,7 @@ export class TariffRateFactory {
   }
 
   public static createRider(
+    rateGroupName = '',
     riderTariff: Tariff
   ): TariffRate {
     // This is the minimum viable TariffRate we need to add it to
@@ -48,7 +47,7 @@ export class TariffRateFactory {
       tariffId: null,
       riderId: riderTariff.masterTariffId,
       tariffSequenceNumber: null,
-      rateGroupName:'',
+      rateGroupName,
       rateName: riderTariff.tariffName,
       fromDateTime: riderTariff.effectiveDate || undefined,
       toDateTime: riderTariff.endDate || undefined
@@ -115,6 +114,28 @@ export class TariffRateFactory {
       quantityKey,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT
+      }]
+    }
+    return tariffRate;
+  }
+
+  public static createPercentageRate(
+    rateGroupName = 'Other Charges',
+    rateName = 'Percentage Rate',
+    quantityKey?: string,
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey,
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
       }]
     }
     return tariffRate;

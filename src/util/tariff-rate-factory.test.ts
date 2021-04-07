@@ -18,6 +18,29 @@ describe('Test createTaxRate method', () => {
         tariffId: null,
         riderId: null,
         tariffSequenceNumber: null,
+        rateGroupName:'Group Name Taxes',
+        rateName: "testRateName",
+        chargeType: ChargeType.TAX,
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
+        chargePeriod: ChargePeriod.MONTHLY,
+        transactionType: TransactionType.BUY,
+        rateBands: [{
+          rateAmount: 5000,
+          rateUnit: RateUnit.COST_PER_UNIT 
+        }]
+      }
+      const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
+        "Group Name Taxes", 5000, true, "testRateName"
+      );
+      expect(tariffRate).toEqual(expectedTariffRate);
+    });
+
+    it('rateGroupName should default to "Taxes"', () => {
+      const expectedTariffRate = {
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
         rateGroupName:'Taxes',
         rateName: "testRateName",
         chargeType: ChargeType.TAX,
@@ -30,7 +53,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        5000, true, "testRateName"
+        undefined, 5000, true, "testRateName"
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -41,7 +64,7 @@ describe('Test createTaxRate method', () => {
         tariffId: null,
         riderId: null,
         tariffSequenceNumber: null,
-        rateGroupName:'Taxes',
+        rateGroupName:'Group Name Taxes',
         rateName: 'Taxes',
         chargeType: ChargeType.TAX,
         chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
@@ -53,7 +76,28 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        5000
+        "Group Name Taxes", 5000
+      );
+      expect(tariffRate).toEqual(expectedTariffRate);
+    });
+    it('should accept rateAmount as an optional parameter', () => {
+      const expectedTariffRate = {
+        tariffRateId: null,
+        tariffId: null,
+        riderId: null,
+        tariffSequenceNumber: null,
+        rateGroupName:'Group Name Taxes',
+        rateName: 'Taxes',
+        chargeType: ChargeType.TAX,
+        chargeClass: ChargeClasses.fromChargeClasses([ChargeClass.TAX]),
+        chargePeriod: ChargePeriod.MONTHLY,
+        transactionType: TransactionType.BUY,
+        rateBands: [{
+          rateUnit: RateUnit.PERCENTAGE 
+        }]
+      }
+      const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
+        "Group Name Taxes"
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -179,6 +223,47 @@ describe('Test createQuantityRate method', () => {
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createQuantityRate();
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+});
+
+describe('Test createPercentageRate method', () => {
+  it('should return TariffRate object when all arguments are given', () => {
+    const expectedTariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'rateGroupName',
+      rateName: 'rateName',
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      quantityKey: 'quantityKey',
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
+      }]
+    }
+    const tariffRate: TariffRate = TariffRateFactory.createPercentageRate(
+      'rateGroupName', 'rateName', 'quantityKey'
+    );
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+
+  it('rateGroupName should default to "Other Charges", rateName to "Percentage Rate"', () => {
+    const expectedTariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'Other Charges',
+      rateName: 'Percentage Rate',
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.BUY,
+      rateBands: [{
+        rateUnit: RateUnit.PERCENTAGE
+      }]
+    }
+    const tariffRate: TariffRate = TariffRateFactory.createPercentageRate();
     expect(tariffRate).toEqual(expectedTariffRate);
   });
 });

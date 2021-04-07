@@ -264,3 +264,28 @@ export function isTariffRateTiered(tariffRate: TariffRate): boolean {
     return isTariffRateTieredHelper(tariffRate.rateBands)
   }
 }
+
+export function uniquePropertyKeys(tariff: Tariff): Set<string> {
+  const mySet: Set<string> = new Set<string>();
+  tariff.properties && tariff.properties.forEach((tariffProperty: TariffProperty) =>  mySet.add(tariffProperty.keyName))
+  tariff.rates && tariff.rates.forEach((tariffRate: TariffRate) =>  {
+    tariffRate.quantityKey && mySet.add(tariffRate.quantityKey)
+    tariffRate.applicabilityKey && mySet.add(tariffRate.applicabilityKey)
+    tariffRate.variableLimitKey && mySet.add(tariffRate.variableLimitKey)
+    tariffRate.variableRateKey && mySet.add(tariffRate.variableRateKey)
+    tariffRate.variableFactorKey && mySet.add(tariffRate.variableFactorKey)
+  });
+  return mySet;
+}
+export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
+  const calculationFactorPopulated = (
+    rateBands: TariffRateBand[]|undefined
+  ): boolean => {
+    return rateBands ? 
+      rateBands.some(
+        (rateBand: TariffRateBand) => !!rateBand.calculationFactor
+      ): false
+  }
+  return !!tariffRate.variableFactorKey ||
+    calculationFactorPopulated(tariffRate.rateBands)
+}

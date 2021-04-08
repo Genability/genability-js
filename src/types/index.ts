@@ -37,6 +37,7 @@ export {
   Tariff,
   isTariff,
   isTariffRateTiered,
+  isTariffRateWithFactor,
   toTariffFromApi,
   uniquePropertyKeys
 } from './tariff';

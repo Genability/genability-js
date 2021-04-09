@@ -54,6 +54,10 @@ describe("tariff types", () => {
       expect(tariff.tariffType).toEqual(TariffType.ALTERNATIVE);
       expect(tariff.tariffName).toEqual('StringName');
     })
+    it("works for lseCode", () => {
+      const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "lseCode": "lseCode"}');
+      expect(tariff.lseCode).toEqual('lseCode');
+    })
     it("works for CustomerClass", () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL"}');
       expect(tariff.customerClass).toEqual(CustomerClass.GENERAL);

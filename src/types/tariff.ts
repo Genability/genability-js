@@ -126,7 +126,7 @@ export interface Tariff {
   tariffName: string;
   lseId: number;
   lseName: string;
-  lseCode?: null | number;
+  lseCode?: null | string;
   serviceType?: ServiceType;
   priorTariffId?: number;
   distributionLseId?: number;

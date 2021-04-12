@@ -113,6 +113,7 @@ describe('Test createConsumptionRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -133,6 +134,7 @@ describe('Test createConsumptionRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Energy Charges',
       rateName: 'Energy Charge',
+      chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -197,6 +199,7 @@ describe('Test createQuantityRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
@@ -218,6 +221,7 @@ describe('Test createQuantityRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Other Charges',
       rateName: 'Quantity Charge',
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -279,6 +283,7 @@ describe('Test createFixedRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.FIXED_PRICE,
       chargePeriod: ChargePeriod.QUARTERLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -299,6 +304,7 @@ describe('Test createFixedRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Fixed Charges',
       rateName: 'Fixed Charge',
+      chargeType: ChargeType.FIXED_PRICE,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -319,6 +325,7 @@ describe('Test createMinimumRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.MINIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
@@ -340,6 +347,7 @@ describe('Test createMinimumRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Fixed Charges',
       rateName: 'Minimum Charge',
+      chargeType: ChargeType.MINIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -360,6 +368,7 @@ describe('Test createMaximumRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.MAXIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
@@ -381,6 +390,7 @@ describe('Test createMaximumRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Other Charges',
       rateName: 'Maximum Charge',
+      chargeType: ChargeType.MAXIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{

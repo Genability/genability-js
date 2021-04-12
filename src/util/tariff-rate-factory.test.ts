@@ -155,6 +155,7 @@ describe('Test createDemandRate method', () => {
       rateName: 'rateName',
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
+      chargeType: ChargeType.DEMAND_BASED,
       quantityKey: 'quantityKey',
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT
@@ -175,6 +176,7 @@ describe('Test createDemandRate method', () => {
       rateGroupName: 'Demand Charges',
       rateName: 'Demand Charge',
       chargePeriod: ChargePeriod.MONTHLY,
+      chargeType: ChargeType.DEMAND_BASED,
       transactionType: TransactionType.BUY,
       quantityKey: 'demand',
       rateBands: [{

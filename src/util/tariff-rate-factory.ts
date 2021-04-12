@@ -36,7 +36,7 @@ export class TariffRateFactory {
     return tariffRate;
   }
 
-  public static createRider(
+  public static createRiderRate(
     rateGroupName = '',
     riderTariff: Tariff
   ): TariffRate {
@@ -66,6 +66,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -110,6 +111,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey,
@@ -154,6 +156,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.FIXED_PRICE,
       chargePeriod,
       transactionType: TransactionType.BUY,
       rateBands: [{
@@ -175,6 +178,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.MINIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey,
@@ -197,6 +201,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.MAXIMUM,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey,

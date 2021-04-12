@@ -1,7 +1,7 @@
 import { GenPropertyKey } from '../types';
 import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
-import { Season } from './season';
+import { Season, PredominanceRule } from './season';
 import { TimeOfUse } from './time-of-use';
 import { PrivacyFlag } from './property-key';
 
@@ -180,6 +180,7 @@ export interface TariffRate {
   variableLimitKey?: string;
   variableRateKey?: string;
   variableFactorKey?: string;
+  edgePredominance?: PredominanceRule | null;
   territory?: Territory;
   season?: Season;
   timeOfUse?: TimeOfUse;

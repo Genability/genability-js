@@ -12,7 +12,7 @@ import {
   TariffRateBand,
   RateUnit,
   TariffProperty,
-  Period,
+  TimeOfUseType,
   ProrationRule,
   isTariffRateTiered,
   uniquePropertyKeys,
@@ -80,7 +80,7 @@ describe("tariff types", () => {
     })
     it("works for Period", () => {
       const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "period": "CRITICAL_PEAK"}');
-      expect(tariffProperty.period).toEqual(Period.CRITICAL_PEAK);
+      expect(tariffProperty.period).toEqual(TimeOfUseType.CRITICAL_PEAK);
       expect(tariffProperty.keyName).toEqual('stringKeyName');
     })
     it("works for RateUnit", () => {

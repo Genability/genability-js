@@ -2,7 +2,7 @@ import {
   ChargeType,
   RateUnit,
   ChargeClass,
-  Period,
+  TimeOfUseType,
   TransactionType
 } from "./tariff"
 import { GenPropertyKey } from '../types';
@@ -122,7 +122,7 @@ export interface CalculatedCostItem {
   rateProration?: number;
   chargeType?: ChargeType;
   chargeClass?: ChargeClass;
-  period?: Period;
+  period?: TimeOfUseType;
   demandInterval?: string;
   duration?: number;
   touId?: number;
@@ -137,7 +137,7 @@ export interface PropertyData extends GenPropertyKey {
   keyName: string;
   fromDateTime?: string;
   toDateTime?: string;
-  period?: Period;
+  period?: TimeOfUseType;
   dataValue?: string;
   dataSeries?: number[];
   exportDataSeries?: number[];

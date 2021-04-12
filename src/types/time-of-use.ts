@@ -1,6 +1,7 @@
 import { 
   Season
 } from './season';
+import { TimeOfUseType } from './tariff';
 export interface TimeOfUseInterval {
   touId: number;
   touName?: string;
@@ -27,6 +28,7 @@ export interface TimeOfUse {
   lseId?: number;
   calendarId?: number;
   season?: Season;
+  touType?: TimeOfUseType;
   isDynamic?: boolean;
   touPeriods?: TimeOfUsePeriod[];
   privacy?: string;

@@ -98,7 +98,7 @@ export enum TariffPropertyType {
   INFO = "INFO"
 }
 
-export enum Period {
+export enum TimeOfUseType {
   ON_PEAK = "ON_PEAK",
   PARTIAL_PEAK = "PARTIAL_PEAK",
   OFF_PEAK = "OFF_PEAK",
@@ -207,7 +207,7 @@ export interface TariffRateBand {
 
 export interface TariffProperty extends GenPropertyKey {
   quantityKey?: string;
-  period?: Period;
+  period?: TimeOfUseType;
   propertyTypes: TariffPropertyType;
   operator?: '=' | '<' | '<=' | '>' | '>=' | 'between' | '' | null;
   propertyValue?: string;

@@ -93,6 +93,7 @@ describe("works for isTimeOfUse", () => {
       "touId": 1,\
       "touName": "name",\
       "lseId": 2,\
+      "touType": "ON_PEAK",\
       "touGroupId": 3\
       }';
     const timeOfUse: TimeOfUse = JSON.parse(timeOfUseJson);

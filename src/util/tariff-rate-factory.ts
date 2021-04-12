@@ -89,6 +89,7 @@ export class TariffRateFactory {
       rateName,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
+      chargeType: ChargeType.DEMAND_BASED,
       quantityKey,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT

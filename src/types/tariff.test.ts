@@ -137,7 +137,65 @@ describe("tariff types", () => {
       expect(isTariff(tariff)).toEqual(true);
       expect(tariff.rates).toEqual([]);
     })
-    it("should be true with rates", () => {
+    it("should be true with rates with edgePredominance set", () => {
+      const ratesJson = '[{\
+        "tariffRateId": 1,\
+        "tariffId": 1,\
+        "edgePredominance": "PREDOMINANT",\
+        "chargeClass": "TRANSMISSION,DISTRIBUTION"\
+       }]';
+      const json = JSON.parse(
+        `{\
+          "tariffId": "numberTariffId",\
+          "masterTariffId": "numberMasterTariffId",\
+          "tariffCode": "numberTariffCode",\
+          "tariffName": "numberTariffName",\
+          "lseId": "numberLseId",\
+          "lseName": "numberLseName",\
+          "rates": ${ratesJson}
+        }`
+      );
+      const tariff: Tariff = toTariffFromApi(json);
+      expect(isTariff(tariff)).toEqual(true);
+      expect(tariff.rates).toBeTruthy();
+      expect(tariff.rates?.length).toEqual(1);
+      if(tariff.rates) {
+        const tariffRate: TariffRate = tariff.rates[0];
+        expect(tariffRate).toBeTruthy();
+        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+      }
+    })
+
+    it("should be true with rates with edgePredominance set to null", () => {
+      const ratesJson = '[{\
+        "tariffRateId": 1,\
+        "tariffId": 1,\
+        "edgePredominance": null,\
+        "chargeClass": "TRANSMISSION,DISTRIBUTION"\
+       }]';
+      const json = JSON.parse(
+        `{\
+          "tariffId": "numberTariffId",\
+          "masterTariffId": "numberMasterTariffId",\
+          "tariffCode": "numberTariffCode",\
+          "tariffName": "numberTariffName",\
+          "lseId": "numberLseId",\
+          "lseName": "numberLseName",\
+          "rates": ${ratesJson}
+        }`
+      );
+      const tariff: Tariff = toTariffFromApi(json);
+      expect(isTariff(tariff)).toEqual(true);
+      expect(tariff.rates).toBeTruthy();
+      expect(tariff.rates?.length).toEqual(1);
+      if(tariff.rates) {
+        const tariffRate: TariffRate = tariff.rates[0];
+        expect(tariffRate).toBeTruthy();
+        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+      }
+    })
+
+    it("should be true with rates with edgePredominance not set", () => {
       const ratesJson = '[{\
         "tariffRateId": 1,\
         "tariffId": 1,\

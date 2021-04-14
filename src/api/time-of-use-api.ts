@@ -33,7 +33,7 @@ export class TimeOfUseApi extends RestApiClient {
   }
 
   public async getTimeOfUseGroups(lseId: number): Promise<PagedResponse<TimeOfUseGroup>> {
-    const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}`);
+    const response = await this.axiosInstance.get(`/rest/public/lses/${lseId}/tougroups`);
     return new PagedResponse(response.data);
   }
 }

@@ -52,7 +52,7 @@ describe("TimeOfUse api", () => {
     const lseId: number = results[0].lseId || 210;
     const response: PagedResponse<TimeOfUseGroup> = await restClient.getTimeOfUseGroups(lseId);
     expect(response.status).toEqual("success");
-    expect(response.type).toEqual(ResourceTypes.TIME_OF_USE);
+    expect(response.type).toEqual(ResourceTypes.TIME_OF_USE_GROUP);
     for(const timeOfUseGroup of response.results) {
       expect(isTimeOfUseGroup(timeOfUseGroup)).toBeTruthy();
     }

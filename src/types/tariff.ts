@@ -3,7 +3,7 @@ import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
 import { Season, PredominanceRule } from './season';
 import { TimeOfUse } from './time-of-use';
-import { PrivacyFlag } from './property-key';
+import { PrivacyFlag, isGenPropertyKey } from './property-key';
 
 export enum TariffType {
   DEFAULT = "DEFAULT",
@@ -278,6 +278,7 @@ export function uniquePropertyKeys(tariff: Tariff): Set<string> {
   });
   return mySet;
 }
+
 export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
   const calculationFactorPopulated = (
     rateBands: TariffRateBand[]|undefined
@@ -289,4 +290,10 @@ export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
   }
   return !!tariffRate.variableFactorKey ||
     calculationFactorPopulated(tariffRate.rateBands)
+}
+
+export function isTariffProperty(arg: TariffProperty): boolean {
+  return arg.keyName !== undefined &&
+        arg.propertyTypes !== undefined &&
+        arg.dataType !== undefined;
 }

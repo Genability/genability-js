@@ -1,3 +1,4 @@
+import { PropertyDataType } from './property-key';
 import {
   TariffType,
   CustomerClass,
@@ -17,7 +18,9 @@ import {
   isTariffRateTiered,
   uniquePropertyKeys,
   toTariffFromApi,
-  isTariffRateWithFactor
+  isTariffRateWithFactor,
+  isTariffProperty,
+  TariffPropertyType
 } from './tariff';
 
 describe("tariff types", () => {
@@ -534,3 +537,39 @@ describe("tariff types", () => {
     })
   })
 });
+
+describe("isTariffProperty function", () => {
+  it("should return false with no dataType value", () => {
+    const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "propertyTypes": "APPLICABILITY"}');
+
+    expect(tariffProperty.dataType).toEqual(undefined);
+    expect(tariffProperty.propertyTypes).toEqual(TariffPropertyType.APPLICABILITY);
+    expect(isTariffProperty(tariffProperty)).toEqual(false);
+  })
+  
+  it("should return false with no propertyTypes value", () => {
+    const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "dataType": "STRING"}');
+
+    expect(tariffProperty.propertyTypes).toEqual(undefined);
+    expect(tariffProperty.dataType).toEqual(PropertyDataType.STRING);
+    expect(isTariffProperty(tariffProperty)).toEqual(false);
+  })
+
+  it("should return false with no keyName value", () => {
+    const tariffProperty: TariffProperty = JSON.parse('{"propertyTypes": "APPLICABILITY", "dataType": "STRING"}');
+
+    expect(tariffProperty.keyName).toEqual(undefined);
+    expect(tariffProperty.propertyTypes).toEqual(TariffPropertyType.APPLICABILITY);
+    expect(tariffProperty.dataType).toEqual(PropertyDataType.STRING);
+    expect(isTariffProperty(tariffProperty)).toEqual(false);
+  })
+
+  it("should return true with all possible values", () => {
+    const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "propertyTypes": "APPLICABILITY", "dataType": "STRING"}');
+
+    expect(tariffProperty.keyName).toEqual("stringKeyName");
+    expect(tariffProperty.propertyTypes).toEqual(TariffPropertyType.APPLICABILITY);
+    expect(tariffProperty.dataType).toEqual(PropertyDataType.STRING);
+    expect(isTariffProperty(tariffProperty)).toEqual(true);
+  })
+})

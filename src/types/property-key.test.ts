@@ -1,8 +1,8 @@
-import { 
+import {
   PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
-  isGenPropertyKey
+  isGenPropertyKey, KeySpaceFamilyMap, KeySpace, Family
 } from "./property-key";
 
 describe("property-key types", () => {
@@ -56,5 +56,13 @@ describe("property-key types", () => {
       expect(isGenPropertyKey(pk)).toEqual(true);
       expect(pk.choices).toHaveLength(2);
     })
+  });
+  describe("Should families for keyspace", () => {
+    it("Find incentive specifications family in tariff keySpace", () => {
+      expect(KeySpaceFamilyMap[KeySpace.TARIFF][0]).toEqual(Family.INCENTIVE_SPECIFICATIONS);
+    });
+    it("Find insolation family in solarPV keySpace", () => {
+      expect(KeySpaceFamilyMap[KeySpace.SOLAR_PV][2]).toEqual(Family.INSOLATION);
+    });
   });
 });

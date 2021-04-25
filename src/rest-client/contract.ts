@@ -171,14 +171,12 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, F
   }
 }
 
-export class PagedResponse<T> implements Response<T>, Paged {
+abstract class BaseResponse<T>implements Response<T> {
   public status!: string;
   public type!: string;
   public count!: number;
   public results!: Array<T>;
   public requestId?: string;
-  public pageStart?: number;
-  public pageCount?: number;
   public errors?: Array<ResponseError>;
 
   constructor(arg: Response<T>) { 
@@ -195,4 +193,9 @@ export class PagedResponse<T> implements Response<T>, Paged {
     }
     Object.assign(this, arg);
   }
+}
+
+export class PagedResponse<T> extends BaseResponse<T> implements Response<T>, Paged {
+  public pageStart?: number;
+  public pageCount?: number;
 }

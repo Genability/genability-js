@@ -195,6 +195,15 @@ abstract class BaseResponse<T>implements Response<T> {
   }
 }
 
+export class SingleResponse<T> extends BaseResponse<T> implements Response<T> {
+  get result(): T | null {
+    if(this.errors && this.errors?.length > 0) {
+      return null;
+    }
+    return this.results[0];
+  }
+}
+
 export class PagedResponse<T> extends BaseResponse<T> implements Response<T>, Paged {
   public pageStart?: number;
   public pageCount?: number;

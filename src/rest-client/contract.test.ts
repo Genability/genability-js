@@ -5,6 +5,7 @@ import {
   isSearchable,
   isSortable,
   SortOrder,
+  SingleResponse,
   PagedResponse,
   ResponseError,
   isResponseError
@@ -24,7 +25,14 @@ class GetNRequest extends BasePagedRequest {
   }
 }
 
-const samplePageResponse = {
+const successSingleResponse = {
+  status: 'success',
+  type: 'Integer',
+  count: 1,
+  results: [99]
+}
+
+const successPageResponse = {
   status: 'success',
   type: 'Integer',
   count: 3,
@@ -33,7 +41,7 @@ const samplePageResponse = {
   pageCount: 5
 }
 
-const errorsPageResponse = {
+const errorsResponse = {
   status: 'error',
   type: 'Error',
   count: 2,
@@ -54,8 +62,8 @@ const errorsPageResponse = {
 }
 
 describe("PagedResponse constructor", () => {
-  it("paged results not errors for samplePagedResponse", async () => {
-    const response: PagedResponse<number> = new PagedResponse(samplePageResponse);
+  it("paged results not errors for successPageResponse", async () => {
+    const response: PagedResponse<number> = new PagedResponse(successPageResponse);
     expect(response).toBeTruthy();
     expect(response.results).toHaveLength(3);
     expect(response.errors).toEqual(undefined);
@@ -65,7 +73,7 @@ describe("PagedResponse constructor", () => {
   })
 
   it("errors when payload are errors", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse(errorsPageResponse);
+    const response: PagedResponse<ResponseError> = new PagedResponse(errorsResponse);
     expect(response).toBeTruthy();
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
@@ -85,7 +93,7 @@ describe("PagedResponse constructor", () => {
   })
 
   it("errors when status is 'error'", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsPageResponse, type: 'Integer'});
+    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, type: 'Integer'});
     expect(response).toBeTruthy();
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
@@ -105,7 +113,7 @@ describe("PagedResponse constructor", () => {
   })
 
   it("errors when type is 'Error'", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsPageResponse, status: 'success'});
+    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, status: 'success'});
     expect(response).toBeTruthy();
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
@@ -125,8 +133,82 @@ describe("PagedResponse constructor", () => {
   })
 })
 
+describe("SingleResponse constructor", () => {
+  it("results not errors for successSingleResponse", async () => {
+    const response: SingleResponse<number> = new SingleResponse(successSingleResponse);
+    expect(response).toBeTruthy();
+    expect(response.results).toHaveLength(1);
+    expect(response.result).toEqual(99);
+    expect(response.errors).toBeUndefined();
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when payload are errors", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse(errorsResponse);
+    expect(response).toBeTruthy();
+    expect(response.results).toHaveLength(2);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when status is 'error'", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, type: 'Integer'});
+    expect(response).toBeTruthy();
+    expect(response.results).toHaveLength(2);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when type is 'Error'", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, status: 'success'});
+    expect(response).toBeTruthy();
+    expect(response.results).toHaveLength(2);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+})
+
 describe("Rest API Contracts", () => {
-  describe("Paginated Requests", () => {
+  describe("GetNRequest constructor", () => {
     it("isQueryStringified", async () => {
       const request: GetNRequest = new GetNRequest();
       expect(isQueryStringified(request)).toBeTruthy();
@@ -176,7 +258,6 @@ describe("Rest API Contracts", () => {
       expect(qs).toEqual('pageStart=33&pageCount=22');
     })
   })
-
 
   describe("Searchable Requests", () => {
     it("isSearchable when search set", async () => {

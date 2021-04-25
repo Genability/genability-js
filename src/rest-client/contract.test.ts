@@ -75,13 +75,39 @@ describe("PagedResponse constructor", () => {
     expect(isPaged(response)).toBeTruthy();
   })
 
+  it("paged results not errors for empty results", async () => {
+    const response: PagedResponse<number> = new PagedResponse({...successPageResponse, results: []});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toEqual(undefined);
+    expect(response.pageStart).toEqual(3);
+    expect(response.pageCount).toEqual(5);
+    expect(isPaged(response)).toBeTruthy();
+  })
+
+  it("paged results not errors for successPageResponse", async () => {
+    const response: PagedResponse<number> = new PagedResponse(successPageResponse);
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
+    expect(response.results).toHaveLength(3);
+    expect(response.errors).toEqual(undefined);
+    expect(response.pageStart).toEqual(3);
+    expect(response.pageCount).toEqual(5);
+    expect(isPaged(response)).toBeTruthy();
+  })
+
   it("errors when payload are errors", async () => {
     const response: PagedResponse<ResponseError> = new PagedResponse(errorsResponse);
     expect(response).toBeTruthy();
     expect(response.status).toEqual("error");
     expect(response.type).toEqual("Error");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
@@ -104,7 +130,7 @@ describe("PagedResponse constructor", () => {
     expect(response.status).toEqual("error");
     expect(response.type).toEqual("Integer");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
@@ -127,7 +153,7 @@ describe("PagedResponse constructor", () => {
     expect(response.status).toEqual("success");
     expect(response.type).toEqual("Error");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
@@ -158,13 +184,25 @@ describe("SingleResponse constructor", () => {
     expect(isPaged(response)).toEqual(false);
   })
 
+  it("results not errors for success with empty results", async () => {
+    const response: SingleResponse<number> = new SingleResponse({...successSingleResponse, results: []});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(1);
+    expect(response.results).toHaveLength(0);
+    expect(response.result).toBeNull();
+    expect(response.errors).toBeUndefined();
+    expect(isPaged(response)).toEqual(false);
+  })
+
   it("errors when payload are errors", async () => {
     const response: SingleResponse<ResponseError> = new SingleResponse(errorsResponse);
     expect(response).toBeTruthy();
     expect(response.status).toEqual("error");
     expect(response.type).toEqual("Error");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
@@ -188,7 +226,7 @@ describe("SingleResponse constructor", () => {
     expect(response.status).toEqual("error");
     expect(response.type).toEqual("Integer");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
@@ -212,7 +250,7 @@ describe("SingleResponse constructor", () => {
     expect(response.status).toEqual("success");
     expect(response.type).toEqual("Error");
     expect(response.count).toEqual(2);
-    expect(response.results).toHaveLength(2);
+    expect(response.results).toHaveLength(0);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);

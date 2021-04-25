@@ -180,24 +180,31 @@ abstract class BaseResponse<T>implements Response<T> {
   public errors?: Array<ResponseError>;
 
   constructor(arg: Response<T>) { 
+    Object.assign(this, arg);
     if (arg.status === 'error' || arg.type === 'Error') {
+      const results: Array<T> = [];
       const errors: Array<ResponseError> = [];
       arg.results.forEach((result) => {
         if (isResponseError(result as unknown as ResponseError)) {
           errors.push(result as unknown as ResponseError)
+        } else {
+          results.push(result);
         }
       });
       if(errors.length > 0) {
         this.errors = errors;
+        this.results = results;
       }
     }
-    Object.assign(this, arg);
   }
 }
 
 export class SingleResponse<T> extends BaseResponse<T> implements Response<T> {
   get result(): T | null {
     if(this.errors && this.errors?.length > 0) {
+      return null;
+    }
+    if(this.results === undefined || this.results.length == 0) {
       return null;
     }
     return this.results[0];

@@ -20,8 +20,8 @@ export interface Paged {
 }
 
 /**
- * To identify if the object is paged. Because Paged is made up of
- * optional parameters, this only returns true when one or both 
+ * User defined type guard to identify if the object is paged. Because Paged 
+ * is made up of optional parameters, this only returns true when one or both 
  * are populated (not just when properties are on the object).
  * @param object 
  */
@@ -44,8 +44,8 @@ export interface Sortable {
 }
 
 /**
- * To identify if the object is Searchable. Because Searchable is made up of
- * optional parameters, this only returns true when the search property 
+ * User defined type guard to identify if the object is Searchable. Because Searchable 
+ * is made up of optional parameters, this only returns true when the search property 
  * is populated (not just when properties are on the object).
  * @param object 
  */
@@ -54,6 +54,9 @@ export function isSearchable(object: any): object is Searchable {
   return 'search' in object;
 }
 
+/**
+ * * User defined type guard to identify if the object is Sortable.
+ */
 export function isSortable(object: Sortable): object is Sortable {
   return 'sortOn' in object && 'sortOrder' in object;
 }
@@ -75,7 +78,9 @@ export interface ResponseError {
   propertyValue?: string;
 }
 
-
+/**
+ * User defined type guard to identify if the object is ResponseError.
+ */
 export function isResponseError(arg: ResponseError): arg is ResponseError {
   return arg.code !== undefined &&
     arg.message !== undefined &&
@@ -178,14 +183,16 @@ export class PagedResponse<T> implements Response<T>, Paged {
 
   constructor(arg: Response<T>) { 
     if (arg.status === 'error' || arg.type === 'Error') {
+      const errors: Array<ResponseError> = [];
       arg.results.forEach((result) => {
         if (isResponseError(result as unknown as ResponseError)) {
-          this.errors = []
-          this.errors.push(result as unknown as ResponseError)
+          errors.push(result as unknown as ResponseError)
         }
-      })
+      });
+      if(errors.length > 0) {
+        this.errors = errors;
+      }
     }
     Object.assign(this, arg);
   }
-
 }

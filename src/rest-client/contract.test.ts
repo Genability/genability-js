@@ -65,6 +65,9 @@ describe("PagedResponse constructor", () => {
   it("paged results not errors for successPageResponse", async () => {
     const response: PagedResponse<number> = new PagedResponse(successPageResponse);
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
     expect(response.results).toHaveLength(3);
     expect(response.errors).toEqual(undefined);
     expect(response.pageStart).toEqual(3);
@@ -75,6 +78,9 @@ describe("PagedResponse constructor", () => {
   it("errors when payload are errors", async () => {
     const response: PagedResponse<ResponseError> = new PagedResponse(errorsResponse);
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
@@ -95,6 +101,9 @@ describe("PagedResponse constructor", () => {
   it("errors when status is 'error'", async () => {
     const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, type: 'Integer'});
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
@@ -115,6 +124,9 @@ describe("PagedResponse constructor", () => {
   it("errors when type is 'Error'", async () => {
     const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, status: 'success'});
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.errors).toHaveLength(2);
     expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
@@ -137,6 +149,9 @@ describe("SingleResponse constructor", () => {
   it("results not errors for successSingleResponse", async () => {
     const response: SingleResponse<number> = new SingleResponse(successSingleResponse);
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(1);
     expect(response.results).toHaveLength(1);
     expect(response.result).toEqual(99);
     expect(response.errors).toBeUndefined();
@@ -146,6 +161,9 @@ describe("SingleResponse constructor", () => {
   it("errors when payload are errors", async () => {
     const response: SingleResponse<ResponseError> = new SingleResponse(errorsResponse);
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);
@@ -167,6 +185,9 @@ describe("SingleResponse constructor", () => {
   it("errors when status is 'error'", async () => {
     const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, type: 'Integer'});
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);
@@ -188,6 +209,9 @@ describe("SingleResponse constructor", () => {
   it("errors when type is 'Error'", async () => {
     const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, status: 'success'});
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
     expect(response.results).toHaveLength(2);
     expect(response.result).toBeNull();
     expect(response.errors).toHaveLength(2);

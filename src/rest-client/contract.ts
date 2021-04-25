@@ -82,7 +82,7 @@ export function isResponseError(arg: ResponseError): arg is ResponseError {
     arg.objectName !== undefined
 }
 
-export interface Response<T> extends Paged {
+export interface Response<T> {
   status: string;
   type: string;
   count: number;
@@ -166,7 +166,7 @@ export abstract class BasePagedRequest implements Paged, Searchable, Sortable, F
   }
 }
 
-export class PagedResponse<T> implements Response<T> {
+export class PagedResponse<T> implements Response<T>, Paged {
   public status!: string;
   public type!: string;
   public count!: number;

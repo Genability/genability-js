@@ -18,7 +18,7 @@ let calculatedCostRestClient: CalculatedCostApi;
 let tariffRestClient: TariffApi;
 let restClient: CalculationHistoryApi;
 
-describe("Calculation history api", () => {
+describe.skip("Calculation history api", () => {
   beforeAll(() => {
     GenabilityConfig.__deconfigure();
     // For now we are using the dev server for calculation. To be removed in future when api

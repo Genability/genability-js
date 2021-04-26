@@ -3,7 +3,7 @@ import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
 import { Season, PredominanceRule } from './season';
 import { TimeOfUse } from './time-of-use';
-import { PrivacyFlag, isGenPropertyKey } from './property-key';
+import { PrivacyFlag } from './property-key';
 
 export enum TariffType {
   DEFAULT = "DEFAULT",
@@ -247,7 +247,7 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.lseName !== undefined
 }
 
-export function isTariffRateTiered(tariffRate: TariffRate): boolean {
+export function isTariffRateTiered(tariffRate: TariffRate): tariffRate is TariffRate {
   const isTariffRateTieredHelper = (rateBands: TariffRateBand[]): boolean => {
     const set = new Set()
     for (const rateBand of rateBands) {
@@ -279,7 +279,7 @@ export function uniquePropertyKeys(tariff: Tariff): Set<string> {
   return mySet;
 }
 
-export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
+export function isTariffRateWithFactor(tariffRate: TariffRate): tariffRate is TariffRate {
   const calculationFactorPopulated = (
     rateBands: TariffRateBand[]|undefined
   ): boolean => {
@@ -292,7 +292,7 @@ export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
     calculationFactorPopulated(tariffRate.rateBands)
 }
 
-export function isTariffProperty(arg: TariffProperty): boolean {
+export function isTariffProperty(arg: TariffProperty): arg is TariffProperty {
   return arg.keyName !== undefined &&
         arg.propertyTypes !== undefined &&
         arg.dataType !== undefined;

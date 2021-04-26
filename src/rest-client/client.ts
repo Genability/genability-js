@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosInstance } from 'axios';
-import { isQueryStringified } from './contract'
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { isQueryStringified, SingleResponse } from './contract';
+import {
+  PagedResponse,
+} from '../rest-client';
 
 export interface RestApiCredentials {
   appId?: string;
@@ -44,4 +47,23 @@ export abstract class RestApiClient {
       this.axiosInstance.interceptors.request.use(credentials.proxyReq);
     }
   }
+
+  async getSingle<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<SingleResponse<T>> {
+    try {
+      const response = await this.axiosInstance.get(url, config);
+      return new SingleResponse(response.data);
+    } catch (err) {
+      return new SingleResponse(err.response.data); 
+    }
+  }
+
+  async getPaged<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<PagedResponse<T>> {
+    try {
+      const response = await this.axiosInstance.get(url, config);
+      return new PagedResponse(response.data);
+    } catch (err) {
+      return new PagedResponse(err.response.data); 
+    }
+  }
+
 }

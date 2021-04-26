@@ -1,6 +1,7 @@
 import {
   RestApiClient,
   RestApiCredentials,
+  SingleResponse,
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
@@ -47,17 +48,14 @@ export class CalendarApi extends RestApiClient {
   }
 
   public async getCalendars(request: GetCalendarsRequest): Promise<PagedResponse<Calendar>> {
-    const response = await this.axiosInstance.get(`/rest/public/calendars`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/calendars`, { params: request } );
   }
 
-  public async getCalendar(calendarId: number): Promise<Calendar> {
-    const response = await this.axiosInstance.get(`/rest/public/calendars/${calendarId}`);
-    return response.data.results[0];
+  public async getCalendar(calendarId: number): Promise<SingleResponse<Calendar>> {
+    return this.getSingle(`/rest/public/calendars/${calendarId}`);
   }
 
   public async getCalendarDates(request: GetCalendarDatesRequest): Promise<PagedResponse<CalendarDate>> {
-    const response = await this.axiosInstance.get(`/rest/public/calendars/dates`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/calendars/dates`, { params: request } );
   }
 }

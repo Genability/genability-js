@@ -96,6 +96,15 @@ export interface Response<T> {
   errors?: Array<ResponseError>;
 }
 
+/**
+ * User defined type guard to identify if the object is ResponseError.
+ */
+export function isResponse(arg: Response<unknown>): arg is Response<unknown>  {
+  return arg.status !== undefined &&
+   arg.type !== undefined &&
+   arg.count !== undefined
+}
+
 export type AddParamCallback = (
   paramName: string, 
   paramValue?: string |

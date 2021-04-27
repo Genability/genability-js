@@ -279,7 +279,7 @@ export function uniquePropertyKeys(tariff: Tariff): Set<string> {
   return mySet;
 }
 
-export function isTariffRateWithFactor(tariffRate: TariffRate): tariffRate is TariffRate {
+export function hasVariableOrCalculationFactor(tariffRate: TariffRate): boolean {
   const calculationFactorPopulated = (
     rateBands: TariffRateBand[]|undefined
   ): boolean => {

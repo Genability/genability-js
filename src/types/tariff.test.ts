@@ -18,7 +18,7 @@ import {
   isTariffRateTiered,
   uniquePropertyKeys,
   toTariffFromApi,
-  isTariffRateWithFactor,
+  hasVariableOrCalculationFactor,
   isTariffProperty,
   TariffPropertyType
 } from './tariff';
@@ -491,7 +491,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateWithFactor(tariffRate)).toEqual(false);
+      expect(hasVariableOrCalculationFactor(tariffRate)).toEqual(false);
     })
 
     it("variableFactorKey populated but no calculationFactor on any rate band", () => {
@@ -512,7 +512,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateWithFactor(tariffRate)).toEqual(true);
+      expect(hasVariableOrCalculationFactor(tariffRate)).toEqual(true);
     })
 
     it("no variableFactorKey populated but one of its tariff rate bands with a calculationFactor", () => {
@@ -533,7 +533,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateWithFactor(tariffRate)).toEqual(true);
+      expect(hasVariableOrCalculationFactor(tariffRate)).toEqual(true);
     })
   })
 });

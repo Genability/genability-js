@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { 
   isQueryStringified, 
   isResponse,
@@ -14,6 +14,13 @@ export interface RestApiCredentials {
   jwt?: string;
   proxyReq?: {(config: any): any}; // For additional transformations to request required by proxies
 }
+
+/**
+ * Pass in a function implementing this signature to the various get, post, put
+ * methods to read or manipulate the Axios Response, including the raw JSON data,
+ * before its returned as a StandardResponse or PagedResponse object.
+ */
+export type ResponseInterceptorFunction = (response: AxiosResponse) => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function restParamsSerialize(params: any): string {
@@ -91,9 +98,16 @@ export abstract class RestApiClient {
     }
   }
 
-  async getSingle<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<SingleResponse<T>> {
+  async getSingle<T>(
+    url: string, 
+    config?: AxiosRequestConfig | undefined,
+    responseProcessor?: ResponseInterceptorFunction | undefined
+  ): Promise<SingleResponse<T>> {
     try {
       const response = await this.axiosInstance.get(url, { ...config, validateStatus });
+      if(responseProcessor) {
+        responseProcessor(response);
+      }
       return new SingleResponse(response.data);
     } catch (err) {
       if(isResponse(err.response.data)) {
@@ -106,9 +120,16 @@ export abstract class RestApiClient {
     }
   }
 
-  async getPaged<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<PagedResponse<T>> {
+  async getPaged<T>(
+    url: string, 
+    config?: AxiosRequestConfig | undefined,
+    responseProcessor?: ResponseInterceptorFunction | undefined
+  ): Promise<PagedResponse<T>> {
     try {
       const response = await this.axiosInstance.get(url,  { ...config, validateStatus });
+      if(responseProcessor) {
+        responseProcessor(response);
+      }
       return new PagedResponse(response.data);
     } catch (err) {
       if(isResponse(err.response.data)) {

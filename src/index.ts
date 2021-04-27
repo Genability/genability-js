@@ -5,6 +5,7 @@ import * as restClient from "./rest-client";
 import * as credentials from './rest-client/credentials';
 import * as contract from "./rest-client/contract";
 import { TariffRateFactory } from './util/tariff-rate-factory';
+import { ToString } from './util/to-string';
 
 const world = 'World';
 
@@ -20,3 +21,4 @@ export { restClient };
 export { credentials };
 export { contract };
 export { TariffRateFactory };
+export { ToString };

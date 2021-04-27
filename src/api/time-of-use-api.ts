@@ -18,8 +18,7 @@ export class TimeOfUseApi extends RestApiClient {
   }
 
   public async getTimeOfUse(touId: number): Promise<PagedResponse<TimeOfUse>> {
-    const response = await this.axiosInstance.get(`/rest/public/timeofuses/${touId}`);
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/timeofuses/${touId}`);
   }
 
   public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<TimeOfUseGroup> {
@@ -28,12 +27,10 @@ export class TimeOfUseApi extends RestApiClient {
   }
 
   public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<PagedResponse<TimeOfUseInterval>> {
-    const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}/${touGroupId}/intervals`);
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/timeofuses/${lseId}/${touGroupId}/intervals`);
   }
 
   public async getTimeOfUseGroups(lseId: number): Promise<PagedResponse<TimeOfUseGroup>> {
-    const response = await this.axiosInstance.get(`/rest/public/lses/${lseId}/tougroups`);
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/lses/${lseId}/tougroups`);
   }
 }

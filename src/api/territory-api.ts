@@ -45,8 +45,7 @@ export class TerritoryApi extends RestApiClient {
   }
 
   public async getTerritories(request: GetTerritoriesRequest): Promise<PagedResponse<Territory>> {
-    const response = await this.axiosInstance.get(`/rest/public/territories`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/territories`, { params: request } );
   }
 
   public async getTerritory(territoryId: number): Promise<Territory> {

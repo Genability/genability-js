@@ -36,8 +36,7 @@ export class PropertyKeyApi extends RestApiClient {
   }
 
   public async getPropertyKeys(request: GetPropertyKeysRequest): Promise<PagedResponse<GenPropertyKey>> {
-    const response = await this.axiosInstance.get(`/rest/public/properties`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/properties`, { params: request } );
   }
 
   public async getPropertyKey(keyName: string): Promise<GenPropertyKey> {

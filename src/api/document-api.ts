@@ -35,8 +35,7 @@ export class DocumentApi extends RestApiClient {
   }
 
   public async getDocuments(request: GetDocumentsRequest): Promise<PagedResponse<Document>> {
-    const response = await this.axiosInstance.get(`/v1/documents`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/v1/documents`, { params: request } );
   }
 
   public async getDocument(searchId: number, request?: GetDocumentRequest): Promise<Document> {

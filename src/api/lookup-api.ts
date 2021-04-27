@@ -31,13 +31,11 @@ export class LookupApi extends RestApiClient {
   }
 
   public async getLookupValues(request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
-    const response = await this.axiosInstance.get('/rest/public/properties/lookups', { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged('/rest/public/properties/lookups', { params: request } );
   }
 
   public async getPropertyLookupValues(propertyKey: string, request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
-    const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/lookups`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/properties/${propertyKey}/lookups`, { params: request } );
   }
 
   public async getPropertyLookupStats(propertyKey: string): Promise<LookupStats> {

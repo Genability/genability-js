@@ -36,7 +36,7 @@ export {
   TariffRateBand,
   Tariff,
   isTariff,
-  isTariffRateTiered,
+  hasTiers,
   hasVariableOrCalculationFactor,
   isTariffProperty,
   toTariffFromApi,

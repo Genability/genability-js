@@ -15,7 +15,7 @@ import {
   TariffProperty,
   TimeOfUseType,
   ProrationRule,
-  isTariffRateTiered,
+  hasTiers,
   uniquePropertyKeys,
   toTariffFromApi,
   hasVariableOrCalculationFactor,
@@ -257,7 +257,7 @@ describe("tariff types", () => {
       expect(rate.rateBands).toEqual([rateBand]);
     })
   });
-  describe("isTariffRateTiered function", () => {
+  describe("hasTiers function", () => {
     it("should be true for 2 rateBands with unique applicabilityValue", () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
@@ -275,7 +275,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+      expect(hasTiers(tariffRate)).toEqual(true);
     })
 
     it("should be true for 2 rateBands with no applicabilityValue", () => {
@@ -293,7 +293,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+      expect(hasTiers(tariffRate)).toEqual(true);
     })
 
     it("should be false for undefined rateBands ", () => {
@@ -303,7 +303,7 @@ describe("tariff types", () => {
           "tariffId": 3284480\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+      expect(hasTiers(tariffRate)).toEqual(false);
     })
 
     it("should be false for 1 rateBands", () => {
@@ -319,7 +319,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+      expect(hasTiers(tariffRate)).toEqual(false);
     })
 
     it("should be false for 2 rateBands with different applicabilityValue", () => {
@@ -339,7 +339,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(false);
+      expect(hasTiers(tariffRate)).toEqual(false);
     })
 
     it("should be true for 4 rateBands, 2 with applicabilityValue=true and 2 with applicabilityValue=false", () => {
@@ -367,7 +367,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+      expect(hasTiers(tariffRate)).toEqual(true);
     })
 
     it("should be true for 3 rateBands, 2 with applicabilityValue=true and 1 with applicabilityValue=false", () => {
@@ -391,7 +391,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+      expect(hasTiers(tariffRate)).toEqual(true);
     })
 
     it("should be true for 4 rateBands, 2 with same applicabilityValue and other two with different applicabilityValue", () => {
@@ -419,7 +419,7 @@ describe("tariff types", () => {
           ]\
         }'
       );
-      expect(isTariffRateTiered(tariffRate)).toEqual(true);
+      expect(hasTiers(tariffRate)).toEqual(true);
     })
   });
   describe("uniquePropertyKeys function", () => {
@@ -473,7 +473,7 @@ describe("tariff types", () => {
     })
   });
 
-  describe("isTariffRateTiered function", () => {
+  describe("hasTiers function", () => {
     it("no variableFactorKey populated and no calculationFactor on any rate band", () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\

@@ -247,8 +247,8 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.lseName !== undefined
 }
 
-export function isTariffRateTiered(tariffRate: TariffRate): tariffRate is TariffRate {
-  const isTariffRateTieredHelper = (rateBands: TariffRateBand[]): boolean => {
+export function hasTiers(tariffRate: TariffRate): boolean {
+  const hasTiersHelper = (rateBands: TariffRateBand[]): boolean => {
     const set = new Set()
     for (const rateBand of rateBands) {
       if (set.has(rateBand.applicabilityValue)) {
@@ -262,7 +262,7 @@ export function isTariffRateTiered(tariffRate: TariffRate): tariffRate is Tariff
   if (!tariffRate.rateBands || (tariffRate.rateBands.length < 2)) {
     return false
   } else {
-    return isTariffRateTieredHelper(tariffRate.rateBands)
+    return hasTiersHelper(tariffRate.rateBands)
   }
 }
 

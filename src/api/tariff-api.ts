@@ -100,7 +100,7 @@ export class GetTariffRequest extends BasePagedRequest {
   }
 }
 
-function tariffResponseInterceptor(response: AxiosResponse): void {
+export function tariffResponseInterceptor(response: AxiosResponse): void {
   response.data.results = response.data.results.map((tariff: string) => {
     // Convert each JSON tariff to Tariff object
     return toTariffFromApi(tariff)

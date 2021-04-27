@@ -3,7 +3,7 @@ import {
   GetCalendarsRequest,
   GetCalendarDatesRequest
 } from './calendar-api';
-import { isResponseError, PagedResponse, SingleResponse } from '../rest-client'
+import { isResponseError, PagedResponse } from '../rest-client'
 import {
   CalendarType,
   Calendar,

@@ -42,7 +42,7 @@ function validateStatus(status: number): boolean {
 }
 
 function axiosErrorToResponse<T>(axiosError: AxiosError): Response<T> {
-  const response: Response<T> = {
+  return {
     status: 'error',
     type: 'Error',
     count: 1,
@@ -53,11 +53,10 @@ function axiosErrorToResponse<T>(axiosError: AxiosError): Response<T> {
       objectName: 'Axios',
     }]
   };
-  return response;
 }
 
 function exceptionToResponse<T>(exception: Error): Response<T> {
-  const response: Response<T> = {
+  return {
     status: 'error',
     type: 'Error',
     count: 1,
@@ -68,7 +67,6 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
       objectName: 'UnexpectedError',
     }]
   };
-  return response;
 }
 
 export abstract class RestApiClient {

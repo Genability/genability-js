@@ -102,7 +102,8 @@ export interface Response<T> {
 export function isResponse(arg: Response<unknown>): arg is Response<unknown>  {
   return arg.status !== undefined &&
    arg.type !== undefined &&
-   arg.count !== undefined
+   arg.count !== undefined &&
+   arg.results !== undefined;
 }
 
 export type AddParamCallback = (
@@ -192,7 +193,7 @@ abstract class BaseResponse<T>implements Response<T> {
     Object.assign(this, arg);
     if (arg.status === 'error' || arg.type === 'Error') {
       const results: Array<T> = [];
-      const errors: Array<ResponseError> = [];
+      const errors: Array<ResponseError> = (this.errors ? this.errors : []);
       arg.results.forEach((result) => {
         if (isResponseError(result as unknown as ResponseError)) {
           errors.push(result as unknown as ResponseError)

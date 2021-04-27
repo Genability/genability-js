@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { isQueryStringified, SingleResponse } from './contract';
-import {
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
+import { 
+  isQueryStringified, 
+  isResponse,
+  Response,
+  SingleResponse,
   PagedResponse,
-} from '../rest-client';
+} from './contract';
 
 export interface RestApiCredentials {
   appId?: string;
@@ -19,6 +22,46 @@ function restParamsSerialize(params: any): string {
   else if(isQueryStringified(params))
     return params.queryStringify();
   return "";
+}
+
+/**
+ * Override axios so that our error HTTP status do not throw an exception
+ * @param status HTTPS status of response
+ * @returns true for resolve, false for reject/exception
+ */
+function validateStatus(status: number): boolean {
+  // Codes from https://developer.genability.com/api-reference/basics/responses/#http-status-codes
+  return ((status >= 200 && status < 300) || (status >= 400 && status <= 404) || status == 500);
+}
+
+function axiosErrorToResponse<T>(axiosError: AxiosError): Response<T> {
+  const response: Response<T> = {
+    status: 'error',
+    type: 'Error',
+    count: 1,
+    results: [],
+    errors: [{
+      code: (axiosError.code ? axiosError.code : 'none'),
+      message: axiosError.message,
+      objectName: 'Axios',
+    }]
+  };
+  return response;
+}
+
+function exceptionToResponse<T>(exception: Error): Response<T> {
+  const response: Response<T> = {
+    status: 'error',
+    type: 'Error',
+    count: 1,
+    results: [],
+    errors: [{
+      code: exception.name,
+      message: exception.message,
+      objectName: 'UnexpectedError',
+    }]
+  };
+  return response;
 }
 
 export abstract class RestApiClient {
@@ -50,19 +93,31 @@ export abstract class RestApiClient {
 
   async getSingle<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.get(url, config);
+      const response = await this.axiosInstance.get(url, { ...config, validateStatus });
       return new SingleResponse(response.data);
     } catch (err) {
-      return new SingleResponse(err.response.data); 
+      if(isResponse(err.response.data)) {
+        return new SingleResponse(err.response.data);
+      } else if (axios.isAxiosError(err)) {
+        return new SingleResponse(axiosErrorToResponse(err));
+      } else {
+        return new SingleResponse(exceptionToResponse(err));
+      }
     }
   }
 
   async getPaged<T>(url: string, config?: AxiosRequestConfig | undefined): Promise<PagedResponse<T>> {
     try {
-      const response = await this.axiosInstance.get(url, config);
+      const response = await this.axiosInstance.get(url,  { ...config, validateStatus });
       return new PagedResponse(response.data);
     } catch (err) {
-      return new PagedResponse(err.response.data); 
+      if(isResponse(err.response.data)) {
+        return new PagedResponse(err.response.data);
+      } else if (axios.isAxiosError(err)) {
+        return new PagedResponse(axiosErrorToResponse(err));
+      } else {
+        return new PagedResponse(exceptionToResponse(err));
+      }
     }
   }
 

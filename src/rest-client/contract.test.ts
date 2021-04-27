@@ -5,6 +5,7 @@ import {
   isSearchable,
   isSortable,
   SortOrder,
+  SingleResponse,
   PagedResponse,
   ResponseError,
   isResponseError
@@ -13,7 +14,6 @@ import {
   BasePagedRequest,
   AddParamCallback
 } from '../rest-client';
-
 
 class GetNRequest extends BasePagedRequest {
   public someBoolean?: boolean;
@@ -24,23 +24,15 @@ class GetNRequest extends BasePagedRequest {
     addParam('someString', this.someString);
   }
 }
-interface PagedResponseType {
-  status: string;
-  type: string; 
-  count: number; 
-  results: Array<number>;
-  pageStart?: number;
-  pageCount?: number;
+
+const successSingleResponse = {
+  status: 'success',
+  type: 'Integer',
+  count: 1,
+  results: [99]
 }
 
-interface ErrorPagedResponseType {
-  status: string;
-  type: string; 
-  count: number; 
-  results: Array<ResponseError>;
-}
-
-const samplePageResponse: PagedResponseType = {
+const successPageResponse = {
   status: 'success',
   type: 'Integer',
   count: 3,
@@ -49,29 +41,19 @@ const samplePageResponse: PagedResponseType = {
   pageCount: 5
 }
 
-const statusErrorPageResponse: ErrorPagedResponseType = {
-  status: 'error',
-  type: 'Integer',
-  count: 3,
-  results: [
-    {
-      code: "InvalidFileFormat",
-      message: "Invalid file format",
-      objectName: "TestObject",
-      propertyName: "someProperty",
-      propertyValue: "xls"
-    }
-  ]
-}
-
-const statusTypeErrorPageResponse: ErrorPagedResponseType = {
+const errorsResponse = {
   status: 'error',
   type: 'Error',
-  count: 3,
+  count: 2,
   results: [
     {
-      code: "InvalidFileFormat",
-      message: "Invalid file format",
+      code: "ObjectNotFound",
+      message: "Object error object not found",
+      objectName: "TestObject"
+    },
+    {
+      code: "InvalidArgument",
+      message: "Field error field invalid argument",
       objectName: "TestObject",
       propertyName: "someProperty",
       propertyValue: "xls"
@@ -79,57 +61,216 @@ const statusTypeErrorPageResponse: ErrorPagedResponseType = {
   ]
 }
 
-const typeErrorPageResponse: ErrorPagedResponseType = {
-  status: 'success',
-  type: 'Error',
-  count: 3,
-  results: [
-    {
-      code: "InvalidFileFormat",
-      message: "Invalid file format",
-      objectName: "TestObject",
-      propertyName: "someProperty",
-      propertyValue: "xls"
-    }
-  ]
-}
-
-describe("Paginated Response", () => {
-  it("isPaginated", async () => {
-    const response: PagedResponse<number> = new PagedResponse(samplePageResponse);
+describe("PagedResponse constructor", () => {
+  it("paged results not errors for successPageResponse", async () => {
+    const response: PagedResponse<number> = new PagedResponse(successPageResponse);
     expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
+    expect(response.results).toHaveLength(3);
     expect(response.errors).toEqual(undefined);
     expect(response.pageStart).toEqual(3);
     expect(response.pageCount).toEqual(5);
+    expect(isPaged(response)).toBeTruthy();
   })
 
-  it("response errors property should be set when status is 'error'", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse(statusErrorPageResponse);
+  it("paged results not errors for empty results", async () => {
+    const response: PagedResponse<number> = new PagedResponse({...successPageResponse, results: []});
     expect(response).toBeTruthy();
-    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
-    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
-    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toEqual(undefined);
+    expect(response.pageStart).toEqual(3);
+    expect(response.pageCount).toEqual(5);
+    expect(isPaged(response)).toBeTruthy();
   })
 
-  it("response errors property should be set when status is 'error' and type is 'Error'", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse(statusTypeErrorPageResponse);
+  it("paged results not errors for successPageResponse", async () => {
+    const response: PagedResponse<number> = new PagedResponse(successPageResponse);
     expect(response).toBeTruthy();
-    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
-    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
-    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(3);
+    expect(response.results).toHaveLength(3);
+    expect(response.errors).toEqual(undefined);
+    expect(response.pageStart).toEqual(3);
+    expect(response.pageCount).toEqual(5);
+    expect(isPaged(response)).toBeTruthy();
   })
 
-  it("response errors property should be set when type is 'Error'", async () => {
-    const response: PagedResponse<ResponseError> = new PagedResponse(typeErrorPageResponse);
+  it("errors when payload are errors", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse(errorsResponse);
     expect(response).toBeTruthy();
-    expect(response.errors && response.errors[0].code).toEqual("InvalidFileFormat");
-    expect(response.errors && response.errors[0].message).toEqual("Invalid file format");
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
     expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when status is 'error'", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, type: 'Integer'});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when type is 'Error'", async () => {
+    const response: PagedResponse<ResponseError> = new PagedResponse({...errorsResponse, status: 'success'});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+})
+
+describe("SingleResponse constructor", () => {
+  it("results not errors for successSingleResponse", async () => {
+    const response: SingleResponse<number> = new SingleResponse(successSingleResponse);
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(1);
+    expect(response.results).toHaveLength(1);
+    expect(response.result).toEqual(99);
+    expect(response.errors).toBeUndefined();
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("results not errors for success with empty results", async () => {
+    const response: SingleResponse<number> = new SingleResponse({...successSingleResponse, results: []});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(1);
+    expect(response.results).toHaveLength(0);
+    expect(response.result).toBeNull();
+    expect(response.errors).toBeUndefined();
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when payload are errors", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse(errorsResponse);
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when status is 'error'", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, type: 'Integer'});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Integer");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when type is 'Error'", async () => {
+    const response: SingleResponse<ResponseError> = new SingleResponse({...errorsResponse, status: 'success'});
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(2);
+    expect(response.results).toHaveLength(0);
+    expect(response.result).toBeNull();
+    expect(response.errors).toHaveLength(2);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("ObjectNotFound");
+    expect(response.errors && response.errors[0].message).toEqual("Object error object not found");
+    expect(response.errors && response.errors[0].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(response.errors && isResponseError(response.errors[1])).toEqual(true);
+    expect(response.errors && response.errors[1].code).toEqual("InvalidArgument");
+    expect(response.errors && response.errors[1].message).toEqual("Field error field invalid argument");
+    expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
+    expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
+    expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
   })
 })
 
 describe("Rest API Contracts", () => {
-  describe("Paginated Requests", () => {
+  describe("GetNRequest constructor", () => {
     it("isQueryStringified", async () => {
       const request: GetNRequest = new GetNRequest();
       expect(isQueryStringified(request)).toBeTruthy();
@@ -179,7 +320,6 @@ describe("Rest API Contracts", () => {
       expect(qs).toEqual('pageStart=33&pageCount=22');
     })
   })
-
 
   describe("Searchable Requests", () => {
     it("isSearchable when search set", async () => {

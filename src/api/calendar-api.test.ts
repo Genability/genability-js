@@ -3,7 +3,7 @@ import {
   GetCalendarsRequest,
   GetCalendarDatesRequest
 } from './calendar-api';
-import { PagedResponse } from '../rest-client'
+import { isResponseError, PagedResponse } from '../rest-client'
 import {
   CalendarType,
   Calendar,
@@ -18,7 +18,7 @@ import { credentialsFromFile } from '../rest-client/credentials';
 const credentials = credentialsFromFile('unitTest');
 const restClient = new CalendarApi(credentials);
 
-describe("GetCalendars request", () => {
+describe("GetCalendarsRequest unit tests", () => {
   describe("call to queryStringify", () => {
     it("handles no parameters", async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
@@ -65,7 +65,7 @@ describe("GetCalendars request", () => {
   })
 });
 
-describe("GetCalendarDates request", () => {
+describe("GetCalendarDatesRequest unit tests", () => {
   describe("call to queryStringify", () => {
     it("handles no parameters", async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
@@ -117,14 +117,14 @@ describe("GetCalendarDates request", () => {
   })
 });
 
-describe("Calendar api", () => {
+describe("Calendar api integration tests", () => {
   describe("get one endpoint", () => {
-    it("returns the calendar", async () => {
+    it("returns the calendar for valid ID", async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       const response: PagedResponse<Calendar> = await restClient.getCalendars(request);
       const { calendarId } = response.results[0];
-      const calendar: Calendar = await restClient.getCalendar(calendarId);
-      expect(calendar.calendarId).toEqual(calendarId);
+      const { result } = await restClient.getCalendar(calendarId);
+      expect(result && result.calendarId).toEqual(calendarId);
     })
   })
   describe("get n endpoint", () => {
@@ -152,5 +152,20 @@ describe("Calendar api", () => {
         expect(isCalendarDate(calendarDate)).toBeTruthy();
       }
     })
+
+    it("returns an error because of bad date", async () => {
+      const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
+      request.fromDateTime = 'not-a-valid-date'; // bad
+      const response: PagedResponse<CalendarDate> = await restClient.getCalendarDates(request);
+      expect(response.status).toEqual("error");
+      expect(response.type).toEqual(ResourceTypes.Error);
+      expect(response.count).toEqual(1);
+      expect(response.errors).toHaveLength(1);
+      expect(response.results).toHaveLength(0);
+      response.errors?.forEach(responseError => {
+        expect(isResponseError(responseError)).toBeTruthy();
+      });
+    })
+
   })
 });

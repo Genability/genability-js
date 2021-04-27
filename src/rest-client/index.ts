@@ -1,6 +1,7 @@
 export {
   RestApiCredentials,
   RestApiClient,
+  ResponseInterceptorFunction,
 } from './client';
 
 export {
@@ -16,6 +17,7 @@ export {
   Response,
   BasePagedRequest,
   AddParamCallback,
+  SingleResponse,
   PagedResponse,
   ResponseError,
   isResponseError

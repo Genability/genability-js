@@ -11,7 +11,8 @@ export {
 export {
   GetTariffsRequest,
   GetTariffRequest,
-  TariffApi
+  TariffApi,
+  tariffResponseInterceptor
 } from './tariff-api';
 
 export {

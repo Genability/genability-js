@@ -25,7 +25,6 @@ export class SeasonGroupApi extends RestApiClient {
   }
 
   public async getSeasonGroups(request: GetSeasonGroupsRequest): Promise<PagedResponse<SeasonGroup>> {
-    const response = await this.axiosInstance.get(`/rest/public/seasons`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/seasons`, { params: request } );
   }
 }

@@ -59,7 +59,6 @@ export class TypicalBaselineApi extends RestApiClient {
   }
 
   public async getBaselinesBest(request: GetBaselinesBestRequest): Promise<PagedResponse<Baseline>> {
-    const response = await this.axiosInstance.get('/rest/v1/typicals/baselines/best', { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged('/rest/v1/typicals/baselines/best', { params: request } );
   }
 }

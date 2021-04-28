@@ -5,7 +5,7 @@ import {
 import {GetTariffsRequest, TariffApi} from './tariff-api'
 import {CalculationHistoryApi} from './calculation-history-api';
 import { credentialsFromFile } from '../rest-client/credentials';
-import {GenabilityConfig, PagedResponse} from "../rest-client";
+import { PagedResponse } from "../rest-client";
 import {
   CalculatedCost,
   CalculatedCostRequest, isCalculatedCost, isCalculatedCostRequest, isMassCalculation, isMassCalculationRequest,
@@ -14,23 +14,11 @@ import {Tariff} from "../types";
 
 
 const credentials = credentialsFromFile('unitTest');
-let calculatedCostRestClient: CalculatedCostApi;
-let tariffRestClient: TariffApi;
-let restClient: CalculationHistoryApi;
+const calculatedCostRestClient: CalculatedCostApi = new CalculatedCostApi(credentials);
+const tariffRestClient: TariffApi = new TariffApi(credentials);
+const restClient: CalculationHistoryApi = new CalculationHistoryApi(credentials);
 
-describe.skip("Calculation history api", () => {
-  beforeAll(() => {
-    GenabilityConfig.__deconfigure();
-    // For now we are using the dev server for calculation. To be removed in future when api
-    // moves to production server
-    GenabilityConfig.config({proxy:'http://api-dev.genability.com'});
-    calculatedCostRestClient = new CalculatedCostApi(credentials);
-    tariffRestClient = new TariffApi(credentials);
-    restClient = new CalculationHistoryApi(credentials);
-  });
-  afterAll(() => {
-    GenabilityConfig.__deconfigure();
-  });
+describe("Calculation history api", () => {
   it("should return calculated history response", async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
@@ -41,7 +29,6 @@ describe.skip("Calculation history api", () => {
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
     const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-    console.log('calculated cost: ' + calculatedCost.requestId);
     const requestId = calculatedCost.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -59,7 +46,6 @@ describe.skip("Calculation history api", () => {
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
     const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-    console.log('calculated cost: ' + calculatedCost.requestId);
     const requestId = calculatedCost.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -74,7 +60,6 @@ describe.skip("Calculation history api", () => {
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]')
     const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
-    console.log('calculated cost: ' + calculatedCost.scenarios['E-1'].requestId);
     const requestId = calculatedCost.scenarios['E-1'].requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -89,7 +74,6 @@ describe.skip("Calculation history api", () => {
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]');
     const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
     const requestId = calculatedCost.scenarios['E-1'].requestId;
-    console.log('calculated cost: ' + calculatedCost.scenarios['E-1'].requestId);
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
     const response: CalculatedCostRequest = await restClient.getCalculateHistoryRequest(requestId);

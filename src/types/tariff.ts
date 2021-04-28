@@ -247,8 +247,8 @@ export function isTariff(arg: Tariff): arg is Tariff {
     arg.lseName !== undefined
 }
 
-export function isTariffRateTiered(tariffRate: TariffRate): boolean {
-  const isTariffRateTieredHelper = (rateBands: TariffRateBand[]): boolean => {
+export function hasTiers(tariffRate: TariffRate): boolean {
+  const hasTiersHelper = (rateBands: TariffRateBand[]): boolean => {
     const set = new Set()
     for (const rateBand of rateBands) {
       if (set.has(rateBand.applicabilityValue)) {
@@ -262,7 +262,7 @@ export function isTariffRateTiered(tariffRate: TariffRate): boolean {
   if (!tariffRate.rateBands || (tariffRate.rateBands.length < 2)) {
     return false
   } else {
-    return isTariffRateTieredHelper(tariffRate.rateBands)
+    return hasTiersHelper(tariffRate.rateBands)
   }
 }
 
@@ -278,7 +278,8 @@ export function uniquePropertyKeys(tariff: Tariff): Set<string> {
   });
   return mySet;
 }
-export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
+
+export function hasVariableOrCalculationFactor(tariffRate: TariffRate): boolean {
   const calculationFactorPopulated = (
     rateBands: TariffRateBand[]|undefined
   ): boolean => {
@@ -289,4 +290,10 @@ export function isTariffRateWithFactor(tariffRate: TariffRate): boolean {
   }
   return !!tariffRate.variableFactorKey ||
     calculationFactorPopulated(tariffRate.rateBands)
+}
+
+export function isTariffProperty(arg: TariffProperty): arg is TariffProperty {
+  return arg.keyName !== undefined &&
+        arg.propertyTypes !== undefined &&
+        arg.dataType !== undefined;
 }

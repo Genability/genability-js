@@ -4,7 +4,8 @@ import {
   AddParamCallback,
   GenabilityConfig,
   BasePagedRequest,
-  PagedResponse
+  PagedResponse,
+  SingleResponse
 } from '../rest-client';
 import {
   LookupValue, LookupStats,
@@ -38,8 +39,9 @@ export class LookupApi extends RestApiClient {
     return this.getPaged(`/rest/public/properties/${propertyKey}/lookups`, { params: request } );
   }
 
-  public async getPropertyLookupStats(propertyKey: string): Promise<LookupStats> {
-    const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/stats`);
-    return response.data.results[0];
+  public async getPropertyLookupStats(propertyKey: string): Promise<SingleResponse<LookupStats>> {
+    return this.getSingle(`/rest/public/properties/${propertyKey}/stats`);
+    // const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/stats`);
+    // return response.data.results[0];
   }
 }

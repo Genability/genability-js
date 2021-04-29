@@ -39,7 +39,5 @@ export class LoadServingEntityApi extends RestApiClient {
 
   public async getLoadServingEntity(lseId: number): Promise<SingleResponse<LoadServingEntity>> {
     return this.getSingle(`/rest/public/lses/${lseId}`);
-    // const response = await this.axiosInstance.get(`/rest/public/lses/${lseId}`);
-    // return response.data.results[0];
   }
 }

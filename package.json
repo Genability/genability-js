@@ -49,5 +49,12 @@
   "bugs": {
     "url": "https://github.com/Genability/genability-js/issues"
   },
-  "homepage": "https://github.com/Genability/genability-js#readme"
+  "homepage": "https://github.com/Genability/genability-js#readme",
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/coverage",
+      "<rootDir>/dist"
+    ]
+  }
 }

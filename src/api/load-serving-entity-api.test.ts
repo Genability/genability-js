@@ -2,7 +2,7 @@ import {
   LoadServingEntityApi,
   GetLoadServingEntitiesRequest
 } from './load-serving-entity-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   LoadServingEntity,
   ServiceType,
@@ -80,10 +80,12 @@ describe("LoadServingEntity api", () => {
   describe("get one endpoint", () => {
     it("returns the load serving entity", async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
-      const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
-      const { lseId } = response.results[0];
-      const lse: LoadServingEntity = await restClient.getLoadServingEntity(lseId);
-      expect(lse).toEqual(response.results[0]);
+      const assignResponse: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
+      const { lseId } = assignResponse.results[0];
+      const response: SingleResponse<LoadServingEntity> = await restClient.getLoadServingEntity(lseId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result).toEqual(assignResponse.results[0]);
     })
   })
   describe("get n endpoint", () => {

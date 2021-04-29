@@ -2,6 +2,7 @@
 import {
   RestApiClient,
   RestApiCredentials,
+  SingleResponse,
   GenabilityConfig,
 } from '../rest-client';
 
@@ -99,21 +100,12 @@ export class CalculatedCostApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async runCalculation(request: GetCalculatedCostRequest): Promise<CalculatedCost> {
-    const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate`, request);
-    const responseData = response.data.results[0];
-    responseData.requestId = response.data.requestId;
-    return responseData;
+  public async runCalculation(request: GetCalculatedCostRequest): Promise<SingleResponse<CalculatedCost>> {
+    return this.post(`/rest/v1/ondemand/calculate`, request);
   }
 
-  public async runMassCalculation(request: GetMassCalculationRequest): Promise<CalculatedCost> {
-    const response = await this.axiosInstance.post(`/rest/v1/ondemand/calculate/mass`, request);
-    const responseData = response.data.results[0];
-    const scenarios = responseData.scenarios;
-    for (const scenarioName in scenarios) {
-      scenarios[scenarioName].requestId = response.data.requestId
-    }
-    return responseData;
+  public async runMassCalculation(request: GetMassCalculationRequest): Promise<SingleResponse<CalculatedCost>> {
+    return this.post(`/rest/v1/ondemand/calculate/mass`, request);
   }
 }
 

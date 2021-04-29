@@ -6,7 +6,7 @@ import {
   isTimeOfUseInterval,
 } from '../types/time-of-use';
 import { credentialsFromFile } from '../rest-client/credentials';
-import { PagedResponse } from '../rest-client';
+import { SingleResponse, PagedResponse } from '../rest-client';
 import { ResourceTypes } from '../types/resource-types';
 
 const credentials = credentialsFromFile('unitTest');
@@ -16,9 +16,12 @@ describe("TimeOfUse api", () => {
   it("should returns a time of use group", async () => {
     const lseId = 210;
     const touGroupId = 2;
-    const response: TimeOfUseGroup = await restClient.getTimeOfUseGroup(lseId, touGroupId);
-    expect(response.lseId).toEqual(lseId);
-    expect(isTimeOfUseGroup(response)).toBeTruthy();
+    const response: SingleResponse<TimeOfUseGroup> = await restClient.getTimeOfUseGroup(lseId, touGroupId);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    if(response.result == null) fail(`response.result null`);
+    expect(response.result.lseId).toEqual(lseId);
+    expect(isTimeOfUseGroup(response.result)).toBeTruthy();
   }, 10000)
   it("should returns a list of time of use group intervals", async () => {
     const lseId = 210;

@@ -2,7 +2,8 @@ import {
   RestApiClient,
   RestApiCredentials,
   GenabilityConfig,
-  PagedResponse
+  PagedResponse,
+  SingleResponse
 } from '../rest-client';
 import {
   TimeOfUseGroup,
@@ -19,9 +20,8 @@ export class TimeOfUseApi extends RestApiClient {
     return this.getPaged(`/rest/public/lses/${lseId}/tougroups`);
   }
 
-  public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<TimeOfUseGroup> {
-    const response = await this.axiosInstance.get(`/rest/public/timeofuses/${lseId}/${touGroupId}`);
-    return response.data.results[0];
+  public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<SingleResponse<TimeOfUseGroup>> {
+    return this.getSingle(`/rest/public/timeofuses/${lseId}/${touGroupId}`);
   }
 
   public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<PagedResponse<TimeOfUseInterval>> {

@@ -41,7 +41,5 @@ export class LookupApi extends RestApiClient {
 
   public async getPropertyLookupStats(propertyKey: string): Promise<SingleResponse<LookupStats>> {
     return this.getSingle(`/rest/public/properties/${propertyKey}/stats`);
-    // const response = await this.axiosInstance.get(`/rest/public/properties/${propertyKey}/stats`);
-    // return response.data.results[0];
   }
 }

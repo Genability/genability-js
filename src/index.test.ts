@@ -10,12 +10,14 @@ describe("client", () => {
   });
 
   it("should init cleanly", async () => {
-
     const genability: Genability = Genability.configure({
       profileName: 'unitTest'
     });
-    const demandPk = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
-    expect(types.isGenPropertyKey(demandPk)).toBeTruthy;
+    const { result, errors } = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
+    expect(result).toBeTruthy();
+    expect(errors).toBeUndefined();
+    if(result == null) fail(`result null`);
+    expect(types.isGenPropertyKey(result)).toBeTruthy;
     const request = new restApis.GetPropertyKeysRequest();
     request.dataType = types.PropertyDataType.DEMAND;
     const demandPks = await genability.properties.getPropertyKeys(request);

@@ -1,10 +1,10 @@
 import {
   RestApiClient,
   RestApiCredentials,
-  PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig
+  GenabilityConfig,
+  SingleResponse
 } from '../rest-client';
 import {
   Baseline, CustomerClass, ServiceType, MeasureUnit,
@@ -58,7 +58,7 @@ export class TypicalBaselineApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async getBaselinesBest(request: GetBaselinesBestRequest): Promise<PagedResponse<Baseline>> {
-    return this.getPaged('/rest/v1/typicals/baselines/best', { params: request } );
+  public async getBestBaseline(request: GetBaselinesBestRequest): Promise<SingleResponse<Baseline>> {
+    return this.getSingle('/rest/v1/typicals/baselines/best', { params: request } );
   }
 }

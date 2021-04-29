@@ -98,7 +98,7 @@ describe("PropertyKey api", () => {
     it("returns error on bad property key", async () => {
       const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey("ThisPr0pertyKeyD03sN0tExist");
       expect(response.errors).toBeTruthy();
-      expect(response.result).toBeUndefined();
+      expect(response.result).toBeNull();
       expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     })
   })

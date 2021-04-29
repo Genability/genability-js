@@ -2,7 +2,7 @@ import {
   TerritoryApi,
   GetTerritoriesRequest
 } from './territory-api';
-import { PagedResponse } from '../rest-client'
+import { PagedResponse, SingleResponse } from '../rest-client'
 import { ResourceTypes } from '../types/resource-types'
 import {
   Territory,
@@ -68,10 +68,14 @@ describe("Territory api", () => {
   describe("get one endpoint", () => {
     it("returns the territory", async () => {
       const request: GetTerritoriesRequest = new GetTerritoriesRequest();
-      const response: PagedResponse<Territory> = await restClient.getTerritories(request);
-      const { territoryId } = response.results[0];
-      const territory: Territory = await restClient.getTerritory(territoryId);
-      expect(territory).toEqual(response.results[0]);
+      const assignResponse: PagedResponse<Territory> = await restClient.getTerritories(request);
+      const { territoryId } = assignResponse.results[0];
+      const response: SingleResponse<Territory> = await restClient.getTerritory(territoryId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      if(response.result == null) fail(`response.result null`);
+      expect(isTerritory(response.result)).toEqual(true);
+      expect(response.result).toEqual(response.results[0]);
     })
   })
   describe("get n endpoint", () => {

@@ -4,7 +4,8 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig
+  GenabilityConfig,
+  SingleResponse
 } from '../rest-client';
 import {
   UsageType,
@@ -48,8 +49,7 @@ export class TerritoryApi extends RestApiClient {
     return this.getPaged(`/rest/public/territories`, { params: request } );
   }
 
-  public async getTerritory(territoryId: number): Promise<Territory> {
-    const response = await this.axiosInstance.get(`/rest/public/territories/${territoryId}`);
-    return response.data.results[0];
+  public async getTerritory(territoryId: number): Promise<SingleResponse<Territory>> {
+    return this.getSingle(`/rest/public/territories/${territoryId}`);
   }
 }

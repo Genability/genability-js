@@ -65,14 +65,14 @@ describe("on-demand-cost-calculation types", () => {
     it("work for ScenariosMap", () => {
       const json = '{\
         "key":{\
-          "requestId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
+          "calculatedCostId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
           "masterTariffId": 522,\
           "tariffName": "tariffName",\
           "totalCost": "totalCost",\
           "fromDateTime": "fromDateTime",\
           "toDateTime": "toDateTime",\
           "accuracy": "accuracy",\
-          "calculatedCostId": "calculatedCostId"\
+          "items": "[]"\
         }\
       }';
       const scenariosMap: ScenariosMap = JSON.parse(json);
@@ -95,14 +95,14 @@ describe("on-demand-cost-calculation types", () => {
     })
     it("should be true for valid JSON", () => {
       const json = '{\
-        "requestId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
+        "calculatedCostId": "36f86e22-4575-4ee1-9614-1133d9faf071",\
         "masterTariffId": 522,\
         "tariffName": "tariffName",\
         "totalCost": "totalCost",\
         "fromDateTime": "fromDateTime",\
         "toDateTime": "toDateTime",\
         "accuracy": "accuracy",\
-        "calculatedCostId": "calculatedCostId"\
+        "items": "[]"\
       }';
       const calculatedCost: CalculatedCost = JSON.parse(json);
       expect(isCalculatedCost(calculatedCost)).toEqual(true);

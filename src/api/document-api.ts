@@ -4,7 +4,8 @@ import {
   AddParamCallback,
   GenabilityConfig,
   BasePagedRequest,
-  PagedResponse
+  PagedResponse,
+  SingleResponse
 } from '../rest-client';
 import {
   Document,
@@ -38,8 +39,7 @@ export class DocumentApi extends RestApiClient {
     return this.getPaged(`/v1/documents`, { params: request } );
   }
 
-  public async getDocument(searchId: number, request?: GetDocumentRequest): Promise<Document> {
-    const response = await this.axiosInstance.get(`/v1/documents/${searchId}`, { params: request } );
-    return response.data.results[0];
+  public async getDocument(documentId: number, request?: GetDocumentRequest): Promise<SingleResponse<Document>> {
+    return this.getSingle(`/v1/documents/${documentId}`, { params: request } );
   }
 }

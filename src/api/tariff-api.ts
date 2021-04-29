@@ -4,7 +4,8 @@ import {
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig
+  GenabilityConfig,
+  SingleResponse
 } from '../rest-client';
 import {
   Tariff, CustomerClass, TariffType, ChargeType, ServiceType, PrivacyFlag, toTariffFromApi
@@ -117,15 +118,11 @@ export class TariffApi extends RestApiClient {
     return this.getPaged(`/rest/public/tariffs`, { params: request }, tariffResponseInterceptor );
   }
 
-  public async getTariff(masterTariffId: number, request?: GetTariffRequest): Promise<Tariff> {
-    return this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}`, { params: request } )
-      .then((response) =>{
-        return toTariffFromApi(response.data.results[0])
-      });
+  public async getTariff(masterTariffId: number, request?: GetTariffRequest): Promise<SingleResponse<Tariff>> {
+    return this.getSingle(`/rest/public/tariffs/${masterTariffId}`, { params: request }, tariffResponseInterceptor);
   }
 
-  public async getTariffHistory(masterTariffId: number): Promise<Tariff> {
-    const response = await this.axiosInstance.get(`/rest/public/tariffs/${masterTariffId}/history`);
-    return response.data.results[0];
+  public async getTariffHistory(masterTariffId: number): Promise<SingleResponse<Tariff>> {
+    return this.getSingle(`/rest/public/tariffs/${masterTariffId}/history`);
   }
 }

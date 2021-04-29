@@ -2,8 +2,7 @@ import {
   PropertyKeyApi, 
   GetPropertyKeysRequest 
 } from './property-key-api';
-import { PagedResponse } from '../rest-client'
-
+import { SingleResponse, PagedResponse, isResponseError } from '../rest-client'
 import {
   GenPropertyKey,
   PropertyDataType,
@@ -91,8 +90,16 @@ describe("GetPropertyKeys request", () => {
 describe("PropertyKey api", () => {
   describe("get one endpoint", () => {
     it("returns the demand property key", async () => {
-      const pk: GenPropertyKey = await restClient.getPropertyKey(CommonPropertyKeyNames.DEMAND);
-      expect(pk).toEqual(demandPk);
+      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey(CommonPropertyKeyNames.DEMAND);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result).toEqual(demandPk);
+    })
+    it("returns error on bad property key", async () => {
+      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey("ThisPr0pertyKeyD03sN0tExist");
+      expect(response.errors).toBeTruthy();
+      expect(response.result).toBeNull();
+      expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     })
   })
   describe("get n endpoint", () => {

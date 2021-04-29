@@ -2,7 +2,7 @@ import {
   LookupApi,
   GetLookupsRequest
 } from './lookup-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   LookupValue,
   isLookupValue,
@@ -94,7 +94,9 @@ describe("Lookup api", () => {
     }
   }, 10000)
   it('should returns lookup stats for a property key', async () =>{
-    const lookupPropertyKey: LookupStats = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
-    expect(isLookupStats(lookupPropertyKey)).toBeTruthy();
+    const response: SingleResponse<LookupStats> = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isLookupStats(response.result)).toBeTruthy();
   }, 10000)
 });

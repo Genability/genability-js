@@ -2,6 +2,7 @@ import {
   RestApiClient,
   RestApiCredentials,
   PagedResponse,
+  SingleResponse,
   BasePagedRequest,
   AddParamCallback,
   GenabilityConfig
@@ -39,8 +40,7 @@ export class PropertyKeyApi extends RestApiClient {
     return this.getPaged(`/rest/public/properties`, { params: request } );
   }
 
-  public async getPropertyKey(keyName: string): Promise<GenPropertyKey> {
-    const response = await this.axiosInstance.get(`/rest/public/properties/${keyName}`);
-    return response.data.results[0];
+  public async getPropertyKey(keyName: string): Promise<SingleResponse<GenPropertyKey>> {
+    return this.getSingle(`/rest/public/properties/${keyName}`);
   }
 }

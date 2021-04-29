@@ -4,7 +4,7 @@ import {
   GetMassCalculationRequest,
 } from './on-demand-cost-calculation-api';
 import { TariffApi, GetTariffsRequest } from './tariff-api'
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   isCalculatedCost,
   CalculatedCost,
@@ -29,8 +29,10 @@ describe("CalculatedCost api", () => {
     request.toDateTime = '2020-05-11T00:00:00-07:00';
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
-    const response: CalculatedCost = await restClient.runCalculation(request);
-    expect(isCalculatedCost(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000)
 
   it("should return calculated cost for property inputs", async () => {
@@ -44,8 +46,10 @@ describe("CalculatedCost api", () => {
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity"},{"keyName": "isSmartRateCustomer", "dataValue": true}]');
     request.propertyInputs = propertyData;
     request.useTypicalElectricity("SMALL_COMMERCIAL", 2);
-    const response: CalculatedCost = await restClient.runCalculation(request);
-    expect(isCalculatedCost(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000);
 
   it("should return calculated cost for property inputs when dataSeriesAttributes is present", async () => {
@@ -58,8 +62,10 @@ describe("CalculatedCost api", () => {
     request.masterTariffId = masterTariffId;
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity", "dataSeriesAttributes": ["FIXED_NOT_DST","MISSING_DST_PRORATE"]}]');
     request.propertyInputs = propertyData;
-    const response: CalculatedCost = await restClient.runCalculation(request);
-    expect(isCalculatedCost(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000);
 
   it("should return mass calculation", async () => {
@@ -67,8 +73,10 @@ describe("CalculatedCost api", () => {
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
-    const response: CalculatedCost = await restClient.runMassCalculation(request);
-    expect(isMassCalculation(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runMassCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
   it("should return mass calculation for sharedScenario", async () => {
@@ -77,8 +85,10 @@ describe("CalculatedCost api", () => {
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
     request.sharedScenario = JSON.parse('{"scenarioName": "E-1", "masterTariffId": "522"}')
-    const response: CalculatedCost = await restClient.runMassCalculation(request);
-    expect(isMassCalculation(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runMassCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
   it("should return mass calculation for sharedScenario when propertyInputs is set", async () => {
@@ -87,8 +97,10 @@ describe("CalculatedCost api", () => {
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
     request.sharedScenario = JSON.parse('{"propertyInputs": [{"keyName": "consumption","dataValue": 1000}]}')
-    const response: CalculatedCost = await restClient.runMassCalculation(request);
-    expect(isMassCalculation(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runMassCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
   it("should return mass calculation for sharedScenario when expected is set", async () => {
@@ -97,8 +109,10 @@ describe("CalculatedCost api", () => {
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}, {"scenarioName": "E-6-TOU", "masterTariffId": "525"}, {"scenarioName": "E-6-TOU-SmartRate", "masterTariffId": "525", "propertyInputs": [{"keyName": "isSmartRateCustomer", "dataValue": "true"}]}]')
     request.sharedScenario = JSON.parse('{"expected": {"totalCost": 170.20,"adjustedTotalCost": 170.18,"kWh": 1266.48}}')
-    const response: CalculatedCost = await restClient.runMassCalculation(request);
-    expect(isMassCalculation(response)).toBeTruthy();
+    const response: SingleResponse<CalculatedCost> = await restClient.runMassCalculation(request);
+    expect(response.result).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 });
 

@@ -5,7 +5,7 @@ import {
 import {GetTariffsRequest, TariffApi} from './tariff-api'
 import {CalculationHistoryApi} from './calculation-history-api';
 import { credentialsFromFile } from '../rest-client/credentials';
-import { PagedResponse } from "../rest-client";
+import { SingleResponse, PagedResponse } from "../rest-client";
 import {
   CalculatedCost,
   CalculatedCostRequest, isCalculatedCost, isCalculatedCostRequest, isMassCalculation, isMassCalculationRequest,
@@ -28,12 +28,14 @@ describe("Calculation history api", () => {
     request.toDateTime = '2020-05-11T00:00:00-07:00';
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
-    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-    const requestId = calculatedCost.requestId;
+    const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
+    if(calcResponse.requestId == null) fail(`requestId null`);
+    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    const requestId: string = calcResponse.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
     const response: CalculatedCost = await restClient.getCalculateHistoryResponse(requestId);
-    expect(requestId).toEqual(response.requestId);
+    expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 40000);
   it("should return calculated history request", async () => {
@@ -45,8 +47,9 @@ describe("Calculation history api", () => {
     request.toDateTime = '2020-05-11T00:00:00-07:00';
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
-    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runCalculation(request);
-    const requestId = calculatedCost.requestId;
+    const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
+    if(calcResponse.requestId == null) fail(`requestId null`);
+    const requestId = calcResponse.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
     const response: CalculatedCostRequest = await restClient.getCalculateHistoryRequest(requestId);
@@ -59,12 +62,14 @@ describe("Calculation history api", () => {
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]')
-    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
-    const requestId = calculatedCost.scenarios['E-1'].requestId;
+    const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runMassCalculation(request);
+    if(calcResponse.requestId == null) fail(`requestId null`);
+    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    const requestId = calcResponse.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
     const response: CalculatedCost = await restClient.getCalculateHistoryResponse(requestId);
-    expect(response.requestId).toEqual(requestId);
+    expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
     expect(isMassCalculation(response)).toBeTruthy();
   }, 40000);
   it("should return mass calc history request", async () => {
@@ -72,8 +77,9 @@ describe("Calculation history api", () => {
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]');
-    const calculatedCost: CalculatedCost = await calculatedCostRestClient.runMassCalculation(request);
-    const requestId = calculatedCost.scenarios['E-1'].requestId;
+    const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runMassCalculation(request);
+    if(calcResponse.requestId == null) fail(`requestId null`);
+    const requestId = calcResponse.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
     const response: CalculatedCostRequest = await restClient.getCalculateHistoryRequest(requestId);

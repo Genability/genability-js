@@ -2,7 +2,7 @@ import {
   TypicalBaselineApi,
   GetBaselinesBestRequest
 } from './typical-baseline-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse } from '../rest-client'
 import { Baseline, isBaseline, MeasureUnit } from '../types/typical-baseline';
 import { ServiceType } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
@@ -53,10 +53,10 @@ describe("TypicalBaseline api", () => {
     request.excludeMeasures = false;
     request.groupBy = 'MONTH';
     request.measuresUnit = MeasureUnit.TOTAL;
-    const response: PagedResponse<Baseline> = await restClient.getBaselinesBest(request);
+    const response: SingleResponse<Baseline> = await restClient.getBestBaseline(request);
     expect(response.type).toEqual(ResourceTypes.BASELINE);
-    for(const baseline of response.results) {
-      expect(isBaseline(baseline)).toBeTruthy();
-    }
+    expect(response.results).toBeTruthy();
+    expect(response.errors).toBeUndefined();
+    expect(response.result && isBaseline(response.result)).toEqual(true);
   })
 });

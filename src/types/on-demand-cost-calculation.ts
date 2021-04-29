@@ -86,8 +86,7 @@ export interface CalculatedCostSummary {
 }
 
 export interface CalculatedCost {
-  requestId: string;
-  type: string;
+  calculatedCostId: string;
   masterTariffId: number;
   tariffName: string;
   totalCost: number;
@@ -98,7 +97,6 @@ export interface CalculatedCost {
   summary?: CalculatedCostSummary;
   items: CalculatedCostItem[];
   assumptions: PropertyData[];
-  calculatedCostId: string;
   scenarios: ScenariosMap;
 }
 
@@ -165,10 +163,11 @@ export interface Address {
  * User Defined Type Guard for CalculatedCost
  */
 export function isCalculatedCost(arg: CalculatedCost): arg is CalculatedCost {
-  return arg.requestId !== undefined &&
+  return arg.calculatedCostId !== undefined &&
     arg.masterTariffId !== undefined &&
     arg.fromDateTime !== undefined &&
-    arg.toDateTime !== undefined
+    arg.toDateTime !== undefined &&
+    arg.items != undefined
 }
 
 export function isMassCalculation(arg: CalculatedCost): arg is CalculatedCost {

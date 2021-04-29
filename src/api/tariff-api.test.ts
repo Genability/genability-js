@@ -3,7 +3,7 @@ import {
   GetTariffsRequest,
   GetTariffRequest
 } from './tariff-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   TariffType,
   CustomerClass,
@@ -98,10 +98,13 @@ describe("Tariff api", () => {
   describe("get one endpoint", () => {
     it("returns a tariff", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
-      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
-      const { masterTariffId } = response.results[0];
-      const tariff: Tariff = await restClient.getTariff(masterTariffId);
-      expect(tariff.masterTariffId).toEqual(masterTariffId);
+      const assignResponse: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      const { masterTariffId } = assignResponse.results[0];
+      const response: SingleResponse<Tariff> = await restClient.getTariff(masterTariffId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      if(response.result == null) fail(`response.result null`);
+      expect(response.result.masterTariffId).toEqual(masterTariffId);
     })
     it("returns a tariff with rates and properties", async () => {
       const masterTariffId = 522;
@@ -109,7 +112,12 @@ describe("Tariff api", () => {
       tariffRequest.populateProperties = true;
       tariffRequest.populateRates = true;
       tariffRequest.fields = Fields.EXTENDED;
-      const tariff: Tariff = await restClient.getTariff(masterTariffId, tariffRequest);
+      const response: SingleResponse<Tariff> = await restClient.getTariff(masterTariffId, tariffRequest);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      if(response.result == null) fail(`response.result null`);
+      expect(isTariff(response.result)).toEqual(true);
+      const tariff: Tariff = response.result;
       expect(tariff.masterTariffId).toEqual(masterTariffId);
       expect(tariff.rates).toEqual(expect.any(Array));
       expect(tariff.rates?.length).toBeGreaterThan(0);
@@ -128,10 +136,12 @@ describe("Tariff api", () => {
     it("returns the tariff history", async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
       request.serviceTypes = [ServiceType.ELECTRICITY]
-      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
-      const { masterTariffId } = response.results[0];
-      const tariffHistroy: Tariff = await restClient.getTariffHistory(masterTariffId);
-      expect(tariffHistroy.masterTariffId).toEqual(masterTariffId);
+      const assignResponse: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      const { masterTariffId } = assignResponse.results[0];
+      const response: SingleResponse<Tariff> = await restClient.getTariffHistory(masterTariffId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result && response.result.masterTariffId).toEqual(masterTariffId);
     })
   })
   describe("get n endpoint", () => {

@@ -2,6 +2,7 @@ import {
   RestApiClient,
   RestApiCredentials,
   PagedResponse,
+  SingleResponse,
   BasePagedRequest,
   AddParamCallback,
   GenabilityConfig
@@ -36,8 +37,7 @@ export class LoadServingEntityApi extends RestApiClient {
     return this.getPaged(`/rest/public/lses`, { params: request } );
   }
 
-  public async getLoadServingEntity(lseId: number): Promise<LoadServingEntity> {
-    const response = await this.axiosInstance.get(`/rest/public/lses/${lseId}`);
-    return response.data.results[0];
+  public async getLoadServingEntity(lseId: number): Promise<SingleResponse<LoadServingEntity>> {
+    return this.getSingle(`/rest/public/lses/${lseId}`);
   }
 }

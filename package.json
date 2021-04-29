@@ -1,6 +1,6 @@
 {
   "name": "@genability/api",
-  "version": "0.1.71",
+  "version": "0.2.1",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,5 +49,12 @@
   "bugs": {
     "url": "https://github.com/Genability/genability-js/issues"
   },
-  "homepage": "https://github.com/Genability/genability-js#readme"
+  "homepage": "https://github.com/Genability/genability-js#readme",
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/coverage",
+      "<rootDir>/dist"
+    ]
+  }
 }

@@ -3,7 +3,7 @@ import {
   GetDocumentsRequest,
   GetDocumentRequest
 } from './document-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   Document,
   isDocument
@@ -98,34 +98,42 @@ describe("GetDocument request", () => {
 describe("Document api", () => {
   describe("get one endpoint", () => {
     it("returns the document", async () => {
-      const searchId = 1;
-      const document: Document = await restClient.getDocument(searchId);
-      expect(document.documentId).toEqual(searchId);
+      const documentId = 1;
+      const response: SingleResponse<Document> = await restClient.getDocument(documentId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result && response.result.documentId).toEqual(documentId);
     })
     it("returns the document with sections populated", async () => {
-      const searchId = 1;
+      const documentId = 1;
       const documentRequest: GetDocumentRequest = new GetDocumentRequest();
       documentRequest.populateDocumentSections = true;
       documentRequest.fields = Fields.EXTENDED;
-      const document: Document = await restClient.getDocument(searchId, documentRequest);
-      expect(document.documentId).toEqual(searchId);
-      expect(document).toHaveProperty('sections');
+      const response: SingleResponse<Document> = await restClient.getDocument(documentId, documentRequest);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result && response.result.documentId).toEqual(documentId);
+      expect(response.result && response.result).toHaveProperty('sections');
     })
     it("returns the document with searchKey is documentSectionId", async () => {
       const searchId = 1;
       const documentRequest: GetDocumentRequest = new GetDocumentRequest();
       documentRequest.searchKey = "documentSectionId";
       documentRequest.fields = Fields.EXTENDED;
-      const document: Document = await restClient.getDocument(searchId, documentRequest);
-      expect(document.documentId).toEqual(409);
+      const response: SingleResponse<Document>  = await restClient.getDocument(searchId, documentRequest);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result && response.result.documentId).toEqual(409);
     })
     it("returns the document with searchKey is priorDocumentId", async () => {
       const searchId = 5105;
       const documentRequest: GetDocumentRequest = new GetDocumentRequest();
       documentRequest.searchKey = "priorDocumentId";
       documentRequest.fields = Fields.EXTENDED;
-      const document: Document = await restClient.getDocument(searchId, documentRequest);
-      expect(document.documentId).toEqual(7621);
+      const response: SingleResponse<Document>  = await restClient.getDocument(searchId, documentRequest);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result && response.result.documentId).toEqual(7621);
     })
   })
   describe("get n endpoint", () => {

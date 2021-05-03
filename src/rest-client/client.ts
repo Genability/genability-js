@@ -38,7 +38,7 @@ function restParamsSerialize(params: any): string {
  */
 function validateStatus(status: number): boolean {
   // Codes from https://developer.genability.com/api-reference/basics/responses/#http-status-codes
-  return ((status >= 200 && status < 300) || (status >= 400 && status <= 404) || status == 500);
+  return ((status >= 200 && status < 300) || (status >= 400 && status <= 404));
 }
 
 function axiosErrorToResponse<T>(axiosError: AxiosError): Response<T> {

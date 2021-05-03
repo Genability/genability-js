@@ -61,6 +61,15 @@ const errorsResponse = {
   ]
 }
 
+const serverErrorResponse = {
+  status: 'error',
+  type: 'Error',
+  count: 1,
+  results: [
+    "A server error has occurred. Sorry. It has been logged and we will work to fix it."
+  ]
+}
+
 describe("PagedResponse constructor", () => {
   it("paged results not errors for successPageResponse", async () => {
     const response: PagedResponse<number> = new PagedResponse(successPageResponse);
@@ -169,6 +178,23 @@ describe("PagedResponse constructor", () => {
     expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
     expect(isPaged(response)).toEqual(false);
   })
+
+  it("errors when response is server error (500)", async () => {
+    const response: PagedResponse<unknown> = new PagedResponse(serverErrorResponse);
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("Error");
+    expect(response.count).toEqual(1);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toHaveLength(1);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("SystemError");
+    expect(response.errors && response.errors[0].message).toEqual("A server error has occurred. Sorry. It has been logged and we will work to fix it.");
+    expect(response.errors && response.errors[0].objectName).toEqual("Error");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
+    expect(isPaged(response)).toEqual(false);
+  })
 })
 
 describe("SingleResponse constructor", () => {
@@ -265,6 +291,23 @@ describe("SingleResponse constructor", () => {
     expect(response.errors && response.errors[1].objectName).toEqual("TestObject");
     expect(response.errors && response.errors[1].propertyName).toEqual("someProperty");
     expect(response.errors && response.errors[1].propertyValue).toEqual("xls");
+    expect(isPaged(response)).toEqual(false);
+  })
+
+  it("errors when response is server error (500)", async () => {
+    const response: SingleResponse<unknown> = new SingleResponse({ ...serverErrorResponse, type: 'String' });
+    expect(response).toBeTruthy();
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual("String");
+    expect(response.count).toEqual(1);
+    expect(response.results).toHaveLength(0);
+    expect(response.errors).toHaveLength(1);
+    expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
+    expect(response.errors && response.errors[0].code).toEqual("SystemError");
+    expect(response.errors && response.errors[0].message).toEqual("A server error has occurred. Sorry. It has been logged and we will work to fix it.");
+    expect(response.errors && response.errors[0].objectName).toEqual("String");
+    expect(response.errors && response.errors[0].propertyName).toBeUndefined();
+    expect(response.errors && response.errors[0].propertyValue).toBeUndefined();
     expect(isPaged(response)).toEqual(false);
   })
 })

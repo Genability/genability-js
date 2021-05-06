@@ -76,23 +76,26 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
 
 export abstract class RestApiClient {
   protected axiosInstance: AxiosInstance;
-  private readonly _credentials: RestApiCredentials|RestApiCredentialsFunction;
+  private readonly _credentials: RestApiCredentials;
+  private readonly _credentialsFn: RestApiCredentialsFunction|null;
 
-  public constructor(baseURL: string, credentials: RestApiCredentials|RestApiCredentialsFunction) {
+  public constructor(baseURL: string, credentials: RestApiCredentials, credentialsFn?: RestApiCredentialsFunction) {
     this._credentials = credentials;
+    this._credentialsFn = credentialsFn || null;
+
     this.axiosInstance = axios.create({
       baseURL,
+      headers: {
+        Authorization: RestApiClient.createAuthHeader(credentials),
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       paramsSerializer: (params: any) => restParamsSerialize(params),
     });
 
-    this.getCredentials().then((credentialsValue: RestApiCredentials) => {
-      this.axiosInstance.defaults.headers = RestApiClient.getHeaders(credentialsValue);
-
-      if (credentialsValue?.proxyReq) {
-        this.axiosInstance.interceptors.request.use(credentialsValue.proxyReq);
-      }
-    });
+    if (credentials?.proxyReq) {
+      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
+    }
   }
 
   private static createAuthHeader(credentials: RestApiCredentials): string {
@@ -108,8 +111,8 @@ export abstract class RestApiClient {
     return authHeader;
   }
 
-  private getCredentials(): Promise<RestApiCredentials> {
-    return typeof this._credentials === "function" ? this._credentials() : Promise.resolve(this._credentials);
+  private async getCredentials(): Promise<RestApiCredentials> {
+    return this._credentialsFn ? await this._credentialsFn() : Promise.resolve(this._credentials);
   }
 
   private static getHeaders(credentials: RestApiCredentials): AxiosRequestConfig {

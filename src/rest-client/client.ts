@@ -77,11 +77,11 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
 export abstract class RestApiClient {
   protected axiosInstance: AxiosInstance;
   private readonly _credentials: RestApiCredentials;
-  private readonly _credentialsFn: RestApiCredentialsFunction|null;
+  private readonly _credentialsFn: RestApiCredentialsFunction|undefined;
 
   public constructor(baseURL: string, credentials: RestApiCredentials, credentialsFn?: RestApiCredentialsFunction) {
     this._credentials = credentials;
-    this._credentialsFn = credentialsFn || null;
+    this._credentialsFn = credentialsFn;
 
     this.axiosInstance = axios.create({
       baseURL,
@@ -112,7 +112,7 @@ export abstract class RestApiClient {
   }
 
   private async getCredentials(): Promise<RestApiCredentials> {
-    return this._credentialsFn ? await this._credentialsFn() : Promise.resolve(this._credentials);
+    return this._credentialsFn !== undefined ? await this._credentialsFn() : Promise.resolve(this._credentials);
   }
 
   private static getHeaders(credentials: RestApiCredentials): AxiosRequestConfig {

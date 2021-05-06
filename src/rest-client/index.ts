@@ -1,6 +1,7 @@
 export {
   RestApiCredentials,
   RestApiClient,
+  RestApiCredentialsFunction,
   ResponseInterceptorFunction,
 } from './client';
 

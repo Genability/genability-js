@@ -1,4 +1,4 @@
-import { 
+import {
   RestApiClient, RestApiCredentials
 } from './client';
 
@@ -30,6 +30,10 @@ describe("Check api credentials", () => {
   })
   it("is proxy credentials", () => {
     const obj: TestClass = new TestClass('', proxyApiCredentials);
+    expect(obj).toBeTruthy();
+  })
+  it("is jwt credentials", () => {
+    const obj: TestClass = new TestClass('', (): RestApiCredentials => { return jwtApiCredentials });
     expect(obj).toBeTruthy();
   })
 })

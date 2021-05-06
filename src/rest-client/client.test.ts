@@ -1,5 +1,5 @@
 import {
-  RestApiClient, RestApiCredentials, RestApiCredentialsObject
+  RestApiClient, RestApiCredentials
 } from './client';
 
 const emptyApiCredentials: RestApiCredentials = {

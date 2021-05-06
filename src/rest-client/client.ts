@@ -8,7 +8,7 @@ import {
   PagedResponse,
 } from './contract';
 
-export interface RestApiCredentials {
+export interface RestApiCredentialsObject {
   appId?: string;
   appKey?: string;
   jwt?: string;
@@ -19,6 +19,11 @@ export interface RestApiCredentials {
  * Pass in a function implementing this signature to generate API credentials dynamically.
  */
 export type RestApiCredentialsFunction = () => Promise<RestApiCredentials>;
+
+/**
+ * This is a composite type that exposes to the SDK user the option to pass credentials as either an object or a function.
+ */
+export type RestApiCredentials = RestApiCredentialsObject | RestApiCredentialsFunction;
 
 /**
  * Pass in a function implementing this signature to the various get, post, put
@@ -76,9 +81,9 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
 
 export abstract class RestApiClient {
   protected axiosInstance: AxiosInstance;
-  private readonly _credentials: RestApiCredentials|RestApiCredentialsFunction;
+  private readonly _credentials: RestApiCredentials;
 
-  public constructor(baseURL: string, credentials: RestApiCredentials|RestApiCredentialsFunction) {
+  public constructor(baseURL: string, credentials: RestApiCredentials) {
     this._credentials = credentials;
 
     this.axiosInstance = axios.create({
@@ -96,7 +101,7 @@ export abstract class RestApiClient {
     }
   }
 
-  private static createAuthHeader(credentials: RestApiCredentials): string {
+  private static createAuthHeader(credentials: RestApiCredentialsObject): string {
     let authHeader = '';
 
     if (credentials?.appId !== undefined &&  credentials?.appKey !== undefined) {
@@ -109,11 +114,11 @@ export abstract class RestApiClient {
     return authHeader;
   }
 
-  private async getCredentials(): Promise<RestApiCredentials> {
-    return typeof this._credentials === "function" ? await this._credentials() : this._credentials;
+  private async getCredentials(): Promise<RestApiCredentialsObject> {
+    return typeof this._credentials === "function" ? (await this._credentials()) as RestApiCredentialsObject : this._credentials;
   }
 
-  private static getHeaders(credentials: RestApiCredentials): AxiosRequestConfig {
+  private static getHeaders(credentials: RestApiCredentialsObject): AxiosRequestConfig {
     return {
       headers: {
         Authorization: RestApiClient.createAuthHeader(credentials),

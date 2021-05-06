@@ -33,7 +33,7 @@ describe("Check api credentials", () => {
     expect(obj).toBeTruthy();
   })
   it("is jwt credentials with credentialsFn", () => {
-    const obj: TestClass = new TestClass('', jwtApiCredentials, (): Promise<RestApiCredentials> => { return Promise.resolve(jwtApiCredentials) });
+    const obj: TestClass = new TestClass('', (): Promise<RestApiCredentials> => { return Promise.resolve(jwtApiCredentials) });
     expect(obj).toBeTruthy();
   })
 })

@@ -76,24 +76,22 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
 
 export abstract class RestApiClient {
   protected axiosInstance: AxiosInstance;
-  private readonly _credentials: RestApiCredentials;
-  private readonly _credentialsFn: RestApiCredentialsFunction|undefined;
+  private readonly _credentials: RestApiCredentials|RestApiCredentialsFunction;
 
-  public constructor(baseURL: string, credentials: RestApiCredentials, credentialsFn?: RestApiCredentialsFunction) {
+  public constructor(baseURL: string, credentials: RestApiCredentials|RestApiCredentialsFunction) {
     this._credentials = credentials;
-    this._credentialsFn = credentialsFn;
 
     this.axiosInstance = axios.create({
       baseURL,
       headers: {
-        Authorization: RestApiClient.createAuthHeader(credentials),
+        Authorization: typeof credentials !== "function" ? RestApiClient.createAuthHeader(credentials) : "",
         'Content-Type': 'application/json;charset=UTF-8'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       paramsSerializer: (params: any) => restParamsSerialize(params),
     });
 
-    if (credentials?.proxyReq) {
+    if (typeof credentials !== "function" && credentials?.proxyReq) {
       this.axiosInstance.interceptors.request.use(credentials.proxyReq);
     }
   }
@@ -112,7 +110,7 @@ export abstract class RestApiClient {
   }
 
   private async getCredentials(): Promise<RestApiCredentials> {
-    return this._credentialsFn !== undefined ? await this._credentialsFn() : Promise.resolve(this._credentials);
+    return typeof this._credentials === "function" ? await this._credentials() : this._credentials;
   }
 
   private static getHeaders(credentials: RestApiCredentials): AxiosRequestConfig {

@@ -18,7 +18,7 @@ export interface RestApiCredentialsObject {
 /**
  * Pass in a function implementing this signature to generate API credentials dynamically.
  */
-export type RestApiCredentialsFunction = () => Promise<RestApiCredentials>;
+export type RestApiCredentialsFunction = () => Promise<RestApiCredentialsObject>;
 
 /**
  * This is a composite type that exposes to the SDK user the option to pass credentials as either an object or a function.

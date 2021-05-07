@@ -1,5 +1,5 @@
-import { 
-  RestApiClient, RestApiCredentials
+import {
+  RestApiClient, RestApiCredentials, RestApiCredentialsObject
 } from './client';
 
 const emptyApiCredentials: RestApiCredentials = {
@@ -30,6 +30,10 @@ describe("Check api credentials", () => {
   })
   it("is proxy credentials", () => {
     const obj: TestClass = new TestClass('', proxyApiCredentials);
+    expect(obj).toBeTruthy();
+  })
+  it("is jwt credentials with credentialsFn", () => {
+    const obj: TestClass = new TestClass('', (): Promise<RestApiCredentialsObject> => { return Promise.resolve(jwtApiCredentials) });
     expect(obj).toBeTruthy();
   })
 })

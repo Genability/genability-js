@@ -1,19 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
-import { 
-  isQueryStringified, 
+import {
+  isQueryStringified,
   isResponse,
   Response,
   SingleResponse,
   PagedResponse,
 } from './contract';
 
-export interface RestApiCredentials {
+export interface RestApiCredentialsObject {
   appId?: string;
   appKey?: string;
   jwt?: string;
   proxyReq?: {(config: any): any}; // For additional transformations to request required by proxies
 }
+
+/**
+ * Pass in a function implementing this signature to generate API credentials dynamically.
+ */
+export type RestApiCredentialsFunction = () => Promise<RestApiCredentialsObject>;
+
+/**
+ * This is a composite type that exposes to the SDK user the option to pass credentials as either an object or a function.
+ */
+export type RestApiCredentials = RestApiCredentialsObject | RestApiCredentialsFunction;
 
 /**
  * Pass in a function implementing this signature to the various get, post, put
@@ -70,10 +80,30 @@ function exceptionToResponse<T>(exception: Error): Response<T> {
 }
 
 export abstract class RestApiClient {
-  protected readonly axiosInstance: AxiosInstance;
+  protected axiosInstance: AxiosInstance;
+  private readonly _credentials: RestApiCredentials;
 
   public constructor(baseURL: string, credentials: RestApiCredentials) {
+    this._credentials = credentials;
+
+    this.axiosInstance = axios.create({
+      baseURL,
+      headers: {
+        Authorization: typeof credentials !== "function" ? RestApiClient.createAuthHeader(credentials) : "",
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      paramsSerializer: (params: any) => restParamsSerialize(params),
+    });
+
+    if (typeof credentials !== "function" && credentials?.proxyReq) {
+      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
+    }
+  }
+
+  private static createAuthHeader(credentials: RestApiCredentialsObject): string {
     let authHeader = '';
+
     if (credentials?.appId !== undefined &&  credentials?.appKey !== undefined) {
       const authString = Buffer.from(`${credentials.appId}:${credentials.appKey}`).toString('base64');
       authHeader = `Basic ${authString}`;
@@ -81,28 +111,29 @@ export abstract class RestApiClient {
       authHeader = `Bearer ${credentials.jwt}`;
     }
 
-    this.axiosInstance = axios.create({
-      baseURL,
-      headers: {
-        Authorization: authHeader,
-        'Content-Type': 'application/json;charset=UTF-8'
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      paramsSerializer: (params: any) => restParamsSerialize(params),
-    });
+    return authHeader;
+  }
 
-    if (credentials?.proxyReq) {
-      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
-    }
+  private async getCredentials(): Promise<RestApiCredentialsObject> {
+    return typeof this._credentials === "function" ? (await this._credentials()) as RestApiCredentialsObject : this._credentials;
+  }
+
+  private static getHeaders(credentials: RestApiCredentialsObject): AxiosRequestConfig {
+    return {
+      headers: {
+        Authorization: RestApiClient.createAuthHeader(credentials),
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    };
   }
 
   async getSingle<T>(
-    url: string, 
+    url: string,
     config?: AxiosRequestConfig | undefined,
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.get(url, { ...config, validateStatus });
+      const response = await this.axiosInstance.get(url, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }
@@ -119,12 +150,12 @@ export abstract class RestApiClient {
   }
 
   async getPaged<T>(
-    url: string, 
+    url: string,
     config?: AxiosRequestConfig | undefined,
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<PagedResponse<T>> {
     try {
-      const response = await this.axiosInstance.get(url,  { ...config, validateStatus });
+      const response = await this.axiosInstance.get(url,  { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }
@@ -147,7 +178,7 @@ export abstract class RestApiClient {
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.post(url, data, { ...config, validateStatus });
+      const response = await this.axiosInstance.post(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }
@@ -170,7 +201,7 @@ export abstract class RestApiClient {
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.put(url, data, { ...config, validateStatus });
+      const response = await this.axiosInstance.put(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }

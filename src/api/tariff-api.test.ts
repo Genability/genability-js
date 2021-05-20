@@ -10,7 +10,8 @@ import {
   ChargeClasses,
   ChargeType,
   Tariff,
-  isTariff
+  isTariff,
+  isTariffDocument
 } from '../types/tariff';
 import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
@@ -106,6 +107,20 @@ describe("Tariff api", () => {
       if(response.result == null) fail(`response.result null`);
       expect(response.result.masterTariffId).toEqual(masterTariffId);
     })
+    it("returns a tariff with TariffDocument populated if populateDocuments true", async () => {
+      const request: GetTariffsRequest = new GetTariffsRequest();
+      request.populateDocuments = true;
+      const assignResponse: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      const { masterTariffId } = assignResponse.results[0];
+      const response: SingleResponse<Tariff> = await restClient.getTariff(masterTariffId, request);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      if(response.result == null) fail(`response.result null`);
+      expect(response.result.masterTariffId).toEqual(masterTariffId);
+      expect(response.result.documents).toBeDefined();
+      if(response.result.documents == null) fail(`response.result does not contain documents`);
+      expect(isTariffDocument(response.result.documents[0])).toEqual(true)
+    })
     it("returns a tariff with rates and properties", async () => {
       const masterTariffId = 522;
       const tariffRequest: GetTariffRequest = new GetTariffRequest();
@@ -154,6 +169,24 @@ describe("Tariff api", () => {
       expect(response.results).toHaveLength(25);
       for(const tariff of response.results) {
         expect(isTariff(tariff)).toBeTruthy();
+      }
+    })
+    it("returns a list of tariffs with documents if populateDocuments true", async () => {
+      const request: GetTariffsRequest = new GetTariffsRequest();
+      request.populateDocuments = true;
+      const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      expect(response.status).toEqual("success");
+      expect(response.type).toEqual(ResourceTypes.TARIFF);
+      expect(response.count).toBeGreaterThan(200);
+      expect(response.results).toHaveLength(25);
+      for(const tariff of response.results) {
+        expect(isTariff(tariff)).toBeTruthy();
+        expect(tariff.documents).toBeDefined();
+        if(tariff.documents) {
+          expect(isTariffDocument(tariff.documents[0])).toBeTruthy();
+        } else {
+          fail('no documents');
+        }
       }
     })
     it("returns a list of tariffs with rates and properties", async () => {

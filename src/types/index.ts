@@ -40,7 +40,9 @@ export {
   hasVariableOrCalculationFactor,
   isTariffProperty,
   toTariffFromApi,
-  uniquePropertyKeys
+  uniquePropertyKeys,
+  TariffDocument,
+  isTariffDocument
 } from './tariff';
 
 export {

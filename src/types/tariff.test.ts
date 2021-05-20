@@ -20,7 +20,9 @@ import {
   toTariffFromApi,
   hasVariableOrCalculationFactor,
   isTariffProperty,
-  TariffPropertyType
+  TariffPropertyType,
+  TariffDocument,
+  isTariffDocument
 } from './tariff';
 
 describe("tariff types", () => {
@@ -32,6 +34,62 @@ describe("tariff types", () => {
       expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
     })
     it("should handle non empty string", () => {
+      const chargeClassString = "SUPPLY";
+      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
+      expect(chargeClassesObj.values.length).toEqual(1);
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.SUPPLY);
+      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClass(ChargeClass.SUPPLY));
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.SUPPLY]));
+    })
+    it("should initialize multiple value string", () => {
+      const chargeClassString = "TRANSMISSION,TAX";
+      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
+      expect(chargeClassesObj.values.length).toEqual(2);
+      expect(chargeClassesObj.values).toEqual(chargeClassString.split(','));
+      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.TRANSMISSION);
+      expect(chargeClassesObj.values[1]).toEqual(ChargeClass.TAX);
+      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.TAX]));
+    })
+  })
+  describe("test for TariffDocument", () => {
+    it("should have tariffId", () => {
+      const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 3274100,"documentId": 42165,"documentSectionId": 84409,"document": { }}');
+      expect(tariffDocument.tariffId).toEqual(3274100);
+      expect(tariffDocument.documentId).toEqual(42165);
+      expect(tariffDocument.documentSectionId).toEqual(84409);
+    })
+    it("should have document", () => {
+      const tariffDocument: TariffDocument = {
+        "tariffId": 3274100,
+        "documentId": 42165,
+        "documentSectionId": 84409,
+        "document": { 
+          "documentId": 1,
+          "documentTitle": "E1 - Residential",
+          "sectionTypes": "RIDER,TARIFF",
+          "sourceUrl": "",
+          "sourceContentType": "application/pdf",
+          "lseId": 1,
+          "lseName": "Pacific Gas & Electric Co",
+          "sequenceNumber": 1
+        }
+      };
+      const documentJson = '{\
+        "documentId": 1,\
+        "documentTitle": "E1 - Residential",\
+        "sectionTypes": "RIDER,TARIFF",\
+        "sourceUrl": "",\
+        "sourceContentType": "application/pdf",\
+        "lseId": 1,\
+        "lseName": "Pacific Gas & Electric Co",\
+        "sequenceNumber": 1\
+        }';
+      const document: Document = JSON.parse(documentJson);
+      expect(tariffDocument.document).toEqual(document);
+    })
+    it("should have document", () => {
       const chargeClassString = "SUPPLY";
       const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
       expect(chargeClassesObj.values.length).toEqual(1);
@@ -571,5 +629,41 @@ describe("isTariffProperty function", () => {
     expect(tariffProperty.propertyTypes).toEqual(TariffPropertyType.APPLICABILITY);
     expect(tariffProperty.dataType).toEqual(PropertyDataType.STRING);
     expect(isTariffProperty(tariffProperty)).toEqual(true);
+  })
+})
+
+describe("isTariffDocument function", () => {
+  it("should return false with no tariffId", () => {
+    const tariffDocument: TariffDocument = JSON.parse('{"documentId": 42165,"documentSectionId": 84409,"document": { }}');
+    expect(isTariffDocument(tariffDocument)).toEqual(false);
+  })
+  
+  it("should return false with no document", () => {
+    const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 1, "documentId": 42165,"documentSectionId": 84409}');
+    expect(isTariffDocument(tariffDocument)).toEqual(false);
+  })
+
+  it("should return false with empty document", () => {
+    const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 1, "documentId": 42165,"documentSectionId": 84409,"document": { }}');
+    expect(isTariffDocument(tariffDocument)).toEqual(false);
+  })
+
+  it("should return true with all possible values", () => {
+    const tariffDocument: TariffDocument = {
+      "tariffId": 3274100,
+      "documentId": 42165,
+      "documentSectionId": 84409,
+      "document": { 
+        "documentId": 1,
+        "documentTitle": "E1 - Residential",
+        "sectionTypes": "RIDER,TARIFF",
+        "sourceUrl": "",
+        "sourceContentType": "application/pdf",
+        "lseId": 1,
+        "lseName": "Pacific Gas & Electric Co",
+        "sequenceNumber": 1
+      }
+    };
+    expect(isTariffDocument(tariffDocument)).toEqual(true);
   })
 })

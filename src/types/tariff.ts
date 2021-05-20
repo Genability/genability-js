@@ -1,6 +1,7 @@
 import { GenPropertyKey } from '../types';
 import { ServiceType } from './load-serving-entity';
 import { Territory } from './territory';
+import { Document, isDocument } from './document';
 import { Season, PredominanceRule } from './season';
 import { TimeOfUse } from './time-of-use';
 import { PrivacyFlag } from './property-key';
@@ -116,7 +117,12 @@ export enum ProrationRule {
   SPLIT_DEMAND_VERSION_CHANGE = "SPLIT_DEMAND_VERSION_CHANGE",
   SINGLE_DEMAND_SEASON_CHANGE = "SINGLE_DEMAND_SEASON_CHANGE",
 }
-
+export interface TariffDocument {
+  tariffId: number;
+  documentId: number;
+  documentSectionId: number;
+  document: Document;
+}
 export interface Tariff {
   tariffId: number;
   masterTariffId: number;
@@ -157,6 +163,7 @@ export interface Tariff {
   hasNetMetering?: boolean | null;
   properties?: TariffProperty[];
   rates?: TariffRate[];
+  documents?: TariffDocument[];
 }
 
 
@@ -238,6 +245,14 @@ export function toTariffFromApi(json: any): Tariff {
 /**
  * User Defined Type Guard for Tariff
  */
+export function isTariffDocument(arg: TariffDocument): arg is TariffDocument {
+  return arg.tariffId !== undefined &&
+    arg.documentId !== undefined &&
+    arg.documentSectionId !== undefined &&
+    arg.document !== undefined &&
+    isDocument(arg.document)
+}
+
 export function isTariff(arg: Tariff): arg is Tariff {
   return arg.tariffId !== undefined &&
     arg.masterTariffId !== undefined &&

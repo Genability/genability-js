@@ -7,6 +7,7 @@ import {
   SingleResponse,
   PagedResponse,
 } from './contract';
+import {ResourceTypes} from "../types";
 
 export interface RestApiCredentialsObject {
   appId?: string;
@@ -115,7 +116,12 @@ export abstract class RestApiClient {
   }
 
   private async getCredentials(): Promise<RestApiCredentialsObject> {
-    return typeof this._credentials === "function" ? (await this._credentials()) as RestApiCredentialsObject : this._credentials;
+    const credentials: RestApiCredentialsObject = typeof this._credentials === "function" ? (await this._credentials()) as RestApiCredentialsObject : this._credentials;
+    if (credentials.proxyReq) {
+      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
+    }
+
+    return credentials;
   }
 
   private static getHeaders(credentials: RestApiCredentialsObject): AxiosRequestConfig {

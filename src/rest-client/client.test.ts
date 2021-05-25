@@ -1,12 +1,12 @@
 const axiosInstanceMock = {
   interceptors: {
     request: {
-      use: (fn: Function) => {
+      use: (): object => {
         return {};
       }
     }
   },
-  get: () => {
+  get: (): object => {
     return {
       data: {}
     };
@@ -15,7 +15,7 @@ const axiosInstanceMock = {
 
 jest.mock('axios', () => {
   return {
-    create: (obj: object) => {
+    create: (): object => {
       return axiosInstanceMock;
     }
   }

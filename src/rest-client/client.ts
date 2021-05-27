@@ -225,4 +225,49 @@ export abstract class RestApiClient {
     }
   }
 
+  async patch<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig | undefined,
+    responseProcessor?: ResponseInterceptorFunction | undefined
+  ): Promise<SingleResponse<T>> {
+    try {
+      const response = await this.axiosInstance.patch(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
+      if(responseProcessor) {
+        responseProcessor(response);
+      }
+      return new SingleResponse(response.data);
+    } catch (err) {
+      if(isResponse(err.response.data)) {
+        return new SingleResponse(err.response.data);
+      } else if (axios.isAxiosError(err)) {
+        return new SingleResponse(axiosErrorToResponse(err));
+      } else {
+        return new SingleResponse(exceptionToResponse(err));
+      }
+    }
+  }
+
+  async delete<T>(
+    url: string,
+    config?: AxiosRequestConfig | undefined,
+    responseProcessor?: ResponseInterceptorFunction | undefined
+  ): Promise<SingleResponse<T>> {
+    try {
+      const response = await this.axiosInstance.delete(url, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
+      if(responseProcessor) {
+        responseProcessor(response);
+      }
+      return new SingleResponse(response.data);
+    } catch (err) {
+      if(isResponse(err.response.data)) {
+        return new SingleResponse(err.response.data);
+      } else if (axios.isAxiosError(err)) {
+        return new SingleResponse(axiosErrorToResponse(err));
+      } else {
+        return new SingleResponse(exceptionToResponse(err));
+      }
+    }
+  }
+
 }

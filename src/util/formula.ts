@@ -16,7 +16,7 @@ export class Formula {
     //
     // if there are no legitimate properties do not evaluate
     //
-    if (!formula || !formula.includes('#')) {
+    if (!formula || !formula.includes(this.VARIABLE_PREFIX)) {
       return new Set();
     }
 

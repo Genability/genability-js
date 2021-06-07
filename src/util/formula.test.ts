@@ -12,7 +12,7 @@ describe('Test getProperties function', () => {
     expect(properties).toContain('excessKVAR406');
   });
 
-  it('should return empty list from formula with function and without properties', () => {
+  it('should return empty set from formula with function and without properties', () => {
     const formula = '#fnMin ( { 100 , 200 } )';
 
     const properties = Formula.getProperties(formula);
@@ -21,7 +21,7 @@ describe('Test getProperties function', () => {
     expect(properties.size).toEqual(0);
   });
 
-  it('should return empty list from formula without properties', () => {
+  it('should return empty set from formula without properties', () => {
     const formula = '100 + 200 / 50';
 
     const properties = Formula.getProperties(formula);
@@ -30,7 +30,7 @@ describe('Test getProperties function', () => {
     expect(properties.size).toEqual(0);
   });
 
-  it('should return empty list from empty formula', () => {
+  it('should return empty set from empty formula', () => {
     const formula = '';
 
     const properties = Formula.getProperties(formula);

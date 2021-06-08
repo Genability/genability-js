@@ -1,7 +1,20 @@
 import { Formula } from "./formula";
 
 describe('Test getProperties function', () => {
-  it('should return all non-function properties from formula with properties', () => {
+  it('should return all properties from formula with properties', () => {
+    const formula = '( #tariffRateBand.consumptionUpperLimit + #dailyMedicalAllowance ) * #tariffRateBand.propertyUpperLimit   * #billingPeriod.days';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(4);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+    expect(properties).toContain('dailyMedicalAllowance');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
+    expect(properties).toContain('billingPeriod.days');
+  });
+
+  it('should return all non-function properties from formula with function and properties', () => {
     const formula = '#fnMaxUpperLimit ( { #billingDemand + ( #excessKVAR406 / 20 ) , 0 } )';
 
     const properties = Formula.getProperties(formula);

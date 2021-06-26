@@ -30,7 +30,8 @@ export class TariffRateFactory {
       transactionType: TransactionType.BUY,
       rateBands: [{
         rateAmount,
-        rateUnit: isFixedAmount ? RateUnit.COST_PER_UNIT : RateUnit.PERCENTAGE
+        rateUnit: isFixedAmount ? RateUnit.COST_PER_UNIT : RateUnit.PERCENTAGE,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -70,7 +71,8 @@ export class TariffRateFactory {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -93,7 +95,8 @@ export class TariffRateFactory {
       chargeType: ChargeType.DEMAND_BASED,
       quantityKey,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -116,7 +119,8 @@ export class TariffRateFactory {
       transactionType: TransactionType.BUY,
       quantityKey,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -138,7 +142,8 @@ export class TariffRateFactory {
       transactionType: TransactionType.BUY,
       quantityKey,
       rateBands: [{
-        rateUnit: RateUnit.PERCENTAGE
+        rateUnit: RateUnit.PERCENTAGE,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -160,7 +165,8 @@ export class TariffRateFactory {
       chargePeriod,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -183,7 +189,8 @@ export class TariffRateFactory {
       transactionType: TransactionType.BUY,
       quantityKey,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;
@@ -206,7 +213,8 @@ export class TariffRateFactory {
       transactionType: TransactionType.BUY,
       quantityKey,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     return tariffRate;

@@ -26,6 +26,7 @@ describe('Test createTaxRate method', () => {
         transactionType: TransactionType.BUY,
         rateBands: [{
           rateAmount: 5000,
+          rateSequenceNumber: 1,
           rateUnit: RateUnit.COST_PER_UNIT 
         }]
       }
@@ -49,6 +50,7 @@ describe('Test createTaxRate method', () => {
         transactionType: TransactionType.BUY,
         rateBands: [{
           rateAmount: 5000,
+          rateSequenceNumber: 1,
           rateUnit: RateUnit.COST_PER_UNIT 
         }]
       }
@@ -72,6 +74,7 @@ describe('Test createTaxRate method', () => {
         transactionType: TransactionType.BUY,
         rateBands: [{
           rateAmount: 5000,
+          rateSequenceNumber: 1,
           rateUnit: RateUnit.PERCENTAGE 
         }]
       }
@@ -93,7 +96,8 @@ describe('Test createTaxRate method', () => {
         chargePeriod: ChargePeriod.MONTHLY,
         transactionType: TransactionType.BUY,
         rateBands: [{
-          rateUnit: RateUnit.PERCENTAGE 
+          rateUnit: RateUnit.PERCENTAGE,
+          rateSequenceNumber: 1,
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
@@ -117,7 +121,8 @@ describe('Test createConsumptionRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createConsumptionRate(
@@ -138,7 +143,8 @@ describe('Test createConsumptionRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateSequenceNumber: 1,
+        rateUnit: RateUnit.COST_PER_UNIT,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createConsumptionRate();
@@ -160,7 +166,8 @@ describe('Test createDemandRate method', () => {
       chargeType: ChargeType.DEMAND_BASED,
       quantityKey: 'quantityKey',
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createDemandRate(
@@ -182,7 +189,8 @@ describe('Test createDemandRate method', () => {
       transactionType: TransactionType.BUY,
       quantityKey: 'demand',
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createDemandRate();
@@ -204,7 +212,8 @@ describe('Test createQuantityRate method', () => {
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createQuantityRate(
@@ -225,7 +234,8 @@ describe('Test createQuantityRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createQuantityRate();
@@ -246,7 +256,8 @@ describe('Test createPercentageRate method', () => {
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
       rateBands: [{
-        rateUnit: RateUnit.PERCENTAGE
+        rateUnit: RateUnit.PERCENTAGE,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createPercentageRate(
@@ -266,7 +277,8 @@ describe('Test createPercentageRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.PERCENTAGE
+        rateUnit: RateUnit.PERCENTAGE,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createPercentageRate();
@@ -287,7 +299,8 @@ describe('Test createFixedRate method', () => {
       chargePeriod: ChargePeriod.QUARTERLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createFixedRate(
@@ -308,7 +321,8 @@ describe('Test createFixedRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createFixedRate();
@@ -330,7 +344,8 @@ describe('Test createMinimumRate method', () => {
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMinimumRate(
@@ -351,7 +366,8 @@ describe('Test createMinimumRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMinimumRate();
@@ -373,7 +389,8 @@ describe('Test createMaximumRate method', () => {
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMaximumRate(
@@ -394,7 +411,8 @@ describe('Test createMaximumRate method', () => {
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{
-        rateUnit: RateUnit.COST_PER_UNIT
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMaximumRate();
@@ -419,10 +437,12 @@ describe('Test copyRate method', () => {
       quantityKey: 'quantityKey',
       rateBands: [{
         tariffRateBandId: 100,
-        tariffRateId: 1
+        tariffRateId: 1,
+        rateSequenceNumber: 1,
       }, {
         tariffRateBandId: 101,
-        tariffRateId: 1
+        tariffRateId: 1,
+        rateSequenceNumber: 2,
       }]
     }
     const tariffRateDeepCopy: TariffRate = TariffRateFactory.copyRate(tariffRate);

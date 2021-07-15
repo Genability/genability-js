@@ -138,6 +138,7 @@ export class TariffRateFactory {
       tariffSequenceNumber: null,
       rateGroupName,
       rateName,
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey,

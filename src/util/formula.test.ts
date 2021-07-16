@@ -1,6 +1,46 @@
 import { Formula } from "./formula";
 
 describe('Test getProperties function', () => {
+  it('should return properties from formula #tariffRateBand.consumptionUpperLimit', () => {
+    const formula = '#tariffRateBand.consumptionUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+  });
+
+  it('should return properties from formula #tariffRateBand.propertyUpperLimit', () => {
+    const formula = '#tariffRateBand.propertyUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
+  });
+
+  it('should return properties from formula #tariffRateBand.demandUpperLimit', () => {
+    const formula = '#tariffRateBand.demandUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.demandUpperLimit');
+  });
+
+  it('should return properties from formula #tariffRateBand.calculationFactor', () => {
+    const formula = '#tariffRateBand.calculationFactor';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.calculationFactor');
+  });
+
   it('should return all properties from formula with properties', () => {
     const formula = '( #tariffRateBand.consumptionUpperLimit + #dailyMedicalAllowance ) * #tariffRateBand.propertyUpperLimit   * #billingPeriod.days';
 

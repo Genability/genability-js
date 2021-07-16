@@ -75,6 +75,58 @@ describe('Test getProperties function', () => {
     expect(properties).toContain('tariffRateBand.demandUpperLimit');
   });
 
+  it('should return properties from formula #fnMinUpperLimit( { ( #tariffRateBand.propertyUpperLimit?:9999999 ) * #demand , ( #tariffRateBand.prevUpperLimit + ( #tariffRateBand.consumptionUpperLimit?:9999999 ) ) } ) #tariffRateBand.consumptionUpperLimit * #tariffRateBand.propertyUpperLimit * #billingPeriod.days * ( #billingPeriod.rateUsage / #billingPeriod.kWh ) + ( #dailyMedicalAllowance * #billingPeriod.days * ( #billingPeriod.rateUsage / #billingPeriod.kWh ) )', () => {
+    const formula = '#fnMinUpperLimit( { ( #tariffRateBand.propertyUpperLimit?:9999999 ) * #demand , ( #tariffRateBand.prevUpperLimit + ( #tariffRateBand.consumptionUpperLimit?:9999999 ) ) } ) #tariffRateBand.consumptionUpperLimit * #tariffRateBand.propertyUpperLimit * #billingPeriod.days * ( #billingPeriod.rateUsage / #billingPeriod.kWh ) + ( #dailyMedicalAllowance * #billingPeriod.days * ( #billingPeriod.rateUsage / #billingPeriod.kWh ) )';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(10);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit?:9999999');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit?:9999999');
+    expect(properties).toContain('tariffRateBand.prevUpperLimit');
+    expect(properties).toContain('billingPeriod.days');
+    expect(properties).toContain('billingPeriod.rateUsage');
+    expect(properties).toContain('billingPeriod.kWh');
+    expect(properties).toContain('dailyMedicalAllowance');
+    expect(properties).toContain('demand');
+  });
+
+  it('should return properties from formula ( ( #ratchet4BillingDemand3086 * #tariffRateBand.propertyUpperLimit ) + #tariffRateBand.consumptionUpperLimit )', () => {
+    const formula = '( ( #ratchet4BillingDemand3086 * #tariffRateBand.propertyUpperLimit ) + #tariffRateBand.consumptionUpperLimit )';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(3);
+    expect(properties).toContain('ratchet4BillingDemand3086');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+  });
+
+  it('should return properties from formula #fnMaxUpperLimit( { ( #tariffRateBand.propertyUpperLimit?:9999999 ) * #ratchetCurtailableBillingDemand1579 , #tariffRateBand.consumptionUpperLimit?:99999 } )', () => {
+    const formula = '#fnMaxUpperLimit( { ( #tariffRateBand.propertyUpperLimit?:9999999 ) * #ratchetCurtailableBillingDemand1579 , #tariffRateBand.consumptionUpperLimit?:99999 } )';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(3);
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit?:9999999');
+    expect(properties).toContain('ratchetCurtailableBillingDemand1579');
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit?:99999');
+  });
+
+  it('should return properties from formula #tariffRateBand.demandUpperLimit * #tariffRateBand.calculationFactor', () => {
+    const formula = '#tariffRateBand.demandUpperLimit * #tariffRateBand.calculationFactor';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(2);
+    expect(properties).toContain('tariffRateBand.demandUpperLimit');
+    expect(properties).toContain('tariffRateBand.calculationFactor');
+  });
+
   it('should return all properties from formula with properties', () => {
     const formula = '( #tariffRateBand.consumptionUpperLimit + #dailyMedicalAllowance ) * #tariffRateBand.propertyUpperLimit   * #billingPeriod.days';
 

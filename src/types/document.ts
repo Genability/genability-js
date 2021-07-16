@@ -5,7 +5,7 @@ import { CustomerClass } from './tariff';
 export interface Document {
   documentId: number;
   documentTitle: string;
-  sectionTypes: string;
+  sectionTypes?: string;
   archiveUrl?: string;
   sourceUrl: string;
   sourceContentType: string;
@@ -33,7 +33,6 @@ export interface DocumentSection {
 export function isDocument(arg: Document): arg is Document {
   return arg.documentId !== undefined &&
     arg.documentTitle !== undefined &&
-    arg.sectionTypes !== undefined &&
     arg.sourceUrl !== undefined &&
     arg.sourceContentType !== undefined &&
     arg.lseId !== undefined &&

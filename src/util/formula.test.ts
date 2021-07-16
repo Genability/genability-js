@@ -41,6 +41,40 @@ describe('Test getProperties function', () => {
     expect(properties).toContain('tariffRateBand.calculationFactor');
   });
 
+  it('should return properties from formula ( #tariffRateBand.consumptionUpperLimit * #billingDemand1065 ) + ( #tariffRateBand.propertyUpperLimit )', () => {
+    const formula = '( #tariffRateBand.consumptionUpperLimit * #billingDemand1065 ) + ( #tariffRateBand.propertyUpperLimit )';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(3);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+    expect(properties).toContain('billingDemand1065');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
+  });
+
+  it('should return properties from formula #capacityReservationLevel * #tariffRateBand.consumptionUpperLimit', () => {
+    const formula = '#capacityReservationLevel * #tariffRateBand.consumptionUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(2);
+    expect(properties).toContain('capacityReservationLevel');
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+  });
+
+  it('should return properties from formula #tariffRateBand.consumptionUpperLimit * #tariffRateBand.demandUpperLimit', () => {
+    const formula = '#tariffRateBand.consumptionUpperLimit * #tariffRateBand.demandUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(2);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+    expect(properties).toContain('tariffRateBand.demandUpperLimit');
+  });
+
   it('should return all properties from formula with properties', () => {
     const formula = '( #tariffRateBand.consumptionUpperLimit + #dailyMedicalAllowance ) * #tariffRateBand.propertyUpperLimit   * #billingPeriod.days';
 

@@ -69,7 +69,7 @@ export class TariffRateFactory {
       rateName,
       chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.BUY,
+      transactionType: TransactionType.NET,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,

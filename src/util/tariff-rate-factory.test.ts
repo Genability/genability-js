@@ -252,6 +252,7 @@ describe('Test createPercentageRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'rateGroupName',
       rateName: 'rateName',
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       quantityKey: 'quantityKey',
@@ -274,6 +275,7 @@ describe('Test createPercentageRate method', () => {
       tariffSequenceNumber: null,
       rateGroupName: 'Other Charges',
       rateName: 'Percentage Rate',
+      chargeType: ChargeType.QUANTITY,
       chargePeriod: ChargePeriod.MONTHLY,
       transactionType: TransactionType.BUY,
       rateBands: [{

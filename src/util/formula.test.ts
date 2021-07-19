@@ -82,8 +82,8 @@ describe('Test getProperties function', () => {
 
     expect(properties).toBeTruthy();
     expect(properties.size).toEqual(10);
-    expect(properties).toContain('tariffRateBand.consumptionUpperLimit?:9999999');
-    expect(properties).toContain('tariffRateBand.propertyUpperLimit?:9999999');
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
     expect(properties).toContain('tariffRateBand.prevUpperLimit');
     expect(properties).toContain('billingPeriod.days');
     expect(properties).toContain('billingPeriod.rateUsage');

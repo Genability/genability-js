@@ -119,7 +119,7 @@ describe('Test createConsumptionRate method', () => {
       rateName: 'rateName',
       chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.BUY,
+      transactionType: TransactionType.NET,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,
@@ -141,7 +141,7 @@ describe('Test createConsumptionRate method', () => {
       rateName: 'Energy Charge',
       chargeType: ChargeType.CONSUMPTION_BASED,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.BUY,
+      transactionType: TransactionType.NET,
       rateBands: [{
         rateSequenceNumber: 1,
         rateUnit: RateUnit.COST_PER_UNIT,

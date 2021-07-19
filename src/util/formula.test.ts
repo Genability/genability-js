@@ -11,6 +11,24 @@ describe('Test getProperties function', () => {
     expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
   });
 
+  it('should return properties from formula #tariffRateBand.consumptionUpperLimit?', () => {
+    const formula = '#tariffRateBand.consumptionUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+  });
+
+  it('should return properties from formula #tariffRateBand.consumptionUpperLimit?:999999', () => {
+    const formula = '#tariffRateBand.consumptionUpperLimit';
+
+    const properties = Formula.getProperties(formula);
+    expect(properties).toBeTruthy();
+    expect(properties.size).toEqual(1);
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
+  });
+
   it('should return properties from formula #tariffRateBand.propertyUpperLimit', () => {
     const formula = '#tariffRateBand.propertyUpperLimit';
 

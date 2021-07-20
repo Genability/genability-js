@@ -12,7 +12,7 @@ describe('Test getProperties function', () => {
   });
 
   it('should return properties from formula #tariffRateBand.consumptionUpperLimit?', () => {
-    const formula = '#tariffRateBand.consumptionUpperLimit';
+    const formula = '#tariffRateBand.consumptionUpperLimit?';
 
     const properties = Formula.getProperties(formula);
     expect(properties).toBeTruthy();
@@ -21,7 +21,7 @@ describe('Test getProperties function', () => {
   });
 
   it('should return properties from formula #tariffRateBand.consumptionUpperLimit?:999999', () => {
-    const formula = '#tariffRateBand.consumptionUpperLimit';
+    const formula = '#tariffRateBand.consumptionUpperLimit?:999999';
 
     const properties = Formula.getProperties(formula);
     expect(properties).toBeTruthy();
@@ -99,7 +99,7 @@ describe('Test getProperties function', () => {
     const properties = Formula.getProperties(formula);
 
     expect(properties).toBeTruthy();
-    expect(properties.size).toEqual(10);
+    expect(properties.size).toEqual(8);
     expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
     expect(properties).toContain('tariffRateBand.propertyUpperLimit');
     expect(properties).toContain('tariffRateBand.prevUpperLimit');
@@ -129,9 +129,9 @@ describe('Test getProperties function', () => {
 
     expect(properties).toBeTruthy();
     expect(properties.size).toEqual(3);
-    expect(properties).toContain('tariffRateBand.propertyUpperLimit?:9999999');
+    expect(properties).toContain('tariffRateBand.propertyUpperLimit');
     expect(properties).toContain('ratchetCurtailableBillingDemand1579');
-    expect(properties).toContain('tariffRateBand.consumptionUpperLimit?:99999');
+    expect(properties).toContain('tariffRateBand.consumptionUpperLimit');
   });
 
   it('should return properties from formula #tariffRateBand.demandUpperLimit * #tariffRateBand.calculationFactor', () => {

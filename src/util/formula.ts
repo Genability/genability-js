@@ -7,7 +7,7 @@ export class Formula {
 
   private static readonly EMPTY = '';
 
-  private static readonly REGEX_NULL_SAFE = '\\?';
+  private static readonly REGEX_NULL_SAFE = new RegExp("\\?(.*)", "g");
 
 
   public static getProperties(
@@ -36,14 +36,11 @@ export class Formula {
       let cleanProperty = secondSplit[0].replace(',', this.EMPTY);
 
       // The ? denotes handling of nulls, so for purposes
-      // of determining the formulas, we ignore the ? characters.
+      // of determining the formulas, we ignore the ? character and anything after it.
       cleanProperty = cleanProperty.replace(this.REGEX_NULL_SAFE, this.EMPTY);
 
       properties.add(cleanProperty);
     }
-
-    // Note: At this point in the corresponding Java code we register all of the function variables into
-    // the StandardEvaluationContext, but that is pretty meaningless in this function
 
     return properties;
   }

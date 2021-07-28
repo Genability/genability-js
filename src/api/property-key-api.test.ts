@@ -2,24 +2,26 @@ import {
   PropertyKeyApi, 
   GetPropertyKeysRequest 
 } from './property-key-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, isResponseError } from '../rest-client'
 import {
-  ResourceTypes,
   GenPropertyKey,
-  DataType,
+  PropertyDataType,
+  CommonPropertyKeyNames,
   isGenPropertyKey
-} from '../types';
+} from '../types/property-key';
+
+import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new PropertyKeyApi(credentials);
 
 const demandPk: GenPropertyKey = {
-  dataType: DataType.DEMAND, 
+  dataType: PropertyDataType.DEMAND, 
   description: "Quantity in kW of load that is used for a given period", 
   displayName: "Demand (kW)", 
   family: "load",
-  keyName: "demand",
+  keyName: CommonPropertyKeyNames.DEMAND,
   keyspace: "electricity"
 }
 
@@ -61,7 +63,7 @@ describe("GetPropertyKeys request", () => {
       request.family = 'family';
       request.entityId = 734;
       request.entityType = 'LSE';
-      request.dataType = DataType.DEMAND;
+      request.dataType = PropertyDataType.DEMAND;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
     })
@@ -88,8 +90,16 @@ describe("GetPropertyKeys request", () => {
 describe("PropertyKey api", () => {
   describe("get one endpoint", () => {
     it("returns the demand property key", async () => {
-      const pk: GenPropertyKey = await restClient.getPropertyKey('demand');
-      expect(pk).toEqual(demandPk);
+      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey(CommonPropertyKeyNames.DEMAND);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result).toEqual(demandPk);
+    })
+    it("returns error on bad property key", async () => {
+      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey("ThisPr0pertyKeyD03sN0tExist");
+      expect(response.errors).toBeTruthy();
+      expect(response.result).toBeNull();
+      expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     })
   })
   describe("get n endpoint", () => {

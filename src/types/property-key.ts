@@ -1,34 +1,43 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
-
 export enum PrivacyFlag {
-  PUBLIC = <any>"PUBLIC",
-  UNLISTED = <any>"UNLISTED",
-  PRIVATE = <any>"PRIVATE",
+  PUBLIC = "PUBLIC",
+  UNLISTED = "UNLISTED",
+  PRIVATE = "PRIVATE",
 }
 
-export enum DataType {
-  STRING = <any>"STRING",
-  CHOICE = <any>"CHOICE",
-  BOOLEAN = <any>"BOOLEAN",
-  DATE = <any>"DATE",
-  DECIMAL = <any>"DECIMAL",
-  INTEGER = <any>"INTEGER",
-  FORMULA = <any>"FORMULA",
-  LOOKUP = <any>"LOOKUP",
-  DEMAND = <any>"DEMAND"
+export enum PropertyDataType {
+  STRING = "STRING",
+  CHOICE = "CHOICE",
+  BOOLEAN = "BOOLEAN",
+  DATE = "DATE",
+  DECIMAL = "DECIMAL",
+  INTEGER = "INTEGER",
+  FORMULA = "FORMULA",
+  LOOKUP = "LOOKUP",
+  DEMAND = "DEMAND"
 };
+
+export const CommonPropertyKeyNames = {
+  CONSUMPTION: "consumption",
+  DEMAND: "demand",
+  CITY_LIMITS: "cityLimits",
+  HAS_ELECTRIC_VEHICLE: "hasElectricVehicle"
+}
 
 export interface GenPropertyKey {
   keyName: string;
+  subKeyname?: string;
   displayName: string;
   family: string;
   keyspace: string;
   description: string;
-  dataType: DataType;
+  dataType: PropertyDataType;
   quantityUnit?: string;
   formulaDetail?: string;
+  lookbackIntervalQuantity?: number;
+  lookbackQuantity?: number;
   lookbackPeriod?: string;
+  lookbackTimeOfUseId?: number;
+  lookbackSeasonId?: number;
   entityId?: number;
   entityType?: string;
   privacy?: PrivacyFlag;
@@ -36,7 +45,7 @@ export interface GenPropertyKey {
 }
 
 export interface GenPropertyChoice {
-  displayValue: number;
+  displayValue: string;
   dataValue: string;
   likelihood?: number;
 }
@@ -44,6 +53,6 @@ export interface GenPropertyChoice {
 /**
  * User Defined Type Guard for GenPropertyKey
  */
-export function isGenPropertyKey(arg: any): arg is GenPropertyKey {
+export function isGenPropertyKey(arg: GenPropertyKey): arg is GenPropertyKey {
   return arg.keyName !== undefined;
 }

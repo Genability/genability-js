@@ -1,19 +1,18 @@
 import * as path from 'path';
 import { readFileSync } from 'fs';
 import { homedir } from 'os';
-import { RestApiCredentials } from './client';
-
+import {RestApiCredentialsObject} from './client';
 export const GENABILITY_DOT_DIRECTORY = '.genability';
 export const CREDENTIALS_FILE_NAME = 'credentials.json';
-const credentialsFilePath = path.join(
-  homedir(),
-  GENABILITY_DOT_DIRECTORY,
-  CREDENTIALS_FILE_NAME,
-);
 
-export function credentialsFromFile(profileName = 'default'): RestApiCredentials {
+export function credentialsFromFile(profileName = 'default'): RestApiCredentialsObject {
   let content;
   try {
+    const credentialsFilePath = path.join(
+      homedir(),
+      GENABILITY_DOT_DIRECTORY,
+      CREDENTIALS_FILE_NAME,
+    );
     content = readFileSync(credentialsFilePath, 'utf8');
   } catch (err) {
     if (err.code === 'ENOENT') {
@@ -24,18 +23,8 @@ export function credentialsFromFile(profileName = 'default'): RestApiCredentials
   }
   if (content == null || content.length === 0) throw new Error('Credentials file is empty');
   const jsonContent = JSON.parse(content);
-  if (Array.isArray(jsonContent)) {
-    const findProfile = jsonContent.filter(
-      (p) => {
-        if (Object.keys(p)[0] === profileName) {
-          return p;
-        }
-        return null;
-      },
-    );
-    const profile = findProfile[0];
-    if (profile) return profile[profileName];
-  }
+  const profile = jsonContent[profileName];
+  if (profile) return profile;
   throw new Error(`Profile ${profileName} not found in credentials file`);
 }
 
@@ -45,7 +34,7 @@ export function credentialsInEnv(): boolean {
   return true;
 }
 
-export function credentialsFromEnv(): RestApiCredentials {
+export function credentialsFromEnv(): RestApiCredentialsObject {
   if (credentialsInEnv()) {
     return {
       appId: process.env.GENABILITY_APP_ID || '',

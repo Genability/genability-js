@@ -2,14 +2,16 @@ export {
   ResourceTypes
 } from './resource-types'
 
-export { 
-  DataType,
+export {
+  PropertyDataType,
   PrivacyFlag,
   GenPropertyKey,
+  GenPropertyChoice,
+  CommonPropertyKeyNames,
   isGenPropertyKey
 } from './property-key';
 
-export { 
+export {
   ServiceType,
   OfferingType,
   Ownership,
@@ -17,21 +19,99 @@ export {
   isLoadServingEntity
 } from './load-serving-entity';
 
-export { 
+export {
   TariffType,
   CustomerClass,
   ChargeType,
   ChargeClass,
+  ChargeClasses,
   ChargePeriod,
   TransactionType,
-  PropertyType,
-  Period,
+  TariffPropertyType,
+  TimeOfUseType,
+  ProrationRule,
   RateUnit,
   TariffProperty,
+  TariffRate,
+  TariffRateBand,
   Tariff,
-  isTariff
+  isTariff,
+  hasTiers,
+  hasVariableOrCalculationFactor,
+  isTariffProperty,
+  toTariffFromApi,
+  uniquePropertyKeys,
+  TariffDocument,
+  isTariffDocument
 } from './tariff';
 
-export { Territory } from './territory';
-export { Season } from './season';
-export { TimeOfUse } from './time-of-use';
+export {
+  CalculatedCostSummary,
+  GroupBy,
+  DetailLevel,
+  CalculatedCost,
+  CalculatedCostItem,
+  PropertyData,
+  isCalculatedCost
+} from './on-demand-cost-calculation'
+
+export {
+  UsageType,
+  ItemType,
+  CenterPoint,
+  TerritoryItem,
+  TerritoryLse,
+  Territory,
+  isTerritory
+} from './territory';
+
+export {
+  PredominanceRule,
+  Season,
+  SeasonGroup,
+  isSeasonGroup,
+  isSeason
+} from './season';
+
+export {
+  TimeOfUse,
+  TimeOfUseGroup,
+  TimeOfUseInterval,
+  isTimeOfUseInterval,
+  isTimeOfUsePeriod,
+  isTimeOfUse,
+  isTimeOfUseGroup
+} from './time-of-use';
+
+export {
+  LookupValue,
+  isLookupValue,
+  LookupStats,
+  isLookupStats
+} from './lookup'
+
+export {
+  MeasureUnit,
+  Baseline,
+  BaselineMeasure,
+  IntervalInfo,
+  Factor,
+  BuildingType,
+  isBaseline,
+  suitableTypicalBuildingIdForTariff
+} from './typical-baseline'
+
+export {
+  CalendarType,
+  Calendar,
+  DateDefinitionType,
+  CalendarDate,
+  isCalendar,
+  isCalendarDate
+} from './calendar';
+
+export {
+  Document,
+  DocumentSection,
+  isDocument
+} from './document';

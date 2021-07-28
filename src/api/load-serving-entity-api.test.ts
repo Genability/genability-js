@@ -1,16 +1,17 @@
 import { 
   LoadServingEntityApi,
-  GetLoadServingEntityRequest
+  GetLoadServingEntitiesRequest
 } from './load-serving-entity-api';
-import { PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse } from '../rest-client'
 import {
-  ResourceTypes,
   LoadServingEntity,
   ServiceType,
   isLoadServingEntity,
   Ownership
-} from '../types';
+} from '../types/load-serving-entity';
+import { ResourceTypes } from '../types/resource-types'
 import { credentialsFromFile } from '../rest-client/credentials';
+import { Fields } from '../rest-client/contract';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new LoadServingEntityApi(credentials);
@@ -18,45 +19,45 @@ const restClient = new LoadServingEntityApi(credentials);
 describe("GetLoadServingEntities request", () => {
   describe("call to queryStringify", () => {
     it("handles no parameters", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
     it("handles postCode parameter", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '1';
       const qs: string = request.queryStringify();
       expect(qs).toEqual('postCode=1');
     })
     it("handles several parameters", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = 'USA';
-      request.fields = 'ext';
-      request.serviceTypes = ServiceType.ELECTRICITY;
+      request.fields = Fields.EXTENDED;
+      request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('country=USA&fields=ext&serviceTypes=ELECTRICITY');
+      expect(qs).toEqual('country=USA&serviceTypes=ELECTRICITY,GAS&fields=ext');
     })
     it("handles undefined parameters", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = undefined;
-      request.fields = undefined;
       request.serviceTypes = undefined;
       request.ownerships = undefined;
+      request.fields = undefined;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
     it("returns all parameters", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.country = 'USA';
-      request.fields = 'ext';
-      request.serviceTypes = ServiceType.ELECTRICITY;
-      request.ownerships = Ownership.INVESTOR;
+      request.fields = Fields.EXTENDED;
+      request.serviceTypes = [ServiceType.ELECTRICITY, ServiceType.GAS];
+      request.ownerships = [Ownership.INVESTOR, Ownership.COOP];
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('postCode=0001&country=USA&fields=ext&serviceTypes=ELECTRICITY&ownerships=INVESTOR');
+      expect(qs).toEqual('postCode=0001&country=USA&serviceTypes=ELECTRICITY,GAS&ownerships=INVESTOR,COOP&fields=ext');
     })
     it("handles both pagination", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.pageCount = 22;
       request.pageStart = 33;
@@ -64,7 +65,7 @@ describe("GetLoadServingEntities request", () => {
       expect(qs).toEqual('postCode=0001&pageStart=33&pageCount=22');
     })
     it("handles both pagination via constructor", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest({
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest({
         pageCount: 22,
         pageStart: 33
       });
@@ -78,17 +79,19 @@ describe("GetLoadServingEntities request", () => {
 describe("LoadServingEntity api", () => {
   describe("get one endpoint", () => {
     it("returns the load serving entity", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
-      const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
-      const { lseId } = response.results[0];
-      const lse: LoadServingEntity = await restClient.getLoadServingEntity(lseId);
-      expect(lse).toEqual(response.results[0]);
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
+      const assignResponse: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
+      const { lseId } = assignResponse.results[0];
+      const response: SingleResponse<LoadServingEntity> = await restClient.getLoadServingEntity(lseId);
+      expect(response.result).toBeTruthy();
+      expect(response.errors).toBeUndefined();
+      expect(response.result).toEqual(assignResponse.results[0]);
     })
   })
   describe("get n endpoint", () => {
     it("returns a list of load serving entities", async () => {
-      const request: GetLoadServingEntityRequest = new GetLoadServingEntityRequest();
-      request.serviceTypes = ServiceType.ELECTRICITY;
+      const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
+      request.serviceTypes = [ServiceType.ELECTRICITY];
       const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
       expect(response.status).toEqual("success");
       expect(response.type).toEqual(ResourceTypes.LOAD_SERVING_ENTITY);

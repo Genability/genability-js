@@ -2,13 +2,14 @@ import {
   RestApiClient,
   RestApiCredentials,
   PagedResponse,
+  SingleResponse,
   BasePagedRequest,
   AddParamCallback,
-  Constant
+  GenabilityConfig
 } from '../rest-client';
 import {
   GenPropertyKey,
-  DataType
+  PropertyDataType
 } from '../types';
 
 export class GetPropertyKeysRequest extends BasePagedRequest {
@@ -17,7 +18,7 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
   public family?: string;
   public entityId?: number;
   public entityType?: string;
-  public dataType?: DataType;
+  public dataType?: PropertyDataType;
 
   addParams(addParam: AddParamCallback): void {
     addParam('excludeGlobal', this.excludeGlobal);
@@ -31,16 +32,15 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
 
 export class PropertyKeyApi extends RestApiClient {
   public constructor(credentials: RestApiCredentials) {
-    super(Constant.baseURL, credentials);
+    const Config = GenabilityConfig.config();
+    super(Config.baseURL, credentials);
   }
 
   public async getPropertyKeys(request: GetPropertyKeysRequest): Promise<PagedResponse<GenPropertyKey>> {
-    const response = await this.axiosInstance.get(`/rest/public/properties`, { params: request } );
-    return new PagedResponse(response.data);
+    return this.getPaged(`/rest/public/properties`, { params: request } );
   }
 
-  public async getPropertyKey(keyName: string): Promise<GenPropertyKey> {
-    const response = await this.axiosInstance.get(`/rest/public/properties/${keyName}`);
-    return response.data.results[0];
+  public async getPropertyKey(keyName: string): Promise<SingleResponse<GenPropertyKey>> {
+    return this.getSingle(`/rest/public/properties/${keyName}`);
   }
 }

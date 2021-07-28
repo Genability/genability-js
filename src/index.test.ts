@@ -1,18 +1,36 @@
 import { echoHello } from "./index";
 import { Genability, types, restApis } from "./index";
+import { GenabilityConfig } from "./rest-client";
+import { CommonPropertyKeyNames } from './types/property-key';
 
 describe("client", () => {
-  it("should init cleanly", async () => {
+  afterEach(() => {
+    Genability.__deconfigure();
+    GenabilityConfig.__deconfigure();
+  });
 
+  it("should init cleanly", async () => {
     const genability: Genability = Genability.configure({
       profileName: 'unitTest'
     });
-    const demandPk = await genability.properties.getPropertyKey('demand');
-    expect(types.isGenPropertyKey(demandPk)).toBeTruthy;
+    const { result, errors } = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
+    expect(result).toBeTruthy();
+    expect(errors).toBeUndefined();
+    if(result == null) fail(`result null`);
+    expect(types.isGenPropertyKey(result)).toBeTruthy;
     const request = new restApis.GetPropertyKeysRequest();
-    request.dataType = types.DataType.DEMAND;
+    request.dataType = types.PropertyDataType.DEMAND;
     const demandPks = await genability.properties.getPropertyKeys(request);
     expect(demandPks.results).toHaveLength(25);
+  });
+
+  it("should allow setting a proxy URL", async () => {
+    Genability.configure({
+      profileName: 'unitTest',
+      proxy: 'https://test.com'
+    });
+    const Config = GenabilityConfig.config();
+    expect(Config.baseURL).toBe('https://test.com');
   })
 });
 

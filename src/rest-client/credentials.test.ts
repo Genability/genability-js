@@ -9,19 +9,16 @@ import { credentialsFromFile,
 } from './credentials';
 
 const credsDir = `${homedir()}/${GENABILITY_DOT_DIRECTORY}`;
-const contents = [
-  {
-    default: {
-      appId: 'default-appId',
-      appKey: 'default-appKey'
-    },
-  },{
-    unitTest: {
-      appId: 'unit-test-appId',
-      appKey: 'unit-test-appKey'
-    }
+const contents = {
+  default: {
+    appId: 'default-appId',
+    appKey: 'default-appKey'
+  },
+  unitTest: {
+    appId: 'unit-test-appId',
+    appKey: 'unit-test-appKey'
   }
-];
+};
 
 const mockValidDir = {
   [credsDir]: {
@@ -40,6 +37,10 @@ const mockEmptyFileDir = {
 };
 const mockMissingFileDir = {
   [credsDir]: {}
+};
+
+const mockMissingDir = {
+  [credsDir]: ''
 };
 
 describe('Test credentialsFromFile function', () => {
@@ -98,6 +99,16 @@ describe('Test credentialsFromFile function', () => {
         .toThrow(Error('Credentials file not found'));
     });
   });
+  describe('with a missing directory', () => {
+    beforeEach(() => {
+      mock(mockMissingDir);
+    });
+    afterEach(mock.restore);
+    it('should throw a generic error', () => {
+      expect(() => credentialsFromFile('directory not present'))
+        .toThrow();
+    });
+  });
 });
 
 describe('Credentials from environment', () => {
@@ -118,6 +129,19 @@ describe('Credentials from environment', () => {
       const creds: RestApiCredentials = credentialsFromEnv();
       expect(creds.appId).toEqual('default-appId');
       expect(creds.appKey).toEqual('default-appKey');
+    });
+  });
+
+  describe('Without semi valid credentials', () => {
+    beforeEach(() => {
+      process.env.GENABILITY_APP_ID = 'default-appId';
+    });
+    afterEach(() => {
+      delete process.env.GENABILITY_APP_ID;
+    });
+    it('should return false on check for env variables', () => {
+      const check = credentialsInEnv();
+      expect(check).toBe(false);
     });
   });
 

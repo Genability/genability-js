@@ -1,11 +1,8 @@
-import {
-  CustomerClass,
-  TariffType,
-  ChargeType,
-} from '../types'
-
 export function encode(
-  val: string | string[] | number | boolean | CustomerClass[] | TariffType[] | ChargeType[]
+  val: string |
+  string[] |
+  number |
+  boolean,
 ): string {
   let encoded;
   if(Array.isArray(val)) {

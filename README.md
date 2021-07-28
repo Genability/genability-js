@@ -6,12 +6,16 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 
 ## Table of Contents
 
+0. [Genability API credentials](#genability-credentials)
 1. [Basic web front end use](#web-frontend-use)
 2. [Basic npm usage](#npm-use)
 3. [NodeJS backend proxy example](#backend-proxy)
 4. [Maven Plugin for NodeJS](#maven-plugin)
 5. [API usage](#api-use)
 
+## <a name="genability-credentials"></a>Genability API Credentials
+
+If you don't have one already, [you'll need a Genability account](https://developer.genability.com/quick-start/), as well an App ID and App Key, before you get started.
 
 ## Integrations
 ### <a name="web-frontend-use"></a>Basic web front end use:
@@ -21,7 +25,10 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 <script src="/@genability/api/dist/main.js"></script>
 ~~~
 
-#### Instantiate Genability API Client
+#### <a name="frontend-client"></a>Instantiate Genability API Client
+
+For frontend use, the API client will send requests to the url specified in the `proxy` option. Your [backend proxy](#backend-proxy) must provide [Genability API credentials](https://developer.genability.com/quick-start/) and forward the request to `https://api.genability.com`. Do not include your Genability API credentials in user-facing frontend code.
+
 ~~~javascript
 const GenAPIClient = Genability.Client.configure({ proxy: '/genability-api' });
 ~~~
@@ -51,6 +58,44 @@ $ npm install @genability/api --save
 import { Genability } from '@genability/api';
 ~~~
 
+#### Instantiate Genability API Client
+
+For frontend use, [you must specify a `proxy` url and provide credentials on the backend.](#frontend-client).
+
+For backend use in node or other environments, you can provide [Genability API credentials](https://developer.genability.com/quick-start/) to the client in several ways. The client will search for credentials in the following order:
+
+1. Credentials explicitly provided to the API client
+2. Credentials stored as environment variables GEN_APP_ID and GEN_APP_KEY
+3. Credentials stored in a `credentials.json` file in the `.genability` folder in the user's home directory, in this format:
+~~~JSON
+{
+  "profileName" : {
+    "appId":"", // Your Genability appId,
+    "appKey":"" // Your Genability appKey
+  }
+}
+~~~
+
+If the API client doesn't find credentials in any of these places, the request will be sent without any credentials.
+
+Instantiate a client, and optionally provide credentials, like this:
+
+~~~javascript
+const GenAPIClient = Genability.Client.configure({
+  profileName: '',// Optionally specify a profile name to use from your 
+                  // ~/.genability/credentials.js file
+  credentials: {  // Optionally provide credentials explicitly
+    appId: '',    // Your Genability App ID
+    appKey: '',   // Your Genability App Key
+    jwtToken: '', // A JWT token — this can be used to authenticate  requests to a serverless proxy function
+    proxyReq: '', // A function used to create an Axios request interceptor for all requests created by 
+                  // the API, should requests to a proxy function need to be modified
+  }
+});
+~~~
+
+The `credentials` option also accepts a function which returns an object with the above properties.
+
 #### Instantiate a request object
 ~~~javascript
 import { restApis } from '@genability/api';
@@ -73,11 +118,13 @@ const createProxyMiddleware = require('http-proxy-middleware').createProxyMiddle
 
 #### Create ExpressJS Route
 ~~~javascript
+const genabilityAuthString = Buffer.from(`yourGenabilityAppId:yourGenabilityAppKey}`).toString('base64');
+
 app.use('/genability-api', createProxyMiddleware({
     target: 'https://api.genability.com',
     changeOrigin: true,
     onProxyReq: function (proxyReq) {
-        proxyReq.setHeader('Authorization', 'genabilityAuthString');
+        proxyReq.setHeader('Authorization', 'Basic ' + genabilityAuthString);
     },
     pathRewrite: {
         '^/genability-api': '/',

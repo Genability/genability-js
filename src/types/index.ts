@@ -115,3 +115,10 @@ export {
   DocumentSection,
   isDocument
 } from './document';
+
+export {
+  Price,
+  PriceChange,
+  isPriceChange,
+  isPrice
+} from './smart-price';

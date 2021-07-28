@@ -6,12 +6,16 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 
 ## Table of Contents
 
+0. [Genability API credentials](#genability-credentials)
 1. [Basic web front end use](#web-frontend-use)
 2. [Basic npm usage](#npm-use)
 3. [NodeJS backend proxy example](#backend-proxy)
 4. [Maven Plugin for NodeJS](#maven-plugin)
 5. [API usage](#api-use)
 
+## <a name="genability-credentials"></a>Genability API Credentials
+
+If you don't have one already, [you'll need a Genability account](https://developer.genability.com/quick-start/), as well an App ID and App Key, before you get started.
 
 ## Integrations
 ### <a name="web-frontend-use"></a>Basic web front end use:
@@ -23,7 +27,7 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 
 #### <a name="frontend-client"></a>Instantiate Genability API Client
 
-For frontend use, the API client will send requests to the url specified in the `proxy` option. Your [backend proxy](#backend-proxy) must provide Genability API credentials and forward the request to `https://api.genability.com`. Do not include your Genability API credentials in user-facing frontend code.
+For frontend use, the API client will send requests to the url specified in the `proxy` option. Your [backend proxy](#backend-proxy) must provide [Genability API credentials](https://developer.genability.com/quick-start/) and forward the request to `https://api.genability.com`. Do not include your Genability API credentials in user-facing frontend code.
 
 ~~~javascript
 const GenAPIClient = Genability.Client.configure({ proxy: '/genability-api' });
@@ -58,7 +62,7 @@ import { Genability } from '@genability/api';
 
 For frontend use, [you must specify a `proxy` url and provide credentials on the backend.](#frontend-client).
 
-For backend use in node or other environments, you can provide credentials to the API client in several ways. The client will search for credentials in the following order:
+For backend use in node or other environments, you can provide [Genability API credentials](https://developer.genability.com/quick-start/) to the client in several ways. The client will search for credentials in the following order:
 
 1. Credentials explicitly provided to the API client
 2. Credentials stored as environment variables GEN_APP_ID and GEN_APP_KEY

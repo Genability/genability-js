@@ -2,18 +2,17 @@ import * as path from 'path';
 import { readFileSync } from 'fs';
 import { homedir } from 'os';
 import {RestApiCredentialsObject} from './client';
-
 export const GENABILITY_DOT_DIRECTORY = '.genability';
 export const CREDENTIALS_FILE_NAME = 'credentials.json';
-const credentialsFilePath = path.join(
-  homedir(),
-  GENABILITY_DOT_DIRECTORY,
-  CREDENTIALS_FILE_NAME,
-);
 
 export function credentialsFromFile(profileName = 'default'): RestApiCredentialsObject {
   let content;
   try {
+    const credentialsFilePath = path.join(
+      homedir(),
+      GENABILITY_DOT_DIRECTORY,
+      CREDENTIALS_FILE_NAME,
+    );
     content = readFileSync(credentialsFilePath, 'utf8');
   } catch (err) {
     if (err.code === 'ENOENT') {

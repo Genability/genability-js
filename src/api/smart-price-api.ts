@@ -8,7 +8,7 @@ import {
 } from '../rest-client';
 import { Price } from '../types';
 
-export class SmartPriceRequest extends BasePagedRequest {
+export class GetSmartPriceRequest extends BasePagedRequest {
   public fromDateTime?: string;
   public toDateTime?: string;
   public masterTariffId?: number;
@@ -20,8 +20,8 @@ export class SmartPriceRequest extends BasePagedRequest {
   public endUse?: string;
   public groupBy?: string;
   public territoryId?: number;
-  public consumptionAmount?: string;
-  public demandAmount?: string;
+  public consumptionAmount?: number;
+  public demandAmount?: number;
 
   addParams(addParam: AddParamCallback): void {
     addParam('fromDateTime', this.fromDateTime);
@@ -46,7 +46,7 @@ export class SmartPriceApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async getTariffs(request?: SmartPriceRequest): Promise<PagedResponse<Price>> {
+  public async getTariffs(request?: GetSmartPriceRequest): Promise<PagedResponse<Price>> {
     return this.getPaged(`/rest/v1/prices/smart`, { params: request });
   }
 }

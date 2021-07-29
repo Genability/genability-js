@@ -46,7 +46,7 @@ export class SmartPriceApi extends RestApiClient {
     super(Config.baseURL, credentials);
   }
 
-  public async getTariffs(request?: GetSmartPriceRequest): Promise<PagedResponse<Price>> {
+  public async getSmartPrices(request?: GetSmartPriceRequest): Promise<PagedResponse<Price>> {
     return this.getPaged(`/rest/v1/prices/smart`, { params: request });
   }
 }

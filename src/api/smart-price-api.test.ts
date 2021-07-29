@@ -2,6 +2,13 @@ import {
   SmartPriceApi,
   GetSmartPriceRequest
 } from './smart-price-api';
+import { PagedResponse } from '../rest-client'
+import { ResourceTypes } from "../types/resource-types";
+import { credentialsFromFile } from '../rest-client/credentials';
+import { Price, isPrice, isPriceChange } from '../types/smart-price';
+
+const credentials = credentialsFromFile('unitTest');
+const restClient = new SmartPriceApi(credentials);
 
 describe("GetSmartPrice request", () => {
   describe("call to queryStringify", () => {
@@ -64,5 +71,41 @@ describe("GetSmartPrice request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('masterTariffId=1&pageStart=33&pageCount=22');
     })
+  })
+});
+
+describe("SmartPrice api", () => {
+  it("returns smart price", async () => {
+    const request: GetSmartPriceRequest = new GetSmartPriceRequest();
+    const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual(ResourceTypes.PRICE);
+    for(const price of response.results) {
+      expect(isPrice(price)).toBeTruthy();
+      for(const priceChange of price.priceChanges) {
+        expect(isPriceChange(priceChange)).toBeTruthy();
+      }
+    }
+  })
+  it("returns smart price for masterTariffId 522", async () => {
+    const request: GetSmartPriceRequest = new GetSmartPriceRequest();
+    request.masterTariffId = 522;
+    const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
+    expect(response.status).toEqual("success");
+    expect(response.type).toEqual(ResourceTypes.PRICE);
+    for(const price of response.results) {
+      expect(isPrice(price)).toBeTruthy();
+      expect(price.masterTariffId).toEqual(522);
+      for(const priceChange of price.priceChanges) {
+        expect(isPriceChange(priceChange)).toBeTruthy();
+      }
+    }
+  })
+  it("returns error for invalid masterTariffId", async () => {
+    const request: GetSmartPriceRequest = new GetSmartPriceRequest();
+    request.masterTariffId = -1;
+    const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
+    expect(response.status).toEqual("error");
+    expect(response.type).toEqual(ResourceTypes.Error);
   })
 });

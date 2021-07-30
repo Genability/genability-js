@@ -7,6 +7,7 @@ import {
   GenabilityConfig,
 } from '../rest-client';
 import { Price } from '../types';
+import { GroupBy } from '../types/on-demand-cost-calculation';
 
 export class GetSmartPriceRequest extends BasePagedRequest {
   public fromDateTime?: string;
@@ -18,7 +19,7 @@ export class GetSmartPriceRequest extends BasePagedRequest {
   public addressString?: string;
   public customerClass?: string;
   public endUse?: string;
-  public groupBy?: string;
+  public groupBy?: GroupBy;
   public territoryId?: number;
   public consumptionAmount?: number;
   public demandAmount?: number;

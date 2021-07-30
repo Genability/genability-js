@@ -4,6 +4,7 @@ import {
   isPriceChange,
   isPrice
 } from './smart-price';
+import { DetailLevel } from '../types/on-demand-cost-calculation';
 
 const priceChangeJson = '{\
   "name":"Winter Off-Peak consumption charges",\
@@ -18,7 +19,7 @@ const priceJson = '{\
   "masterTariffId":3156186,\
   "fromDateTime":"2013-02-15T18:04:16+00:00",\
   "toDateTime":"2013-02-18T18:04:16+00:00",\
-  "detailLevel":"QUANTITY_KEY",\
+  "detailLevel":"TOTAL",\
   "currency":"USD",\
   "rateMean":0.083300,\
   "rateStandardDeviation":0.039975\
@@ -40,6 +41,7 @@ describe("Smart Price types", () => {
     expect(price.fromDateTime).toEqual("2013-02-15T18:04:16+00:00");
     expect(price.toDateTime).toEqual("2013-02-18T18:04:16+00:00");
     expect(price.currency).toEqual("USD");
+    expect(price.detailLevel).toEqual(DetailLevel.TOTAL);
     expect(price.rateMean).toEqual(0.083300);
     expect(price.rateStandardDeviation).toEqual(0.039975);
   })

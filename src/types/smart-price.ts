@@ -1,3 +1,5 @@
+import { DetailLevel } from './on-demand-cost-calculation';
+
 export interface PriceChange {
   name: string;
   fromDateTime: string;
@@ -11,7 +13,7 @@ export interface Price {
   masterTariffId: number;
   fromDateTime: string;
   toDateTime: string;
-  detailLevel: string;
+  detailLevel: DetailLevel;
   currency: string;
   rateMean: number;
   rateStandardDeviation: number;

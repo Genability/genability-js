@@ -6,6 +6,7 @@ import { PagedResponse } from '../rest-client'
 import { ResourceTypes } from "../types/resource-types";
 import { credentialsFromFile } from '../rest-client/credentials';
 import { Price, isPrice, isPriceChange } from '../types/smart-price';
+import { GroupBy } from '../types/on-demand-cost-calculation';
 
 const credentials = credentialsFromFile('unitTest');
 const restClient = new SmartPriceApi(credentials);
@@ -28,7 +29,7 @@ describe("GetSmartPrice request", () => {
       request.masterTariffId = 2;
       request.fromDateTime = '2013-02-15T18:04:16+00:00';
       request.country = 'USA';
-      request.groupBy = 'HOUR';
+      request.groupBy = GroupBy.HOUR;
       const qs: string = request.queryStringify();
       expect(qs).toEqual("fromDateTime=2013-02-15T18:04:16%2B00:00&masterTariffId=2&country=USA&groupBy=HOUR");
     })

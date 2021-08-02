@@ -57,6 +57,29 @@ describe("Calculation history api", () => {
     expect(response.requestId).toEqual(requestId);
     expect(isCalculatedCostRequest(response)).toBeTruthy();
   }, 40000);
+  it("should return calculated history request and response", async () => {
+    const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
+    const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
+    const { masterTariffId } = tariffResponse.results[0];
+    const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
+    request.fromDateTime = '2019-07-13T00:00:00-07:00';
+    request.toDateTime = '2020-05-11T00:00:00-07:00';
+    request.masterTariffId = masterTariffId;
+    request.propertyInputs = [];
+    const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
+    if(calcResponse.requestId == null) fail(`requestId null`);
+    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    const requestId = calcResponse.requestId;
+    // timeout to wait for the calc request to populate
+    await new Promise(r => setTimeout(r, 5000));
+    const requestResponse: CalculatedCostRequest = await restClient.getCalculateHistoryRequest(requestId);
+    expect(requestResponse.masterTariffId).toEqual(masterTariffId);
+    expect(requestResponse.requestId).toEqual(requestId);
+    expect(isCalculatedCostRequest(requestResponse)).toBeTruthy();
+    const response: CalculatedCost = await restClient.getCalculateHistoryResponse(requestId);
+    expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
+    expect(isCalculatedCost(response)).toBeTruthy();
+  }, 40000);
   it("should return mass calc history response", async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';

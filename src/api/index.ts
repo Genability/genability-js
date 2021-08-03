@@ -52,4 +52,7 @@ export {
   CalculationHistoryApi
 } from './calculation-history-api'
 
-
+export {
+  GetSmartPriceRequest,
+  SmartPriceApi
+} from './smart-price-api'

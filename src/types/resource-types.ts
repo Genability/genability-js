@@ -14,4 +14,5 @@ export class ResourceTypes {
   public static readonly BASELINE = "Baseline";
   public static readonly DOCUMENT = "Document";
   public static readonly Error = "Error";
+  public static readonly PRICE = "Price";
 }

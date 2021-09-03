@@ -24,7 +24,6 @@ export {
   CustomerClass,
   ChargeType,
   ChargeClass,
-  ChargeClasses,
   ChargePeriod,
   TransactionType,
   TariffPropertyType,
@@ -40,6 +39,7 @@ export {
   hasVariableOrCalculationFactor,
   isTariffProperty,
   toTariffFromApi,
+  toApiFromTariff,
   uniquePropertyKeys,
   TariffDocument,
   isTariffDocument

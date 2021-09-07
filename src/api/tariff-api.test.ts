@@ -7,7 +7,6 @@ import { SingleResponse, PagedResponse } from '../rest-client'
 import {
   TariffType,
   CustomerClass,
-  ChargeClasses,
   ChargeType,
   Tariff,
   isTariff,
@@ -141,7 +140,7 @@ describe("Tariff api", () => {
       if(tariff.rates) {
         for(const tariffRate of tariff.rates) {
           if(tariffRate.chargeClass) {
-            expect(tariffRate.chargeClass).toBeInstanceOf(ChargeClasses);
+            expect(tariffRate.chargeClass).toBeInstanceOf(Array);
           }
         }
       } else {
@@ -206,7 +205,7 @@ describe("Tariff api", () => {
         if(tariff.rates) {
           for(const tariffRate of tariff.rates) {
             if(tariffRate.chargeClass) {
-              expect(tariffRate.chargeClass).toBeInstanceOf(ChargeClasses);
+              expect(tariffRate.chargeClass).toBeInstanceOf(Array);
             }
           }
         }

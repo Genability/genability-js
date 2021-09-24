@@ -215,6 +215,12 @@ abstract class BaseResponse<T>implements Response<T> {
   }
 }
 
+export class PagedRequest extends BasePagedRequest {
+  addParams(addParam: AddParamCallback): void {
+    // no-op, we only want the default pagination, search & sort params
+  }
+}
+
 export class SingleResponse<T> extends BaseResponse<T> implements Response<T> {
   get result(): T | null {
     if(this.errors && this.errors?.length > 0) {

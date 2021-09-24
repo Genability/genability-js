@@ -19,7 +19,7 @@ export {
   Response,
   BasePagedRequest,
   AddParamCallback,
-  PagedRequest,
+  DefaultPagedRequest,
   SingleResponse,
   PagedResponse,
   ResponseError,

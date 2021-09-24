@@ -215,7 +215,7 @@ abstract class BaseResponse<T>implements Response<T> {
   }
 }
 
-export class PagedRequest extends BasePagedRequest {
+export class DefaultPagedRequest extends BasePagedRequest {
   addParams(addParam: AddParamCallback): void {
     // no-op, we only want the default pagination, search & sort params
   }

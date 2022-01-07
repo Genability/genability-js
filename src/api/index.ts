@@ -16,6 +16,10 @@ export {
 } from './tariff-api';
 
 export {
+  getTariffsRequestGraphQLSchema
+} from './tariff-api-graphql';
+
+export {
   GetCalculatedCostRequest,
   CalculatedCostApi
 } from './on-demand-cost-calculation-api'
@@ -56,3 +60,8 @@ export {
   GetSmartPriceRequest,
   SmartPriceApi
 } from './smart-price-api'
+
+export {
+  BaseRequestGraphQLSchema
+} from '../rest-client/contract-graphql'
+

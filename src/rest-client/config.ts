@@ -1,3 +1,4 @@
+import { AxiosAdapter, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { RestApiCredentials } from './client';
 import * as credentials from './credentials';
 
@@ -5,6 +6,8 @@ export class GenabilityConfigOptions {
   profileName?: string;
   proxy?: string;
   credentials?: RestApiCredentials;
+  requestInterceptor?: (requestConfig: AxiosRequestConfig) => AxiosRequestConfig;
+  responseInterceptor?: (response: AxiosResponse) => AxiosResponse;
 }
 
 export class GenabilityConfig {
@@ -14,10 +17,15 @@ export class GenabilityConfig {
     appId:'',
     appKey: ''
   };
+  private _requestInterceptor: ((requestConfig: AxiosRequestConfig) => AxiosRequestConfig) | undefined;
+  private _responseInterceptor: ((response: AxiosResponse) => AxiosResponse) | undefined;
 
-  private constructor(configOptions?: Partial<GenabilityConfigOptions>) {
+  constructor(configOptions?: Partial<GenabilityConfigOptions>) {
 
     this._baseURL = configOptions?.proxy ?? 'https://api.genability.com';
+
+    this._requestInterceptor = configOptions?.requestInterceptor;
+    this._responseInterceptor = configOptions?.responseInterceptor;
 
     // Deal with credentials last
 
@@ -39,10 +47,6 @@ export class GenabilityConfig {
     }
   }
 
-  public static config(configOptions?: Partial<GenabilityConfigOptions>): GenabilityConfig {
-    return this._instance || (this._instance = new this(configOptions));
-  }
-
   get baseURL(): string {
     return this._baseURL;
   }
@@ -51,10 +55,11 @@ export class GenabilityConfig {
     return this._credentials;
   }
 
-  // Reset the single instance for testing. TODO: Reconsider this design!
+  get requestInterceptor(): ((requestConfig: AxiosRequestConfig) => AxiosRequestConfig) | undefined {
+    return this._requestInterceptor;
+  }
 
-  public static __deconfigure(): void
-  {
-    delete this._instance;
+  get responseInterceptor(): ((response: AxiosResponse) => AxiosResponse) | undefined {
+    return this._responseInterceptor;
   }
 }

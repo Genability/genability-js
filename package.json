@@ -46,8 +46,7 @@
     "axios": "^0.21.1",
     "graphql": "^16.2.0",
     "graphql-tag": "^2.12.6",
-    "lodash.clonedeep": "^4.5.0",
-    "ts2graphql": "https://github.com/cevek/ts2graphql.git"
+    "lodash.clonedeep": "^4.5.0"
   },
   "bugs": {
     "url": "https://github.com/Genability/genability-js/issues"

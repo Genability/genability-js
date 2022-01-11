@@ -522,13 +522,6 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/graphql@>=14.0.5":
-  version "14.5.0"
-  resolved "https://registry.npmjs.org/@types/graphql/-/graphql-14.5.0.tgz"
-  integrity sha512-MOkzsEp1Jk5bXuAsHsUi6BVv0zCO+7/2PTiZMXWDSsMXvNU6w/PLMQT2vHn8hy2i0JqojPz1Sz6rsFjHtsU0lA==
-  dependencies:
-    graphql "*"
-
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.1"
   resolved "https://registry.npmjs.org/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.1.tgz"
@@ -595,11 +588,6 @@
   version "13.13.1"
   resolved "https://registry.npmjs.org/@types/node/-/node-13.13.1.tgz"
   integrity sha512-uysqysLJ+As9jqI5yqjwP3QJrhOcUwBjHUlUxPxjbplwKoILvXVsmYWEhfmAQlrPfbRZmhJB007o4L9sKqtHqQ==
-
-"@types/node@>8.0.0", "@types/node@>=10.0.0":
-  version "17.0.2"
-  resolved "https://registry.npmjs.org/@types/node/-/node-17.0.2.tgz"
-  integrity sha512-JepeIUPFDARgIs0zD/SKPgFsJEAF0X5/qO80llx59gOxFTboS9Amv3S+QfB7lqBId5sFXJ99BN0J6zFRvL9dDA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2802,7 +2790,7 @@ graphql-tag@^2.12.6:
   dependencies:
     tslib "^2.1.0"
 
-graphql@*, graphql@^16.2.0:
+graphql@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.2.0.tgz#de3150e80f1fc009590b92a9d16ab1b46e12b656"
   integrity sha512-MuQd7XXrdOcmfwuLwC2jNvx0n3rxIuNYOxUtiee5XOmfrWo613ar2U8pE7aHAKh8VwfpifubpD9IP+EdEAEOsA==
@@ -5924,22 +5912,6 @@ ts-loader@^7.0.5:
     micromatch "^4.0.0"
     semver "^6.0.0"
 
-ts-type-ast@>=1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/ts-type-ast/-/ts-type-ast-1.0.7.tgz"
-  integrity sha512-HQZmbrZCg9kV/uFJcSFMOCj0Rm/qrWmH7iwinaKsYqxbELswuYjhPtrJcGzX2CKFHd5oe3n1jmwfq5sWyEhFMA==
-  dependencies:
-    "@types/node" ">8.0.0"
-    typescript ">3.0.0"
-
-"ts2graphql@https://github.com/cevek/ts2graphql.git":
-  version "1.0.11"
-  resolved "git+ssh://git@github.com/cevek/ts2graphql.git#2f152c8c6bb30cf8e0219a97c2cbac3487742bf3"
-  dependencies:
-    "@types/graphql" ">=14.0.5"
-    "@types/node" ">=10.0.0"
-    ts-type-ast ">=1.0.7"
-
 tsconfig-paths@^3.9.0:
   version "3.9.0"
   resolved "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-3.9.0.tgz"
@@ -6030,7 +6002,7 @@ typedarray@^0.0.6:
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@4, typescript@>3.0.0:
+typescript@4:
   version "4.5.4"
   resolved "https://registry.npmjs.org/typescript/-/typescript-4.5.4.tgz"
   integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==

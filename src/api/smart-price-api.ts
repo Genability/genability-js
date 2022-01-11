@@ -42,11 +42,6 @@ export class GetSmartPriceRequest extends BasePagedRequest {
 }
 
 export class SmartPriceApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getSmartPrices(request?: GetSmartPriceRequest): Promise<PagedResponse<Price>> {
     return this.getPaged(`/rest/v1/prices/smart`, { params: request });
   }

@@ -1,7 +1,5 @@
 import {
   RestApiClient,
-  RestApiCredentials,
-  GenabilityConfig,
   PagedResponse,
   SingleResponse,
   DefaultPagedRequest
@@ -12,11 +10,6 @@ import {
 } from '../types';
 
 export class TimeOfUseApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getTimeOfUseGroups(lseId: number, request?: DefaultPagedRequest): Promise<PagedResponse<TimeOfUseGroup>> {
     return this.getPaged(`/rest/public/lses/${lseId}/tougroups`, { params: request });
   }

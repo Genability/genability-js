@@ -3,17 +3,16 @@ import {
   GetDocumentsRequest,
   GetDocumentRequest
 } from './document-api';
-import { SingleResponse, PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client'
 import {
   Document,
   isDocument
 } from '../types/document';
 import { ResourceTypes } from "../types/resource-types";
-import { credentialsFromFile } from '../rest-client/credentials';
 import { Fields } from '../rest-client/contract';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new DocumentApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new DocumentApi(config);
 
 describe("GetDocuments request", () => {
   describe("call to queryStringify", () => {

@@ -4,7 +4,7 @@ import {
   GetMassCalculationRequest,
 } from './on-demand-cost-calculation-api';
 import { TariffApi, GetTariffsRequest } from './tariff-api'
-import { SingleResponse, PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client'
 import {
   isCalculatedCost,
   CalculatedCost,
@@ -13,11 +13,10 @@ import {
 import {
   Tariff
 } from '../types/tariff';
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new CalculatedCostApi(credentials);
-const tariffRestClient = new TariffApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new CalculatedCostApi(config);
+const tariffRestClient = new TariffApi(config);
 
 describe("CalculatedCost api", () => {
   it("should return calculated cost", async () => {

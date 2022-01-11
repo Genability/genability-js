@@ -2,17 +2,16 @@ import {
   TerritoryApi,
   GetTerritoriesRequest
 } from './territory-api';
-import { PagedResponse, SingleResponse } from '../rest-client'
+import { GenabilityConfig, PagedResponse, SingleResponse } from '../rest-client'
 import { ResourceTypes } from '../types/resource-types'
 import {
   Territory,
   isTerritory,
   ItemType
 } from '../types/territory';
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new TerritoryApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new TerritoryApi(config);
 
 describe("GetTerritories request", () => {
   describe("call to queryStringify", () => {

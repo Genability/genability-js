@@ -4,7 +4,7 @@ import {
 } from './on-demand-cost-calculation-api';
 import {GetTariffsRequest, TariffApi} from './tariff-api'
 import {CalculationHistoryApi} from './calculation-history-api';
-import { credentialsFromFile } from '../rest-client/credentials';
+import { GenabilityConfig } from '../rest-client/config';
 import { SingleResponse, PagedResponse } from "../rest-client";
 import {
   CalculatedCost,
@@ -12,11 +12,10 @@ import {
 } from "../types/on-demand-cost-calculation";
 import {Tariff} from "../types";
 
-
-const credentials = credentialsFromFile('unitTest');
-const calculatedCostRestClient: CalculatedCostApi = new CalculatedCostApi(credentials);
-const tariffRestClient: TariffApi = new TariffApi(credentials);
-const restClient: CalculationHistoryApi = new CalculationHistoryApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const calculatedCostRestClient: CalculatedCostApi = new CalculatedCostApi(config);
+const tariffRestClient: TariffApi = new TariffApi(config);
+const restClient: CalculationHistoryApi = new CalculationHistoryApi(config);
 
 describe("Calculation history api", () => {
   it("should return calculated history response", async () => {
@@ -127,4 +126,3 @@ describe("Calculation history api", () => {
     }
   }, 40000);
 });
-

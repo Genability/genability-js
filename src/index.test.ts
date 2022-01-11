@@ -6,7 +6,6 @@ import { CommonPropertyKeyNames } from './types/property-key';
 describe("client", () => {
   afterEach(() => {
     Genability.__deconfigure();
-    GenabilityConfig.__deconfigure();
   });
 
   it("should init cleanly", async () => {
@@ -25,12 +24,11 @@ describe("client", () => {
   });
 
   it("should allow setting a proxy URL", async () => {
-    Genability.configure({
+    const client = Genability.configure({
       profileName: 'unitTest',
       proxy: 'https://test.com'
     });
-    const Config = GenabilityConfig.config();
-    expect(Config.baseURL).toBe('https://test.com');
+    expect(client.__config.baseURL).toBe('https://test.com');
   })
 });
 

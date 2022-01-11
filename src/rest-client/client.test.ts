@@ -4,6 +4,11 @@ const axiosInstanceMock = {
       use: (): object => {
         return {};
       }
+    },
+    response: {
+      use: (): object => {
+        return {};
+      }
     }
   },
   get: (): object => {
@@ -21,6 +26,7 @@ jest.mock('axios', () => {
   }
 });
 
+import { GenabilityConfig } from '.';
 import {
   RestApiClient, RestApiCredentials, RestApiCredentialsObject
 } from './client';
@@ -34,16 +40,18 @@ const jwtApiCredentials: RestApiCredentials = {
   jwt: ''
 }
 
-const proxyApiCredentials: RestApiCredentials = {
-  jwt: '',
-  proxyReq: (a = "") => {return a}
-}
+const credentialsWithInterceptor = new GenabilityConfig({
+  credentials: emptyApiCredentials,
+  requestInterceptor: (request) => request,
+  responseInterceptor: (response) => response
+});
 
 class TestClass extends RestApiClient{
 
 }
 
 const axiosInterceptorsRequestUseSpy = jest.spyOn(axiosInstanceMock.interceptors.request, "use");
+const axiosInterceptorsResponseUseSpy = jest.spyOn(axiosInstanceMock.interceptors.response, "use");
 
 describe("Check api credentials", () => {
   afterEach(() => {
@@ -51,32 +59,32 @@ describe("Check api credentials", () => {
   })
 
   it("is Empty credentials", () => {
-    const obj: TestClass = new TestClass('', emptyApiCredentials);
+    const obj: TestClass = new TestClass(new GenabilityConfig({credentials: emptyApiCredentials}));
     expect(obj).toBeTruthy();
   })
   it("is jwt credentials", () => {
-    const obj: TestClass = new TestClass('', jwtApiCredentials);
+    const obj: TestClass = new TestClass(new GenabilityConfig({credentials: jwtApiCredentials}));
     expect(obj).toBeTruthy();
   })
-  it("is proxy credentials", async () => {
-    const obj: TestClass = new TestClass('', proxyApiCredentials);
+  it("is jwt credentials with credentialsFn", async () => {
+    const obj: TestClass = new TestClass(new GenabilityConfig({credentials: (): Promise<RestApiCredentialsObject> => { return Promise.resolve(jwtApiCredentials) }}));
+    await obj.getSingle("test");
+    await obj.getPaged("test");
+    expect(obj).toBeTruthy();
+  })
+})
+
+describe("Check interceptors", () => {
+  afterEach(() => {
+    axiosInterceptorsRequestUseSpy.mockClear();
+  })
+
+  it("is jwt credentials with credentialsFn", async () => {
+    const obj: TestClass = new TestClass(credentialsWithInterceptor);
     await obj.getSingle("test");
     await obj.getPaged("test");
     expect(obj).toBeTruthy();
     expect(axiosInterceptorsRequestUseSpy).toHaveBeenCalledTimes(1);
-  })
-  it("is jwt credentials with credentialsFn", async () => {
-    const obj: TestClass = new TestClass('', (): Promise<RestApiCredentialsObject> => { return Promise.resolve(jwtApiCredentials) });
-    await obj.getSingle("test");
-    await obj.getPaged("test");
-    expect(obj).toBeTruthy();
-    expect(axiosInterceptorsRequestUseSpy).toHaveBeenCalledTimes(0);
-  })
-  it("is jwt credentials with credentialsFn and proxyReq", async () => {
-    const obj: TestClass = new TestClass('', (): Promise<RestApiCredentialsObject> => { return Promise.resolve(proxyApiCredentials) });
-    await obj.getSingle("test");
-    await obj.getPaged("test");
-    expect(obj).toBeTruthy();
-    expect(axiosInterceptorsRequestUseSpy).toHaveBeenCalledTimes(2);
+    expect(axiosInterceptorsResponseUseSpy).toHaveBeenCalledTimes(1);
   })
 })

@@ -9,6 +9,10 @@ export {
 } from './load-serving-entity-api';
 
 export {
+  getLSEsRequestGraphQLSchema
+} from './load-serving-entity-api-graphql';
+
+export {
   GetTariffsRequest,
   GetTariffRequest,
   TariffApi,

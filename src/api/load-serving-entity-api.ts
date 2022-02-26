@@ -13,12 +13,14 @@ import {
 
 export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   public postCode?: string;
+  public zipCode?: string;
   public country?: string;
   public serviceTypes?: ServiceType[];
   public ownerships?: Ownership[];
 
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);
+    addParam('zipCode', this.zipCode);
     addParam('country', this.country);
     addParam('serviceTypes', this.serviceTypes);
     addParam('ownerships', this.ownerships);

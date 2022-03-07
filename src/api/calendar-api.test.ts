@@ -3,7 +3,7 @@ import {
   GetCalendarsRequest,
   GetCalendarDatesRequest
 } from './calendar-api';
-import { isResponseError, PagedResponse } from '../rest-client'
+import { GenabilityConfig, isResponseError, PagedResponse } from '../rest-client'
 import {
   CalendarType,
   Calendar,
@@ -13,10 +13,9 @@ import {
   DateDefinitionType
 } from '../types/calendar';
 import { ResourceTypes } from '../types/resource-types';
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new CalendarApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new CalendarApi(config);
 
 describe("GetCalendarsRequest unit tests", () => {
   describe("call to queryStringify", () => {

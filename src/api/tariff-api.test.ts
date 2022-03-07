@@ -3,7 +3,7 @@ import {
   GetTariffsRequest,
   GetTariffRequest
 } from './tariff-api';
-import { SingleResponse, PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client'
 import {
   TariffType,
   CustomerClass,
@@ -13,13 +13,12 @@ import {
   isTariffDocument
 } from '../types/tariff';
 import { ResourceTypes } from "../types/resource-types";
-import { credentialsFromFile } from '../rest-client/credentials';
 import { ServiceType } from '../types/load-serving-entity';
 import { PrivacyFlag } from '../types/property-key';
 import { Fields } from '../rest-client/contract';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new TariffApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new TariffApi(config);
 
 describe("GetTariffs request", () => {
   describe("call to queryStringify", () => {

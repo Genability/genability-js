@@ -229,8 +229,8 @@ export function toTariffFromApi(json: any): Tariff {
   return json as Tariff;
 }
 
-export function toApiFromTariff(tariff: Tariff): {[key: string]: any} {
-  const returnJson = {...tariff} as {[key: string]: any};
+export function toApiFromTariff(tariff: Tariff): {[key: string]: any} { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const returnJson = {...tariff} as {[key: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
   if(returnJson.rates) {
     for(const tariffRate of returnJson.rates) {
       if(tariffRate && tariffRate.chargeClass) {

@@ -2,14 +2,13 @@ import {
   SmartPriceApi,
   GetSmartPriceRequest
 } from './smart-price-api';
-import { PagedResponse } from '../rest-client'
+import { GenabilityConfig, PagedResponse } from '../rest-client'
 import { ResourceTypes } from "../types/resource-types";
-import { credentialsFromFile } from '../rest-client/credentials';
 import { Price, isPrice, isPriceChange } from '../types/smart-price';
 import { GroupBy } from '../types/on-demand-cost-calculation';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new SmartPriceApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new SmartPriceApi(config);
 
 describe("GetSmartPrice request", () => {
   describe("call to queryStringify", () => {

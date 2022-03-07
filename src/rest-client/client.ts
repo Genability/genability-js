@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import { GenabilityConfig } from '.';
 import {
   isQueryStringified,
   isResponse,
@@ -12,7 +13,6 @@ export interface RestApiCredentialsObject {
   appId?: string;
   appKey?: string;
   jwt?: string;
-  proxyReq?: {(config: any): any}; // For additional transformations to request required by proxies
 }
 
 /**
@@ -83,21 +83,25 @@ export abstract class RestApiClient {
   protected axiosInstance: AxiosInstance;
   private readonly _credentials: RestApiCredentials;
 
-  public constructor(baseURL: string, credentials: RestApiCredentials) {
-    this._credentials = credentials;
+  public constructor(config: GenabilityConfig) {
+    this._credentials = config.credentials;
 
     this.axiosInstance = axios.create({
-      baseURL,
+      baseURL: config.baseURL,
       headers: {
-        Authorization: typeof credentials !== "function" ? RestApiClient.createAuthHeader(credentials) : "",
+        Authorization: typeof config.credentials !== "function" ? RestApiClient.createAuthHeader(config.credentials) : "",
         'Content-Type': 'application/json;charset=UTF-8'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       paramsSerializer: (params: any) => restParamsSerialize(params),
     });
 
-    if (typeof credentials !== "function" && credentials?.proxyReq) {
-      this.axiosInstance.interceptors.request.use(credentials.proxyReq);
+    if (config.requestInterceptor) {
+      this.axiosInstance.interceptors.request.use(config.requestInterceptor);
+    }
+
+    if (config.responseInterceptor) {
+      this.axiosInstance.interceptors.response.use(config.responseInterceptor);
     }
   }
 
@@ -117,9 +121,6 @@ export abstract class RestApiClient {
   private async getCredentials(): Promise<RestApiCredentialsObject> {
     if (typeof this._credentials === "function") {
       const credentials: RestApiCredentialsObject = (await this._credentials()) as RestApiCredentialsObject;
-      if (credentials.proxyReq) {
-        this.axiosInstance.interceptors.request.use(credentials.proxyReq);
-      }
       return credentials;
     } else {
       return this._credentials;

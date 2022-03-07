@@ -2,7 +2,7 @@ import {
   PropertyKeyApi, 
   GetPropertyKeysRequest 
 } from './property-key-api';
-import { SingleResponse, PagedResponse, isResponseError } from '../rest-client'
+import { SingleResponse, PagedResponse, isResponseError, GenabilityConfig } from '../rest-client'
 import {
   GenPropertyKey,
   PropertyDataType,
@@ -11,10 +11,9 @@ import {
 } from '../types/property-key';
 
 import { ResourceTypes } from "../types/resource-types";
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new PropertyKeyApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new PropertyKeyApi(config);
 
 const demandPk: GenPropertyKey = {
   dataType: PropertyDataType.DEMAND, 

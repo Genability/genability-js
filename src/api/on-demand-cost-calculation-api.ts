@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import {
   RestApiClient,
-  RestApiCredentials,
   SingleResponse,
-  GenabilityConfig,
 } from '../rest-client';
 
 import {
@@ -95,11 +93,6 @@ export class GetMassCalculationRequest implements CalculatedCostRequest {
 }
 
 export class CalculatedCostApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async runCalculation(request: GetCalculatedCostRequest): Promise<SingleResponse<CalculatedCost>> {
     return this.post(`/rest/v1/ondemand/calculate`, request);
   }

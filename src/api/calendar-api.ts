@@ -1,11 +1,9 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   SingleResponse,
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig,
 } from '../rest-client';
 import {
   Calendar, CalendarType, DateDefinitionType, CalendarDate
@@ -42,11 +40,6 @@ export class GetCalendarDatesRequest extends BasePagedRequest {
 }
 
 export class CalendarApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getCalendars(request: GetCalendarsRequest): Promise<PagedResponse<Calendar>> {
     return this.getPaged(`/rest/public/calendars`, { params: request } );
   }

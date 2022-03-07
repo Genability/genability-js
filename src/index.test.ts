@@ -1,6 +1,5 @@
 import { echoHello } from "./index";
 import { Genability, types, restApis } from "./index";
-import { GenabilityConfig } from "./rest-client";
 import { CommonPropertyKeyNames } from './types/property-key';
 
 describe("client", () => {

@@ -1,4 +1,4 @@
-import { AxiosAdapter, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { RestApiCredentials } from './client';
 import * as credentials from './credentials';
 

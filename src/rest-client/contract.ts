@@ -216,7 +216,7 @@ abstract class BaseResponse<T>implements Response<T> {
 }
 
 export class DefaultPagedRequest extends BasePagedRequest {
-  addParams(addParam: AddParamCallback): void {
+  addParams(addParam: AddParamCallback): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     // no-op, we only want the default pagination, search & sort params
   }
 }

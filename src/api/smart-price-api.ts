@@ -1,10 +1,8 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig,
 } from '../rest-client';
 import { Price } from '../types';
 import { GroupBy } from '../types/on-demand-cost-calculation';

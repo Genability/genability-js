@@ -20,6 +20,13 @@ export interface TerritoryItem {
   partial?: boolean;
 }
 
+export interface TerritoryLseResponse {
+  totalCount: number;
+  pageCount: number;
+  pageStart: number;
+  list: TerritoryLse[];
+}
+
 export interface TerritoryLse {
   territoryId: number;
   lseId?: number;
@@ -45,7 +52,7 @@ export interface Territory {
   usageType?: UsageType;
   itemTypes?: ItemType[];
   items?: TerritoryItem[];
-  territoryLses?: TerritoryLse[];
+  territoryLses?: TerritoryLseResponse;
   deregRes?: boolean;
   deregCandi?: boolean;
   centerPoint?: CenterPoint;

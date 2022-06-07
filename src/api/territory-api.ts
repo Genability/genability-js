@@ -42,7 +42,7 @@ export class TerritoryApi extends RestApiClient {
     return this.getPaged(`/rest/public/territories`, { params: request } );
   }
 
-  public async getTerritory(territoryId: number): Promise<SingleResponse<Territory>> {
-    return this.getSingle(`/rest/public/territories/${territoryId}`);
+  public async getTerritory(territoryId: number, request?: GetTerritoriesRequest): Promise<SingleResponse<Territory>> {
+    return this.getSingle(`/rest/public/territories/${territoryId}`, { params: request });
   }
 }

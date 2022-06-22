@@ -76,6 +76,8 @@ export enum TimeOfUseType {
   PARTIAL_PEAK = "PARTIAL_PEAK",
   OFF_PEAK = "OFF_PEAK",
   CRITICAL_PEAK = "CRITICAL_PEAK",
+  SUPER_OFF_PEAK = "SUPER_OFF_PEAK",
+  SUPER_ON_PEAK = "SUPER_ON_PEAK",
 }
 
 export enum RateUnit {

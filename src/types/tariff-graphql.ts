@@ -70,7 +70,9 @@ export const tariffGraphQLSchema = gql`
     ON_PEAK,
     PARTIAL_PEAK,
     OFF_PEAK,
-    CRITICAL_PEAK
+    CRITICAL_PEAK,
+    SUPER_OFF_PEAK,
+    SUPER_ON_PEAK
   }
 
   enum RateUnit {

@@ -23,7 +23,9 @@ export const lseGraphQLSchema = gql`
     WHOLESALE_ENERGY_MARKETER,
     TRANSMISSION,
     STATE,
-    UNREGULATED
+    UNREGULATED,
+    BEHIND_METER,
+    COMMUNITY_CHOICE_AGGREGATOR
   }
 
   type LoadServingEntity {

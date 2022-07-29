@@ -66,6 +66,12 @@ export {
 } from './smart-price-api'
 
 export {
+  GetCalendarsRequest,
+  GetCalendarDatesRequest,
+  CalendarApi
+} from './calendar-api'
+
+export {
   BaseRequestGraphQLSchema
 } from '../rest-client/contract-graphql'
 

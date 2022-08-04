@@ -109,7 +109,7 @@ export interface Tariff {
   priorTariffId?: number;
   distributionLseId?: number;
   tariffType?: TariffType;
-  customerClass?: CustomerClass;
+  customerClass?: CustomerClass | null;
   customerCount?: number;
   customerLikelihood?: number | null;
   customerCountSource?: string;

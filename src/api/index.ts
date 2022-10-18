@@ -9,11 +9,19 @@ export {
 } from './load-serving-entity-api';
 
 export {
+  getLSEsRequestGraphQLSchema
+} from './load-serving-entity-api-graphql';
+
+export {
   GetTariffsRequest,
   GetTariffRequest,
   TariffApi,
   tariffResponseInterceptor
 } from './tariff-api';
+
+export {
+  getTariffsRequestGraphQLSchema
+} from './tariff-api-graphql';
 
 export {
   GetCalculatedCostRequest,
@@ -52,4 +60,18 @@ export {
   CalculationHistoryApi
 } from './calculation-history-api'
 
+export {
+  GetSmartPriceRequest,
+  SmartPriceApi
+} from './smart-price-api'
+
+export {
+  GetCalendarsRequest,
+  GetCalendarDatesRequest,
+  CalendarApi
+} from './calendar-api'
+
+export {
+  BaseRequestGraphQLSchema
+} from '../rest-client/contract-graphql'
 

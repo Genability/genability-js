@@ -8,11 +8,10 @@ import {
   isSeason
 } from '../types/season';
 import { ResourceTypes } from '../types/resource-types'
-import { credentialsFromFile } from '../rest-client/credentials';
-import { PagedResponse } from '../rest-client';
+import { GenabilityConfig, PagedResponse } from '../rest-client'
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new SeasonGroupApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new SeasonGroupApi(config);
 
 describe("call to queryStringify", () => {
   it("handles no parameters", async () => {

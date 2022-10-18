@@ -5,12 +5,11 @@ import {
   isTimeOfUseGroup,
   isTimeOfUseInterval,
 } from '../types/time-of-use';
-import { credentialsFromFile } from '../rest-client/credentials';
-import { SingleResponse, PagedResponse } from '../rest-client';
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client';
 import { ResourceTypes } from '../types/resource-types';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new TimeOfUseApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new TimeOfUseApi(config);
 
 describe("TimeOfUse api", () => {
   it("should returns a time of use group", async () => {

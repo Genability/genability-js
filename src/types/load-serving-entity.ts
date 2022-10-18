@@ -21,7 +21,9 @@ export enum Ownership {
   TRANSMISSION = "TRANSMISSION",
   STATE = "STATE",
   UNREGULATED = "UNREGULATED",
-};
+  BEHIND_METER = "BEHIND_METER",
+  COMMUNITY_CHOICE_AGGREGATOR = "COMMUNITY_CHOICE_AGGREGATOR",
+}
 
 export interface LoadServingEntity {
   lseId: number;

@@ -2,7 +2,7 @@ import {
   LookupApi,
   GetLookupsRequest
 } from './lookup-api';
-import { SingleResponse, PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client'
 import {
   LookupValue,
   isLookupValue,
@@ -10,10 +10,9 @@ import {
   isLookupStats
 } from '../types/lookup';
 import { ResourceTypes } from '../types/resource-types'
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new LookupApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new LookupApi(config);
 
 describe("Lookups request", () => {
   describe("call to queryStringify", () => {

@@ -1,9 +1,8 @@
 import {
   RestApiClient,
-  RestApiCredentials,
-  GenabilityConfig,
   PagedResponse,
-  SingleResponse
+  SingleResponse,
+  DefaultPagedRequest
 } from '../rest-client';
 import {
   TimeOfUseGroup,
@@ -11,13 +10,8 @@ import {
 } from '../types';
 
 export class TimeOfUseApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
-  public async getTimeOfUseGroups(lseId: number): Promise<PagedResponse<TimeOfUseGroup>> {
-    return this.getPaged(`/rest/public/lses/${lseId}/tougroups`);
+  public async getTimeOfUseGroups(lseId: number, request?: DefaultPagedRequest): Promise<PagedResponse<TimeOfUseGroup>> {
+    return this.getPaged(`/rest/public/lses/${lseId}/tougroups`, { params: request });
   }
 
   public async getTimeOfUseGroup(lseId: number, touGroupId: number): Promise<SingleResponse<TimeOfUseGroup>> {
@@ -27,5 +21,4 @@ export class TimeOfUseApi extends RestApiClient {
   public async getTimeOfUseGroupIntervals(lseId: number, touGroupId: number): Promise<PagedResponse<TimeOfUseInterval>> {
     return this.getPaged(`/rest/public/timeofuses/${lseId}/${touGroupId}/intervals`);
   }
-
 }

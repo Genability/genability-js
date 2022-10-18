@@ -4,7 +4,6 @@ import {
   CustomerClass,
   ChargeType,
   ChargeClass,
-  ChargeClasses,
   ChargePeriod,
   TransactionType,
   Tariff,
@@ -22,37 +21,12 @@ import {
   isTariffProperty,
   TariffPropertyType,
   TariffDocument,
-  isTariffDocument
+  isTariffDocument,
+  toChargeClassesFromString,
+  toStringFromChargeClasses
 } from './tariff';
 
 describe("tariff types", () => {
-  describe("test for ChargeClasses", () => {
-    it("should handle empty string", () => {
-      const chargeClassString = "";
-      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.values.length).toEqual(0);
-      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
-    })
-    it("should handle non empty string", () => {
-      const chargeClassString = "SUPPLY";
-      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.values.length).toEqual(1);
-      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.SUPPLY);
-      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClass(ChargeClass.SUPPLY));
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.SUPPLY]));
-    })
-    it("should initialize multiple value string", () => {
-      const chargeClassString = "TRANSMISSION,TAX";
-      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.values.length).toEqual(2);
-      expect(chargeClassesObj.values).toEqual(chargeClassString.split(','));
-      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.TRANSMISSION);
-      expect(chargeClassesObj.values[1]).toEqual(ChargeClass.TAX);
-      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.TAX]));
-    })
-  })
   describe("test for TariffDocument", () => {
     it("should have tariffId", () => {
       const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 3274100,"documentId": 42165,"documentSectionId": 84409,"document": { }}');
@@ -91,22 +65,21 @@ describe("tariff types", () => {
     })
     it("should have document", () => {
       const chargeClassString = "SUPPLY";
-      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.values.length).toEqual(1);
-      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.SUPPLY);
-      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClass(ChargeClass.SUPPLY));
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.SUPPLY]));
+      const chargeClassesObj = toChargeClassesFromString(chargeClassString);
+      expect(chargeClassesObj.length).toEqual(1);
+      expect(chargeClassesObj[0]).toEqual(ChargeClass.SUPPLY);
+      expect(chargeClassesObj.toString()).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual([ChargeClass.SUPPLY]);
     })
     it("should initialize multiple value string", () => {
       const chargeClassString = "TRANSMISSION,TAX";
-      const chargeClassesObj = ChargeClasses.fromString(chargeClassString);
-      expect(chargeClassesObj.values.length).toEqual(2);
-      expect(chargeClassesObj.values).toEqual(chargeClassString.split(','));
-      expect(chargeClassesObj.values[0]).toEqual(ChargeClass.TRANSMISSION);
-      expect(chargeClassesObj.values[1]).toEqual(ChargeClass.TAX);
-      expect(chargeClassesObj.toJSON()).toEqual(chargeClassString);
-      expect(chargeClassesObj).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.TAX]));
+      const chargeClassesObj = toChargeClassesFromString(chargeClassString);
+      expect(chargeClassesObj.length).toEqual(2);
+      expect(chargeClassesObj).toEqual(chargeClassString.split(','));
+      expect(chargeClassesObj[0]).toEqual(ChargeClass.TRANSMISSION);
+      expect(chargeClassesObj[1]).toEqual(ChargeClass.TAX);
+      expect(toStringFromChargeClasses(chargeClassesObj)).toEqual(chargeClassString);
+      expect(chargeClassesObj).toEqual([ChargeClass.TRANSMISSION,ChargeClass.TAX]);
     })
   })
   describe("test that JSON to enum", () => {
@@ -223,7 +196,7 @@ describe("tariff types", () => {
       if(tariff.rates) {
         const tariffRate: TariffRate = tariff.rates[0];
         expect(tariffRate).toBeTruthy();
-        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+        expect(tariffRate.chargeClass).toEqual([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]);
       }
     })
 
@@ -252,7 +225,7 @@ describe("tariff types", () => {
       if(tariff.rates) {
         const tariffRate: TariffRate = tariff.rates[0];
         expect(tariffRate).toBeTruthy();
-        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+        expect(tariffRate.chargeClass).toEqual([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]);
       }
     })
 
@@ -280,7 +253,7 @@ describe("tariff types", () => {
       if(tariff.rates) {
         const tariffRate: TariffRate = tariff.rates[0];
         expect(tariffRate).toBeTruthy();
-        expect(tariffRate.chargeClass).toEqual(ChargeClasses.fromChargeClasses([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]));
+        expect(tariffRate.chargeClass).toEqual([ChargeClass.TRANSMISSION,ChargeClass.DISTRIBUTION]);
       }
     })
   });

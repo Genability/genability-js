@@ -43,34 +43,7 @@ export enum ChargeClass {
   AFTER_TAX = "AFTER_TAX",
   OTHER = "OTHER",
   NON_BYPASSABLE = "NON_BYPASSABLE",
-}
-
-export class ChargeClasses  {
-  public values: Array<ChargeClass>;
-  
-  public constructor(chargeClasses: Array<ChargeClass>) {
-    this.values = chargeClasses;
-  }
-  public toJSON(): string {
-    if(this.values === undefined || this.values.length == 0) {
-      return "";
-    }
-    return this.values.toString();
-  }
-  public static fromString(jsonString: string): ChargeClasses {
-    if(jsonString && jsonString.length > 0) {
-      const chargeClasses: Array<ChargeClass> = jsonString.split(",") as Array<ChargeClass>;
-      return new ChargeClasses(chargeClasses);
-    } else {
-      return new ChargeClasses([]);
-    }
-  }
-  public static fromChargeClass(chargeClass: ChargeClass): ChargeClasses {
-    return new ChargeClasses([chargeClass]);
-  }
-  public static fromChargeClasses(chargeClasses: Array<ChargeClass>): ChargeClasses {
-    return new ChargeClasses(chargeClasses);
-  }
+  NET_EXCESS = "NET_EXCESS"
 }
 
 export enum ChargePeriod {
@@ -104,6 +77,8 @@ export enum TimeOfUseType {
   PARTIAL_PEAK = "PARTIAL_PEAK",
   OFF_PEAK = "OFF_PEAK",
   CRITICAL_PEAK = "CRITICAL_PEAK",
+  SUPER_OFF_PEAK = "SUPER_OFF_PEAK",
+  SUPER_ON_PEAK = "SUPER_ON_PEAK",
 }
 
 export enum RateUnit {
@@ -137,7 +112,7 @@ export interface Tariff {
   priorTariffId?: number;
   distributionLseId?: number;
   tariffType?: TariffType;
-  customerClass?: CustomerClass;
+  customerClass?: CustomerClass | null;
   customerCount?: number;
   customerLikelihood?: number | null;
   customerCountSource?: string;
@@ -179,7 +154,7 @@ export interface TariffRate {
   fromDateTime?: string | null;
   toDateTime?: string | null;
   chargeType?: ChargeType;
-  chargeClass?: ChargeClasses;
+  chargeClass?: ChargeClass[];
   chargePeriod?: ChargePeriod;
   transactionType?: TransactionType;
   quantityKey?: string;
@@ -228,18 +203,45 @@ function hasOwnProperty<X extends {}, Y extends PropertyKey>
   return obj.hasOwnProperty(prop)
 }
 
+export function toStringFromChargeClasses(chargeClasses: ChargeClass[]): string {
+  if(chargeClasses === undefined || chargeClasses.length == 0) {
+    return "";
+  }
+  return chargeClasses.toString();
+}
+
+export function toChargeClassesFromString(jsonString: string): ChargeClass[] {
+  if(jsonString && jsonString.length > 0) {
+    return jsonString.split(",") as Array<ChargeClass>;
+  } else {
+    return [];
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function toTariffFromApi(json: any): Tariff {
   if(hasOwnProperty(json,"rates")) {
     for(const tariffRate of json.rates) {
       if(hasOwnProperty(tariffRate, "chargeClass")) {
         if(typeof tariffRate.chargeClass === 'string') {
-          tariffRate.chargeClass = ChargeClasses.fromString(tariffRate.chargeClass);
+          tariffRate.chargeClass = toChargeClassesFromString(tariffRate.chargeClass);
         }
       }
     }
   }
   return json as Tariff;
+}
+
+export function toApiFromTariff(tariff: Tariff): {[key: string]: any} { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const returnJson = {...tariff} as {[key: string]: any}; // eslint-disable-line @typescript-eslint/no-explicit-any
+  if(returnJson.rates) {
+    for(const tariffRate of returnJson.rates) {
+      if(tariffRate && tariffRate.chargeClass) {
+        tariffRate.chargeClass = toStringFromChargeClasses(tariffRate?.chargeClass);
+      }
+    }
+  }
+  return returnJson;
 }
 
 /**

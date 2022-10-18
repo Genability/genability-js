@@ -1,8 +1,6 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   AddParamCallback,
-  GenabilityConfig,
   BasePagedRequest,
   PagedResponse,
   SingleResponse
@@ -26,11 +24,6 @@ export class GetLookupsRequest extends BasePagedRequest {
 }
 
 export class LookupApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getLookupValues(request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
     return this.getPaged('/rest/public/properties/lookups', { params: request } );
   }

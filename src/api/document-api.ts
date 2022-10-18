@@ -1,8 +1,6 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   AddParamCallback,
-  GenabilityConfig,
   BasePagedRequest,
   PagedResponse,
   SingleResponse
@@ -30,10 +28,6 @@ export class GetDocumentRequest extends BasePagedRequest {
 }
 
 export class DocumentApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
 
   public async getDocuments(request: GetDocumentsRequest): Promise<PagedResponse<Document>> {
     return this.getPaged(`/v1/documents`, { params: request } );

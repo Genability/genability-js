@@ -1,8 +1,6 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   AddParamCallback,
-  GenabilityConfig,
   BasePagedRequest,
   PagedResponse
 } from '../rest-client';
@@ -19,11 +17,6 @@ export class GetSeasonGroupsRequest extends BasePagedRequest {
 }
 
 export class SeasonGroupApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getSeasonGroups(request: GetSeasonGroupsRequest): Promise<PagedResponse<SeasonGroup>> {
     return this.getPaged(`/rest/public/seasons`, { params: request } );
   }

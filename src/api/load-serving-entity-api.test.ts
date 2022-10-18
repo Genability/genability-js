@@ -2,7 +2,7 @@ import {
   LoadServingEntityApi,
   GetLoadServingEntitiesRequest
 } from './load-serving-entity-api';
-import { SingleResponse, PagedResponse } from '../rest-client'
+import { SingleResponse, PagedResponse, GenabilityConfig } from '../rest-client'
 import {
   LoadServingEntity,
   ServiceType,
@@ -10,11 +10,10 @@ import {
   Ownership
 } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
-import { credentialsFromFile } from '../rest-client/credentials';
 import { Fields } from '../rest-client/contract';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new LoadServingEntityApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new LoadServingEntityApi(config);
 
 describe("GetLoadServingEntities request", () => {
   describe("call to queryStringify", () => {

@@ -33,7 +33,7 @@ export class Genability {
 
   private constructor(options?: Partial<GenabilityConfigOptions>)
   {
-    this._config = GenabilityConfig.config(options);
+    this._config = new GenabilityConfig(options);
   }
 
   public static configure(config?: Partial<GenabilityConfigOptions>): Genability
@@ -43,62 +43,68 @@ export class Genability {
 
   public get properties(): PropertyKeyApi {
     if(this._properties === undefined)
-      this._properties = new PropertyKeyApi(this._config?.credentials)
+      this._properties = new PropertyKeyApi(this._config)
     return this._properties;
   }
 
   public get lses(): LoadServingEntityApi {
     if(this._lses === undefined)
-      this._lses = new LoadServingEntityApi(this._config?.credentials)
+      this._lses = new LoadServingEntityApi(this._config)
     return this._lses;
   }
 
   public get tariffs(): TariffApi {
     if(this._tariffs === undefined)
-      this._tariffs = new TariffApi(this._config?.credentials)
+      this._tariffs = new TariffApi(this._config)
     return this._tariffs;
   }
 
   public get calculation(): CalculatedCostApi {
     if(this._calculation === undefined)
-      this._calculation = new CalculatedCostApi(this._config?.credentials)
+      this._calculation = new CalculatedCostApi(this._config)
     return this._calculation;
   }
 
   public get territories(): TerritoryApi {
     if(this._territories === undefined)
-      this._territories = new TerritoryApi(this._config?.credentials)
+      this._territories = new TerritoryApi(this._config)
     return this._territories;
   }
 
   public get seasons(): SeasonGroupApi {
     if(this._seasons === undefined)
-      this._seasons = new SeasonGroupApi(this._config?.credentials)
+      this._seasons = new SeasonGroupApi(this._config)
     return this._seasons;
   }
 
   public get timeofuses(): TimeOfUseApi {
     if(this._timeofuses === undefined)
-      this._timeofuses = new TimeOfUseApi(this._config?.credentials)
+      this._timeofuses = new TimeOfUseApi(this._config)
     return this._timeofuses;
   }
 
   public get lookups(): LookupApi {
     if(this._lookups === undefined)
-      this._lookups = new LookupApi(this._config?.credentials)
+      this._lookups = new LookupApi(this._config)
     return this._lookups;
   }
 
   public get typicals(): TypicalBaselineApi {
     if(this._typicals === undefined)
-      this._typicals = new TypicalBaselineApi(this._config?.credentials)
+      this._typicals = new TypicalBaselineApi(this._config)
     return this._typicals;
   }
 
   public get documents(): DocumentApi {
     if(this._documents === undefined)
-      this._documents = new DocumentApi(this._config?.credentials)
+      this._documents = new DocumentApi(this._config)
     return this._documents;
+  }
+
+  // Return this instance's configuration object for testing/debug purposes
+
+  public get __config(): GenabilityConfig {
+    return this._config
   }
 
   // Reset the single instance for testing. TODO: Reconsider this design!

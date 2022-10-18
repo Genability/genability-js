@@ -1,11 +1,9 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   PagedResponse,
   SingleResponse,
   BasePagedRequest,
-  AddParamCallback,
-  GenabilityConfig
+  AddParamCallback
 } from '../rest-client';
 import {
   ServiceType,
@@ -15,12 +13,14 @@ import {
 
 export class GetLoadServingEntitiesRequest extends BasePagedRequest {
   public postCode?: string;
+  public zipCode?: string;
   public country?: string;
   public serviceTypes?: ServiceType[];
   public ownerships?: Ownership[];
 
   addParams(addParam: AddParamCallback): void {
     addParam('postCode', this.postCode);
+    addParam('zipCode', this.zipCode);
     addParam('country', this.country);
     addParam('serviceTypes', this.serviceTypes);
     addParam('ownerships', this.ownerships);
@@ -28,11 +28,6 @@ export class GetLoadServingEntitiesRequest extends BasePagedRequest {
 }
 
 export class LoadServingEntityApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getLoadServingEntities(request: GetLoadServingEntitiesRequest): Promise<PagedResponse<LoadServingEntity>> {
     return this.getPaged(`/rest/public/lses`, { params: request } );
   }

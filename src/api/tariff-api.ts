@@ -1,10 +1,8 @@
 import {
   RestApiClient,
-  RestApiCredentials,
   PagedResponse,
   BasePagedRequest,
   AddParamCallback,
-  GenabilityConfig,
   SingleResponse
 } from '../rest-client';
 import {
@@ -109,11 +107,6 @@ export function tariffResponseInterceptor(response: AxiosResponse): void {
 }
 
 export class TariffApi extends RestApiClient {
-  public constructor(credentials: RestApiCredentials) {
-    const Config = GenabilityConfig.config();
-    super(Config.baseURL, credentials);
-  }
-
   public async getTariffs(request?: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
     return this.getPaged(`/rest/public/tariffs`, { params: request }, tariffResponseInterceptor );
   }

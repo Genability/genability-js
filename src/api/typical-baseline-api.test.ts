@@ -2,14 +2,13 @@ import {
   TypicalBaselineApi,
   GetBaselinesBestRequest
 } from './typical-baseline-api';
-import { SingleResponse } from '../rest-client'
+import { GenabilityConfig, SingleResponse } from '../rest-client'
 import { Baseline, isBaseline, MeasureUnit } from '../types/typical-baseline';
 import { ServiceType } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
-import { credentialsFromFile } from '../rest-client/credentials';
 
-const credentials = credentialsFromFile('unitTest');
-const restClient = new TypicalBaselineApi(credentials);
+const config = new GenabilityConfig({profileName:'unitTest'});
+const restClient = new TypicalBaselineApi(config);
 
 describe("GetBaselinesBest request", () => {
   describe("call to queryStringify", () => {

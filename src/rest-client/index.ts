@@ -1,5 +1,4 @@
-export {
-  RestApiClient,
+export type {
   RestApiCredentials,
   RestApiCredentialsObject,
   RestApiCredentialsFunction,
@@ -7,22 +6,29 @@ export {
 } from './client';
 
 export {
+  RestApiClient
+} from './client';
+
+export type {
   Paged,
   Searchable,
-  isSearchable,
-  SortOrder,
   Sortable,
-  Fields,
-  isSortable,
   QueryStringified,
-  isQueryStringified,
   Response,
-  BasePagedRequest,
   AddParamCallback,
+  ResponseError,
+} from './contract';
+
+export {
+  SortOrder,
+  Fields,
   DefaultPagedRequest,
+  BasePagedRequest,
   SingleResponse,
   PagedResponse,
-  ResponseError,
+  isSearchable,
+  isSortable,
+  isQueryStringified,
   isResponseError
 } from './contract';
 

@@ -2,22 +2,36 @@ export {
   ResourceTypes
 } from './resource-types'
 
+export type {
+  GenPropertyKey,
+  GenPropertyChoice,
+} from './property-key';
+
 export {
   PropertyDataType,
   PrivacyFlag,
-  GenPropertyKey,
-  GenPropertyChoice,
   CommonPropertyKeyNames,
   isGenPropertyKey
 } from './property-key';
+
+export type {
+  LoadServingEntity,
+} from './load-serving-entity';
 
 export {
   ServiceType,
   OfferingType,
   Ownership,
-  LoadServingEntity,
   isLoadServingEntity
 } from './load-serving-entity';
+
+export type {
+  TariffProperty,
+  TariffRate,
+  TariffRateBand,
+  Tariff,
+  TariffDocument
+} from './tariff';
 
 export {
   TariffType,
@@ -30,10 +44,6 @@ export {
   TimeOfUseType,
   ProrationRule,
   RateUnit,
-  TariffProperty,
-  TariffRate,
-  TariffRateBand,
-  Tariff,
   isTariff,
   hasTiers,
   hasVariableOrCalculationFactor,
@@ -41,7 +51,6 @@ export {
   toTariffFromApi,
   toApiFromTariff,
   uniquePropertyKeys,
-  TariffDocument,
   isTariffDocument
 } from './tariff';
 
@@ -69,80 +78,107 @@ export {
   timeOfUseGraphQLSchema
 } from './time-of-use-graphql';
 
-export {
+export type {
   CalculatedCostSummary,
-  GroupBy,
-  DetailLevel,
   CalculatedCost,
   CalculatedCostItem,
-  PropertyData,
+  PropertyData
+} from './on-demand-cost-calculation'
+
+export {
+  GroupBy,
+  DetailLevel,
   isCalculatedCost
 } from './on-demand-cost-calculation'
+
+export type {
+  CenterPoint,
+  TerritoryItem,
+  TerritoryLse,
+  Territory
+} from './territory';
 
 export {
   UsageType,
   ItemType,
-  CenterPoint,
-  TerritoryItem,
-  TerritoryLse,
-  Territory,
   isTerritory
 } from './territory';
 
+export type {
+  Season,
+  SeasonGroup
+} from './season';
+
 export {
   PredominanceRule,
-  Season,
-  SeasonGroup,
   isSeasonGroup,
   isSeason
 } from './season';
 
-export {
+export type {
   TimeOfUse,
   TimeOfUseGroup,
-  TimeOfUseInterval,
+  TimeOfUseInterval
+} from './time-of-use';
+
+export {
   isTimeOfUseInterval,
   isTimeOfUsePeriod,
   isTimeOfUse,
   isTimeOfUseGroup
 } from './time-of-use';
 
-export {
+export type {
   LookupValue,
-  isLookupValue,
-  LookupStats,
-  isLookupStats
+  LookupStats
 } from './lookup'
 
 export {
-  MeasureUnit,
+  isLookupValue,
+  isLookupStats
+} from './lookup'
+
+export type {
   Baseline,
   BaselineMeasure,
   IntervalInfo,
   Factor,
-  BuildingType,
+  BuildingType
+} from './typical-baseline'
+
+export {
+  MeasureUnit,
   isBaseline,
   suitableTypicalBuildingIdForTariff
 } from './typical-baseline'
 
+export type {
+  Calendar,
+  CalendarDate,
+} from './calendar';
+
 export {
   CalendarType,
-  Calendar,
   DateDefinitionType,
-  CalendarDate,
   isCalendar,
   isCalendarDate
 } from './calendar';
 
-export {
+export type {
   Document,
-  DocumentSection,
-  isDocument
+  DocumentSection
 } from './document';
 
 export {
+  isDocument
+} from './document';
+
+export type {
   Price,
-  PriceChange,
+  PriceChange
+} from './smart-price';
+
+export {
   isPriceChange,
   isPrice
 } from './smart-price';

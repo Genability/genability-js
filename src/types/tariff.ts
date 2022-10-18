@@ -43,6 +43,7 @@ export enum ChargeClass {
   AFTER_TAX = "AFTER_TAX",
   OTHER = "OTHER",
   NON_BYPASSABLE = "NON_BYPASSABLE",
+  NET_EXCESS = "NET_EXCESS"
 }
 
 export enum ChargePeriod {

@@ -92,12 +92,11 @@ describe('GetDocument request', () => {
 });
 
 describe('Document api', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
-  let restClient = new DocumentApi(config);
+  let restClient: DocumentApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new DocumentApi(config);
   });

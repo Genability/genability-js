@@ -69,12 +69,11 @@ describe('Lookups request', () => {
 });
 
 describe('Lookup api', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
-  let restClient = new LookupApi(config);
+  let restClient: LookupApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new LookupApi(config);
   });

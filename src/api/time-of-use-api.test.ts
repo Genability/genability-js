@@ -10,14 +10,12 @@ import { ResourceTypes } from '../types/resource-types';
 
 
 describe('TimeOfUse api', () => {
-  let config;
   let restClient: TimeOfUseApi;
 
   beforeAll(async () => {
-    config = new GenabilityConfig({profileName:'unitTest'});
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new TimeOfUseApi(config);
   })

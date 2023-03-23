@@ -41,10 +41,9 @@ describe('GetBaselinesBest request', () => {
 
 describe('TypicalBaseline api', () => {
   it('returns the typical baseline', async () => {
-    let config = new GenabilityConfig({profileName:'unitTest'});
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     const restClient = new TypicalBaselineApi(config);
     const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();

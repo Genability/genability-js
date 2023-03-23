@@ -115,12 +115,11 @@ describe('GetCalendarDatesRequest unit tests', () => {
 
 jest.setTimeout(20000)
 describe('Calendar api integration tests', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
-  let restClient = new CalendarApi(config);
+  let restClient: CalendarApi;
   beforeAll(async () => {
-    if (config.useCredentialsFromFile) {      
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
     }
     restClient = new CalendarApi(config);
   });

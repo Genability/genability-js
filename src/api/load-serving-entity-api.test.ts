@@ -73,12 +73,11 @@ describe('GetLoadServingEntities request', () => {
 });
 
 describe('LoadServingEntity api', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
-  let restClient = new LoadServingEntityApi(config);
+  let restClient: LoadServingEntityApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new LoadServingEntityApi(config);
   });

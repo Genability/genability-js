@@ -92,13 +92,13 @@ describe('GetTariffs request', () => {
   })
 });
 
-describe('Tariff api', async () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
+describe('Tariff api', () => {
   let restClient: TariffApi;
+
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;
+      await config.setCredentialsFromFile();
     }
     restClient = new TariffApi(config);
   });

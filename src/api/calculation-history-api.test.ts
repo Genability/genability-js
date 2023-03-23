@@ -11,18 +11,16 @@ import {
   CalculatedCostRequest, isCalculatedCost, isCalculatedCostRequest, isMassCalculation, isMassCalculationRequest,
 } from '../types/on-demand-cost-calculation';
 import {Tariff} from '../types';
-
+jest.setTimeout(20000);
 describe('Calculation history api', () => {
   let calculatedCostRestClient: CalculatedCostApi;
   let tariffRestClient: TariffApi;
-  let config: GenabilityConfig;
   let restClient: CalculationHistoryApi;
 
   beforeAll(async () => {
-    config = new GenabilityConfig({profileName:'unitTest'});
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;
+      await config.setCredentialsFromFile();
     }
     tariffRestClient = new TariffApi(config);
     calculatedCostRestClient = new CalculatedCostApi(config);

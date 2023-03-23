@@ -25,12 +25,11 @@ describe('call to queryStringify', () => {
 });
 
 describe('Season api', () => {  
-  let config = new GenabilityConfig({profileName:'unitTest'});
+  const config = new GenabilityConfig({profileName:'unitTest'});
   let restClient: SeasonGroupApi;
   beforeAll(async () => {
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new SeasonGroupApi(config);
   });

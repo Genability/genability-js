@@ -83,13 +83,12 @@ describe('GetPropertyKeys request', () => {
   })
 });
 
-describe('PropertyKey api', () => {  
-  let config = new GenabilityConfig({profileName:'unitTest'});
+describe('PropertyKey api', () => {
   let restClient: PropertyKeyApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new PropertyKeyApi(config);
   });

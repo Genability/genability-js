@@ -73,12 +73,11 @@ describe('GetSmartPrice request', () => {
 
 jest.setTimeout(20000)
 describe('SmartPrice api', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
   let restClient: SmartPriceApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new SmartPriceApi(config);
   });

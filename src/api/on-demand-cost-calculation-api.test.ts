@@ -15,13 +15,12 @@ import {
 } from '../types/tariff';
 
 describe('CalculatedCost api', () => {
-  let config = new GenabilityConfig({profileName:'unitTest'});
   let restClient: CalculatedCostApi;
-  let tariffRestClient = new TariffApi(config);
+  let tariffRestClient: TariffApi;
   beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
+      await config.setCredentialsFromFile();
     }
     restClient = new CalculatedCostApi(config);
     tariffRestClient = new TariffApi(config);

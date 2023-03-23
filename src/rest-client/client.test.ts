@@ -60,29 +60,14 @@ describe('Check api credentials', () => {
   })
 
   it('is Empty credentials', async () => {
-    let config = new GenabilityConfig({profileName:'unitTest'});
-    if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
-    }
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: emptyApiCredentials}));
     expect(obj).toBeTruthy();
   })
   it('is jwt credentials', async () => {
-    let config = new GenabilityConfig({profileName:'unitTest'});
-    if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
-    }
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: jwtApiCredentials}));
     expect(obj).toBeTruthy();
   })
   it('is jwt credentials with credentialsFn', async () => {
-    let config = new GenabilityConfig({profileName:'unitTest'});
-    if (config.useCredentialsFromFile) {
-      const configFromFile = await config.getCredentialsFromFile();
-      config = configFromFile || config;;
-    }
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: (): Promise<RestApiCredentialsObject> => { return Promise.resolve(jwtApiCredentials) }}));
     await obj.getSingle('test');
     await obj.getPaged('test');
@@ -96,11 +81,10 @@ describe('Check interceptors', () => {
   })
 
   it('is jwt credentials with credentialsFn', async () => {
-    let obj: TestClass = new TestClass(credentialsWithInterceptor);
     if (credentialsWithInterceptor.useCredentialsFromFile) {
-      const configFromFile = await credentialsWithInterceptor.getCredentialsFromFile();
-      obj = (configFromFile && new TestClass(configFromFile)) || obj;
+      await credentialsWithInterceptor.setCredentialsFromFile();
     }
+    const obj: TestClass = new TestClass(credentialsWithInterceptor);
     await obj.getSingle('test');
     await obj.getPaged('test');
     expect(obj).toBeTruthy();

@@ -51,17 +51,13 @@ export class GenabilityConfig {
     this._useCredentialsFromFile = true;
   }
 
-  public async getCredentialsFromFile(): Promise<GenabilityConfig | null> {
+  public async setCredentialsFromFile(): Promise<void> {
     try {
-      this._credentials = await credentials.credentialsFromFile(
-        this._profileName
-      );
-      return this;
+      this._credentials = await credentials.credentialsFromFile(this._profileName);
     } catch (e) {
       console.error(`Error trying to get credentials - message: ${e.message} - stack: ${e.stack}`);
       // pass
     }
-    return null;
   }
 
   get baseURL(): string {

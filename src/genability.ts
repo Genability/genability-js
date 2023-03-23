@@ -43,9 +43,7 @@ export class Genability {
   }
 
   public async setupConfigCredentialsFromFile(): Promise<void> {
-    const configFromFile = await this._config.getCredentialsFromFile();
-    if (!configFromFile) return;
-    this._config = configFromFile;
+    await this._config.setCredentialsFromFile();
   }
 
   public static configure(config?: Partial<GenabilityConfigOptions>): Genability

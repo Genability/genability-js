@@ -14,37 +14,34 @@ import {
 } from '../types/calendar';
 import { ResourceTypes } from '../types/resource-types';
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new CalendarApi(config);
-
-describe("GetCalendarsRequest unit tests", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetCalendarsRequest unit tests', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles lseId parameter", async () => {
+    it('handles lseId parameter', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       request.lseId = 1;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('lseId=1');
     })
-    it("handles all parameters", async () => {
+    it('handles all parameters', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       request.lseId = 1;
       request.calendarType = CalendarType.BILLING;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("lseId=1&calendarType=BILLING");
+      expect(qs).toEqual('lseId=1&calendarType=BILLING');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       request.lseId = undefined;
       request.calendarType = undefined;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles both pagination", async () => {
+    it('handles both pagination', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       request.lseId = 1;
       request.pageCount = 22;
@@ -52,7 +49,7 @@ describe("GetCalendarsRequest unit tests", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('lseId=1&pageStart=33&pageCount=22');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest({
         pageCount: 22,
         pageStart: 33
@@ -64,39 +61,39 @@ describe("GetCalendarsRequest unit tests", () => {
   })
 });
 
-describe("GetCalendarDatesRequest unit tests", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetCalendarDatesRequest unit tests', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles calendarId parameter", async () => {
+    it('handles calendarId parameter', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       request.calendarId = 1;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('calendarId=1');
     })
-    it("handles all parameters", async () => {
+    it('handles all parameters', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       request.calendarId = 1;
       request.lseId = 1;
-      request.locale = "test"
-      request.fromDateTime = "2011-06-12T19:00:00.0-0700"
-      request.toDateTime = "2011-06-12T19:00:00.0-0700"
+      request.locale = 'test'
+      request.fromDateTime = '2011-06-12T19:00:00.0-0700'
+      request.toDateTime = '2011-06-12T19:00:00.0-0700'
       request.calendarEventTypes = CalendarType.BILLING
       request.dateDefinitionTypes = DateDefinitionType.EASTER_DATE
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("calendarId=1&lseId=1&locale=test&fromDateTime=2011-06-12T19:00:00.0-0700&toDateTime=2011-06-12T19:00:00.0-0700&calendarEventTypes=BILLING&dateDefinitionTypes=EASTER_DATE");
+      expect(qs).toEqual('calendarId=1&lseId=1&locale=test&fromDateTime=2011-06-12T19:00:00.0-0700&toDateTime=2011-06-12T19:00:00.0-0700&calendarEventTypes=BILLING&dateDefinitionTypes=EASTER_DATE');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       request.lseId = undefined;
       request.locale = undefined;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles both pagination", async () => {
+    it('handles both pagination', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       request.calendarId = 1;
       request.pageCount = 22;
@@ -104,7 +101,7 @@ describe("GetCalendarDatesRequest unit tests", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('calendarId=1&pageStart=33&pageCount=22');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest({
         pageCount: 22,
         pageStart: 33
@@ -116,9 +113,19 @@ describe("GetCalendarDatesRequest unit tests", () => {
   })
 });
 
-describe("Calendar api integration tests", () => {
-  describe("get one endpoint", () => {
-    it("returns the calendar for valid ID", async () => {
+jest.setTimeout(20000)
+describe('Calendar api integration tests', () => {
+  let config = new GenabilityConfig({profileName:'unitTest'});
+  let restClient = new CalendarApi(config);
+  beforeAll(async () => {
+    if (config.useCredentialsFromFile) {      
+      const configFromFile = await config.getCredentialsFromFile();
+      config = configFromFile || config;
+    }
+    restClient = new CalendarApi(config);
+  });
+  describe('get one endpoint', () => {
+    it('returns the calendar for valid ID', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       const response: PagedResponse<Calendar> = await restClient.getCalendars(request);
       const { calendarId } = response.results[0];
@@ -126,11 +133,11 @@ describe("Calendar api integration tests", () => {
       expect(result && result.calendarId).toEqual(calendarId);
     })
   })
-  describe("get n endpoint", () => {
-    it("returns a list of calendars", async () => {
+  describe('get n endpoint', () => {
+    it('returns a list of calendars', async () => {
       const request: GetCalendarsRequest = new GetCalendarsRequest();
       const response: PagedResponse<Calendar> = await restClient.getCalendars(request);
-      expect(response.status).toEqual("success");
+      expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.CALENDAR);
       expect(response.count).toBeGreaterThan(200);
       expect(response.results).toHaveLength(25);
@@ -139,11 +146,11 @@ describe("Calendar api integration tests", () => {
       }
     })
   })
-  describe("get calendar dates endpoint", () => {
-    it("returns a list of calendar dates", async () => {
+  describe('get calendar dates endpoint', () => {
+    it('returns a list of calendar dates', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       const response: PagedResponse<CalendarDate> = await restClient.getCalendarDates(request);
-      expect(response.status).toEqual("success");
+      expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.CALENDAR_DATE);
       expect(response.count).toBeGreaterThan(200);
       expect(response.results).toHaveLength(25);
@@ -152,11 +159,11 @@ describe("Calendar api integration tests", () => {
       }
     })
 
-    it("returns an error because of bad date", async () => {
+    it('returns an error because of bad date', async () => {
       const request: GetCalendarDatesRequest = new GetCalendarDatesRequest();
       request.fromDateTime = 'not-a-valid-date'; // bad
       const response: PagedResponse<CalendarDate> = await restClient.getCalendarDates(request);
-      expect(response.status).toEqual("error");
+      expect(response.status).toEqual('error');
       expect(response.type).toEqual(ResourceTypes.Error);
       expect(response.count).toEqual(1);
       expect(response.errors).toHaveLength(1);

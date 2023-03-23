@@ -14,12 +14,19 @@ import {
   Tariff
 } from '../types/tariff';
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new CalculatedCostApi(config);
-const tariffRestClient = new TariffApi(config);
-
-describe("CalculatedCost api", () => {
-  it("should return calculated cost", async () => {
+describe('CalculatedCost api', () => {
+  let config = new GenabilityConfig({profileName:'unitTest'});
+  let restClient: CalculatedCostApi;
+  let tariffRestClient = new TariffApi(config);
+  beforeAll(async () => {
+    if (config.useCredentialsFromFile) {
+      const configFromFile = await config.getCredentialsFromFile();
+      config = configFromFile || config;;
+    }
+    restClient = new CalculatedCostApi(config);
+    tariffRestClient = new TariffApi(config);
+  });
+  it('should return calculated cost', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -34,7 +41,7 @@ describe("CalculatedCost api", () => {
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000)
 
-  it("should return calculated cost for property inputs", async () => {
+  it('should return calculated cost for property inputs', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -44,14 +51,14 @@ describe("CalculatedCost api", () => {
     request.masterTariffId = masterTariffId;
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity"},{"keyName": "isSmartRateCustomer", "dataValue": true}]');
     request.propertyInputs = propertyData;
-    request.useTypicalElectricity("SMALL_COMMERCIAL", 2);
+    request.useTypicalElectricity('SMALL_COMMERCIAL', 2);
     const response: SingleResponse<CalculatedCost> = await restClient.runCalculation(request);
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000);
 
-  it("should return calculated cost for property inputs when dataSeriesAttributes is present", async () => {
+  it('should return calculated cost for property inputs when dataSeriesAttributes is present', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -67,7 +74,7 @@ describe("CalculatedCost api", () => {
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
   }, 10000);
 
-  it("should return mass calculation", async () => {
+  it('should return mass calculation', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
@@ -78,7 +85,7 @@ describe("CalculatedCost api", () => {
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
-  it("should return mass calculation for sharedScenario", async () => {
+  it('should return mass calculation for sharedScenario', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
@@ -90,7 +97,7 @@ describe("CalculatedCost api", () => {
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
-  it("should return mass calculation for sharedScenario when propertyInputs is set", async () => {
+  it('should return mass calculation for sharedScenario when propertyInputs is set', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
@@ -102,7 +109,7 @@ describe("CalculatedCost api", () => {
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
   }, 10000)
 
-  it("should return mass calculation for sharedScenario when expected is set", async () => {
+  it('should return mass calculation for sharedScenario when expected is set', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
@@ -115,102 +122,102 @@ describe("CalculatedCost api", () => {
   }, 10000)
 });
 
-describe("test useTypicalElectricity", () => {
-  it("should add propertyinputs when no other inputs on the list", async () => {
+describe('test useTypicalElectricity', () => {
+  it('should add propertyinputs when no other inputs on the list', async () => {
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
-    request.useTypicalElectricity("SMALL_COMMERCIAL", 2);
+    request.useTypicalElectricity('SMALL_COMMERCIAL', 2);
     const propertyInputs = [
       {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
+        keyName : 'baselineType',
+        dataValue : 'typicalElectricity',
+        operator : '+',
         dataFactor : 2
       },{
-        keyName : "buildingId",
-        dataValue : "SMALL_COMMERCIAL"
+        keyName : 'buildingId',
+        dataValue : 'SMALL_COMMERCIAL'
       }
     ];
     expect(request.propertyInputs).toEqual(propertyInputs);
   })
 
-  it("should add baselineType and buildingId inputs when other different inputs are on the list already", async () => {
+  it('should add baselineType and buildingId inputs when other different inputs are on the list already', async () => {
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
     const propertyData = JSON.parse('[{"keyName": "isSmartRateCustomer", "dataValue": true}]');
     request.propertyInputs = propertyData;
-    request.useTypicalElectricity("SMALL_COMMERCIAL", 2);
+    request.useTypicalElectricity('SMALL_COMMERCIAL', 2);
     const propertyInputs = [
       {
-        keyName: "isSmartRateCustomer",
+        keyName: 'isSmartRateCustomer',
         dataValue: true
       },
       {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
+        keyName : 'baselineType',
+        dataValue : 'typicalElectricity',
+        operator : '+',
         dataFactor : 2
       },{
-        keyName : "buildingId",
-        dataValue : "SMALL_COMMERCIAL"
+        keyName : 'buildingId',
+        dataValue : 'SMALL_COMMERCIAL'
       }
     ];
     expect(request.propertyInputs).toEqual(propertyInputs);
   });
 
-  it("should not add buildingId input when same dataValue is present already", async () => {
+  it('should not add buildingId input when same dataValue is present already', async () => {
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity", "operator": "+", "dataFactor": 1},{"keyName": "buildingId", "dataValue": "SMALL_COMMERCIAL"}]');
     request.propertyInputs = propertyData;
-    request.useTypicalElectricity("SMALL_COMMERCIAL", 3);
+    request.useTypicalElectricity('SMALL_COMMERCIAL', 3);
     const propertyInputs = [
       {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
+        keyName : 'baselineType',
+        dataValue : 'typicalElectricity',
+        operator : '+',
         dataFactor : 3
       },{
-        keyName : "buildingId",
-        dataValue : "SMALL_COMMERCIAL"
+        keyName : 'buildingId',
+        dataValue : 'SMALL_COMMERCIAL'
       }
     ];
     expect(request.propertyInputs).toEqual(propertyInputs);
   });
 
-  it("should update the dataFactor from the lastest call", async () => {
+  it('should update the dataFactor from the lastest call', async () => {
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity", "operator": "+", "dataFactor": 1},{"keyName": "buildingId", "dataValue": "SMALL_COMMERCIAL"}]');
     request.propertyInputs = propertyData;
-    request.useTypicalElectricity("SMALL_COMMERCIAL", 3);
+    request.useTypicalElectricity('SMALL_COMMERCIAL', 3);
     const propertyInputs = [
       {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
+        keyName : 'baselineType',
+        dataValue : 'typicalElectricity',
+        operator : '+',
         dataFactor : 3
       },{
-        keyName : "buildingId",
-        dataValue : "SMALL_COMMERCIAL"
+        keyName : 'buildingId',
+        dataValue : 'SMALL_COMMERCIAL'
       }
     ];
     expect(request.propertyInputs).toEqual(propertyInputs);
   });
 
-  it("should add buildingId input when different dataValue is provided", async () => {
+  it('should add buildingId input when different dataValue is provided', async () => {
     const request: GetCalculatedCostRequest = new GetCalculatedCostRequest();
     const propertyData = JSON.parse('[{"keyName": "baselineType", "dataValue": "typicalElectricity", "operator": "+", "dataFactor": 1},{"keyName": "buildingId", "dataValue": "SMALL_COMMERCIAL"}]');
     request.propertyInputs = propertyData;
-    request.useTypicalElectricity("RESIDENTIAL", 3);
+    request.useTypicalElectricity('RESIDENTIAL', 3);
     const propertyInputs = [
       {
-        keyName : "baselineType",
-        dataValue : "typicalElectricity",
-        operator : "+",
+        keyName : 'baselineType',
+        dataValue : 'typicalElectricity',
+        operator : '+',
         dataFactor : 3
       },{
-        keyName : "buildingId",
-        dataValue : "SMALL_COMMERCIAL"
+        keyName : 'buildingId',
+        dataValue : 'SMALL_COMMERCIAL'
       },{
-        keyName : "buildingId",
-        dataValue : "RESIDENTIAL"
+        keyName : 'buildingId',
+        dataValue : 'RESIDENTIAL'
       }
     ];
     expect(request.propertyInputs).toEqual(propertyInputs);

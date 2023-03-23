@@ -10,41 +10,38 @@ import {
   isGenPropertyKey
 } from '../types/property-key';
 
-import { ResourceTypes } from "../types/resource-types";
-
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new PropertyKeyApi(config);
+import { ResourceTypes } from '../types/resource-types';
 
 const demandPk: GenPropertyKey = {
   dataType: PropertyDataType.DEMAND, 
-  description: "Quantity in kW of load that is used for a given period", 
-  displayName: "Demand (kW)", 
-  family: "load",
+  description: 'Quantity in kW of load that is used for a given period', 
+  displayName: 'Demand (kW)', 
+  family: 'load',
   keyName: CommonPropertyKeyNames.DEMAND,
-  keyspace: "electricity"
+  keyspace: 'electricity'
 }
 
-describe("GetPropertyKeys request", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetPropertyKeys request', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles electricity parameter", async () => {
+    it('handles electricity parameter', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.keySpace = 'electricity';
       const qs: string = request.queryStringify();
       expect(qs).toEqual('keySpace=electricity');
     })
-    it("handles several parameters", async () => {
+    it('handles several parameters', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.excludeGlobal = true;
       request.keySpace = 'electricity';
       const qs: string = request.queryStringify();
       expect(qs).toEqual('excludeGlobal=true&keySpace=electricity');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.excludeGlobal = undefined;
       request.keySpace = undefined;
@@ -55,7 +52,7 @@ describe("GetPropertyKeys request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("returns all parameters", async () => {
+    it('returns all parameters', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.excludeGlobal = true;
       request.keySpace = 'electricity';
@@ -66,7 +63,7 @@ describe("GetPropertyKeys request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('excludeGlobal=true&keySpace=electricity&family=family&entityId=734&entityType=LSE&dataType=DEMAND');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest({
         pageCount: 22,
         pageStart: 33
@@ -75,7 +72,7 @@ describe("GetPropertyKeys request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('keySpace=electricity&pageStart=33&pageCount=22');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.keySpace = 'electricity';
       request.pageCount = 0;
@@ -86,27 +83,36 @@ describe("GetPropertyKeys request", () => {
   })
 });
 
-describe("PropertyKey api", () => {
-  describe("get one endpoint", () => {
-    it("returns the demand property key", async () => {
+describe('PropertyKey api', () => {  
+  let config = new GenabilityConfig({profileName:'unitTest'});
+  let restClient: PropertyKeyApi;
+  beforeAll(async () => {
+    if (config.useCredentialsFromFile) {
+      const configFromFile = await config.getCredentialsFromFile();
+      config = configFromFile || config;;
+    }
+    restClient = new PropertyKeyApi(config);
+  });
+  describe('get one endpoint', () => {
+    it('returns the demand property key', async () => {
       const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey(CommonPropertyKeyNames.DEMAND);
       expect(response.result).toBeTruthy();
       expect(response.errors).toBeUndefined();
       expect(response.result).toEqual(demandPk);
     })
-    it("returns error on bad property key", async () => {
-      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey("ThisPr0pertyKeyD03sN0tExist");
+    it('returns error on bad property key', async () => {
+      const response: SingleResponse<GenPropertyKey> = await restClient.getPropertyKey('ThisPr0pertyKeyD03sN0tExist');
       expect(response.errors).toBeTruthy();
       expect(response.result).toBeNull();
       expect(response.errors && isResponseError(response.errors[0])).toEqual(true);
     })
   })
-  describe("get n endpoint", () => {
-    it("returns a list of property keys", async () => {
+  describe('get n endpoint', () => {
+    it('returns a list of property keys', async () => {
       const request: GetPropertyKeysRequest = new GetPropertyKeysRequest();
       request.keySpace = 'electricity';
       const response: PagedResponse<GenPropertyKey> = await restClient.getPropertyKeys(request);
-      expect(response.status).toEqual("success");
+      expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.PROPERTY_KEY);
       expect(response.count).toBeGreaterThan(200);
       expect(response.results).toHaveLength(25);

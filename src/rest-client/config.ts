@@ -13,6 +13,11 @@ export class GenabilityConfigOptions {
   responseInterceptor?: (response: AxiosResponse) => AxiosResponse;
 }
 
+/**
+ * GenabilityConfig class
+ * @todo If using credentials file, always check if {useCredentialsFile} is true, then call setCredentialsFromFile function
+ * @private {boolean} useCredentialsFromFile - flag to know if credentials from file should be use
+ */
 export class GenabilityConfig {
   private static _instance: GenabilityConfig | undefined;
   private _baseURL: string;
@@ -51,6 +56,9 @@ export class GenabilityConfig {
     this._useCredentialsFromFile = true;
   }
 
+  /**
+   * @description Sets credentials from file located at ~/genability/credentials.json with provided profile name
+   */
   public async setCredentialsFromFile(): Promise<void> {
     try {
       this._credentials = await credentials.credentialsFromFile(this._profileName);

@@ -17,14 +17,12 @@ import {
 } from './api';
 
 /**
- * If using credentials file, always check if {useCredentialsFile} is true, then call setupConfigCredentialsFromFile
- * @private {boolean} useCredentialsFromFile - use it when requiring credentials file to authenticate
- * @function setupConfigCredentialsFromFile - use it to get a GenabilityConfig instance
+ *@todo If using credentials file, always check if {__config.useCredentialsFile} is true, then call __config.setCredentialsFromFile
  */
 export class Genability {
   private static _instance: Genability | undefined;
   // REST APIs
-  private _config!: GenabilityConfig;
+  private _config: GenabilityConfig;
   private _properties: PropertyKeyApi | undefined;
   private _lses: LoadServingEntityApi | undefined;
   private _tariffs: TariffApi | undefined;
@@ -35,15 +33,9 @@ export class Genability {
   private _lookups: LookupApi | undefined;
   private _typicals: TypicalBaselineApi | undefined;
   private _documents: DocumentApi | undefined;
-  private _useCredentialsFromFile: boolean;
 
   private constructor(options?: Partial<GenabilityConfigOptions>) {
     this._config = new GenabilityConfig(options);
-    this._useCredentialsFromFile = this._config.useCredentialsFromFile;
-  }
-
-  public async setupConfigCredentialsFromFile(): Promise<void> {
-    await this._config.setCredentialsFromFile();
   }
 
   public static configure(config?: Partial<GenabilityConfigOptions>): Genability
@@ -122,9 +114,5 @@ export class Genability {
   public static __deconfigure(): void
   {
     delete this._instance;
-  }
-
-  public get useCredentialsFromFile(): boolean {
-    return this._useCredentialsFromFile;
   }
 }

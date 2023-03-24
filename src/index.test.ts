@@ -12,8 +12,8 @@ describe('client', () => {
       profileName: 'unitTest'
     });
 
-    if (genability.useCredentialsFromFile) {
-      await genability.setupConfigCredentialsFromFile();
+    if (genability.__config.useCredentialsFromFile) {
+      await genability.__config.setCredentialsFromFile();
     }
     const { result, errors } = await genability.properties.getPropertyKey(CommonPropertyKeyNames.DEMAND);
     expect(result).toBeTruthy();

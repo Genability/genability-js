@@ -45,12 +45,12 @@ export class GenabilityConfig {
 
     if (configOptions?.credentials) {
       this._credentials = configOptions?.credentials;
-      return this;
+      return;
     }
 
     if (credentials.credentialsInEnv()) {
       this._credentials = credentials.credentialsFromEnv();
-      return this;
+      return;
     }
     this._profileName = configOptions?.profileName || '';
     this._useCredentialsFromFile = true;

@@ -12,23 +12,20 @@ import {
 import { ResourceTypes } from '../types/resource-types'
 import { Fields } from '../rest-client/contract';
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new LoadServingEntityApi(config);
-
-describe("GetLoadServingEntities request", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetLoadServingEntities request', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles postCode parameter", async () => {
+    it('handles postCode parameter', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '1';
       const qs: string = request.queryStringify();
       expect(qs).toEqual('postCode=1');
     })
-    it("handles several parameters", async () => {
+    it('handles several parameters', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = 'USA';
       request.fields = Fields.EXTENDED;
@@ -36,7 +33,7 @@ describe("GetLoadServingEntities request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('country=USA&serviceTypes=ELECTRICITY,GAS&fields=ext');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.country = undefined;
       request.serviceTypes = undefined;
@@ -45,7 +42,7 @@ describe("GetLoadServingEntities request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("returns all parameters", async () => {
+    it('returns all parameters', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.country = 'USA';
@@ -55,7 +52,7 @@ describe("GetLoadServingEntities request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('postCode=0001&country=USA&serviceTypes=ELECTRICITY,GAS&ownerships=INVESTOR,COOP&fields=ext');
     })
-    it("handles both pagination", async () => {
+    it('handles both pagination', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.postCode = '0001';
       request.pageCount = 22;
@@ -63,7 +60,7 @@ describe("GetLoadServingEntities request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('postCode=0001&pageStart=33&pageCount=22');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest({
         pageCount: 22,
         pageStart: 33
@@ -75,9 +72,17 @@ describe("GetLoadServingEntities request", () => {
   })
 });
 
-describe("LoadServingEntity api", () => {
-  describe("get one endpoint", () => {
-    it("returns the load serving entity", async () => {
+describe('LoadServingEntity api', () => {
+  let restClient: LoadServingEntityApi;
+  beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
+    }
+    restClient = new LoadServingEntityApi(config);
+  });
+  describe('get one endpoint', () => {
+    it('returns the load serving entity', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       const assignResponse: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
       const { lseId } = assignResponse.results[0];
@@ -87,12 +92,12 @@ describe("LoadServingEntity api", () => {
       expect(response.result).toEqual(assignResponse.results[0]);
     })
   })
-  describe("get n endpoint", () => {
-    it("returns a list of load serving entities", async () => {
+  describe('get n endpoint', () => {
+    it('returns a list of load serving entities', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.serviceTypes = [ServiceType.ELECTRICITY];
       const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
-      expect(response.status).toEqual("success");
+      expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.LOAD_SERVING_ENTITY);
       expect(response.count).toBeGreaterThan(200);
       expect(response.results).toHaveLength(25);

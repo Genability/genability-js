@@ -17,5 +17,6 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/indent': [2, 2],
+    'quotes': ['warn', 'single']
   },
 };

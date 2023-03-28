@@ -10,16 +10,13 @@ import {
 import { ResourceTypes } from '../types/resource-types'
 import { GenabilityConfig, PagedResponse } from '../rest-client'
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new SeasonGroupApi(config);
-
-describe("call to queryStringify", () => {
-  it("handles no parameters", async () => {
+describe('call to queryStringify', () => {
+  it('handles no parameters', async () => {
     const request: GetSeasonGroupsRequest = new GetSeasonGroupsRequest();
     const qs: string = request.queryStringify();
     expect(qs).toEqual('');
   })
-  it("handles lseId parameter", async () => {
+  it('handles lseId parameter', async () => {
     const request: GetSeasonGroupsRequest = new GetSeasonGroupsRequest();
     request.lseId = 355;
     const qs: string = request.queryStringify();
@@ -27,12 +24,20 @@ describe("call to queryStringify", () => {
   })
 });
 
-describe("Season api", () => {
-  it("returns a list of season groups", async () => {
+describe('Season api', () => {  
+  const config = new GenabilityConfig({profileName:'unitTest'});
+  let restClient: SeasonGroupApi;
+  beforeAll(async () => {
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
+    }
+    restClient = new SeasonGroupApi(config);
+  });
+  it('returns a list of season groups', async () => {
     const request: GetSeasonGroupsRequest = new GetSeasonGroupsRequest();
     request.lseId = 734;
     const response: PagedResponse<SeasonGroup> = await restClient.getSeasonGroups(request);
-    expect(response.status).toEqual("success");
+    expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.SEASON_GROUP);
     for(const seasonGroup of response.results) {
       expect(isSeasonGroup(seasonGroup)).toBeTruthy();

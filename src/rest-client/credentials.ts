@@ -1,13 +1,13 @@
 import * as path from 'path';
-import { readFileSync } from 'fs';
-import { homedir } from 'os';
 import {RestApiCredentialsObject} from './client';
 export const GENABILITY_DOT_DIRECTORY = '.genability';
 export const CREDENTIALS_FILE_NAME = 'credentials.json';
 
-export function credentialsFromFile(profileName = 'default'): RestApiCredentialsObject {
+export const credentialsFromFile = async (profileName = 'default'): Promise<RestApiCredentialsObject> => {
   let content;
   try {
+    const { readFileSync } = await import('fs');
+    const { homedir } = await import('os');
     const credentialsFilePath = path.join(
       homedir(),
       GENABILITY_DOT_DIRECTORY,

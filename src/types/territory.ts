@@ -1,15 +1,15 @@
 export enum UsageType {
-  SERVICE = "SERVICE",
-  TARIFF = "TARIFF",
-  CLIMATE_ZONE = "CLIMATE_ZONE",
-  UTILITY_CLIMATE_ZONE = "UTILITY_CLIMATE_ZONE",
+  SERVICE = 'SERVICE',
+  TARIFF = 'TARIFF',
+  CLIMATE_ZONE = 'CLIMATE_ZONE',
+  UTILITY_CLIMATE_ZONE = 'UTILITY_CLIMATE_ZONE',
 }
 
 export enum ItemType {
-  STATE = "STATE",
-  COUNTY = "COUNTY",
-  CITY = "CITY",
-  ZIPCODE = "ZIPCODE"
+  STATE = 'STATE',
+  COUNTY = 'COUNTY',
+  CITY = 'CITY',
+  ZIPCODE = 'ZIPCODE'
 }
 
 export interface TerritoryItem {

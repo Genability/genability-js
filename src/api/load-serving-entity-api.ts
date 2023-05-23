@@ -29,7 +29,7 @@ export class GetLoadServingEntitiesRequest extends BasePagedRequest {
 
 export class LoadServingEntityApi extends RestApiClient {
   public async getLoadServingEntities(request: GetLoadServingEntitiesRequest): Promise<PagedResponse<LoadServingEntity>> {
-    return this.getPaged(`/rest/public/lses`, { params: request } );
+    return this.getPaged('/rest/public/lses', { params: request } );
   }
 
   public async getLoadServingEntity(lseId: number): Promise<SingleResponse<LoadServingEntity>> {

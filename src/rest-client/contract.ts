@@ -197,7 +197,7 @@ abstract class BaseResponse<T>implements Response<T> {
       arg.results.forEach((result) => {
         if (isResponseError(result as unknown as ResponseError)) {
           errors.push(result as unknown as ResponseError)
-        } else if (typeof result === `string`) {
+        } else if (typeof result === 'string') {
           errors.push({
             code: 'SystemError',
             message: result,

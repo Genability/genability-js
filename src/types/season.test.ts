@@ -5,8 +5,8 @@ import {
   isSeasonGroup
 } from './season';
 
-describe("Season types", () => {
-  it("works for PredominanceRule", () => {
+describe('Season types', () => {
+  it('works for PredominanceRule', () => {
     const seasonJson = '{\
       "seasonId": 1,\
       "seasonGroupId": 3,\
@@ -17,7 +17,7 @@ describe("Season types", () => {
     expect(season.seasonGroupId).toEqual(3);
     expect(season.fromEdgePredominance).toEqual(PredominanceRule.PREDOMINANT);
   })
-  it("works for Season", () => {
+  it('works for Season', () => {
     const seasonJson = '{\
       "seasonId": 1,\
       "seasonGroupId": 3\
@@ -26,7 +26,7 @@ describe("Season types", () => {
     expect(season.seasonId).toEqual(1);
     expect(season.seasonGroupId).toEqual(3);
   })
-  it("works for SeasonGroup", () => {
+  it('works for SeasonGroup', () => {
     const seasonJson = '{\
       "seasonId": 1,\
       "seasonGroupId": 3\
@@ -42,11 +42,11 @@ describe("Season types", () => {
     expect(seasonGroup.seasons).toEqual([season]);
   })
 });
-describe("isSeasonGroup", () => {
-  it("works for isSeasonGroup", () => {
-    const seasonGroupJson = `{\
+describe('isSeasonGroup', () => {
+  it('works for isSeasonGroup', () => {
+    const seasonGroupJson = '{\
       "seasonGroupId": 3\
-      }`;
+      }';
     const seasonGroup: SeasonGroup = JSON.parse(seasonGroupJson);
     expect(seasonGroup.seasonGroupId).toEqual(3);
     expect(isSeasonGroup(seasonGroup)).toBeTruthy();

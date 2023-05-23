@@ -9,21 +9,21 @@ import {
   isCalendarEvent
 } from './calendar';
 
-describe("calendar types", () => {
-  describe("test that JSON to enum", () => {
-    it("works for CalendarType", () => {
+describe('calendar types', () => {
+  describe('test that JSON to enum', () => {
+    it('works for CalendarType', () => {
       const calendar: Calendar = JSON.parse('{"calendarId": 1, "calendarType": "HOLIDAY"}');
       expect(calendar.calendarType).toEqual(CalendarType.HOLIDAY);
       expect(calendar.calendarId).toEqual(1);
     })
-    it("works for DateDefinitionType", () => {
+    it('works for DateDefinitionType', () => {
       const calendarEvent: CalendarEvent = JSON.parse('{"calendarEventId": 1, "dateDefinitionType": "FIXED_DATE"}');
       expect(calendarEvent.dateDefinitionType).toEqual(DateDefinitionType.FIXED_DATE);
       expect(calendarEvent.calendarEventId).toEqual(1);
     })
   });
-  describe("isCalendar function", () => {
-    it("should be false for invalid JSON", () => {
+  describe('isCalendar function', () => {
+    it('should be false for invalid JSON', () => {
       const calendar: Calendar = JSON.parse(
         '{\
           "calendarId": 1,\
@@ -32,7 +32,7 @@ describe("calendar types", () => {
       );
       expect(isCalendar(calendar)).toEqual(false);
     })
-    it("should be true for valid JSON", () => {
+    it('should be true for valid JSON', () => {
       const calendar: Calendar = JSON.parse(
         '{\
           "calendarId": 1,\
@@ -44,8 +44,8 @@ describe("calendar types", () => {
       expect(isCalendar(calendar)).toEqual(true);
     })
   });
-  describe("isCalendarDate function", () => {
-    it("should be false for invalid JSON", () => {
+  describe('isCalendarDate function', () => {
+    it('should be false for invalid JSON', () => {
       const calendarDate: CalendarDate = JSON.parse(
         '{\
           "eventDateId": 1,\
@@ -54,7 +54,7 @@ describe("calendar types", () => {
       );
       expect(isCalendarDate(calendarDate)).toEqual(false);
     })
-    it("should be true for valid JSON", () => {
+    it('should be true for valid JSON', () => {
       const calendarDate: CalendarDate = JSON.parse(
         '{\
           "eventDateId": 2,\
@@ -69,8 +69,8 @@ describe("calendar types", () => {
       expect(isCalendarDate(calendarDate)).toEqual(true);
     })
   });
-  describe("works for CalendarEvent", () => {
-    it("should be true with empty events", () => {
+  describe('works for CalendarEvent', () => {
+    it('should be true with empty events', () => {
       const calendar: Calendar = JSON.parse(
         '{\
           "calendarId": 1,\
@@ -83,7 +83,7 @@ describe("calendar types", () => {
       expect(isCalendar(calendar)).toEqual(true);
       expect(calendar.events).toEqual([]);
     })
-    it("should be true with events", () => {
+    it('should be true with events', () => {
       const eventsJson = '[{\
         "calendarEventId": 1,\
         "calendarEventName": "testEventName",\

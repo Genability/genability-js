@@ -1,9 +1,9 @@
 import { 
   LookupValue, isLookupValue
-} from "./lookup";
+} from './lookup';
 
-describe("lookup", () => {
-  it("works for LookupValue", () => {
+describe('lookup', () => {
+  it('works for LookupValue', () => {
     const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\
@@ -18,8 +18,8 @@ describe("lookup", () => {
     expect(lookup.forecastAccuracy).toEqual(22);
   })
 });
-describe("isLookupValue function", () => {
-  it("should be false for invalid JSON", () => {
+describe('isLookupValue function', () => {
+  it('should be false for invalid JSON', () => {
     const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\
@@ -27,7 +27,7 @@ describe("isLookupValue function", () => {
     }');
     expect(isLookupValue(lookup)).toEqual(false);
   })
-  it("should be true for valid JSON", () => {
+  it('should be true for valid JSON', () => {
     const lookup: LookupValue = JSON.parse('{\
       "lookupId": 1,\
       "propertyKey": "propertyKeyString",\

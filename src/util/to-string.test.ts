@@ -1,5 +1,5 @@
-import { ToString } from "./to-string";
-import { TimeOfUse, TimeOfUsePeriod } from "../types/time-of-use";
+import { ToString } from './to-string';
+import { TimeOfUse, TimeOfUsePeriod } from '../types/time-of-use';
 
 describe('Test timeOfUsePeriod method', () => {
   it('should return correct fromatted text', () => {
@@ -54,15 +54,15 @@ describe('Test timeOfUsePeriod method', () => {
     };
     
     const formattedText1 = ToString.timeOfUsePeriod(toup1);
-    expect(formattedText1).toEqual("12am-1:30pm Mo-Fr");
+    expect(formattedText1).toEqual('12am-1:30pm Mo-Fr');
     const formattedText2 = ToString.timeOfUsePeriod(toup2);
-    expect(formattedText2).toEqual("9:15am-8pm");
+    expect(formattedText2).toEqual('9:15am-8pm');
     const formattedText3 = ToString.timeOfUsePeriod(toup3);
-    expect(formattedText3).toEqual("10pm-4am Sa-Su");
+    expect(formattedText3).toEqual('10pm-4am Sa-Su');
     const formattedText4 = ToString.timeOfUsePeriod(toup4);
-    expect(formattedText4).toEqual("12:59am-11:10pm");
+    expect(formattedText4).toEqual('12:59am-11:10pm');
     const formattedText5 = ToString.timeOfUsePeriod(toup5);
-    expect(formattedText5).toEqual("10pm-4am");
+    expect(formattedText5).toEqual('10pm-4am');
   });
 });
 
@@ -70,7 +70,7 @@ describe('Test timeOfUse method', () => {
   it('touName but no season, and no periods', () => {
     const tou: TimeOfUse = { touId: 1, touName: 'testTouName' }
     const res = ToString.timeOfUse(tou);
-    expect(res).toEqual("testTouName")
+    expect(res).toEqual('testTouName')
   });
 
   it('touName and season, but no periods', () => {
@@ -83,7 +83,7 @@ describe('Test timeOfUse method', () => {
       }
     }
     const res = ToString.timeOfUse(tou);
-    expect(res).toEqual("testTouName testSeasonName")
+    expect(res).toEqual('testTouName testSeasonName')
   });
 
   it('touName and 1 period but no season', () => {
@@ -101,7 +101,7 @@ describe('Test timeOfUse method', () => {
       }]
     }
     const res = ToString.timeOfUse(tou);
-    expect(res).toEqual("testTouName 12am-1:30pm Mo-Fr")
+    expect(res).toEqual('testTouName 12am-1:30pm Mo-Fr')
   })
 
   it('touName and 2 periods but no season', () => {
@@ -127,7 +127,7 @@ describe('Test timeOfUse method', () => {
       }]
     }
     const res = ToString.timeOfUse(tou);
-    expect(res).toEqual("testTouName 12am-1:30pm Mo-Fr, 9:15am-8pm")
+    expect(res).toEqual('testTouName 12am-1:30pm Mo-Fr, 9:15am-8pm')
   })
 
   it('touName and a season and 1 period', () => {
@@ -149,6 +149,6 @@ describe('Test timeOfUse method', () => {
       }]
     }
     const res = ToString.timeOfUse(tou);
-    expect(res).toEqual("testTouName testSeasonName 12am-1:30pm Mo-Fr")
+    expect(res).toEqual('testTouName testSeasonName 12am-1:30pm Mo-Fr')
   })
 });

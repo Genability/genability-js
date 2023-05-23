@@ -1,26 +1,26 @@
 export enum PrivacyFlag {
-  PUBLIC = "PUBLIC",
-  UNLISTED = "UNLISTED",
-  PRIVATE = "PRIVATE",
+  PUBLIC = 'PUBLIC',
+  UNLISTED = 'UNLISTED',
+  PRIVATE = 'PRIVATE',
 }
 
 export enum PropertyDataType {
-  STRING = "STRING",
-  CHOICE = "CHOICE",
-  BOOLEAN = "BOOLEAN",
-  DATE = "DATE",
-  DECIMAL = "DECIMAL",
-  INTEGER = "INTEGER",
-  FORMULA = "FORMULA",
-  LOOKUP = "LOOKUP",
-  DEMAND = "DEMAND"
+  STRING = 'STRING',
+  CHOICE = 'CHOICE',
+  BOOLEAN = 'BOOLEAN',
+  DATE = 'DATE',
+  DECIMAL = 'DECIMAL',
+  INTEGER = 'INTEGER',
+  FORMULA = 'FORMULA',
+  LOOKUP = 'LOOKUP',
+  DEMAND = 'DEMAND'
 };
 
 export const CommonPropertyKeyNames = {
-  CONSUMPTION: "consumption",
-  DEMAND: "demand",
-  CITY_LIMITS: "cityLimits",
-  HAS_ELECTRIC_VEHICLE: "hasElectricVehicle"
+  CONSUMPTION: 'consumption',
+  DEMAND: 'demand',
+  CITY_LIMITS: 'cityLimits',
+  HAS_ELECTRIC_VEHICLE: 'hasElectricVehicle'
 }
 
 export interface GenPropertyKey {

@@ -6,7 +6,7 @@ export function encode(
 ): string {
   let encoded;
   if(Array.isArray(val)) {
-    encoded = encodeURIComponent(val.join(","));
+    encoded = encodeURIComponent(val.join(','));
   } else {
     encoded = encodeURIComponent(val);
   }

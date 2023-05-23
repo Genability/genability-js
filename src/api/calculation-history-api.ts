@@ -3,7 +3,7 @@ import {
   RestApiClient
 } from '../rest-client';
 
-import {CalculatedCostRequest, CalculatedCost} from "../types/on-demand-cost-calculation";
+import {CalculatedCostRequest, CalculatedCost} from '../types/on-demand-cost-calculation';
 
 export class CalculationHistoryApi extends RestApiClient {
   public async getCalculateHistoryResponse(requestId: string): Promise<CalculatedCost> {

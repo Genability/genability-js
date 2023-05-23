@@ -1,6 +1,6 @@
 export enum PredominanceRule {
-  PREDOMINANT = "PREDOMINANT",
-  SUBSERVIENT = "SUBSERVIENT"
+  PREDOMINANT = 'PREDOMINANT',
+  SUBSERVIENT = 'SUBSERVIENT'
 }
 
 export interface Season {

@@ -30,7 +30,7 @@ export class GetPropertyKeysRequest extends BasePagedRequest {
 
 export class PropertyKeyApi extends RestApiClient {
   public async getPropertyKeys(request: GetPropertyKeysRequest): Promise<PagedResponse<GenPropertyKey>> {
-    return this.getPaged(`/rest/public/properties`, { params: request } );
+    return this.getPaged('/rest/public/properties', { params: request } );
   }
 
   public async getPropertyKey(keyName: string): Promise<SingleResponse<GenPropertyKey>> {

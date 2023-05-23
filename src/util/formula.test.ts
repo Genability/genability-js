@@ -1,4 +1,4 @@
-import { Formula } from "./formula";
+import { Formula } from './formula';
 
 describe('Test getProperties function', () => {
   it('should return properties from formula #tariffRateBand.consumptionUpperLimit', () => {

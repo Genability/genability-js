@@ -41,7 +41,7 @@ export class GetCalendarDatesRequest extends BasePagedRequest {
 
 export class CalendarApi extends RestApiClient {
   public async getCalendars(request: GetCalendarsRequest): Promise<PagedResponse<Calendar>> {
-    return this.getPaged(`/rest/public/calendars`, { params: request } );
+    return this.getPaged('/rest/public/calendars', { params: request } );
   }
 
   public async getCalendar(calendarId: number): Promise<SingleResponse<Calendar>> {
@@ -49,6 +49,6 @@ export class CalendarApi extends RestApiClient {
   }
 
   public async getCalendarDates(request: GetCalendarDatesRequest): Promise<PagedResponse<CalendarDate>> {
-    return this.getPaged(`/rest/public/calendars/dates`, { params: request } );
+    return this.getPaged('/rest/public/calendars/dates', { params: request } );
   }
 }

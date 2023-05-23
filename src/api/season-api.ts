@@ -18,6 +18,6 @@ export class GetSeasonGroupsRequest extends BasePagedRequest {
 
 export class SeasonGroupApi extends RestApiClient {
   public async getSeasonGroups(request: GetSeasonGroupsRequest): Promise<PagedResponse<SeasonGroup>> {
-    return this.getPaged(`/rest/public/seasons`, { params: request } );
+    return this.getPaged('/rest/public/seasons', { params: request } );
   }
 }

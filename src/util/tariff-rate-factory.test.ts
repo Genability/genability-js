@@ -1,4 +1,4 @@
-import { TariffRateFactory } from "./tariff-rate-factory";
+import { TariffRateFactory } from './tariff-rate-factory';
 import {
   TariffRate,
   ChargeType,
@@ -6,7 +6,7 @@ import {
   ChargePeriod,
   TransactionType,
   RateUnit
-} from "../types/tariff";
+} from '../types/tariff';
   
 
 describe('Test createTaxRate method', () => {
@@ -18,7 +18,7 @@ describe('Test createTaxRate method', () => {
         riderId: null,
         tariffSequenceNumber: null,
         rateGroupName:'Group Name Taxes',
-        rateName: "testRateName",
+        rateName: 'testRateName',
         chargeType: ChargeType.TAX,
         chargeClass: [ChargeClass.TAX],
         chargePeriod: ChargePeriod.MONTHLY,
@@ -30,7 +30,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        "Group Name Taxes", 5000, true, "testRateName"
+        'Group Name Taxes', 5000, true, 'testRateName'
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -42,7 +42,7 @@ describe('Test createTaxRate method', () => {
         riderId: null,
         tariffSequenceNumber: null,
         rateGroupName:'Taxes',
-        rateName: "testRateName",
+        rateName: 'testRateName',
         chargeType: ChargeType.TAX,
         chargeClass: [ChargeClass.TAX],
         chargePeriod: ChargePeriod.MONTHLY,
@@ -54,7 +54,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        undefined, 5000, true, "testRateName"
+        undefined, 5000, true, 'testRateName'
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -78,7 +78,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        "Group Name Taxes", 5000
+        'Group Name Taxes', 5000
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -100,7 +100,7 @@ describe('Test createTaxRate method', () => {
         }]
       }
       const tariffRate: TariffRate = TariffRateFactory.createTaxRate(
-        "Group Name Taxes"
+        'Group Name Taxes'
       );
       expect(tariffRate).toEqual(expectedTariffRate);
     });
@@ -426,8 +426,8 @@ describe('Test copyRate method', () => {
     const tariffRate = {
       tariffRateId: 1,
       masterTariffRateId: 123,
-      fromDateTime: "2019-07-13T00:00:00-07:00",
-      toDateTime: "2020-05-11T00:00:00-07:00",
+      fromDateTime: '2019-07-13T00:00:00-07:00',
+      toDateTime: '2020-05-11T00:00:00-07:00',
       tariffId: null,
       riderId: null,
       tariffSequenceNumber: null,
@@ -447,20 +447,20 @@ describe('Test copyRate method', () => {
       }]
     }
     const tariffRateDeepCopy: TariffRate = TariffRateFactory.copyRate(tariffRate);
-    expect(tariffRate.rateName).toEqual("rateName");
-    expect(tariffRateDeepCopy.rateName).toEqual("Copy of rateName");
+    expect(tariffRate.rateName).toEqual('rateName');
+    expect(tariffRateDeepCopy.rateName).toEqual('Copy of rateName');
     expect(tariffRate.tariffRateId).toEqual(1);
     expect(tariffRateDeepCopy.tariffRateId).toEqual(null);
-    expect(tariffRate.fromDateTime).toEqual("2019-07-13T00:00:00-07:00");
+    expect(tariffRate.fromDateTime).toEqual('2019-07-13T00:00:00-07:00');
     expect(tariffRateDeepCopy.fromDateTime).toEqual(null);
-    expect(tariffRate.toDateTime).toEqual("2020-05-11T00:00:00-07:00");
+    expect(tariffRate.toDateTime).toEqual('2020-05-11T00:00:00-07:00');
     expect(tariffRateDeepCopy.toDateTime).toEqual(null);
     expect(tariffRate.rateBands && tariffRate.rateBands[0].tariffRateBandId).toEqual(100);
     expect(tariffRateDeepCopy.rateBands && tariffRateDeepCopy.rateBands[0].tariffRateBandId).toEqual(null);
     expect(tariffRate.rateBands && tariffRate.rateBands[1].tariffRateBandId).toEqual(101);
     expect(tariffRateDeepCopy.rateBands && tariffRateDeepCopy.rateBands[1].tariffRateBandId).toEqual(null);
-    tariffRateDeepCopy.rateGroupName = "Copy of rateGroupName";
-    expect(tariffRate.rateGroupName).toEqual("rateGroupName");
-    expect(tariffRateDeepCopy.rateGroupName).toEqual("Copy of rateGroupName");
+    tariffRateDeepCopy.rateGroupName = 'Copy of rateGroupName';
+    expect(tariffRate.rateGroupName).toEqual('rateGroupName');
+    expect(tariffRateDeepCopy.rateGroupName).toEqual('Copy of rateGroupName');
   });
 });

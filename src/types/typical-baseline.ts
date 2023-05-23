@@ -1,12 +1,12 @@
-import { PropertyData } from "./on-demand-cost-calculation";
-import { Territory } from "./territory";
-import { ServiceType } from "./load-serving-entity";
-import { CustomerClass, Tariff } from "./tariff";
+import { PropertyData } from './on-demand-cost-calculation';
+import { Territory } from './territory';
+import { ServiceType } from './load-serving-entity';
+import { CustomerClass, Tariff } from './tariff';
 
 export enum MeasureUnit {
-  TOTAL = "total",
-  INTENSITY = "intensity",
-  PROPORTION = "proportion"
+  TOTAL = 'total',
+  INTENSITY = 'intensity',
+  PROPORTION = 'proportion'
 }
 
 export interface Baseline {

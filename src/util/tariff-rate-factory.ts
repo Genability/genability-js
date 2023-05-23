@@ -1,4 +1,4 @@
-import { cloneDeep } from "lodash";
+import { cloneDeep } from 'lodash';
 import {
   TariffRate,
   ChargeType,
@@ -8,7 +8,7 @@ import {
   RateUnit,
   Tariff,
   TariffRateBand
-} from "../types/tariff";
+} from '../types/tariff';
 
 export class TariffRateFactory {
   public static createTaxRate(

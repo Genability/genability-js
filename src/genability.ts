@@ -16,6 +16,9 @@ import {
   DocumentApi,
 } from './api';
 
+/**
+ *@todo If using credentials file, always check if {__config.useCredentialsFile} is true, then call __config.setCredentialsFromFile
+ */
 export class Genability {
   private static _instance: Genability | undefined;
   // REST APIs
@@ -31,8 +34,7 @@ export class Genability {
   private _typicals: TypicalBaselineApi | undefined;
   private _documents: DocumentApi | undefined;
 
-  private constructor(options?: Partial<GenabilityConfigOptions>)
-  {
+  private constructor(options?: Partial<GenabilityConfigOptions>) {
     this._config = new GenabilityConfig(options);
   }
 

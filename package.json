@@ -1,6 +1,6 @@
 {
   "name": "@genability/api",
-  "version": "3.1.0",
+  "version": "3.2.1",
   "description": "Node.js and Browser Javascript SDK for Genability APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,8 @@
     "compile:watch": "npx tsc -w",
     "build": "yarn lint && yarn compile && yarn webpack",
     "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepublishOnly": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^25.2.1",

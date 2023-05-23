@@ -108,7 +108,7 @@ export function tariffResponseInterceptor(response: AxiosResponse): void {
 
 export class TariffApi extends RestApiClient {
   public async getTariffs(request?: GetTariffsRequest): Promise<PagedResponse<Tariff>> {
-    return this.getPaged(`/rest/public/tariffs`, { params: request }, tariffResponseInterceptor );
+    return this.getPaged('/rest/public/tariffs', { params: request }, tariffResponseInterceptor );
   }
 
   public async getTariff(masterTariffId: number, request?: GetTariffRequest): Promise<SingleResponse<Tariff>> {

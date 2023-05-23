@@ -7,23 +7,20 @@ import { Baseline, isBaseline, MeasureUnit } from '../types/typical-baseline';
 import { ServiceType } from '../types/load-serving-entity';
 import { ResourceTypes } from '../types/resource-types'
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new TypicalBaselineApi(config);
-
-describe("GetBaselinesBest request", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetBaselinesBest request', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles measuresUnit parameter", async () => {
+    it('handles measuresUnit parameter', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
       request.measuresUnit = MeasureUnit.TOTAL;
       const qs: string = request.queryStringify();
       expect(qs).toEqual('measuresUnit=total');
     })
-    it("handles several parameters", async () => {
+    it('handles several parameters', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
       request.country = 'USA';
       request.addressString = '1234';
@@ -31,7 +28,7 @@ describe("GetBaselinesBest request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('country=USA&addressString=1234&serviceType=ELECTRICITY');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
       request.country = undefined;
       request.measuresUnit = undefined;
@@ -42,8 +39,13 @@ describe("GetBaselinesBest request", () => {
   })
 });
 
-describe("TypicalBaseline api", () => {
-  it("returns the typical baseline", async () => {
+describe('TypicalBaseline api', () => {
+  it('returns the typical baseline', async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
+    }
+    const restClient = new TypicalBaselineApi(config);
     const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
     request.lat = 37.22589772602739;
     request.lng = -122.04498898630153;

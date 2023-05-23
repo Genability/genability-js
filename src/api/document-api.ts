@@ -30,7 +30,7 @@ export class GetDocumentRequest extends BasePagedRequest {
 export class DocumentApi extends RestApiClient {
 
   public async getDocuments(request: GetDocumentsRequest): Promise<PagedResponse<Document>> {
-    return this.getPaged(`/v1/documents`, { params: request } );
+    return this.getPaged('/v1/documents', { params: request } );
   }
 
   public async getDocument(documentId: number, request?: GetDocumentRequest): Promise<SingleResponse<Document>> {

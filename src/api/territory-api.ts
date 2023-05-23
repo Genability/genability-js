@@ -39,7 +39,7 @@ export class GetTerritoriesRequest extends BasePagedRequest {
 
 export class TerritoryApi extends RestApiClient {
   public async getTerritories(request: GetTerritoriesRequest): Promise<PagedResponse<Territory>> {
-    return this.getPaged(`/rest/public/territories`, { params: request } );
+    return this.getPaged('/rest/public/territories', { params: request } );
   }
 
   public async getTerritory(territoryId: number, request?: GetTerritoriesRequest): Promise<SingleResponse<Territory>> {

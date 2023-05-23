@@ -7,90 +7,90 @@ import { TimeOfUse } from './time-of-use';
 import { PrivacyFlag } from './property-key';
 
 export enum TariffType {
-  DEFAULT = "DEFAULT",
-  ALTERNATIVE = "ALTERNATIVE",
-  RIDER = "RIDER",
-  OPTIONAL_EXTRA = "OPTIONAL_EXTRA",
-  INCENTIVE = "INCENTIVE",
-  PROPOSED = "PROPOSED"
+  DEFAULT = 'DEFAULT',
+  ALTERNATIVE = 'ALTERNATIVE',
+  RIDER = 'RIDER',
+  OPTIONAL_EXTRA = 'OPTIONAL_EXTRA',
+  INCENTIVE = 'INCENTIVE',
+  PROPOSED = 'PROPOSED'
 }
 
 export enum CustomerClass {
-  GENERAL = "GENERAL",
-  RESIDENTIAL = "RESIDENTIAL",
-  SPECIAL_USE = "SPECIAL_USE",
-  PROPOSED = "PROPOSED",
+  GENERAL = 'GENERAL',
+  RESIDENTIAL = 'RESIDENTIAL',
+  SPECIAL_USE = 'SPECIAL_USE',
+  PROPOSED = 'PROPOSED',
 }
 
 export enum ChargeType {
-  FIXED_PRICE = "FIXED_PRICE",
-  CONSUMPTION_BASED = "CONSUMPTION_BASED",
-  DEMAND_BASED = "DEMAND_BASED",
-  QUANTITY = "QUANTITY",
-  MINIMUM = "MINIMUM",
-  MAXIMUM = "MAXIMUM",
-  TAX = "TAX",
-  NET_EXCESS_GENERATION = "NET_EXCESS_GENERATION",
+  FIXED_PRICE = 'FIXED_PRICE',
+  CONSUMPTION_BASED = 'CONSUMPTION_BASED',
+  DEMAND_BASED = 'DEMAND_BASED',
+  QUANTITY = 'QUANTITY',
+  MINIMUM = 'MINIMUM',
+  MAXIMUM = 'MAXIMUM',
+  TAX = 'TAX',
+  NET_EXCESS_GENERATION = 'NET_EXCESS_GENERATION',
 }
 
 export enum ChargeClass {
-  SUPPLY = "SUPPLY",
-  TRANSMISSION = "TRANSMISSION",
-  DISTRIBUTION = "DISTRIBUTION",
-  TAX = "TAX",
-  CONTRACTED = "CONTRACTED",
-  USER_ADJUSTED = "USER_ADJUSTED",
-  AFTER_TAX = "AFTER_TAX",
-  OTHER = "OTHER",
-  NON_BYPASSABLE = "NON_BYPASSABLE",
-  NET_EXCESS = "NET_EXCESS"
+  SUPPLY = 'SUPPLY',
+  TRANSMISSION = 'TRANSMISSION',
+  DISTRIBUTION = 'DISTRIBUTION',
+  TAX = 'TAX',
+  CONTRACTED = 'CONTRACTED',
+  USER_ADJUSTED = 'USER_ADJUSTED',
+  AFTER_TAX = 'AFTER_TAX',
+  OTHER = 'OTHER',
+  NON_BYPASSABLE = 'NON_BYPASSABLE',
+  NET_EXCESS = 'NET_EXCESS'
 }
 
 export enum ChargePeriod {
-  ONE_TIME = "ONE_TIME",
-  HOURLY = "HOURLY",
-  DAILY = "DAILY",
-  MONTHLY = "MONTHLY",
-  QUARTERLY = "QUARTERLY",
-  ANNUALLY = "ANNUALLY",
+  ONE_TIME = 'ONE_TIME',
+  HOURLY = 'HOURLY',
+  DAILY = 'DAILY',
+  MONTHLY = 'MONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  ANNUALLY = 'ANNUALLY',
 }
 
 export enum TransactionType {
-  BUY = "BUY",
-  SELL = "SELL",
-  NET = "NET",
-  BUY_IMPORT = "BUY_IMPORT",
-  SELL_EXPORT = "SELL_EXPORT",
+  BUY = 'BUY',
+  SELL = 'SELL',
+  NET = 'NET',
+  BUY_IMPORT = 'BUY_IMPORT',
+  SELL_EXPORT = 'SELL_EXPORT',
 }
 
 export enum TariffPropertyType {
-  APPLICABILITY = "APPLICABILITY",
-  RATE_CRITERIA = "RATE_CRITERIA",
-  BENEFIT = "BENEFIT",
-  DATA_REPUTATION = "DATA_REPUTATION",
-  SERVICE_TERMS = "SERVICE_TERMS",
-  INFO = "INFO"
+  APPLICABILITY = 'APPLICABILITY',
+  RATE_CRITERIA = 'RATE_CRITERIA',
+  BENEFIT = 'BENEFIT',
+  DATA_REPUTATION = 'DATA_REPUTATION',
+  SERVICE_TERMS = 'SERVICE_TERMS',
+  INFO = 'INFO'
 }
 
 export enum TimeOfUseType {
-  ON_PEAK = "ON_PEAK",
-  PARTIAL_PEAK = "PARTIAL_PEAK",
-  OFF_PEAK = "OFF_PEAK",
-  CRITICAL_PEAK = "CRITICAL_PEAK",
-  SUPER_OFF_PEAK = "SUPER_OFF_PEAK",
-  SUPER_ON_PEAK = "SUPER_ON_PEAK",
+  ON_PEAK = 'ON_PEAK',
+  PARTIAL_PEAK = 'PARTIAL_PEAK',
+  OFF_PEAK = 'OFF_PEAK',
+  CRITICAL_PEAK = 'CRITICAL_PEAK',
+  SUPER_OFF_PEAK = 'SUPER_OFF_PEAK',
+  SUPER_ON_PEAK = 'SUPER_ON_PEAK',
 }
 
 export enum RateUnit {
-  COST_PER_UNIT = "COST_PER_UNIT",
-  PERCENTAGE = "PERCENTAGE",
-  BLOCK = "BLOCK",
-  BLOCK_SELL_BACK = "BLOCK_SELL_BACK",
+  COST_PER_UNIT = 'COST_PER_UNIT',
+  PERCENTAGE = 'PERCENTAGE',
+  BLOCK = 'BLOCK',
+  BLOCK_SELL_BACK = 'BLOCK_SELL_BACK',
 }
 
 export enum ProrationRule {
-  SPLIT_DEMAND_VERSION_CHANGE = "SPLIT_DEMAND_VERSION_CHANGE",
-  SINGLE_DEMAND_SEASON_CHANGE = "SINGLE_DEMAND_SEASON_CHANGE",
+  SPLIT_DEMAND_VERSION_CHANGE = 'SPLIT_DEMAND_VERSION_CHANGE',
+  SINGLE_DEMAND_SEASON_CHANGE = 'SINGLE_DEMAND_SEASON_CHANGE',
 }
 export interface TariffDocument {
   tariffId: number;
@@ -205,14 +205,14 @@ function hasOwnProperty<X extends {}, Y extends PropertyKey>
 
 export function toStringFromChargeClasses(chargeClasses: ChargeClass[]): string {
   if(chargeClasses === undefined || chargeClasses.length == 0) {
-    return "";
+    return '';
   }
   return chargeClasses.toString();
 }
 
 export function toChargeClassesFromString(jsonString: string): ChargeClass[] {
   if(jsonString && jsonString.length > 0) {
-    return jsonString.split(",") as Array<ChargeClass>;
+    return jsonString.split(',') as Array<ChargeClass>;
   } else {
     return [];
   }
@@ -220,9 +220,9 @@ export function toChargeClassesFromString(jsonString: string): ChargeClass[] {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function toTariffFromApi(json: any): Tariff {
-  if(hasOwnProperty(json,"rates")) {
+  if(hasOwnProperty(json,'rates')) {
     for(const tariffRate of json.rates) {
-      if(hasOwnProperty(tariffRate, "chargeClass")) {
+      if(hasOwnProperty(tariffRate, 'chargeClass')) {
         if(typeof tariffRate.chargeClass === 'string') {
           tariffRate.chargeClass = toChargeClassesFromString(tariffRate.chargeClass);
         }

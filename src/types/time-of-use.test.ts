@@ -9,8 +9,8 @@ import {
   isTimeOfUseInterval,
 } from './time-of-use';
 
-describe("works for types", () => {
-  it("works for TimeOfUse", () => {
+describe('works for types', () => {
+  it('works for TimeOfUse', () => {
     const timeOfUseJson = '{\
       "touId": 1,\
       "touName": 2,\
@@ -21,7 +21,7 @@ describe("works for types", () => {
     expect(timeOfUse.touName).toEqual(2);
     expect(timeOfUse.touGroupId).toEqual(3);
   })
-  it("works for TimeOfUseInterval", () => {
+  it('works for TimeOfUseInterval', () => {
     const intervalJson = '{\
       "touId": 1,\
       "touGroupId": 3,\
@@ -30,9 +30,9 @@ describe("works for types", () => {
     const interval: TimeOfUseInterval = JSON.parse(intervalJson);
     expect(interval.touId).toEqual(1);
     expect(interval.touGroupId).toEqual(3);
-    expect(interval.fromDateTime).toEqual("2011-06-12T19:00:00.0-0700");
+    expect(interval.fromDateTime).toEqual('2011-06-12T19:00:00.0-0700');
   })
-  it("works for TimeOfUseGroup", () => {
+  it('works for TimeOfUseGroup', () => {
     const timeOfUseJson = '{\
       "touId": 1,\
       "touName": 2,\
@@ -49,7 +49,7 @@ describe("works for types", () => {
     expect(timeOfUseroup.touGroupId).toEqual(3);
     expect(timeOfUseroup.timeOfUses).toEqual([timeOfUse]);
   })
-  it("works for TimeOfUsePeriod", () => {
+  it('works for TimeOfUsePeriod', () => {
     const periodJson = '{\
       "touId": 1,\
       "touPeriodId": 2\
@@ -60,26 +60,26 @@ describe("works for types", () => {
   })
 });
 
-describe("works for isTimeOfUseGroup", () => {
-  it("should be false for invalid JSON", () => {
-    const tougJson = `{\
+describe('works for isTimeOfUseGroup', () => {
+  it('should be false for invalid JSON', () => {
+    const tougJson = '{\
       "lseId": 1\
-      }`;
+      }';
     const timeOfUseroup: TimeOfUseGroup = JSON.parse(tougJson);
     expect(isTimeOfUseGroup(timeOfUseroup)).toEqual(false);
   })
-  it("should be true for valid JSON", () => {
-    const tougJson = `{\
+  it('should be true for valid JSON', () => {
+    const tougJson = '{\
       "lseId": 1,\
       "touGroupId": 3\
-      }`;
+      }';
     const timeOfUseroup: TimeOfUseGroup = JSON.parse(tougJson);
     expect(isTimeOfUseGroup(timeOfUseroup)).toEqual(true);
   })
 });
 
-describe("works for isTimeOfUse", () => {
-  it("should be false for invalid JSON", () => {
+describe('works for isTimeOfUse', () => {
+  it('should be false for invalid JSON', () => {
     const timeOfUseJson = '{\
       "tou": 1,\
       "touName": 2,\
@@ -88,7 +88,7 @@ describe("works for isTimeOfUse", () => {
     const timeOfUse: TimeOfUse = JSON.parse(timeOfUseJson);
     expect(isTimeOfUse(timeOfUse)).toEqual(false);
   })
-  it("should be true for valid JSON", () => {
+  it('should be true for valid JSON', () => {
     const timeOfUseJson = '{\
       "touId": 1,\
       "touName": "name",\
@@ -101,8 +101,8 @@ describe("works for isTimeOfUse", () => {
   })
 });
 
-describe("works for isTimeOfUseInterval", () => {
-  it("should be false for invalid JSON", () => {
+describe('works for isTimeOfUseInterval', () => {
+  it('should be false for invalid JSON', () => {
     const intervalJson = '{\
       "tou": 1,\
       "touGroupId": 3,\
@@ -111,7 +111,7 @@ describe("works for isTimeOfUseInterval", () => {
     const interval: TimeOfUseInterval = JSON.parse(intervalJson);
     expect(isTimeOfUseInterval(interval)).toEqual(false);
   })
-  it("should be true for valid JSON", () => {
+  it('should be true for valid JSON', () => {
     const intervalJson = '{\
       "touId": 1,\
       "touName": "name",\
@@ -123,15 +123,15 @@ describe("works for isTimeOfUseInterval", () => {
   })
 });
 
-describe("works for isTimeOfUsePeriod", () => {
-  it("should be false for invalid JSON", () => {
+describe('works for isTimeOfUsePeriod', () => {
+  it('should be false for invalid JSON', () => {
     const periodJson = '{\
       "touId": 1\
       }';
     const period: TimeOfUsePeriod = JSON.parse(periodJson);
     expect(isTimeOfUsePeriod(period)).toEqual(false);
   })
-  it("should be true for valid JSON", () => {
+  it('should be true for valid JSON', () => {
     const periodJson = '{\
       "touId": 1,\
       "touPeriodId": 2\

@@ -1,4 +1,4 @@
-import { TimeOfUsePeriod, TimeOfUse } from "../types/time-of-use";
+import { TimeOfUsePeriod, TimeOfUse } from '../types/time-of-use';
 
 export class ToString {
   public static timeOfUsePeriod(toup: TimeOfUsePeriod): string {

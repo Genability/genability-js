@@ -49,24 +49,23 @@ describe('Test credentialsFromFile function', () => {
       mock(mockValidDir);
     });
     afterEach(mock.restore);
-    it('should find the implicit default profile', () => {
-      const results: RestApiCredentials = credentialsFromFile();
+    it('should find the implicit default profile', async () => {
+      const results: RestApiCredentials = await credentialsFromFile();
       expect(results.appId).toEqual('default-appId');
       expect(results.appKey).toEqual('default-appKey');
     });
-    it('should find the explicit default profile', () => {
-      const results = credentialsFromFile('default');
+    it('should find the explicit default profile', async () => {
+      const results = await credentialsFromFile('default');
       expect(results.appId).toEqual('default-appId');
       expect(results.appKey).toEqual('default-appKey');
     });
-    it('should find the explicit unitTest profile', () => {
-      const results = credentialsFromFile('unitTest');
+    it('should find the explicit unitTest profile', async () => {
+      const results = await credentialsFromFile('unitTest');
       expect(results.appId).toEqual('unit-test-appId');
       expect(results.appKey).toEqual('unit-test-appKey');
     });
-    it('should not find a missing profile', () => {
-      expect(() => credentialsFromFile('this-profile-does-not-exist'))
-        .toThrow(Error);
+    it('should not find a missing profile', async () => {      
+      await expect(credentialsFromFile('this-profile-does-not-exist')).rejects.toThrow(Error);
     });
   });
   describe('with an invalid file', () => {
@@ -74,9 +73,8 @@ describe('Test credentialsFromFile function', () => {
       mock(mockInvalidDir);
     });
     afterEach(mock.restore);
-    it('should throw a syntax error', () => {
-      expect(() => credentialsFromFile('this-profile-does-not-exist'))
-        .toThrow(SyntaxError);
+    it('should throw a syntax error', async () => {
+      await expect(credentialsFromFile('this-profile-does-not-exist')).rejects.toThrow(SyntaxError);
     });
   });
   describe('with an empty file', () => {
@@ -84,9 +82,8 @@ describe('Test credentialsFromFile function', () => {
       mock(mockEmptyFileDir);
     });
     afterEach(mock.restore);
-    it('should throw an error', () => {
-      expect(() => credentialsFromFile('this-profile-does-not-exist'))
-        .toThrow(Error('Credentials file is empty'));
+    it('should throw an error', async () => {
+      await expect(credentialsFromFile('this-profile-does-not-exist')).rejects.toThrow('Credentials file is empty');
     });
   });
   describe('with a missing file', () => {
@@ -94,9 +91,8 @@ describe('Test credentialsFromFile function', () => {
       mock(mockMissingFileDir);
     });
     afterEach(mock.restore);
-    it('should throw an error', () => {
-      expect(() => credentialsFromFile('this-profile-does-not-exist'))
-        .toThrow(Error('Credentials file not found'));
+    it('should throw an error', async () => {
+      await expect(credentialsFromFile('this-profile-does-not-exist')).rejects.toThrow('Credentials file not found');
     });
   });
   describe('with a missing directory', () => {
@@ -104,9 +100,8 @@ describe('Test credentialsFromFile function', () => {
       mock(mockMissingDir);
     });
     afterEach(mock.restore);
-    it('should throw a generic error', () => {
-      expect(() => credentialsFromFile('directory not present'))
-        .toThrow();
+    it('should throw a generic error', async () => {
+      await expect(credentialsFromFile('directory not present')).rejects.toThrow();
     });
   });
 });

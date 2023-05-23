@@ -35,10 +35,10 @@ export type ResponseInterceptorFunction = (response: AxiosResponse) => void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function restParamsSerialize(params: any): string {
   if(params === undefined)
-    return "";
+    return '';
   else if(isQueryStringified(params))
     return params.queryStringify();
-  return "";
+  return '';
 }
 
 /**
@@ -89,7 +89,7 @@ export abstract class RestApiClient {
     this.axiosInstance = axios.create({
       baseURL: config.baseURL,
       headers: {
-        Authorization: typeof config.credentials !== "function" ? RestApiClient.createAuthHeader(config.credentials) : "",
+        Authorization: typeof config.credentials !== 'function' ? RestApiClient.createAuthHeader(config.credentials) : '',
         'Content-Type': 'application/json;charset=UTF-8'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -119,7 +119,7 @@ export abstract class RestApiClient {
   }
 
   private async getCredentials(): Promise<RestApiCredentialsObject> {
-    if (typeof this._credentials === "function") {
+    if (typeof this._credentials === 'function') {
       const credentials: RestApiCredentialsObject = (await this._credentials()) as RestApiCredentialsObject;
       return credentials;
     } else {

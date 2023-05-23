@@ -51,39 +51,42 @@ class TestClass extends RestApiClient{
 
 }
 
-const axiosInterceptorsRequestUseSpy = jest.spyOn(axiosInstanceMock.interceptors.request, "use");
-const axiosInterceptorsResponseUseSpy = jest.spyOn(axiosInstanceMock.interceptors.response, "use");
+const axiosInterceptorsRequestUseSpy = jest.spyOn(axiosInstanceMock.interceptors.request, 'use');
+const axiosInterceptorsResponseUseSpy = jest.spyOn(axiosInstanceMock.interceptors.response, 'use');
 
-describe("Check api credentials", () => {
+describe('Check api credentials', () => {
   afterEach(() => {
     axiosInterceptorsRequestUseSpy.mockClear();
   })
 
-  it("is Empty credentials", () => {
+  it('is Empty credentials', async () => {
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: emptyApiCredentials}));
     expect(obj).toBeTruthy();
   })
-  it("is jwt credentials", () => {
+  it('is jwt credentials', async () => {
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: jwtApiCredentials}));
     expect(obj).toBeTruthy();
   })
-  it("is jwt credentials with credentialsFn", async () => {
+  it('is jwt credentials with credentialsFn', async () => {
     const obj: TestClass = new TestClass(new GenabilityConfig({credentials: (): Promise<RestApiCredentialsObject> => { return Promise.resolve(jwtApiCredentials) }}));
-    await obj.getSingle("test");
-    await obj.getPaged("test");
+    await obj.getSingle('test');
+    await obj.getPaged('test');
     expect(obj).toBeTruthy();
   })
 })
 
-describe("Check interceptors", () => {
+describe('Check interceptors', () => {
   afterEach(() => {
     axiosInterceptorsRequestUseSpy.mockClear();
   })
 
-  it("is jwt credentials with credentialsFn", async () => {
+  it('is jwt credentials with credentialsFn', async () => {
+    if (credentialsWithInterceptor.useCredentialsFromFile) {
+      await credentialsWithInterceptor.setCredentialsFromFile();
+    }
     const obj: TestClass = new TestClass(credentialsWithInterceptor);
-    await obj.getSingle("test");
-    await obj.getPaged("test");
+    await obj.getSingle('test');
+    await obj.getPaged('test');
     expect(obj).toBeTruthy();
     expect(axiosInterceptorsRequestUseSpy).toHaveBeenCalledTimes(1);
     expect(axiosInterceptorsResponseUseSpy).toHaveBeenCalledTimes(1);

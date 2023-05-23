@@ -5,20 +5,28 @@ import {
 import {GetTariffsRequest, TariffApi} from './tariff-api'
 import {CalculationHistoryApi} from './calculation-history-api';
 import { GenabilityConfig } from '../rest-client/config';
-import { SingleResponse, PagedResponse } from "../rest-client";
+import { SingleResponse, PagedResponse } from '../rest-client';
 import {
   CalculatedCost,
   CalculatedCostRequest, isCalculatedCost, isCalculatedCostRequest, isMassCalculation, isMassCalculationRequest,
-} from "../types/on-demand-cost-calculation";
-import {Tariff} from "../types";
+} from '../types/on-demand-cost-calculation';
+import {Tariff} from '../types';
+jest.setTimeout(20000);
+describe('Calculation history api', () => {
+  let calculatedCostRestClient: CalculatedCostApi;
+  let tariffRestClient: TariffApi;
+  let restClient: CalculationHistoryApi;
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const calculatedCostRestClient: CalculatedCostApi = new CalculatedCostApi(config);
-const tariffRestClient: TariffApi = new TariffApi(config);
-const restClient: CalculationHistoryApi = new CalculationHistoryApi(config);
-
-describe("Calculation history api", () => {
-  it("should return calculated history response", async () => {
+  beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
+    }
+    tariffRestClient = new TariffApi(config);
+    calculatedCostRestClient = new CalculatedCostApi(config);
+    restClient = new CalculationHistoryApi(config);
+  })
+  it('should return calculated history response', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -28,8 +36,8 @@ describe("Calculation history api", () => {
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
     const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
-    if(calcResponse.requestId == null) fail(`requestId null`);
-    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    if(calcResponse.requestId == null) fail('requestId null');
+    if(calcResponse.result == null) fail('calcResponse.result null');
     const requestId: string = calcResponse.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -37,7 +45,7 @@ describe("Calculation history api", () => {
     expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 40000);
-  it("should return calculated history request", async () => {
+  it('should return calculated history request', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -47,7 +55,7 @@ describe("Calculation history api", () => {
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
     const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
-    if(calcResponse.requestId == null) fail(`requestId null`);
+    if(calcResponse.requestId == null) fail('requestId null');
     const requestId = calcResponse.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -56,7 +64,7 @@ describe("Calculation history api", () => {
     expect(response.requestId).toEqual(requestId);
     expect(isCalculatedCostRequest(response)).toBeTruthy();
   }, 40000);
-  it("should return calculated history request and response", async () => {
+  it('should return calculated history request and response', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
     const tariffResponse: PagedResponse<Tariff> = await tariffRestClient.getTariffs(tariffRequest);
     const { masterTariffId } = tariffResponse.results[0];
@@ -66,8 +74,8 @@ describe("Calculation history api", () => {
     request.masterTariffId = masterTariffId;
     request.propertyInputs = [];
     const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runCalculation(request);
-    if(calcResponse.requestId == null) fail(`requestId null`);
-    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    if(calcResponse.requestId == null) fail('requestId null');
+    if(calcResponse.result == null) fail('calcResponse.result null');
     const requestId = calcResponse.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -79,14 +87,14 @@ describe("Calculation history api", () => {
     expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
     expect(isCalculatedCost(response)).toBeTruthy();
   }, 40000);
-  it("should return mass calc history response", async () => {
+  it('should return mass calc history response', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]')
     const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runMassCalculation(request);
-    if(calcResponse.requestId == null) fail(`requestId null`);
-    if(calcResponse.result == null) fail(`calcResponse.result null`);
+    if(calcResponse.requestId == null) fail('requestId null');
+    if(calcResponse.result == null) fail('calcResponse.result null');
     const requestId = calcResponse.requestId;
     // timeout to wait for the calc response to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -94,13 +102,13 @@ describe("Calculation history api", () => {
     expect(response.calculatedCostId).toEqual(calcResponse.result.calculatedCostId);
     expect(isMassCalculation(response)).toBeTruthy();
   }, 40000);
-  it("should return mass calc history request", async () => {
+  it('should return mass calc history request', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
     request.fromDateTime = '2016-07-13T00:00:00-07:00';
     request.toDateTime = '2016-08-11T00:00:00-07:00';
     request.scenarios = JSON.parse('[{"scenarioName": "E-1", "masterTariffId": "522"}]');
     const calcResponse: SingleResponse<CalculatedCost> = await calculatedCostRestClient.runMassCalculation(request);
-    if(calcResponse.requestId == null) fail(`requestId null`);
+    if(calcResponse.requestId == null) fail('requestId null');
     const requestId = calcResponse.requestId;
     // timeout to wait for the calc request to populate
     await new Promise(r => setTimeout(r, 5000));
@@ -109,7 +117,7 @@ describe("Calculation history api", () => {
     expect(response.requestId).toEqual(requestId);
     expect(isMassCalculationRequest(response)).toBeTruthy();
   }, 40000);
-  it("calculateHistoryRequest should return an error due to bad request ID", async () => {
+  it('calculateHistoryRequest should return an error due to bad request ID', async () => {
     try {
       await restClient.getCalculateHistoryRequest('badRequestId');
       fail('Request succeeded incorrectly');
@@ -117,7 +125,7 @@ describe("Calculation history api", () => {
       expect(err.message).toEqual('Request failed with status code 404');
     }
   }, 40000);
-  it("calculateHistoryResponse should return an error due to bad request ID", async () => {
+  it('calculateHistoryResponse should return an error due to bad request ID', async () => {
     try {
       await restClient.getCalculateHistoryResponse('badRequestId');
       fail('Request succeeded incorrectly');

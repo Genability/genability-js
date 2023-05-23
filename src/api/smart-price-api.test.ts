@@ -3,36 +3,33 @@ import {
   GetSmartPriceRequest
 } from './smart-price-api';
 import { GenabilityConfig, PagedResponse } from '../rest-client'
-import { ResourceTypes } from "../types/resource-types";
+import { ResourceTypes } from '../types/resource-types';
 import { Price, isPrice, isPriceChange } from '../types/smart-price';
 import { GroupBy } from '../types/on-demand-cost-calculation';
 
-const config = new GenabilityConfig({profileName:'unitTest'});
-const restClient = new SmartPriceApi(config);
-
-describe("GetSmartPrice request", () => {
-  describe("call to queryStringify", () => {
-    it("handles no parameters", async () => {
+describe('GetSmartPrice request', () => {
+  describe('call to queryStringify', () => {
+    it('handles no parameters', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles masterTariffId parameter", async () => {
+    it('handles masterTariffId parameter', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       request.masterTariffId = 1
       const qs: string = request.queryStringify();
       expect(qs).toEqual('masterTariffId=1');
     })
-    it("handles several parameters", async () => {
+    it('handles several parameters', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       request.masterTariffId = 2;
       request.fromDateTime = '2013-02-15T18:04:16+00:00';
       request.country = 'USA';
       request.groupBy = GroupBy.HOUR;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("fromDateTime=2013-02-15T18:04:16%2B00:00&masterTariffId=2&country=USA&groupBy=HOUR");
+      expect(qs).toEqual('fromDateTime=2013-02-15T18:04:16%2B00:00&masterTariffId=2&country=USA&groupBy=HOUR');
     })
-    it("handles some other parameters", async () => {
+    it('handles some other parameters', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       request.territoryId = 1;
       request.masterTariffId = 2;
@@ -42,9 +39,9 @@ describe("GetSmartPrice request", () => {
       request.demandAmount = 0.083300;
       request.zipCode = '94105';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual("masterTariffId=2&zipCode=94105&addressString=addressString&customerClass=RESIDENTIAL&territoryId=1&consumptionAmount=0.0833&demandAmount=0.0833");
+      expect(qs).toEqual('masterTariffId=2&zipCode=94105&addressString=addressString&customerClass=RESIDENTIAL&territoryId=1&consumptionAmount=0.0833&demandAmount=0.0833');
     })
-    it("handles undefined parameters", async () => {
+    it('handles undefined parameters', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       request.masterTariffId = undefined;
       request.country = undefined;
@@ -54,7 +51,7 @@ describe("GetSmartPrice request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it("handles both pagination", async () => {
+    it('handles both pagination', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest();
       request.masterTariffId = 1;
       request.pageCount = 22;
@@ -62,7 +59,7 @@ describe("GetSmartPrice request", () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('masterTariffId=1&pageStart=33&pageCount=22');
     })
-    it("handles both pagination via constructor", async () => {
+    it('handles both pagination via constructor', async () => {
       const request: GetSmartPriceRequest = new GetSmartPriceRequest({
         pageCount: 22,
         pageStart: 33
@@ -74,11 +71,20 @@ describe("GetSmartPrice request", () => {
   })
 });
 
-describe("SmartPrice api", () => {
-  it("returns smart price", async () => {
+jest.setTimeout(20000)
+describe('SmartPrice api', () => {
+  let restClient: SmartPriceApi;
+  beforeAll(async () => {
+    const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
+    if (config.useCredentialsFromFile) {
+      await config.setCredentialsFromFile();
+    }
+    restClient = new SmartPriceApi(config);
+  });
+  it('returns smart price', async () => {
     const request: GetSmartPriceRequest = new GetSmartPriceRequest();
     const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
-    expect(response.status).toEqual("success");
+    expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PRICE);
     for(const price of response.results) {
       expect(isPrice(price)).toBeTruthy();
@@ -87,11 +93,11 @@ describe("SmartPrice api", () => {
       }
     }
   })
-  it("returns smart price for masterTariffId 522", async () => {
+  it('returns smart price for masterTariffId 522', async () => {
     const request: GetSmartPriceRequest = new GetSmartPriceRequest();
     request.masterTariffId = 522;
     const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
-    expect(response.status).toEqual("success");
+    expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PRICE);
     for(const price of response.results) {
       expect(isPrice(price)).toBeTruthy();
@@ -101,11 +107,11 @@ describe("SmartPrice api", () => {
       }
     }
   })
-  it("returns error for invalid masterTariffId", async () => {
+  it('returns error for invalid masterTariffId', async () => {
     const request: GetSmartPriceRequest = new GetSmartPriceRequest();
     request.masterTariffId = -1;
     const response: PagedResponse<Price> = await restClient.getSmartPrices(request);
-    expect(response.status).toEqual("error");
+    expect(response.status).toEqual('error');
     expect(response.type).toEqual(ResourceTypes.Error);
   })
 });

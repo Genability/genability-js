@@ -26,28 +26,28 @@ import {
   toStringFromChargeClasses
 } from './tariff';
 
-describe("tariff types", () => {
-  describe("test for TariffDocument", () => {
-    it("should have tariffId", () => {
+describe('tariff types', () => {
+  describe('test for TariffDocument', () => {
+    it('should have tariffId', () => {
       const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 3274100,"documentId": 42165,"documentSectionId": 84409,"document": { }}');
       expect(tariffDocument.tariffId).toEqual(3274100);
       expect(tariffDocument.documentId).toEqual(42165);
       expect(tariffDocument.documentSectionId).toEqual(84409);
     })
-    it("should have document", () => {
+    it('should have document', () => {
       const tariffDocument: TariffDocument = {
-        "tariffId": 3274100,
-        "documentId": 42165,
-        "documentSectionId": 84409,
-        "document": { 
-          "documentId": 1,
-          "documentTitle": "E1 - Residential",
-          "sectionTypes": "RIDER,TARIFF",
-          "sourceUrl": "",
-          "sourceContentType": "application/pdf",
-          "lseId": 1,
-          "lseName": "Pacific Gas & Electric Co",
-          "sequenceNumber": 1
+        'tariffId': 3274100,
+        'documentId': 42165,
+        'documentSectionId': 84409,
+        'document': { 
+          'documentId': 1,
+          'documentTitle': 'E1 - Residential',
+          'sectionTypes': 'RIDER,TARIFF',
+          'sourceUrl': '',
+          'sourceContentType': 'application/pdf',
+          'lseId': 1,
+          'lseName': 'Pacific Gas & Electric Co',
+          'sequenceNumber': 1
         }
       };
       const documentJson = '{\
@@ -63,16 +63,16 @@ describe("tariff types", () => {
       const document: Document = JSON.parse(documentJson);
       expect(tariffDocument.document).toEqual(document);
     })
-    it("should have document", () => {
-      const chargeClassString = "SUPPLY";
+    it('should have document', () => {
+      const chargeClassString = 'SUPPLY';
       const chargeClassesObj = toChargeClassesFromString(chargeClassString);
       expect(chargeClassesObj.length).toEqual(1);
       expect(chargeClassesObj[0]).toEqual(ChargeClass.SUPPLY);
       expect(chargeClassesObj.toString()).toEqual(chargeClassString);
       expect(chargeClassesObj).toEqual([ChargeClass.SUPPLY]);
     })
-    it("should initialize multiple value string", () => {
-      const chargeClassString = "TRANSMISSION,TAX";
+    it('should initialize multiple value string', () => {
+      const chargeClassString = 'TRANSMISSION,TAX';
       const chargeClassesObj = toChargeClassesFromString(chargeClassString);
       expect(chargeClassesObj.length).toEqual(2);
       expect(chargeClassesObj).toEqual(chargeClassString.split(','));
@@ -82,47 +82,47 @@ describe("tariff types", () => {
       expect(chargeClassesObj).toEqual([ChargeClass.TRANSMISSION,ChargeClass.TAX]);
     })
   })
-  describe("test that JSON to enum", () => {
-    it("works for TariffType", () => {
+  describe('test that JSON to enum', () => {
+    it('works for TariffType', () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "tariffType": "ALTERNATIVE"}');
       expect(tariff.tariffType).toEqual(TariffType.ALTERNATIVE);
       expect(tariff.tariffName).toEqual('StringName');
     })
-    it("works for lseCode", () => {
+    it('works for lseCode', () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "lseCode": "lseCode"}');
       expect(tariff.lseCode).toEqual('lseCode');
     })
-    it("works for CustomerClass", () => {
+    it('works for CustomerClass', () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "customerClass": "GENERAL"}');
       expect(tariff.customerClass).toEqual(CustomerClass.GENERAL);
       expect(tariff.tariffName).toEqual('StringName');
     })
-    it("works for ChargeType", () => {
+    it('works for ChargeType', () => {
       const tariff: Tariff = JSON.parse('{"tariffName": "StringName", "chargeTypes": "CONSUMPTION_BASED"}');
       expect(tariff.chargeTypes).toEqual(ChargeType.CONSUMPTION_BASED);
       expect(tariff.tariffName).toEqual('StringName');
     })
-    it("works for ChargePeriod", () => {
+    it('works for ChargePeriod', () => {
       const rate: TariffRate = JSON.parse('{"rateName": "StringName", "chargePeriod": "ANNUALLY"}');
       expect(rate.chargePeriod).toEqual(ChargePeriod.ANNUALLY);
       expect(rate.rateName).toEqual('StringName');
     })
-    it("works for TransactionType", () => {
+    it('works for TransactionType', () => {
       const rate: TariffRate = JSON.parse('{"rateName": "StringName", "transactionType": "BUY"}');
       expect(rate.transactionType).toEqual(TransactionType.BUY);
       expect(rate.rateName).toEqual('StringName');
     })
-    it("works for Period", () => {
+    it('works for Period', () => {
       const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "period": "CRITICAL_PEAK"}');
       expect(tariffProperty.period).toEqual(TimeOfUseType.CRITICAL_PEAK);
       expect(tariffProperty.keyName).toEqual('stringKeyName');
     })
-    it("works for RateUnit", () => {
+    it('works for RateUnit', () => {
       const tariffRateBand: TariffRateBand = JSON.parse('{"tariffRateId": "id", "rateUnit": "COST_PER_UNIT"}');
       expect(tariffRateBand.rateUnit).toEqual(RateUnit.COST_PER_UNIT);
       expect(tariffRateBand.tariffRateId).toEqual('id');
     })
-    it("works for ProrationRule", () => {
+    it('works for ProrationRule', () => {
       const tariffRate: TariffRate = JSON.parse('{"rateName": "StringName", "prorationRules": ' +
           '["SPLIT_DEMAND_VERSION_CHANGE", "SINGLE_DEMAND_SEASON_CHANGE"]}');
       expect(tariffRate.prorationRules).toContain(ProrationRule.SINGLE_DEMAND_SEASON_CHANGE);
@@ -130,8 +130,8 @@ describe("tariff types", () => {
       expect(tariffRate.rateName).toEqual('StringName');
     })
   });
-  describe("isTariff function", () => {
-    it("should be false for invalid JSON", () => {
+  describe('isTariff function', () => {
+    it('should be false for invalid JSON', () => {
       const tariff: Tariff = JSON.parse(
         '{\
           "tariffId": "numberTariffId",\
@@ -141,7 +141,7 @@ describe("tariff types", () => {
       );
       expect(isTariff(tariff)).toEqual(false);
     })
-    it("should be true for valid JSON", () => {
+    it('should be true for valid JSON', () => {
       const tariff: Tariff = JSON.parse(
         '{\
           "tariffId": "numberTariffId",\
@@ -155,8 +155,8 @@ describe("tariff types", () => {
       expect(isTariff(tariff)).toEqual(true);
     })
   });
-  describe("works for TariffRate", () => {
-    it("should be true with empty Rates", () => {
+  describe('works for TariffRate', () => {
+    it('should be true with empty Rates', () => {
       const tariff: Tariff = JSON.parse(
         '{\
           "tariffId": "numberTariffId",\
@@ -171,7 +171,7 @@ describe("tariff types", () => {
       expect(isTariff(tariff)).toEqual(true);
       expect(tariff.rates).toEqual([]);
     })
-    it("should be true with rates with edgePredominance set", () => {
+    it('should be true with rates with edgePredominance set', () => {
       const ratesJson = '[{\
         "tariffRateId": 1,\
         "tariffId": 1,\
@@ -200,7 +200,7 @@ describe("tariff types", () => {
       }
     })
 
-    it("should be true with rates with edgePredominance set to null", () => {
+    it('should be true with rates with edgePredominance set to null', () => {
       const ratesJson = '[{\
         "tariffRateId": 1,\
         "tariffId": 1,\
@@ -229,7 +229,7 @@ describe("tariff types", () => {
       }
     })
 
-    it("should be true with rates with edgePredominance not set", () => {
+    it('should be true with rates with edgePredominance not set', () => {
       const ratesJson = '[{\
         "tariffRateId": 1,\
         "tariffId": 1,\
@@ -257,8 +257,8 @@ describe("tariff types", () => {
       }
     })
   });
-  describe("works for TariffRateBand", () => {
-    it("works with empty RateBands", () => {
+  describe('works for TariffRateBand', () => {
+    it('works with empty RateBands', () => {
       const ratesJson = '{\
         "tariffRateId": 1,\
         "tariffId": 1,\
@@ -269,7 +269,7 @@ describe("tariff types", () => {
       expect(rate.tariffRateId).toEqual(1);
       expect(rate.rateBands).toEqual([]);
     })
-    it("works with RateBands", () => {
+    it('works with RateBands', () => {
       const rateBandJson = '{\
         "tariffRateBandId": 1,\
         "tariffRateId": 2\
@@ -288,8 +288,8 @@ describe("tariff types", () => {
       expect(rate.rateBands).toEqual([rateBand]);
     })
   });
-  describe("hasTiers function", () => {
-    it("should be true for 2 rateBands with unique applicabilityValue", () => {
+  describe('hasTiers function', () => {
+    it('should be true for 2 rateBands with unique applicabilityValue', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -309,7 +309,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(true);
     })
 
-    it("should be true for 2 rateBands with no applicabilityValue", () => {
+    it('should be true for 2 rateBands with no applicabilityValue', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -327,7 +327,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(true);
     })
 
-    it("should be false for undefined rateBands ", () => {
+    it('should be false for undefined rateBands ', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -337,7 +337,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(false);
     })
 
-    it("should be false for 1 rateBands", () => {
+    it('should be false for 1 rateBands', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -353,7 +353,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(false);
     })
 
-    it("should be false for 2 rateBands with different applicabilityValue", () => {
+    it('should be false for 2 rateBands with different applicabilityValue', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -373,7 +373,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(false);
     })
 
-    it("should be true for 4 rateBands, 2 with applicabilityValue=true and 2 with applicabilityValue=false", () => {
+    it('should be true for 4 rateBands, 2 with applicabilityValue=true and 2 with applicabilityValue=false', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -401,7 +401,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(true);
     })
 
-    it("should be true for 3 rateBands, 2 with applicabilityValue=true and 1 with applicabilityValue=false", () => {
+    it('should be true for 3 rateBands, 2 with applicabilityValue=true and 1 with applicabilityValue=false', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -425,7 +425,7 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(true);
     })
 
-    it("should be true for 4 rateBands, 2 with same applicabilityValue and other two with different applicabilityValue", () => {
+    it('should be true for 4 rateBands, 2 with same applicabilityValue and other two with different applicabilityValue', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -453,8 +453,8 @@ describe("tariff types", () => {
       expect(hasTiers(tariffRate)).toEqual(true);
     })
   });
-  describe("uniquePropertyKeys function", () => {
-    it("works without any keys", () => {
+  describe('uniquePropertyKeys function', () => {
+    it('works without any keys', () => {
       const tariff: Tariff = JSON.parse(
         '{\
           "tariffId": "numberTariffId",\
@@ -469,7 +469,7 @@ describe("tariff types", () => {
       const tariffSet = uniquePropertyKeys(tariff);
       expect(tariffSet.size).toEqual(0);
     });
-    it("works with rates", () => {
+    it('works with rates', () => {
       const rateJson = `{\
         "tariffRateId": 3,\
         "tariffId": 4,\
@@ -484,12 +484,12 @@ describe("tariff types", () => {
       }`
       );
       const tariffSet = uniquePropertyKeys(tariff);
-      expect(tariffSet).toContain("quantityKey");
-      expect(tariffSet).toContain("applicabilityKey");
-      expect(tariffSet).toContain("variableFactorKey");
+      expect(tariffSet).toContain('quantityKey');
+      expect(tariffSet).toContain('applicabilityKey');
+      expect(tariffSet).toContain('variableFactorKey');
     })
 
-    it("works with properties", () => {
+    it('works with properties', () => {
       const tariffPropertyJson = '{"keyName": "stringKeyName", "period": "CRITICAL_PEAK"}';
       const tariff: Tariff = JSON.parse(`{\
         "tariffName": "StringName", \
@@ -499,13 +499,13 @@ describe("tariff types", () => {
       }`
       );
       const tariffSet = uniquePropertyKeys(tariff);
-      expect(tariffSet).toContain("stringKeyName");
+      expect(tariffSet).toContain('stringKeyName');
       expect(tariffSet.size).toEqual(1);
     })
   });
 
-  describe("hasTiers function", () => {
-    it("no variableFactorKey populated and no calculationFactor on any rate band", () => {
+  describe('hasTiers function', () => {
+    it('no variableFactorKey populated and no calculationFactor on any rate band', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -525,7 +525,7 @@ describe("tariff types", () => {
       expect(hasVariableOrCalculationFactor(tariffRate)).toEqual(false);
     })
 
-    it("variableFactorKey populated but no calculationFactor on any rate band", () => {
+    it('variableFactorKey populated but no calculationFactor on any rate band', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -546,7 +546,7 @@ describe("tariff types", () => {
       expect(hasVariableOrCalculationFactor(tariffRate)).toEqual(true);
     })
 
-    it("no variableFactorKey populated but one of its tariff rate bands with a calculationFactor", () => {
+    it('no variableFactorKey populated but one of its tariff rate bands with a calculationFactor', () => {
       const tariffRate: TariffRate = JSON.parse(
         '{\
           "tariffRateId": 17838944,\
@@ -569,8 +569,8 @@ describe("tariff types", () => {
   })
 });
 
-describe("isTariffProperty function", () => {
-  it("should return false with no dataType value", () => {
+describe('isTariffProperty function', () => {
+  it('should return false with no dataType value', () => {
     const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "propertyTypes": "APPLICABILITY"}');
 
     expect(tariffProperty.dataType).toEqual(undefined);
@@ -578,7 +578,7 @@ describe("isTariffProperty function", () => {
     expect(isTariffProperty(tariffProperty)).toEqual(false);
   })
   
-  it("should return false with no propertyTypes value", () => {
+  it('should return false with no propertyTypes value', () => {
     const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "dataType": "STRING"}');
 
     expect(tariffProperty.propertyTypes).toEqual(undefined);
@@ -586,7 +586,7 @@ describe("isTariffProperty function", () => {
     expect(isTariffProperty(tariffProperty)).toEqual(false);
   })
 
-  it("should return false with no keyName value", () => {
+  it('should return false with no keyName value', () => {
     const tariffProperty: TariffProperty = JSON.parse('{"propertyTypes": "APPLICABILITY", "dataType": "STRING"}');
 
     expect(tariffProperty.keyName).toEqual(undefined);
@@ -595,46 +595,46 @@ describe("isTariffProperty function", () => {
     expect(isTariffProperty(tariffProperty)).toEqual(false);
   })
 
-  it("should return true with all possible values", () => {
+  it('should return true with all possible values', () => {
     const tariffProperty: TariffProperty = JSON.parse('{"keyName": "stringKeyName", "propertyTypes": "APPLICABILITY", "dataType": "STRING"}');
 
-    expect(tariffProperty.keyName).toEqual("stringKeyName");
+    expect(tariffProperty.keyName).toEqual('stringKeyName');
     expect(tariffProperty.propertyTypes).toEqual(TariffPropertyType.APPLICABILITY);
     expect(tariffProperty.dataType).toEqual(PropertyDataType.STRING);
     expect(isTariffProperty(tariffProperty)).toEqual(true);
   })
 })
 
-describe("isTariffDocument function", () => {
-  it("should return false with no tariffId", () => {
+describe('isTariffDocument function', () => {
+  it('should return false with no tariffId', () => {
     const tariffDocument: TariffDocument = JSON.parse('{"documentId": 42165,"documentSectionId": 84409,"document": { }}');
     expect(isTariffDocument(tariffDocument)).toEqual(false);
   })
   
-  it("should return false with no document", () => {
+  it('should return false with no document', () => {
     const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 1, "documentId": 42165,"documentSectionId": 84409}');
     expect(isTariffDocument(tariffDocument)).toEqual(false);
   })
 
-  it("should return false with empty document", () => {
+  it('should return false with empty document', () => {
     const tariffDocument: TariffDocument = JSON.parse('{"tariffId": 1, "documentId": 42165,"documentSectionId": 84409,"document": { }}');
     expect(isTariffDocument(tariffDocument)).toEqual(false);
   })
 
-  it("should return true with all possible values", () => {
+  it('should return true with all possible values', () => {
     const tariffDocument: TariffDocument = {
-      "tariffId": 3274100,
-      "documentId": 42165,
-      "documentSectionId": 84409,
-      "document": { 
-        "documentId": 1,
-        "documentTitle": "E1 - Residential",
-        "sectionTypes": "RIDER,TARIFF",
-        "sourceUrl": "",
-        "sourceContentType": "application/pdf",
-        "lseId": 1,
-        "lseName": "Pacific Gas & Electric Co",
-        "sequenceNumber": 1
+      'tariffId': 3274100,
+      'documentId': 42165,
+      'documentSectionId': 84409,
+      'document': { 
+        'documentId': 1,
+        'documentTitle': 'E1 - Residential',
+        'sectionTypes': 'RIDER,TARIFF',
+        'sourceUrl': '',
+        'sourceContentType': 'application/pdf',
+        'lseId': 1,
+        'lseName': 'Pacific Gas & Electric Co',
+        'sequenceNumber': 1
       }
     };
     expect(isTariffDocument(tariffDocument)).toEqual(true);

@@ -7,7 +7,7 @@ export class Formula {
 
   private static readonly EMPTY = '';
 
-  private static readonly REGEX_NULL_SAFE = new RegExp("\\?(.*)", "g");
+  private static readonly REGEX_NULL_SAFE = new RegExp('\\?(.*)', 'g');
 
 
   public static getProperties(

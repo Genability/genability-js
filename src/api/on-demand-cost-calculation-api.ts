@@ -37,28 +37,28 @@ export class GetCalculatedCostRequest implements CalculatedCostRequest {
   public useTypicalElectricity(buildingId: string, dataFactor = 1): void {
     // @ts-ignore
     const baselineTypeObj: PropertyData= {
-      keyName : "baselineType",
-      dataValue : "typicalElectricity",
-      operator : "+",
+      keyName : 'baselineType',
+      dataValue : 'typicalElectricity',
+      operator : '+',
       dataFactor : dataFactor
     };
     // @ts-ignore
     const buildingIdObj: PropertyData = {
-      keyName : "buildingId",
+      keyName : 'buildingId',
       dataValue : buildingId
     };
 
     if (!this.propertyInputs) {
       this.propertyInputs = [baselineTypeObj, buildingIdObj];
-    } else if (!this.hasPropertyKey("baselineType") && !this.hasPropertyKey("buildingId")) {
+    } else if (!this.hasPropertyKey('baselineType') && !this.hasPropertyKey('buildingId')) {
       // propertyInputs other than baselineType and buildingId
       this.propertyInputs.push(baselineTypeObj, buildingIdObj);
     } else {
       const newPropertyInputs: PropertyData[] | undefined = [];
       this.propertyInputs.forEach(inputObj => {
-        if (inputObj.keyName === "baselineType") {
+        if (inputObj.keyName === 'baselineType') {
           newPropertyInputs.push(baselineTypeObj);
-        } else if (inputObj.keyName === "buildingId" && inputObj.dataValue !== buildingId) {
+        } else if (inputObj.keyName === 'buildingId' && inputObj.dataValue !== buildingId) {
           newPropertyInputs.push(inputObj, buildingIdObj);
         } else {
           newPropertyInputs.push(inputObj);
@@ -94,11 +94,11 @@ export class GetMassCalculationRequest implements CalculatedCostRequest {
 
 export class CalculatedCostApi extends RestApiClient {
   public async runCalculation(request: GetCalculatedCostRequest): Promise<SingleResponse<CalculatedCost>> {
-    return this.post(`/rest/v1/ondemand/calculate`, request);
+    return this.post('/rest/v1/ondemand/calculate', request);
   }
 
   public async runMassCalculation(request: GetMassCalculationRequest): Promise<SingleResponse<CalculatedCost>> {
-    return this.post(`/rest/v1/ondemand/calculate/mass`, request);
+    return this.post('/rest/v1/ondemand/calculate/mass', request);
   }
 }
 

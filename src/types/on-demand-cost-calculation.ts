@@ -4,32 +4,33 @@ import {
   ChargeClass,
   TimeOfUseType,
   TransactionType
-} from "./tariff"
+} from './tariff'
 import { GenPropertyKey } from '../types';
 import { TariffRate } from './tariff';
 
 export enum GroupBy {
-  NONE = "NONE",
-  ALL = "ALL",
-  YEAR = "YEAR",
-  MONTH = "MONTH",
-  DAY = "DAY",
-  HOUR = "HOUR",
-  QTRHOUR = "QTRHOUR"
+  NONE = 'NONE',
+  ALL = 'ALL',
+  YEAR = 'YEAR',
+  MONTH = 'MONTH',
+  DAY = 'DAY',
+  HOUR = 'HOUR',
+  QTRHOUR = 'QTRHOUR'
 }
 
 export enum DetailLevel {
-  ALL = "ALL",
-  TOTAL = "TOTAL",
-  CHARGE_TYPE = "CHARGE_TYPE",
-  CHARGE_TYPE_AND_TOU = "CHARGE_TYPE_AND_TOU",
-  RATE = "RATE"
+  ALL = 'ALL',
+  TOTAL = 'TOTAL',
+  CHARGE_TYPE = 'CHARGE_TYPE',
+  CHARGE_TYPE_AND_TOU = 'CHARGE_TYPE_AND_TOU',
+  RATE = 'RATE',
+  QUANTITY_KEY = 'QUANTITY_KEY'
 }
 
 export enum DataSeriesAttributes {
-  FIXED_NOT_DST = "FIXED_NOT_DST",
-  MISSING_DST_PRORATE = "MISSING_DST_PRORATE",
-  MISSING_DST_DUPLICATE = "MISSING_DST_PRORATE"
+  FIXED_NOT_DST = 'FIXED_NOT_DST',
+  MISSING_DST_PRORATE = 'MISSING_DST_PRORATE',
+  MISSING_DST_DUPLICATE = 'MISSING_DST_PRORATE'
 }
 
 export interface ExpectedMap {

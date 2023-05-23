@@ -24,7 +24,7 @@ export enum DetailLevel {
   CHARGE_TYPE = 'CHARGE_TYPE',
   CHARGE_TYPE_AND_TOU = 'CHARGE_TYPE_AND_TOU',
   RATE = 'RATE',
-  USAGE_TYPE = 'USAGE_TYPE'
+  QUANTITY_KEY = 'QUANTITY_KEY'
 }
 
 export enum DataSeriesAttributes {

@@ -7,6 +7,7 @@ export interface Document {
   documentTitle: string;
   sectionTypes?: string;
   archiveUrl?: string;
+  highlightedArchiveUrl?: string;
   sourceUrl: string;
   sourceContentType: string;
   lseId: number;

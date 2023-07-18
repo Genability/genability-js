@@ -6,6 +6,7 @@ export const documentGraphQLSchema = gql`
         documentTitle: String!
         sectionTypes: String
         archiveUrl: String
+        highlightedArchiveUrl: String
         sourceUrl: String!
         sourceContentType: String!
         lseId: ID!

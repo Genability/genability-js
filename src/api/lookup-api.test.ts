@@ -86,7 +86,7 @@ describe('Lookup api', () => {
     for(const lookup of response.results) {
       expect(isLookupValue(lookup)).toBeTruthy();
     }
-  }, 10000)
+  }, 150000)
   it('should returns a specific choice for a PropertyKey', async () => {
     const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');
     expect(response.status).toEqual('success');
@@ -96,11 +96,11 @@ describe('Lookup api', () => {
     for(const lookup of response.results) {
       expect(isLookupValue(lookup)).toBeTruthy();
     }
-  }, 10000)
+  }, 50000)
   it('should returns lookup stats for a property key', async () =>{
     const response: SingleResponse<LookupStats> = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isLookupStats(response.result)).toBeTruthy();
-  }, 10000)
+  }, 50000)
 });

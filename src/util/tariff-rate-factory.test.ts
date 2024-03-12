@@ -483,7 +483,7 @@ describe('Test createNetExcessGeneration method', () => {
       }]
     };
 
-    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGeneration();
+    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGenerationRate();
     expect(tariffRate).toEqual(expectedTariffRate);
   });
 
@@ -504,7 +504,7 @@ describe('Test createNetExcessGeneration method', () => {
       }]
     };
 
-    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGeneration('Net_Excess_Gen Rate Group', 'Net_Excess_Gen Rate Name');
+    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGenerationRate('Net_Excess_Gen Rate Group', 'Net_Excess_Gen Rate Name');
     expect(tariffRate).toEqual(expectedTariffRate);
   });
 });

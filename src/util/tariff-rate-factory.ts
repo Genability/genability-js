@@ -235,7 +235,7 @@ export class TariffRateFactory {
     return tariffRateDeepCopy;
   }
 
-  public static createNetExcessGeneration(
+  public static createNetExcessGenerationRate(
     rateGroupName = 'Net Excess Generation',
     rateName = 'Net Excess Generation'
   ): TariffRate {

@@ -234,4 +234,26 @@ export class TariffRateFactory {
 
     return tariffRateDeepCopy;
   }
+
+  public static createNetExcessGeneration(
+    rateGroupName = 'Net Excess Generation',
+    rateName = 'Net Excess Generation'
+  ): TariffRate {
+    const tariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName,
+      rateName,
+      chargeType: ChargeType.NET_EXCESS_GENERATION,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.NET,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
+      }]
+    }
+    return tariffRate;
+  }
 }

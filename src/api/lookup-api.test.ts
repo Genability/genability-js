@@ -79,6 +79,7 @@ describe('Lookup api', () => {
   });
   it('should returns all lookups', async () => {
     const response: PagedResponse<LookupValue> = await restClient.getLookupValues();
+    console.log('Response from API:', response)
     expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
     expect(response.count).toBeGreaterThan(200);

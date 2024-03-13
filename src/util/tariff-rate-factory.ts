@@ -248,7 +248,7 @@ export class TariffRateFactory {
       rateName,
       chargeType: ChargeType.NET_EXCESS_GENERATION,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.NET,
+      transactionType: TransactionType.SELL_EXPORT,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,

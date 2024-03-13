@@ -476,7 +476,7 @@ describe('Test createNetExcessGeneration method', () => {
       rateName: 'Net Excess Generation',
       chargeType: ChargeType.NET_EXCESS_GENERATION,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.NET,
+      transactionType: TransactionType.SELL_EXPORT,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,
@@ -497,7 +497,7 @@ describe('Test createNetExcessGeneration method', () => {
       rateName: 'Net_Excess_Gen Rate Name',
       chargeType: ChargeType.NET_EXCESS_GENERATION,
       chargePeriod: ChargePeriod.MONTHLY,
-      transactionType: TransactionType.NET,
+      transactionType: TransactionType.SELL_EXPORT,
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,

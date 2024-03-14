@@ -464,3 +464,47 @@ describe('Test copyRate method', () => {
     expect(tariffRateDeepCopy.rateGroupName).toEqual('Copy of rateGroupName');
   });
 });
+
+describe('Test createNetExcessGeneration method', () => {
+  it('should return TariffRate object with default values when no arguments are given', () => {
+    const expectedTariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'Net Excess Generation',
+      rateName: 'Net Excess Generation',
+      chargeType: ChargeType.NET_EXCESS_GENERATION,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.SELL_EXPORT,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
+      }]
+    };
+
+    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGenerationRate();
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+
+  it('should return TariffRate object with custom rate group name and rate name when provided', () => {
+    const expectedTariffRate: TariffRate = {
+      tariffRateId: null,
+      tariffId: null,
+      riderId: null,
+      tariffSequenceNumber: null,
+      rateGroupName: 'Net_Excess_Gen Rate Group',
+      rateName: 'Net_Excess_Gen Rate Name',
+      chargeType: ChargeType.NET_EXCESS_GENERATION,
+      chargePeriod: ChargePeriod.MONTHLY,
+      transactionType: TransactionType.SELL_EXPORT,
+      rateBands: [{
+        rateUnit: RateUnit.COST_PER_UNIT,
+        rateSequenceNumber: 1,
+      }]
+    };
+
+    const tariffRate: TariffRate = TariffRateFactory.createNetExcessGenerationRate('Net_Excess_Gen Rate Group', 'Net_Excess_Gen Rate Name');
+    expect(tariffRate).toEqual(expectedTariffRate);
+  });
+});

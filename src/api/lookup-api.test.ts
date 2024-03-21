@@ -18,22 +18,22 @@ describe('Lookups request', () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('');
     })
-    it('handles propertyKey parameter', async () => {
+    it('handles keyName parameter', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest();
-      request.propertyKey = 'propertyKeyName';
+      request.keyName = 'propertyKeyName';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('propertyKey=propertyKeyName');
+      expect(qs).toEqual('keyName=propertyKeyName');
     })
     it('handles several parameters', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest();
-      request.propertyKey = 'propertyKeyName';
-      request.subPropertyKey = 'sub';
+      request.keyName = 'propertyKeyName';
+      request.subKeyName = 'sub';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('propertyKey=propertyKeyName&subPropertyKey=sub');
+      expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub');
     })
     it('handles undefined parameters', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest();
-      request.propertyKey = undefined;
+      request.keyName = undefined;
       request.fromDateTime = undefined;
       request.toDateTime = undefined;
       const qs: string = request.queryStringify();
@@ -41,29 +41,29 @@ describe('Lookups request', () => {
     })
     it('returns all parameters', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest();
-      request.propertyKey = 'propertyKeyName';
-      request.subPropertyKey = 'sub';
+      request.keyName = 'propertyKeyName';
+      request.subKeyName = 'sub';
       request.fromDateTime = '2017-02-25T00:00:00';
       request.toDateTime = '2018-02-25T00:00:00';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('propertyKey=propertyKeyName&subPropertyKey=sub&fromDateTime=2017-02-25T00:00:00&toDateTime=2018-02-25T00:00:00');
+      expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub&fromDateTime=2017-02-25T00:00:00&toDateTime=2018-02-25T00:00:00');
     })
     it('handles both pagination', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest();
-      request.subPropertyKey = 'sub';
+      request.subKeyName = 'sub';
       request.pageCount = 22;
       request.pageStart = 33;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('subPropertyKey=sub&pageStart=33&pageCount=22');
+      expect(qs).toEqual('subKeyName=sub&pageStart=33&pageCount=22');
     })
     it('handles both pagination via constructor', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest({
         pageCount: 22,
         pageStart: 33
       });
-      request.subPropertyKey = 'sub';
+      request.subKeyName = 'sub';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('subPropertyKey=sub&pageStart=33&pageCount=22');
+      expect(qs).toEqual('subKeyName=sub&pageStart=33&pageCount=22');
     })
   })
 });
@@ -88,7 +88,7 @@ describe('Lookup api', () => {
   //     expect(isLookupValue(lookup)).toBeTruthy();
   //   }
   // }, 10000)
-  it('should returns a specific choice for a PropertyKey', async () => {
+  it('should returns a specific choice for a keyName', async () => {
     const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');
     expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);

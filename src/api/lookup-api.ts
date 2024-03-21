@@ -28,6 +28,9 @@ export class LookupApi extends RestApiClient {
    * @deprecated This method is deprecated and will be remvoved in future versions
    */
   public async getLookupValues(request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
+    if (!request?.keyName) {
+      throw new Error('keyName is required');
+    }
     return this.getPaged('/rest/public/properties/lookups', { params: request } );
   }
 

@@ -19,7 +19,7 @@ export class GetLookupsRequest extends BasePagedRequest {
     super();
 
     if (!keyName.trim()) {
-      throw new Error("keyName is required and cannot be empty.");
+      throw new Error('keyName is required and cannot be empty.');
     }
 
     this.keyName = keyName;

@@ -53,7 +53,7 @@ export class LookupApi extends RestApiClient {
   /**
    * @deprecated This method is deprecated and will be remvoved in future versions
    */
-  public async getPropertyLookupValues(keyName: string, request: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
+  public async getPropertyLookupValues(keyName: string, request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
     if (!keyName) {
       throw new Error('keyName is required');
     }

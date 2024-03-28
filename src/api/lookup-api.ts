@@ -10,10 +10,15 @@ import {
 } from '../types';
 
 export class GetLookupsRequest extends BasePagedRequest {
-  public keyName?: string;
+  public keyName: string;
   public subKeyName?: string;
   public fromDateTime?: string;
   public toDateTime?: string;
+
+  constructor(keyName: string) {
+    super();
+    this.keyName = keyName;
+  }
 
   addParams(addParam: AddParamCallback): void {
     addParam('keyName', this.keyName);
@@ -24,16 +29,17 @@ export class GetLookupsRequest extends BasePagedRequest {
 }
 
 export class LookupApi extends RestApiClient { 
+  public async getLookupValues(request: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
+    const keyName = request.keyName;
+    if (!keyName) {
+      throw new Error('keyName is required');
+    }
+    return this.getPaged(`/rest/public/properties/${keyName}/lookups`, { params: request } );
+  }
+
   /**
    * @deprecated This method is deprecated and will be remvoved in future versions
    */
-  public async getLookupValues(request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
-    if (!request?.keyName) {
-      throw new Error('keyName is required');
-    }
-    return this.getPaged('/rest/public/properties/lookups', { params: request } );
-  }
-
   public async getPropertyLookupValues(keyName: string, request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
     if (!keyName) {
       throw new Error('keyName is required');

@@ -13,6 +13,9 @@ import { ResourceTypes } from '../types/resource-types'
 
 describe('Lookups request', () => {
   describe('call to queryStringify', () => {
+    it('throws an error for empty keyName parameter', async () => {
+      expect(() => new GetLookupsRequest('')).toThrow('keyName is required and cannot be empty.');
+    });
     it('handles keyName parameter', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       const qs: string = request.queryStringify();
@@ -24,9 +27,6 @@ describe('Lookups request', () => {
       const qs: string = request.queryStringify();
       expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub');
     })
-    it('throws an error for empty keyName parameter', async () => {
-      expect(() => new GetLookupsRequest('')).toThrow("keyName is required and cannot be empty.");
-    });
     it('returns all parameters', async () => {
       const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       request.subKeyName = 'sub';

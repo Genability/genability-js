@@ -15,9 +15,22 @@ export class GetLookupsRequest extends BasePagedRequest {
   public fromDateTime?: string;
   public toDateTime?: string;
 
-  constructor(keyName: string) {
+  constructor(keyName: string, options?: { pageCount?: number; pageStart?: number; subKeyName?: string; fromDateTime?: string; toDateTime?: string }) {
     super();
+
+    if (!keyName.trim()) {
+      throw new Error("keyName is required and cannot be empty.");
+    }
+
     this.keyName = keyName;
+
+    if (options) {
+      this.pageCount = options.pageCount;
+      this.pageStart = options.pageStart;
+      this.subKeyName = options.subKeyName;
+      this.fromDateTime = options.fromDateTime;
+      this.toDateTime = options.toDateTime;
+    }
   }
 
   addParams(addParam: AddParamCallback): void {
@@ -40,7 +53,7 @@ export class LookupApi extends RestApiClient {
   /**
    * @deprecated This method is deprecated and will be remvoved in future versions
    */
-  public async getPropertyLookupValues(keyName: string, request?: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
+  public async getPropertyLookupValues(keyName: string, request: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
     if (!keyName) {
       throw new Error('keyName is required');
     }

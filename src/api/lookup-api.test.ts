@@ -13,35 +13,22 @@ import { ResourceTypes } from '../types/resource-types'
 
 describe('Lookups request', () => {
   describe('call to queryStringify', () => {
-    it('handles no parameters', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
-      const qs: string = request.queryStringify();
-      expect(qs).toEqual('');
-    })
     it('handles keyName parameter', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
-      request.keyName = 'propertyKeyName';
+      const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       const qs: string = request.queryStringify();
       expect(qs).toEqual('keyName=propertyKeyName');
     })
     it('handles several parameters', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
-      request.keyName = 'propertyKeyName';
+      const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       request.subKeyName = 'sub';
       const qs: string = request.queryStringify();
       expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub');
     })
-    it('handles undefined parameters', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
-      request.keyName = undefined;
-      request.fromDateTime = undefined;
-      request.toDateTime = undefined;
-      const qs: string = request.queryStringify();
-      expect(qs).toEqual('');
-    })
+    it('throws an error for empty keyName parameter', async () => {
+      expect(() => new GetLookupsRequest('')).toThrow("keyName is required and cannot be empty.");
+    });
     it('returns all parameters', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
-      request.keyName = 'propertyKeyName';
+      const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       request.subKeyName = 'sub';
       request.fromDateTime = '2017-02-25T00:00:00';
       request.toDateTime = '2018-02-25T00:00:00';
@@ -49,21 +36,21 @@ describe('Lookups request', () => {
       expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub&fromDateTime=2017-02-25T00:00:00&toDateTime=2018-02-25T00:00:00');
     })
     it('handles both pagination', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest();
+      const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName');
       request.subKeyName = 'sub';
       request.pageCount = 22;
       request.pageStart = 33;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('subKeyName=sub&pageStart=33&pageCount=22');
+      expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub&pageStart=33&pageCount=22');
     })
     it('handles both pagination via constructor', async () => {
-      const request: GetLookupsRequest = new GetLookupsRequest({
+      const request: GetLookupsRequest = new GetLookupsRequest('propertyKeyName', {
         pageCount: 22,
         pageStart: 33
       });
       request.subKeyName = 'sub';
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('subKeyName=sub&pageStart=33&pageCount=22');
+      expect(qs).toEqual('keyName=propertyKeyName&subKeyName=sub&pageStart=33&pageCount=22');
     })
   })
 });

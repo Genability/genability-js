@@ -26,7 +26,7 @@ jest.mock('axios', () => {
   }
 });
 
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { GenabilityConfig } from '.';
 import {
   RestApiClient, RestApiCredentials, RestApiCredentialsObject
@@ -43,7 +43,7 @@ const jwtApiCredentials: RestApiCredentials = {
 
 const credentialsWithInterceptor = new GenabilityConfig({
   credentials: emptyApiCredentials,
-  requestInterceptor: (request): AxiosRequestConfig => request,
+  requestInterceptor: (request): InternalAxiosRequestConfig => request,
   responseInterceptor: (response): AxiosResponse => response
 });
 

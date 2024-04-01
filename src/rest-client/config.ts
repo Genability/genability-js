@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { RestApiCredentials } from './client';
 import * as credentials from './credentials';
 
@@ -8,8 +8,8 @@ export class GenabilityConfigOptions {
   proxy?: string;
   credentials?: RestApiCredentials;
   requestInterceptor?: (
-    requestConfig: AxiosRequestConfig
-  ) => AxiosRequestConfig;
+    requestConfig: InternalAxiosRequestConfig
+  ) => InternalAxiosRequestConfig;
   responseInterceptor?: (response: AxiosResponse) => AxiosResponse;
 }
 
@@ -26,7 +26,7 @@ export class GenabilityConfig {
     appKey: '',
   };
   private _requestInterceptor:
-  | ((requestConfig: AxiosRequestConfig) => AxiosRequestConfig)
+  | ((requestConfig: InternalAxiosRequestConfig) => InternalAxiosRequestConfig)
   | undefined;
   private _responseInterceptor:
   | ((response: AxiosResponse) => AxiosResponse)
@@ -77,7 +77,7 @@ export class GenabilityConfig {
   }
 
   get requestInterceptor():
-  | ((requestConfig: AxiosRequestConfig) => AxiosRequestConfig)
+  | ((requestConfig: InternalAxiosRequestConfig) => InternalAxiosRequestConfig)
   | undefined {
     return this._requestInterceptor;
   }

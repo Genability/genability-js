@@ -4,6 +4,23 @@ This SDK enables faster integration of the Genability APIs into your Node.js, Re
 
 ![Node.js CI](https://github.com/Genability/genability-js/workflows/Node.js%20CI/badge.svg)
 
+## Tests 
+#### Install Dependencies & Build the App
+```
+$ yarn install
+$ yarn build 
+```
+#### Set enviornment variables
+Store credentials as environment variables GENABILITY_APP_ID & GENABILITY_APP_KEY 
+```
+$ export GENABILITY_APP_ID={GENABILITY_APP_ID}
+$ export GENABILITY_APP_KEY={GENABILITY_APP_KEY}
+```
+#### Run tests
+```
+$ yarn test
+```
+
 ## Table of Contents
 
 0. [Genability API credentials](#genability-credentials)
@@ -65,7 +82,7 @@ For frontend use, [you must specify a `proxy` url and provide credentials on the
 For backend use in node or other environments, you can provide [Genability API credentials](https://developer.genability.com/quick-start/) to the client in several ways. The client will search for credentials in the following order:
 
 1. Credentials explicitly provided to the API client
-2. Credentials stored as environment variables GEN_APP_ID and GEN_APP_KEY
+2. Credentials stored as environment variables GENABILITY_APP_ID and GENABILITY_APP_KEY
 3. Credentials stored in a `credentials.json` file in the `.genability` folder in the user's home directory, in this format:
 ~~~JSON
 {

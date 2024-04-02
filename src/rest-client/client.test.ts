@@ -1,32 +1,15 @@
-const axiosInstanceMock = {
-  interceptors: {
-    request: {
-      use: (): object => {
-        return {};
-      }
+jest.mock('axios', () => ({
+  create: (): any => ({
+    interceptors: {
+      request: { use: jest.fn() },
+      response: { use: jest.fn() },
     },
-    response: {
-      use: (): object => {
-        return {};
-      }
-    }
-  },
-  get: (): object => {
-    return {
-      data: {}
-    };
-  }
-};
+    get: jest.fn(() => Promise.resolve({ data: {} })),
+  }),
+}));
 
-jest.mock('axios', () => {
-  return {
-    create: (): object => {
-      return axiosInstanceMock;
-    }
-  }
-});
-
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios from 'axios';
+import { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { GenabilityConfig } from '.';
 import {
   RestApiClient, RestApiCredentials, RestApiCredentialsObject
@@ -43,7 +26,7 @@ const jwtApiCredentials: RestApiCredentials = {
 
 const credentialsWithInterceptor = new GenabilityConfig({
   credentials: emptyApiCredentials,
-  requestInterceptor: (request): AxiosRequestConfig => request,
+  requestInterceptor: (request): InternalAxiosRequestConfig => request,
   responseInterceptor: (response): AxiosResponse => response
 });
 
@@ -51,16 +34,9 @@ class TestClass extends RestApiClient{
 
 }
 
-const axiosInterceptorsRequestUseSpy = jest.spyOn(axiosInstanceMock.interceptors.request, 'use');
-const axiosInterceptorsResponseUseSpy = jest.spyOn(axiosInstanceMock.interceptors.response, 'use');
-
 describe('Check api credentials', () => {
-  afterEach(() => {
-    axiosInterceptorsRequestUseSpy.mockClear();
-  })
-
   it('is Empty credentials', async () => {
-    const obj: TestClass = new TestClass(new GenabilityConfig({credentials: emptyApiCredentials}));
+    const obj: TestClass = new TestClass(new GenabilityConfig({ credentials: emptyApiCredentials }));
     expect(obj).toBeTruthy();
   })
   it('is jwt credentials', async () => {
@@ -76,8 +52,10 @@ describe('Check api credentials', () => {
 })
 
 describe('Check interceptors', () => {
-  afterEach(() => {
-    axiosInterceptorsRequestUseSpy.mockClear();
+  const axiosCreateSpy = jest.spyOn(axios, 'create');
+
+  beforeEach(() => {
+    axiosCreateSpy.mockClear();
   })
 
   it('is jwt credentials with credentialsFn', async () => {
@@ -88,7 +66,9 @@ describe('Check interceptors', () => {
     await obj.getSingle('test');
     await obj.getPaged('test');
     expect(obj).toBeTruthy();
-    expect(axiosInterceptorsRequestUseSpy).toHaveBeenCalledTimes(1);
-    expect(axiosInterceptorsResponseUseSpy).toHaveBeenCalledTimes(1);
+    expect(axiosCreateSpy).toHaveBeenCalledTimes(1);
+    const mockAxiosInstance = axiosCreateSpy.mock.results[0].value;
+    expect(mockAxiosInstance.interceptors.request.use).toHaveBeenCalledTimes(1);
+    expect(mockAxiosInstance.interceptors.response.use).toHaveBeenCalledTimes(1);
   })
 })

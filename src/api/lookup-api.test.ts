@@ -70,7 +70,7 @@ describe('Lookup api', () => {
     const emptyRequest = new GetLookupsRequest('will be cleared');
     emptyRequest.keyName = '';
 
-    expect(restClient.getLookupValues(emptyRequest)).rejects.toEqual('keyName is required');
+    expect(restClient.getLookupValues(emptyRequest)).rejects.toEqual('[Error: keyName is required]');
   })
   it('should returns a specific choice for a keyName', async () => {
     const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');

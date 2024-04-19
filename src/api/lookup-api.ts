@@ -41,10 +41,10 @@ export class GetLookupsRequest extends BasePagedRequest {
   }
 }
 
-export class LookupApi extends RestApiClient { 
+export class LookupApi extends RestApiClient {
   public async getLookupValues(request: GetLookupsRequest): Promise<PagedResponse<LookupValue>> {
     const keyName = request.keyName;
-    if (!keyName) {
+    if (!keyName || !keyName.trim()) {
       throw new Error('keyName is required');
     }
     return this.getPaged(`/rest/public/properties/${keyName}/lookups`, { params: request } );

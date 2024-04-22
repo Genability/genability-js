@@ -13,7 +13,7 @@ export const credentialsFromFile = async (profileName = 'default'): Promise<Rest
       GENABILITY_DOT_DIRECTORY,
       CREDENTIALS_FILE_NAME,
     );
-    content = readFileSync(credentialsFilePath, 'utf8');
+    content = readFileSync(credentialsFilePath).toString('utf8');
   } catch (err) {
     if (err.code === 'ENOENT') {
       throw new Error('Credentials file not found');

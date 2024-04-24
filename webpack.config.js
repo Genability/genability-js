@@ -14,14 +14,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: { 
+      'os': require.resolve('os-browserify/browser'), 
+      'path': require.resolve('path-browserify'),
+      'fs': false,
+    }
   },
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'var',
-    library: 'Genability'
-  },
-  node: {
-    fs: 'empty'
+    library: {
+      name: 'Genability',
+      type: 'var',
+    },
   },
 };

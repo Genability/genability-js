@@ -79,8 +79,8 @@ describe('Lookup api', () => {
     const response: PagedResponse<LookupValue> = await restClient.getLookupValues(lookupRequest);
     expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
-    expect(response.pageStart).toBeGreaterThan(25);
-    expect(response.pageCount).toHaveLength(0);
+    expect(response.pageStart).toEqual(25);
+    expect(response.pageCount).toEqual(0);
   }, 10000)
 
 

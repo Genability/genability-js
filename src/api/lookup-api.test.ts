@@ -75,12 +75,15 @@ describe('Lookup api', () => {
 
     
   it('should returns lookups related to the given key', async () => {
-    const lookupRequest = new GetLookupsRequest('cCRlargeGeneral');
+    const lookupRequest = new GetLookupsRequest('hourlyPricingDayAheadERCOT');
     const response: PagedResponse<LookupValue> = await restClient.getLookupValues(lookupRequest);
     expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
-    expect(response.pageStart).toEqual(25);
-    expect(response.pageCount).toEqual(0);
+    expect(response.count).toBeGreaterThan(200);
+    expect(response.results).toHaveLength(25);
+    for(const lookup of response.results) {
+      expect(isLookupValue(lookup)).toBeTruthy();
+    }
   }, 10000)
 
 

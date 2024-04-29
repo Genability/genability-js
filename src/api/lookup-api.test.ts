@@ -70,8 +70,20 @@ describe('Lookup api', () => {
     const emptyRequest = new GetLookupsRequest('will be cleared');
     emptyRequest.keyName = '';
 
-    expect(restClient.getLookupValues(emptyRequest)).rejects.toEqual('[Error: keyName is required]');
+    expect(() => restClient.getLookupValues(emptyRequest)).rejects.toThrowError('keyName is required');
   })
+
+    
+   it('should returns lookups related to the given key', async () => {
+     const lookupRequest = new GetLookupsRequest('cCRlargeGeneral');
+     const response: PagedResponse<LookupValue> = await restClient.getLookupValues(lookupRequest);
+     expect(response.status).toEqual('success');
+     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
+     expect(response.pageStart).toBeGreaterThan(25);
+     expect(response.pageCount).toHaveLength(0);
+   }, 10000)
+
+
   it('should returns a specific choice for a keyName', async () => {
     const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');
     expect(response.status).toEqual('success');

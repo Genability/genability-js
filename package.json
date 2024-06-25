@@ -18,7 +18,10 @@
     "build": "yarn lint && yarn compile && yarn webpack",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "publish:npm": "npm publish --registry https://registry.npmjs.org",
+    "publish:github": "npm publish --registry https://npm.pkg.github.com",
+    "publish:both": "npm run publish:npm && npm run publish:github"
   },
   "devDependencies": {
     "@babel/core": "^7.24.3",

@@ -168,6 +168,7 @@ export interface TariffRate {
   timeOfUse?: TimeOfUse;
   rateBands?: TariffRateBand[];
   prorationRules?: ProrationRule[];
+  hasApplicabilityFormula?: boolean;
 }
 
 export interface TariffRateBand {
@@ -181,7 +182,6 @@ export interface TariffRateBand {
   hasPropertyLimit?: boolean;
   propertyUpperLimit?: number;
   applicabilityValue?: string;
-  hasApplicabilityFormula: boolean;
   applicabilityFormula?: string;
   calculationFactor?: number;
   rateAmount?: number;

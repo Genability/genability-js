@@ -181,6 +181,8 @@ export interface TariffRateBand {
   hasPropertyLimit?: boolean;
   propertyUpperLimit?: number;
   applicabilityValue?: string;
+  hasApplicabilityFormula: boolean;
+  applicabilityFormula?: string;
   calculationFactor?: number;
   rateAmount?: number;
   rateUnit?: RateUnit;

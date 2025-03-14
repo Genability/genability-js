@@ -114,6 +114,7 @@ export interface Tariff {
   tariffType?: TariffType;
   customerClass?: CustomerClass | null;
   customerCount?: number;
+  postSolarTariffRanking?: number;
   customerLikelihood?: number | null;
   customerCountSource?: string;
   territoryId?: number;

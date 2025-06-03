@@ -130,10 +130,10 @@ export abstract class RestApiClient {
   private static getHeaders(credentials: RestApiCredentialsObject, data?: any): AxiosRequestConfig {
     return {
       headers: data && data instanceof FormData
-      ? {
+        ? {
           Authorization: RestApiClient.createAuthHeader(credentials),
         }
-      : {
+        : {
           Authorization: RestApiClient.createAuthHeader(credentials),
           'Content-Type': 'application/json;charset=UTF-8',
         }
@@ -191,7 +191,7 @@ export abstract class RestApiClient {
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.post(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
+      const response = await this.axiosInstance.post(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials(), data), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }

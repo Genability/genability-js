@@ -187,10 +187,7 @@ export abstract class RestApiClient {
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.post(url, data, { ...config, ...(data && data instanceof FormData 
-        ? { headers: { Authorization: RestApiClient.createAuthHeader(await this.getCredentials()) } }
-        : RestApiClient.getHeaders(await this.getCredentials())
-      ), validateStatus });
+      const response = await this.axiosInstance.post(url, data, { ...config, ...RestApiClient.getHeaders(await this.getCredentials()), validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }

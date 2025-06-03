@@ -127,12 +127,16 @@ export abstract class RestApiClient {
     }
   }
 
-  private static getHeaders(credentials: RestApiCredentialsObject): AxiosRequestConfig {
+  private static getHeaders(credentials: RestApiCredentialsObject, data?: any): AxiosRequestConfig {
     return {
-      headers: {
-        Authorization: RestApiClient.createAuthHeader(credentials),
-        'Content-Type': 'application/json;charset=UTF-8'
-      }
+      headers: data && data instanceof FormData
+      ? {
+          Authorization: RestApiClient.createAuthHeader(credentials),
+        }
+      : {
+          Authorization: RestApiClient.createAuthHeader(credentials),
+          'Content-Type': 'application/json;charset=UTF-8',
+        }
     };
   }
 

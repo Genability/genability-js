@@ -187,16 +187,18 @@ export abstract class RestApiClient {
     responseProcessor?: ResponseInterceptorFunction | undefined
   ): Promise<SingleResponse<T>> {
     try {
-      const response = await this.axiosInstance.post(url, data, { ...config, ...(data && data instanceof FormData 
-        ? { headers: { Authorization: RestApiClient.createAuthHeader(await this.getCredentials()) } }
-        : RestApiClient.getHeaders(await this.getCredentials())
-      ), validateStatus });
+      const response = await this.axiosInstance.post(url, data, { ...config, headers: {
+        ...(data && data instanceof FormData
+          ? { Authorization: RestApiClient.createAuthHeader(await this.getCredentials()) }
+          : RestApiClient.getHeaders(await this.getCredentials()).headers
+        )
+      }, validateStatus });
       if(responseProcessor) {
         responseProcessor(response);
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));

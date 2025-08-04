@@ -347,6 +347,7 @@ describe('Test createMinimumRate method', () => {
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,
+        rateAmount: 0,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMinimumRate(
@@ -369,6 +370,7 @@ describe('Test createMinimumRate method', () => {
       rateBands: [{
         rateUnit: RateUnit.COST_PER_UNIT,
         rateSequenceNumber: 1,
+        rateAmount: 0,
       }]
     }
     const tariffRate: TariffRate = TariffRateFactory.createMinimumRate();

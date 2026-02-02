@@ -102,6 +102,7 @@ export interface Tariff {
   tariffId: number;
   masterTariffId: number;
   tariffCode: string;
+  editId?: number;
   tariffBookName?: string;
   privacy?: null | PrivacyFlag;
   tariffName: string;

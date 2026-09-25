@@ -1,6 +1,5 @@
 import { 
   PropertyDataType,
-  PrivacyFlag,
   GenPropertyKey,
   isGenPropertyKey
 } from './property-key';
@@ -10,10 +9,6 @@ describe('property-key types', () => {
     it('works for dataType BOOLEAN', () => {
       const pk: GenPropertyKey = JSON.parse('{"keyName": "BooleanKeyName","dataType": "BOOLEAN"}');
       expect(pk.dataType).toEqual(PropertyDataType.BOOLEAN);
-    })
-    it('works for privacy PRIVATE', () => {
-      const pk: GenPropertyKey = JSON.parse('{"keyName": "BooleanKeyName","privacy": "PRIVATE"}');
-      expect(pk.privacy).toEqual(PrivacyFlag.PRIVATE);
     })
   });
   describe('isGenPropertyKey function', () => {

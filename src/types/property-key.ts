@@ -40,7 +40,6 @@ export interface GenPropertyKey {
   lookbackSeasonId?: number;
   entityId?: number;
   entityType?: string;
-  privacy?: PrivacyFlag;
   choices?: GenPropertyChoice[];
 }
 

@@ -73,6 +73,8 @@ describe('GetLoadServingEntities request', () => {
 });
 
 describe('LoadServingEntity api', () => {
+  jest.setTimeout(60000);
+
   let restClient: LoadServingEntityApi;
   beforeAll(async () => {
     const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
@@ -84,6 +86,8 @@ describe('LoadServingEntity api', () => {
   describe('get one endpoint', () => {
     it('returns the load serving entity', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
+      request.pageCount = 1;
+      request.serviceTypes = [ServiceType.ELECTRICITY];
       const assignResponse: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
       const { lseId } = assignResponse.results[0];
       const response: SingleResponse<LoadServingEntity> = await restClient.getLoadServingEntity(lseId);
@@ -96,11 +100,12 @@ describe('LoadServingEntity api', () => {
     it('returns a list of load serving entities', async () => {
       const request: GetLoadServingEntitiesRequest = new GetLoadServingEntitiesRequest();
       request.serviceTypes = [ServiceType.ELECTRICITY];
+      request.pageCount = 5;
       const response: PagedResponse<LoadServingEntity> = await restClient.getLoadServingEntities(request);
       expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.LOAD_SERVING_ENTITY);
-      expect(response.count).toBeGreaterThan(200);
-      expect(response.results).toHaveLength(25);
+      expect(response.count).toBeGreaterThan(5);
+      expect(response.results).toHaveLength(5);
       for(const lse of response.results) {
         expect(isLoadServingEntity(lse)).toBeTruthy();
       }

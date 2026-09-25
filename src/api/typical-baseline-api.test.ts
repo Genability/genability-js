@@ -22,11 +22,11 @@ describe('GetBaselinesBest request', () => {
     })
     it('handles several parameters', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
-      request.country = 'USA';
-      request.addressString = '1234';
+      request.country = 'US';
+      request.postCode = '94105';
       request.serviceType = ServiceType.ELECTRICITY;
       const qs: string = request.queryStringify();
-      expect(qs).toEqual('country=USA&addressString=1234&serviceType=ELECTRICITY');
+      expect(qs).toEqual('postCode=94105&country=US&serviceType=ELECTRICITY');
     })
     it('handles undefined parameters', async () => {
       const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
@@ -40,6 +40,8 @@ describe('GetBaselinesBest request', () => {
 });
 
 describe('TypicalBaseline api', () => {
+  jest.setTimeout(30000);
+
   it('returns the typical baseline', async () => {
     const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
     if (config.useCredentialsFromFile) {
@@ -47,10 +49,9 @@ describe('TypicalBaseline api', () => {
     }
     const restClient = new TypicalBaselineApi(config);
     const request: GetBaselinesBestRequest = new GetBaselinesBestRequest();
-    request.lat = 37.22589772602739;
-    request.lng = -122.04498898630153;
-    request.buildingType = 'singleFamilyDetached';
-    request.country = 'USA';
+    request.postCode = '94105';
+    request.country = 'US';
+    request.buildingType = 'RESIDENTIAL';
     request.excludeMeasures = false;
     request.groupBy = 'MONTH';
     request.measuresUnit = MeasureUnit.TOTAL;

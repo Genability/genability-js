@@ -14,6 +14,8 @@ import {
   Tariff
 } from '../types/tariff';
 
+jest.setTimeout(30000);
+
 describe('CalculatedCost api', () => {
   let restClient: CalculatedCostApi;
   let tariffRestClient: TariffApi;
@@ -38,7 +40,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
-  }, 10000)
+  })
 
   it('should return calculated cost for property inputs', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
@@ -55,7 +57,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
-  }, 10000);
+  });
 
   it('should return calculated cost for property inputs when dataSeriesAttributes is present', async () => {
     const tariffRequest: GetTariffsRequest = new GetTariffsRequest();
@@ -71,7 +73,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isCalculatedCost(response.result)).toBeTruthy();
-  }, 10000);
+  });
 
   it('should return mass calculation', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
@@ -82,7 +84,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
-  }, 10000)
+  })
 
   it('should return mass calculation for sharedScenario', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
@@ -94,7 +96,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
-  }, 10000)
+  })
 
   it('should return mass calculation for sharedScenario when propertyInputs is set', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
@@ -106,7 +108,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
-  }, 10000)
+  })
 
   it('should return mass calculation for sharedScenario when expected is set', async () => {
     const request: GetMassCalculationRequest = new GetMassCalculationRequest();
@@ -118,7 +120,7 @@ describe('CalculatedCost api', () => {
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isMassCalculation(response.result)).toBeTruthy();
-  }, 10000)
+  })
 });
 
 describe('test useTypicalElectricity', () => {

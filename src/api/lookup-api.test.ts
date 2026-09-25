@@ -56,6 +56,8 @@ describe('Lookups request', () => {
 });
 
 describe('Lookup api', () => {
+  jest.setTimeout(60000);
+
   let restClient: LookupApi;
   beforeAll(async () => {
     const config: GenabilityConfig = new GenabilityConfig({profileName:'unitTest'});
@@ -73,19 +75,23 @@ describe('Lookup api', () => {
     expect(restClient.getLookupValues(emptyRequest)).rejects.toEqual(new Error('keyName is required'));
   })
   it('should returns a specific choice for a keyName', async () => {
-    const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues('hourlyPricingDayAheadERCOT');
+    const request = new GetLookupsRequest('hourlyPricingDayAheadERCOT', { pageCount: 5 });
+    const response: PagedResponse<LookupValue> = await restClient.getPropertyLookupValues(
+      'hourlyPricingDayAheadERCOT',
+      request
+    );
     expect(response.status).toEqual('success');
     expect(response.type).toEqual(ResourceTypes.PROPERTY_LOOKUP);
     expect(response.count).toBeGreaterThan(200);
-    expect(response.results).toHaveLength(25);
+    expect(response.results).toHaveLength(5);
     for(const lookup of response.results) {
       expect(isLookupValue(lookup)).toBeTruthy();
     }
-  }, 10000)
+  })
   it('should returns lookup stats for a property key', async () =>{
     const response: SingleResponse<LookupStats> = await restClient.getPropertyLookupStats('hourlyPricingDayAheadERCOT');
     expect(response.result).toBeTruthy();
     expect(response.errors).toBeUndefined();
     expect(response.result && isLookupStats(response.result)).toBeTruthy();
-  }, 10000)
+  })
 });

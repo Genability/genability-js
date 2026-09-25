@@ -148,7 +148,7 @@ export abstract class RestApiClient {
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));
@@ -170,7 +170,7 @@ export abstract class RestApiClient {
       }
       return new PagedResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new PagedResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new PagedResponse(axiosErrorToResponse(err));
@@ -193,7 +193,7 @@ export abstract class RestApiClient {
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));
@@ -216,7 +216,7 @@ export abstract class RestApiClient {
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));
@@ -239,7 +239,7 @@ export abstract class RestApiClient {
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));
@@ -261,7 +261,7 @@ export abstract class RestApiClient {
       }
       return new SingleResponse(response.data);
     } catch (err) {
-      if(isResponse(err.response.data)) {
+      if(err.response && isResponse(err.response.data)) {
         return new SingleResponse(err.response.data);
       } else if (axios.isAxiosError(err)) {
         return new SingleResponse(axiosErrorToResponse(err));

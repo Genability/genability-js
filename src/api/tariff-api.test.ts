@@ -18,7 +18,7 @@ import { PrivacyFlag } from '../types/property-key';
 import { Fields } from '../rest-client/contract';
 
 
-jest.setTimeout(20000);
+jest.setTimeout(120000);
 describe('GetTariffs request', () => {
   describe('call to queryStringify', () => {
     it('handles no parameters', async () => {
@@ -114,10 +114,11 @@ describe('Tariff api', () => {
       expect(response.result.masterTariffId).toEqual(masterTariffId);
     })
     it('returns a tariff with TariffDocument populated if populateDocuments true', async () => {
-      const request: GetTariffsRequest = new GetTariffsRequest();
-      request.populateDocuments = true;
-      const assignResponse: PagedResponse<Tariff> = await restClient.getTariffs(request);
+      const listRequest: GetTariffsRequest = new GetTariffsRequest();
+      const assignResponse: PagedResponse<Tariff> = await restClient.getTariffs(listRequest);
       const { masterTariffId } = assignResponse.results[0];
+      const request: GetTariffRequest = new GetTariffRequest();
+      request.populateDocuments = true;
       const response: SingleResponse<Tariff> = await restClient.getTariff(masterTariffId, request);
       expect(response.result).toBeTruthy();
       expect(response.errors).toBeUndefined();
@@ -168,11 +169,14 @@ describe('Tariff api', () => {
   describe('get n endpoint', () => {
     it('returns a list of tariffs', async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
+      // Keep the page small — unbounded public tariff lists are slow enough to time out in CI.
+      request.pageCount = 5;
+      request.serviceTypes = [ServiceType.ELECTRICITY];
       const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
       expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.TARIFF);
       expect(response.count).toBeGreaterThan(200);
-      expect(response.results).toHaveLength(25);
+      expect(response.results).toHaveLength(5);
       for(const tariff of response.results) {
         expect(isTariff(tariff)).toBeTruthy();
       }
@@ -180,11 +184,12 @@ describe('Tariff api', () => {
     it('returns a list of tariffs with documents if populateDocuments true', async () => {
       const request: GetTariffsRequest = new GetTariffsRequest();
       request.populateDocuments = true;
+      request.pageCount = 1;
       const response: PagedResponse<Tariff> = await restClient.getTariffs(request);
       expect(response.status).toEqual('success');
       expect(response.type).toEqual(ResourceTypes.TARIFF);
       expect(response.count).toBeGreaterThan(200);
-      expect(response.results).toHaveLength(25);
+      expect(response.results).toHaveLength(1);
       for(const tariff of response.results) {
         expect(isTariff(tariff)).toBeTruthy();
         expect(tariff.documents).toBeDefined();

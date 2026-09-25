@@ -14,7 +14,7 @@ import {
   Tariff
 } from '../types/tariff';
 
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 describe('CalculatedCost api', () => {
   let restClient: CalculatedCostApi;

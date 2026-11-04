@@ -14,6 +14,7 @@ import {
   LookupApi,
   TypicalBaselineApi,
   DocumentApi,
+  AccountApi,
 } from './api';
 
 /**
@@ -33,6 +34,7 @@ export class Genability {
   private _lookups: LookupApi | undefined;
   private _typicals: TypicalBaselineApi | undefined;
   private _documents: DocumentApi | undefined;
+  private _accounts: AccountApi | undefined;
 
   private constructor(options?: Partial<GenabilityConfigOptions>) {
     this._config = new GenabilityConfig(options);
@@ -101,6 +103,12 @@ export class Genability {
     if(this._documents === undefined)
       this._documents = new DocumentApi(this._config)
     return this._documents;
+  }
+
+  public get accounts(): AccountApi {
+    if(this._accounts === undefined)
+      this._accounts = new AccountApi(this._config)
+    return this._accounts;
   }
 
   // Return this instance's configuration object for testing/debug purposes

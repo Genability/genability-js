@@ -15,4 +15,7 @@ export class ResourceTypes {
   public static readonly DOCUMENT = 'Document';
   public static readonly Error = 'Error';
   public static readonly PRICE = 'Price';
+  public static readonly ACCOUNT = 'Account';
+  public static readonly PROPERTY_DATA = 'PropertyData';
+  public static readonly TARIFF_RATE = 'TariffRate';
 }

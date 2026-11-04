@@ -54,6 +54,22 @@ export {
   isTariffDocument
 } from './tariff';
 
+export type {
+  Account,
+  AccountAddress,
+  AccountProperty,
+  AccountTariff,
+  AccountIdentifier
+} from './account';
+
+export {
+  AccountStatus,
+  AccountType,
+  isAccount,
+  isAccountProperty,
+  toTariffRateFromApi
+} from './account';
+
 export {
   tariffGraphQLSchema
 } from './tariff-graphql';

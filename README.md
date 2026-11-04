@@ -235,3 +235,29 @@ The packages in your node_modules will then be available to you in your front en
 | getPropertyLookupStats     | string                                          | https://developer.genability.com/api-reference/tariff-api/lookup/#get-property-lookup-stats                |
 | **typicals**               |                                                 |                                                                                                            |
 | getBaselinesBest           | new api.GetBaselinesBestRequest()               | https://developer.genability.com/api-reference/shared-api/typical-baseline/#get-best-baseline              |
+| **accounts**               |                                                 |                                                                                                            |
+| getAccounts                | new api.GetAccountsRequest() (optional)         | https://docs.arcadia.com/v2022-12-21-Switch/reference/get-all-accounts                                     |
+| getAccount                 | AccountRef, new api.GetAccountRequest() (optional) | https://docs.arcadia.com/v2022-12-21-Switch/reference/get-account-with-accountid                           |
+| addAccount                 | types.Account                                   | https://docs.arcadia.com/v2022-12-21-Switch/reference/accounts-api                                         |
+| updateAccount              | types.Account (with accountId or providerAccountId) | https://docs.arcadia.com/v2022-12-21-Switch/reference/accounts-api                                         |
+| deleteAccount              | AccountRef                                      | https://docs.arcadia.com/v2022-12-21-Switch/reference/accounts-api                                         |
+| getAccountProperties       | string (accountId)                              | https://docs.arcadia.com/v2022-12-21-Switch/reference/get-account-properties                               |
+| setAccountProperty         | AccountRef, types.AccountProperty               | https://docs.arcadia.com/v2022-12-21-Switch/reference/update-account-info-and-properties-with-accountid    |
+| deleteAccountProperty      | string (accountId), string (keyName)            | https://docs.arcadia.com/v2022-12-21-Switch/reference/accounts-api                                         |
+| getAccountTariffs          | AccountRef, new api.GetAccountTariffsRequest() (optional) | https://docs.arcadia.com/v2022-12-21-Switch/reference/get-available-tariff-rate-plans-for-an-account-with-accountid |
+| setAccountTariff           | AccountRef, types.AccountTariff                 | https://docs.arcadia.com/v2022-12-21-Switch/reference/add-or-update-an-account-tariff-with-accountid       |
+| deleteAccountTariff        | AccountRef, new api.DeleteAccountTariffRequest() (optional) | https://docs.arcadia.com/v2022-12-21-Switch/reference/delete-an-account-tariff-with-accountid              |
+| getAccountRates            | AccountRef, new api.GetAccountRatesRequest() (optional) | https://docs.arcadia.com/v2022-12-21-Switch/reference/account-rates                                        |
+
+`AccountRef` is either the Arcadia `accountId` as a string, `{ accountId }`, or `{ providerAccountId }` (sent as `/accounts/pid/{providerAccountId}`):
+
+~~~javascript
+const account = await GenAPIClient.accounts.addAccount({
+  providerAccountId: 'store-42',
+  accountName: 'Store 42',
+  address: { addressString: '221 Main Street, San Francisco, CA 94105' },
+  properties: { customerClass: { keyName: 'customerClass', dataValue: '1' } },
+});
+await GenAPIClient.accounts.setAccountTariff({ providerAccountId: 'store-42' }, { masterTariffId: 522 });
+const rates = await GenAPIClient.accounts.getAccountRates({ providerAccountId: 'store-42' });
+~~~
